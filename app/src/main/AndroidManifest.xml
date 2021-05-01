@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.buildup">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BuildUp"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.UpdatesActivity"></activity>
+        <activity android:name=".ui.PropertyActivity" />
+        <activity android:name=".ui.AddPropertyActivity" />
+        <activity android:name=".ui.CompleteProfileGoogleActivity" />
+        <activity android:name=".ui.OtpGoogleActivity" />
+        <activity android:name=".ui.SignupGoogleActivity" />
+        <activity android:name=".ui.GoogleLoginActivity" />
+        <activity android:name=".TestActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".ui.LoggedInActivity" />
+        <activity android:name=".ui.CompleteProfileActivity" />
+        <activity android:name=".ui.OtpActivity" />
+        <activity android:name=".ui.SignupActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
