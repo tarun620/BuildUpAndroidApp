@@ -2,6 +2,7 @@ package com.example.buildup.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ class UpdatesActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_updates)
 
         val propertyId:String?=intent.getStringExtra("propertyId")
+        Log.d("propertyId",propertyId.toString())
 
         _binding= ActivityUpdatesBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)

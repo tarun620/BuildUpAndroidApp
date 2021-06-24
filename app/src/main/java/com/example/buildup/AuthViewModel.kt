@@ -1,10 +1,17 @@
 package com.example.buildup
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.api.models.responses.*
+import com.example.api.models.responses.expenditure.ExpenditureArrayResponse
+import com.example.api.models.responses.expenditure.TotalExpenditureResponse
+import com.example.api.models.responses.products.ProductCategoriesResponse
+import com.example.api.models.responses.products.ProductResponse
+import com.example.api.models.responses.products.ProductSubCategoriesResponse
+import com.example.api.models.responses.products.ProductsArrayResponse
 import com.example.api.models.responses.property.PropertiesResponse
 import com.example.api.models.responses.property.SinglePropertyResponse
 import com.example.api.models.responses.updates.UpdatesResponse
@@ -20,6 +27,12 @@ class AuthViewModel:ViewModel() {
     private val _respPropertyArray=MutableLiveData<PropertiesResponse?>()
     private val _respProperty=MutableLiveData<SinglePropertyResponse?>()
     private val _respUpdatesArray=MutableLiveData<UpdatesResponse?>()
+    private val _respTotalExpenditure= MutableLiveData<TotalExpenditureResponse>()
+    private val _respExpenditureArray=MutableLiveData<ExpenditureArrayResponse>()
+    private val _respProductCategoryArray= MutableLiveData<ProductCategoriesResponse>()
+    private val _respProductSubCategoryArray= MutableLiveData<ProductSubCategoriesResponse>()
+    private val _respProducts=MutableLiveData<ProductsArrayResponse>()
+    private val _respProduct=MutableLiveData<ProductResponse>()
 
     val resp:LiveData<SignupMobileResponse?> = _resp
     val respNew:LiveData<SignupMobileFinalResponse?> = _respNew
@@ -28,6 +41,12 @@ class AuthViewModel:ViewModel() {
     val respPropertyArray:LiveData<PropertiesResponse?> = _respPropertyArray
     val respUpdatesArray:LiveData<UpdatesResponse?> = _respUpdatesArray
     val respProperty:LiveData<SinglePropertyResponse?> = _respProperty
+    val respTotalExpenditure:LiveData<TotalExpenditureResponse?> = _respTotalExpenditure
+    val respExpenditureArray:LiveData<ExpenditureArrayResponse?> = _respExpenditureArray
+    val respProductCategoryArray:LiveData<ProductCategoriesResponse?> = _respProductCategoryArray
+    val respProductSubCategoryArray:LiveData<ProductSubCategoriesResponse> = _respProductSubCategoryArray
+    val respProducts:LiveData<ProductsArrayResponse> = _respProducts
+    val respProduct:LiveData<ProductResponse> = _respProduct
 
     fun signup(mobileNo : String)=viewModelScope.launch {
         UserRepo.signup(mobileNo).let {
@@ -47,11 +66,14 @@ class AuthViewModel:ViewModel() {
         }
     }
 
-    fun login(mobileNo:String,password:String)=viewModelScope.launch {
-        UserRepo.login(mobileNo,password).let {
-            _respNewImage.postValue(it.body())
-        }
-    }
+//    fun login(mobileNo:String,password:String)=viewModelScope.launch {
+//
+//        UserRepo.login(mobileNo,password).let {
+//            _respNewImage.postValue(it.body())
+//        }
+//
+//
+//    }
 
     fun loginSignupGoogle(name:String,email:String,profileImage:String?)=viewModelScope.launch{
         UserRepo.loginSignupGoogle(name,email,profileImage).let {
@@ -98,6 +120,42 @@ class AuthViewModel:ViewModel() {
     fun getUpdates(propertyId:String)=viewModelScope.launch {
         UserRepo.getUpdates(propertyId).let {
             _respUpdatesArray.postValue(it.body())
+        }
+    }
+
+    fun getTotalExpenditure(propertyId: String)=viewModelScope.launch {
+        UserRepo.getTotalExpenditure(propertyId).let {
+            _respTotalExpenditure.postValue(it.body())
+        }
+    }
+
+    fun getExpenditureArray(propertyId: String)=viewModelScope.launch {
+        UserRepo.getExpenditureArray(propertyId).let {
+            _respExpenditureArray.postValue(it.body())
+        }
+    }
+
+    fun getProductCategories()=viewModelScope.launch {
+        UserRepo.getProductCategories().let {
+            _respProductCategoryArray.postValue(it.body())
+        }
+    }
+
+    fun getProductSubCategories(productCategoryId:String)=viewModelScope.launch {
+        UserRepo.getProductSubCategories(productCategoryId).let {
+            _respProductSubCategoryArray.postValue(it.body())
+        }
+    }
+
+    fun getProducts(productSubCategoryId:String)=viewModelScope.launch {
+        UserRepo.getProducts(productSubCategoryId).let {
+            _respProducts.postValue(it.body())
+        }
+    }
+
+    fun getProduct(productId:String)=viewModelScope.launch {
+        UserRepo.getProduct(productId).let {
+            _respProduct.postValue(it.body())
         }
     }
 

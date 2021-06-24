@@ -52,8 +52,8 @@ class BuildUpClientTests {
     fun login(){
         runBlocking {
             val loginData=LoginData(
-                mobileNo = "9123456789",
-                password = "Abcd@1234"
+                mobileNo = "9211118292",
+                password = "tarun6200"
             )
             val resp=BuildUpClient.api.login(loginData)
             assertNotNull(resp.body()?.token)

@@ -7,6 +7,7 @@ import com.example.api.models.responses.SignupMobileFinalResponse
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
 import com.example.api.models.responses.SignupMobileResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -32,10 +33,16 @@ interface BuildUpAPI {
     ):Response<SignupMobileFinalResponse>
 
 //login
+//    @POST("login/mobile")
+//    suspend fun login(
+//        @Body userCreds:LoginData
+//    ):Response<LoginResponse>
+
+//    @POST("login/mobile")
+//    Call<ResponseBody> testLogin(@Body LoginData logindata)
+
     @POST("login/mobile")
-    suspend fun login(
-        @Body userCreds:LoginData
-    ):Response<LoginResponse>
+    fun login(@Body userCreds: LoginData):Call<LoginResponse>
 
 //login/signup using google
     @POST("login/google")

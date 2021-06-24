@@ -12,7 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.UpdatesActivity"></activity>
+        <activity android:name=".ui.ProductActivity"></activity>
+        <activity android:name=".ui.ProductSubCategoryActivity" />
+        <activity android:name=".ui.ProductCategoryActivity" />
+        <activity android:name=".ui.ProductsActivity" />
+        <activity android:name=".ui.ExpenditureActivity" />
+        <activity android:name=".ui.UpdatesActivity" />
         <activity android:name=".ui.PropertyActivity" />
         <activity android:name=".ui.AddPropertyActivity" />
         <activity android:name=".ui.CompleteProfileGoogleActivity" />

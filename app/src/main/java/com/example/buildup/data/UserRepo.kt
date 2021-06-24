@@ -1,12 +1,17 @@
 package com.example.buildup.data
 
-import android.util.Log
 import com.example.api.BuildUpClient
 import com.example.api.models.entities.*
 import com.example.api.models.responses.LoginGoogleResponse
 import com.example.api.models.responses.LoginResponse
 import com.example.api.models.responses.SignupMobileFinalResponse
 import com.example.api.models.responses.SignupMobileResponse
+import com.example.api.models.responses.expenditure.ExpenditureArrayResponse
+import com.example.api.models.responses.expenditure.TotalExpenditureResponse
+import com.example.api.models.responses.products.ProductCategoriesResponse
+import com.example.api.models.responses.products.ProductResponse
+import com.example.api.models.responses.products.ProductSubCategoriesResponse
+import com.example.api.models.responses.products.ProductsArrayResponse
 import com.example.api.models.responses.property.PropertiesResponse
 import com.example.api.models.responses.property.SinglePropertyResponse
 import com.example.api.models.responses.updates.UpdatesResponse
@@ -35,11 +40,11 @@ object UserRepo {
         return response
     }
 
-    suspend fun login(mobileNo:String,password: String):Response<LoginResponse>{
-        val response=api.login(LoginData(mobileNo, password))
-        BuildUpClient.authToken=response.body()?.token
-        return response
-    }
+//    suspend fun login(mobileNo:String,password: String):Response<LoginResponse>{
+//        val response=api.login(LoginData(mobileNo, password))
+//        BuildUpClient.authToken=response.body()?.token
+//        return response
+//    }
 
     suspend fun loginSignupGoogle(name:String,email:String,profileImage:String?):Response<LoginGoogleResponse>{
         val response=api.loginGoogle(LoginGoogleData(email,name,profileImage))
@@ -83,5 +88,34 @@ object UserRepo {
     suspend fun getUpdates(propertyId:String):Response<UpdatesResponse>{
         val resposne= authApi.getUpdates(propertyId)
         return resposne
+    }
+
+    suspend fun getTotalExpenditure(propertyId: String):Response<TotalExpenditureResponse>{
+        val response= authApi.getTotalExpenditure(propertyId)
+        return response
+    }
+
+    suspend fun getExpenditureArray(propertyId: String):Response<ExpenditureArrayResponse>{
+        val response= authApi.getExpenditureArray(propertyId)
+        return response
+    }
+
+    suspend fun getProductCategories():Response<ProductCategoriesResponse>{
+        val response= authApi.getProductCategories()
+        return response
+    }
+    suspend fun getProductSubCategories(productCategoryId:String):Response<ProductSubCategoriesResponse>{
+        val response= authApi.getProductSubCategories(productCategoryId)
+        return response
+    }
+
+    suspend fun getProducts(productSubCategoryId:String):Response<ProductsArrayResponse>{
+        val response= authApi.getProducts(productSubCategoryId)
+        return response
+    }
+
+    suspend fun getProduct(productId:String):Response<ProductResponse>{
+        val response= authApi.getProduct(productId)
+        return response
     }
 }

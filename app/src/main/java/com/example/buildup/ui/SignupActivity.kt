@@ -39,6 +39,10 @@ class SignupActivity : AppCompatActivity() {
                         intent.putExtra("mobileNo",mobileEditText.text.toString())
                         startActivity(intent)
                     }
+                    else{
+                        
+                        Toast.makeText(this@SignupActivity,"OTP Sending failed,Please try again",Toast.LENGTH_SHORT).show()
+                    }
                 }
 
             }

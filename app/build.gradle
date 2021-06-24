@@ -13,6 +13,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,5 +66,17 @@ dependencies {
 //    implementation 'com.google.android.material:material:28.0.0'
 
     implementation 'com.github.vipulasri:timelineview:1.1.5'
+
+    implementation 'com.github.baoyachi:StepView:1.9'
+    implementation 'com.shuhart.stepview:stepview:1.5.1'
+
+    compile 'com.anton46:stepsview:0.0.2'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
 }
