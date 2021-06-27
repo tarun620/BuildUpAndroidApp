@@ -63,8 +63,10 @@ class ProductCategoryActivity : AppCompatActivity() {
 //                propertyCategoryId=it.productCategories[0].id
                 Log.d("propertyid",propertyCategoryId.toString())
             }
-            else
-                Toast.makeText(this,"product categories fetching failed.", Toast.LENGTH_SHORT).show()
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorProductCategory",it.error.toString())
+            }
         }
 //        return propertyCategoryId!!
     }

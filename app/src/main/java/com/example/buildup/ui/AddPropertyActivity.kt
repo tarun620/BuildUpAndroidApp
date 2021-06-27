@@ -2,6 +2,7 @@ package com.example.buildup.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
@@ -37,6 +38,10 @@ class AddPropertyActivity : AppCompatActivity() {
                 if(it?.success!!){
                     Toast.makeText(this@AddPropertyActivity,it.message,Toast.LENGTH_SHORT).show()
                     finish()
+                }
+                else{
+                    Toast.makeText(this@AddPropertyActivity,it?.error,Toast.LENGTH_SHORT).show()
+                    Log.d("errorAddProperty",it?.error.toString())
                 }
             }
         }

@@ -2,6 +2,8 @@ package com.example.buildup.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -39,9 +41,13 @@ class PropertyActivity : AppCompatActivity() {
 
         authViewModel.respProperty.observe({lifecycle}){
             if(it?.success!!){
-                _binding.propertyName.text=it.property.name
-                setStepView(it.property.completed)
+                _binding.propertyName.text=it.property?.name
+                setStepView(it.property?.completed)
 //                _binding.completedStatus.text="Completed Stage : ${it.property.completed.toString()}"
+            }
+            else{
+                Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
+                Log.d("errorProperty",it.error.toString())
             }
         }
 
@@ -65,7 +71,7 @@ class PropertyActivity : AppCompatActivity() {
 
     }
 
-    fun setStepView(completed:Int){
+    fun setStepView(completed:Int?){
 //        helpStepView(completed)
 //        horizontalStepView
 //            .setStepViewTexts(stepsBeanList)
@@ -115,7 +121,7 @@ class PropertyActivity : AppCompatActivity() {
 //            ) // other state methods are equal to the corresponding xml attributes
             .commit()
 
-        _binding.stepsView.go(completed,true)
+        _binding.stepsView.go(completed!!,true)
 
     }
 

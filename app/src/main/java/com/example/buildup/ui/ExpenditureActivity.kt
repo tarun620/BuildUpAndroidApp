@@ -52,9 +52,9 @@ class ExpenditureActivity : AppCompatActivity() {
         authViewModel.respTotalExpenditure.observe({lifecycle}){
             if(it?.success!!){
                 Toast.makeText(this,"expenditure amount fetched successfully.",Toast.LENGTH_SHORT).show()
-                val totalExpenditure:Int=it.expenditureAmount.totalPaid
-                val moneyPaid:Int= it.expenditureAmount.totalReceived
-                val balance=totalExpenditure-moneyPaid
+                val totalExpenditure:Int?=it.expenditureAmount?.totalPaid
+                val moneyPaid:Int?= it.expenditureAmount?.totalReceived
+                val balance=totalExpenditure!!-moneyPaid!!
 
                 Log.d("expenditureTotal",totalExpenditure.toString())
                 Log.d("expenditurePaid",balance.toString())
@@ -64,8 +64,11 @@ class ExpenditureActivity : AppCompatActivity() {
                     tvBalance.text=balance.toString()
                 }
             }
-            else
-                Toast.makeText(this,"expenditure amount fetching failed",Toast.LENGTH_SHORT).show()
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorExpenditureAmount",it.error.toString())
+            }
+
         }
     }
 
@@ -75,11 +78,14 @@ class ExpenditureActivity : AppCompatActivity() {
         authViewModel.respExpenditureArray.observe({lifecycle}){
             if(it?.success!!){
                 Toast.makeText(this,"expenditure array fetched successfully.",Toast.LENGTH_SHORT).show()
-                Log.d("expenditureArraySize",it.expenditures.size.toString())
+                Log.d("expenditureArraySize",it.expenditures?.size.toString())
                 expenditureAdapter.submitList(it.expenditures)
             }
-            else
-                Toast.makeText(this,"expenditure fetching failed.",Toast.LENGTH_SHORT).show()
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorExpenditureArray",it.error.toString())
+            }
+
         }
     }
 }

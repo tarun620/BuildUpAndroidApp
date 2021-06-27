@@ -48,17 +48,18 @@ class BuildUpClientTests {
         }
     }
 
-    @Test
-    fun login(){
-        runBlocking {
-            val loginData=LoginData(
-                mobileNo = "9211118292",
-                password = "tarun6200"
-            )
-            val resp=BuildUpClient.api.login(loginData)
-            assertNotNull(resp.body()?.token)
-        }
-    }
+//    @Test
+//    fun login(){
+//        runBlocking {
+//            val loginData=LoginData(
+//                mobileNo = "9211118292",
+//                password = "tarun62"
+//            )
+//            val resp=BuildUpClient.api.login(loginData)
+//                assertNotNull(resp.body()?.token)
+//
+//        }
+//    }
 
 //    @Test
 //    fun `signin with google`(){

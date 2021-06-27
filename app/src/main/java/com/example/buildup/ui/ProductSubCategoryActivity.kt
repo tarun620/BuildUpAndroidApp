@@ -3,6 +3,7 @@ package com.example.buildup.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -48,12 +49,14 @@ class ProductSubCategoryActivity : AppCompatActivity() {
     fun getProductSubCategories(productCategoryId:String){
         authViewModel.getProductSubCategories(productCategoryId)
         authViewModel.respProductSubCategoryArray.observe({lifecycle}){
-            if(it.success){
+            if(it.success!!){
                 Toast.makeText(this,"product sub categories fetching successful", Toast.LENGTH_SHORT).show()
                 productSubCategoryAdapter.submitList(it.subCategories)
             }
-            else
-                Toast.makeText(this,"product sub categories fetching failed.", Toast.LENGTH_SHORT).show()
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorProductSubCategory",it.error.toString())
+            }
         }
     }
     fun onProductSubCategoryClicked(productSubCategoryId:String?){

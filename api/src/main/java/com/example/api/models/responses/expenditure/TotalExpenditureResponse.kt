@@ -6,8 +6,10 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class TotalExpenditureResponse(
-        @Json(name = "expenditure")
-    val expenditureAmount: ExpenditureAmount,
-        @Json(name = "success")
-    val success: Boolean
+    @Json(name = "expenditure")
+    val expenditureAmount: ExpenditureAmount?,
+    @Json(name = "success")
+    val success: Boolean?,
+    @Json(name="error")
+    val error:String?
 )

@@ -54,8 +54,10 @@ class UpdatesActivity : AppCompatActivity() {
                 Toast.makeText(this,"updates fetching successful", Toast.LENGTH_SHORT).show()
                 updatesAdapter.submitList(it.updates)
             }
-            else
-                Toast.makeText(this,"Updates fetching failed.",Toast.LENGTH_SHORT).show()
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorUpdates",it.error.toString())
+            }
         }
     }
 }

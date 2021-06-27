@@ -1,10 +1,13 @@
 package com.example.buildup
 
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.api.BuildUpClient
+import com.example.api.models.entities.LoginData
 import com.example.api.models.responses.*
 import com.example.api.models.responses.expenditure.ExpenditureArrayResponse
 import com.example.api.models.responses.expenditure.TotalExpenditureResponse
@@ -16,7 +19,9 @@ import com.example.api.models.responses.property.PropertiesResponse
 import com.example.api.models.responses.property.SinglePropertyResponse
 import com.example.api.models.responses.updates.UpdatesResponse
 import com.example.buildup.data.UserRepo
+import com.example.buildup.helpers.ErrorUtilsNew
 import kotlinx.coroutines.launch
+import java.io.IOException
 
 class AuthViewModel:ViewModel() {
 
@@ -56,40 +61,37 @@ class AuthViewModel:ViewModel() {
 
     fun verifyOTP(mobileNo: String,otp:String)=viewModelScope.launch {
         UserRepo.verifyOTP(mobileNo,otp).let {
-            _resp.postValue(it.body())
+            _resp.postValue(it)
         }
     }
 
     fun completeProfile(mobileNo: String,name:String,email:String,password:String)=viewModelScope.launch {
         UserRepo.completeProfile(mobileNo,name,email,password).let {
-            _respNew.postValue(it.body())
+            _respNew.postValue(it)
         }
     }
 
-//    fun login(mobileNo:String,password:String)=viewModelScope.launch {
-//
-//        UserRepo.login(mobileNo,password).let {
-//            _respNewImage.postValue(it.body())
-//        }
-//
-//
-//    }
+    fun login(mobileNo:String,password:String)=viewModelScope.launch {
+        UserRepo.login(mobileNo,password).let {
+            _respNewImage.postValue(it)
+        }
+    }
 
     fun loginSignupGoogle(name:String,email:String,profileImage:String?)=viewModelScope.launch{
         UserRepo.loginSignupGoogle(name,email,profileImage).let {
-            _respNewImageGoogle.postValue(it.body())
+            _respNewImageGoogle.postValue(it)
         }
     }
 
     fun signupGoogleSaveMobile(mobileNo: String,email: String)=viewModelScope.launch {
         UserRepo.signupGoogleSaveMobile(mobileNo,email).let {
-            _resp.postValue(it.body())
+            _resp.postValue(it)
         }
     }
 
     fun completeProfileGoogle(email: String,mobileNo: String,password: String)=viewModelScope.launch {
         UserRepo.completeProfileGoogle(email, mobileNo, password).let {
-            _respNew.postValue(it.body())
+            _respNew.postValue(it)
         }
     }
 
@@ -102,61 +104,62 @@ class AuthViewModel:ViewModel() {
             state:String,
             pincode:Int)=viewModelScope.launch {
         UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode).let {
-            _resp.postValue(it.body())
+            _resp.postValue(it)
         }
     }
 
     fun getProperties()=viewModelScope.launch {
         UserRepo.getProperties().let {
-            _respPropertyArray.postValue(it.body())
+            _respPropertyArray.postValue(it)
         }
     }
 
     fun getProperty(propertyId: String)=viewModelScope.launch {
         UserRepo.getProperty(propertyId).let {
-            _respProperty.postValue(it.body())
+            _respProperty.postValue(it)
         }
     }
     fun getUpdates(propertyId:String)=viewModelScope.launch {
         UserRepo.getUpdates(propertyId).let {
-            _respUpdatesArray.postValue(it.body())
+            _respUpdatesArray.postValue(it)
         }
     }
 
     fun getTotalExpenditure(propertyId: String)=viewModelScope.launch {
         UserRepo.getTotalExpenditure(propertyId).let {
-            _respTotalExpenditure.postValue(it.body())
+            _respTotalExpenditure.postValue(it)
         }
     }
 
     fun getExpenditureArray(propertyId: String)=viewModelScope.launch {
         UserRepo.getExpenditureArray(propertyId).let {
-            _respExpenditureArray.postValue(it.body())
+            _respExpenditureArray.postValue(it)
         }
     }
 
     fun getProductCategories()=viewModelScope.launch {
         UserRepo.getProductCategories().let {
-            _respProductCategoryArray.postValue(it.body())
+            _respProductCategoryArray.postValue(it)
         }
     }
 
     fun getProductSubCategories(productCategoryId:String)=viewModelScope.launch {
         UserRepo.getProductSubCategories(productCategoryId).let {
-            _respProductSubCategoryArray.postValue(it.body())
+            _respProductSubCategoryArray.postValue(it)
         }
     }
 
     fun getProducts(productSubCategoryId:String)=viewModelScope.launch {
         UserRepo.getProducts(productSubCategoryId).let {
-            _respProducts.postValue(it.body())
+            _respProducts.postValue(it)
         }
     }
 
     fun getProduct(productId:String)=viewModelScope.launch {
         UserRepo.getProduct(productId).let {
-            _respProduct.postValue(it.body())
+            _respProduct.postValue(it)
         }
     }
 
 }
+

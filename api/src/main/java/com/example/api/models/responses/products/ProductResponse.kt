@@ -7,7 +7,9 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ProductResponse(
     @Json(name = "product")
-    val product: Product,
+    val product: Product?,
     @Json(name = "success")
-    val success: Boolean
+    val success: Boolean?,
+    @Json(name="error")
+    val error:String?
 )

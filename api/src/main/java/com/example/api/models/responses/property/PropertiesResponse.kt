@@ -7,9 +7,12 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class PropertiesResponse(
     @Json(name = "success")
-    val success: Boolean,
+    val success: Boolean?,
 
     @Json(name = "properties")
-    val properties: List<PropertyResponse>?
+    val properties: List<PropertyResponse>?,
+
+    @Json(name = "error")
+    val error : String?
 
 )

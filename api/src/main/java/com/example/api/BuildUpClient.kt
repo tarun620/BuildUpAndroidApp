@@ -31,10 +31,16 @@ object BuildUpClient {
         .baseUrl(" http://192.168.0.106:5000/")
         .addConverterFactory(MoshiConverterFactory.create())
 
-    val api= retrofitBuilder
-//            .client(okHttpBuilder.build())
-            .build()
-            .create(BuildUpAPI::class.java)
+    val retrofit= retrofitBuilder.client(okHttpBuilder.build()).build()
+//    val retrofit= retrofitBuilder.build()
+
+
+    val api= retrofit.create(BuildUpAPI::class.java)
+
+//    val api= retrofitBuilder
+////            .client(okHttpBuilder.build())
+//            .build()
+//            .create(BuildUpAPI::class.java)
 
     val authApi= retrofitBuilder
             .client(okHttpBuilder.addInterceptor(authInterceptor).build())

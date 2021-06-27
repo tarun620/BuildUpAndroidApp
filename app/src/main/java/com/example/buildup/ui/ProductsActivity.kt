@@ -54,8 +54,8 @@ class ProductsActivity : AppCompatActivity() {
         authViewModel.getProducts(productSubCategoryId!!)
 
         authViewModel.respProducts.observe({lifecycle}){
-            if(it.success){
-                Log.d("product",it.products.size.toString())
+            if(it.success!!){
+                Log.d("product",it.products?.size.toString())
 //                Log.d("product",it.products[0].name)
 //                Log.d("product",it.products[1].name)
 //                Log.d("product",it.products[2].name)
@@ -64,7 +64,8 @@ class ProductsActivity : AppCompatActivity() {
                 productAdapter.submitList(it.products)
             }
             else{
-                Toast.makeText(this,"products fetching failed",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorProducts",it.error.toString())
             }
         }
     }

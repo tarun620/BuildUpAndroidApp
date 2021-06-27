@@ -8,11 +8,13 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class SignupMobileFinalResponse(
     @Json(name = "message")
-    val message: String,
+    val message: String?,
     @Json(name = "success")
-    val success: Boolean,
+    val success: Boolean?,
     @Json(name = "token")
-    val token: String,
+    val token: String?,
     @Json(name = "user")
-    val user: User
+    val user: User?,
+    @Json(name = "error")
+    val error:String?
 )

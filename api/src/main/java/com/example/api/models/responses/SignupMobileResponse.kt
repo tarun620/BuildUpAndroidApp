@@ -8,5 +8,7 @@ data class SignupMobileResponse(
     @Json(name = "message")
     val message: String?,
     @Json(name = "success")
-    val success: Boolean?
+    val success: Boolean?,
+    @Json(name="error")
+    var error:String?
 )

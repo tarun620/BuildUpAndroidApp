@@ -3,6 +3,7 @@ package com.example.buildup.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.databinding.ActivityOtpBinding
@@ -33,6 +34,10 @@ class OtpActivity : AppCompatActivity() {
                         val intent= Intent(this@OtpActivity,CompleteProfileActivity::class.java)
                         intent.putExtra("mobileNo",mobileNo)
                         startActivity(intent)
+                    }
+                    else{
+                        Toast.makeText(this@OtpActivity,it.error,Toast.LENGTH_SHORT).show()
+                        Log.d("errorOtp",it.error.toString())
                     }
                 }
             }

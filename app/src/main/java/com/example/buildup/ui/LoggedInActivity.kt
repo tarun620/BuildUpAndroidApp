@@ -60,8 +60,11 @@ class LoggedInActivity : AppCompatActivity() {
                 Toast.makeText(this,"property fetching successful",Toast.LENGTH_SHORT).show()
                 propertyAdapter.submitList(it.properties)
             }
-            else
-                Toast.makeText(this,"Properties fetching failed.",Toast.LENGTH_SHORT).show()
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorLoggedIn",it.error.toString())
+            }
+
         }
     }
 

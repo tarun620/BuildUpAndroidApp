@@ -16,6 +16,6 @@ data class LoginResponse(
     @Json(name = "user")
     val user: UserWithImage?,
     @Json(name="error")
-    val error:String?
+    var error:String?
 
 )

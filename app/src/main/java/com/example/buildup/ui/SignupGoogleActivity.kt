@@ -3,6 +3,7 @@ package com.example.buildup.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
@@ -35,6 +36,10 @@ class SignupGoogleActivity : AppCompatActivity() {
                     intent.putExtra("mobileNoGoogle",_binding?.mobileEditText?.text.toString())
                     intent.putExtra("emailGoogle",emailGoogle)
                     startActivity(intent)
+                }
+                else{
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                    Log.d("errorSignupGoogle",it.error.toString())
                 }
             }
         }

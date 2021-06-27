@@ -92,16 +92,20 @@ class GoogleLoginActivity : AppCompatActivity() {
                 )
 
                 authViewModel.respNewImageGoogle.observe({lifecycle}){
-                    if(it?.token!=null && it.success){
+                    if(it?.token!=null && it.success!!){
                         Toast.makeText(this@GoogleLoginActivity,it.message, Toast.LENGTH_SHORT).show()
                         val intent=Intent(this@GoogleLoginActivity,LoggedInActivity::class.java)
                         startActivity(intent)
                     }
-                    if(it?.token==null && it?.user==null && it?.success!!){
+                    else if(it?.token==null && it?.user==null && it?.success!!){
                         Toast.makeText(this@GoogleLoginActivity,it.message,Toast.LENGTH_SHORT).show()
                         val intent=Intent(this@GoogleLoginActivity,SignupGoogleActivity::class.java)
                         intent.putExtra("emailgooogle",account.email.toString())
                         startActivity(intent)
+                    }
+                    else{
+                        Toast.makeText(this@GoogleLoginActivity,it.error,Toast.LENGTH_SHORT).show()
+                        Log.d("errorGoogleLogin",it.error.toString())
                     }
                 }
             }

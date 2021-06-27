@@ -33,16 +33,14 @@ interface BuildUpAPI {
     ):Response<SignupMobileFinalResponse>
 
 //login
-//    @POST("login/mobile")
-//    suspend fun login(
-//        @Body userCreds:LoginData
-//    ):Response<LoginResponse>
-
-//    @POST("login/mobile")
-//    Call<ResponseBody> testLogin(@Body LoginData logindata)
-
     @POST("login/mobile")
-    fun login(@Body userCreds: LoginData):Call<LoginResponse>
+    suspend fun login(
+        @Body userCreds:LoginData
+    ):Response<LoginResponse>
+
+
+//    @POST("login/mobile")
+//    fun login(@Body userCreds: LoginData):Call<LoginResponse>
 
 //login/signup using google
     @POST("login/google")
