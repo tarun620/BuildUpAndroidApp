@@ -31,6 +31,7 @@ class UpdatesActivity : AppCompatActivity() {
 
         _binding.updatesRecyclerView.layoutManager=LinearLayoutManager(this)
         _binding.updatesRecyclerView.adapter=updatesAdapter
+        _binding.updatesRecyclerView.isNestedScrollingEnabled=true
 
         setContentView(_binding?.root)
 
@@ -53,6 +54,7 @@ class UpdatesActivity : AppCompatActivity() {
             if(it?.success!!){
                 Toast.makeText(this,"updates fetching successful", Toast.LENGTH_SHORT).show()
                 updatesAdapter.submitList(it.updates)
+
             }
             else{
                 Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()

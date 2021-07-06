@@ -4,8 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -14,12 +18,16 @@ import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityLoggedInBinding
 import com.google.android.gms.common.internal.Objects
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class LoggedInActivity : AppCompatActivity() {
     private lateinit var _binding:ActivityLoggedInBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var propertyAdapter: PropertyAdapter
     lateinit var swipeRefreshLayout:SwipeRefreshLayout
+    private var doubleBackToExitPressedOnce = false
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +42,20 @@ class LoggedInActivity : AppCompatActivity() {
 
         setContentView(_binding.root)
 
+//        val bottomSheet = findViewById<ConstraintLayout>(R.id.activity_updates)
+//        val bottomSheet = findViewById<View>(R.id.activity_updates) as CoordinatorLayout
+//        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
+//
+//        bottomSheetBehavior.addBottomSheetCallback(object :
+//                BottomSheetBehavior.BottomSheetCallback(){
+//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                TODO("Not yet implemented")
+//            }
+//        })
 
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
 
@@ -89,4 +111,17 @@ class LoggedInActivity : AppCompatActivity() {
 //        _binding.propertyRecyclerView.adapter=propertyAdapter
 //        _binding.propertyRecyclerView.layoutManager=LinearLayoutManager(this)
 //    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+//            return  //closes the current activity only
+            this.finishAffinity();   //closes the entire application
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
 }

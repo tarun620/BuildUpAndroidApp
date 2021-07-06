@@ -1,8 +1,6 @@
 package com.example.buildup.data
 
-import android.app.Activity
 import android.util.Log
-import android.widget.Toast
 import com.example.api.BuildUpClient
 import com.example.api.models.entities.*
 import com.example.api.models.responses.LoginGoogleResponse
@@ -18,18 +16,9 @@ import com.example.api.models.responses.products.ProductsArrayResponse
 import com.example.api.models.responses.property.PropertiesResponse
 import com.example.api.models.responses.property.SinglePropertyResponse
 import com.example.api.models.responses.updates.UpdatesResponse
-import com.example.buildup.helpers.APIError
-import com.example.buildup.helpers.ErrorUtils
-import com.example.buildup.helpers.ErrorUtils.parseError
+//import com.example.buildup.helpers.ErrorUtils.parseError
 import com.example.buildup.helpers.ErrorUtilsNew
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import retrofit2.Call
-import retrofit2.Response
 import java.io.IOException
-import java.lang.Exception
-import java.util.*
-import kotlin.coroutines.coroutineContext
 
 //import org.junit.Assert.*
 

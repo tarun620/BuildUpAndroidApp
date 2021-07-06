@@ -1,42 +1,62 @@
 package com.example.buildup.ui
 
-import android.app.Application
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import com.example.api.BuildUpClient
-import com.example.api.models.entities.LoginData
-import com.example.api.models.responses.LoginResponse
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityLoginBinding
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Converter
-import retrofit2.Response
-import java.io.IOException
 
 
 class LoginActivity : AppCompatActivity() {
-    val api= BuildUpClient.api
+    companion object{
+        var PREFS_FILE_AUTH="prefs_auth"
+        var PREFS_KEY_TOKEN="token"
+    }
+
     private var _binding:ActivityLoginBinding?=null
     lateinit var authViewModel: AuthViewModel
+    private var token:String?=null
+    private lateinit var sharedPrefrences: SharedPreferences
+    private var pressedTime: Long = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_login)
 
         _binding= ActivityLoginBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
+        sharedPrefrences=getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
         setContentView(_binding?.root)
 
+
+        //AUTO LOGIN USING SAVED INSTANCE OF LOGIN CREDENTIALS IN SHARED PREFERENCES
+
+//        token=sharedPrefrences.getString("token",null)
+//        Log.d("TAGGettingSPOutside",token.toString())
+//        if(token!=null){
+//            Log.d("TAGGettingSPInside", token.toString())
+//            BuildUpClient.authToken=token
+//            val intent=Intent(this,LoggedInActivity::class.java)
+//            startActivity(intent)
+//        }
+
+
         _binding?.apply {
+
+            mobileNoLayout.addOnEditTextAttachedListener {
+
+            }
             LoginButton.setOnClickListener {
                 loginActivityProgressBar.visibility=VISIBLE
 //                val call=api.login(LoginData( mobileNoEditText.text.toString(),passwordEditText.text.toString()))
@@ -129,7 +149,21 @@ class LoginActivity : AppCompatActivity() {
 
                 authViewModel.respNewImage.observe({lifecycle}){
                     if(it?.token!=null && it.success!!){
-                        Log.d("TAG",it.message.toString())
+                        Log.d("TAGTokenOutside",it.token.toString())
+                        it.token?.let{t->
+                            sharedPrefrences.edit{
+//                                putString(PREFS_KEY_TOKEN,t)
+                                putString("token",t)
+                                Log.d("TAGSettingSP", sharedPrefrences.getString("token",null).toString())
+//                                Log.d("TAGSettingSP", PREFS_KEY_TOKEN)
+                            }
+                        }?:run{                       //     ?: IS CALLED ELVIS OPERATOR
+                            sharedPrefrences.edit{
+                                remove("token")
+                            }
+                        }
+
+                        Log.d("TAGSuccess",it.message.toString())
                         loginActivityProgressBar.visibility= INVISIBLE
                         Toast.makeText(this@LoginActivity,it.message,Toast.LENGTH_SHORT).show()
                         val intent= Intent(this@LoginActivity,LoggedInActivity::class.java)
@@ -138,11 +172,12 @@ class LoginActivity : AppCompatActivity() {
                     else{
                         loginActivityProgressBar.visibility= INVISIBLE
                         Toast.makeText(this@LoginActivity,it?.error,Toast.LENGTH_SHORT).show()
-                        Log.d("errorLogin",it?.error.toString())
+                        Log.d("TAGError",it?.error.toString())
                     }
                 }
 
             }
         }
     }
+
 }
