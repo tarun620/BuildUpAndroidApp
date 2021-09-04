@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,7 +11,7 @@
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:src="@drawable/img"
-        app:layout_constraintBottom_toTopOf="@+id/emailEditText"
+        app:layout_constraintBottom_toTopOf="@+id/otpEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,66 +60,71 @@
 
 
     <EditText
-        android:id="@+id/emailEditText"
+        android:id="@+id/otpEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="64dp"
-        android:drawableEnd="@android:drawable/ic_menu_view"
         android:fontFamily="@font/overpass"
-        android:gravity="start"
-        android:hint="Password"
-        android:inputType="textEmailAddress"
+        android:gravity="center"
+        android:hint="OTP"
+        android:inputType="number"
         android:maxLength="10"
         android:textColor="@color/textGrey"
+
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/passwordConfirmEditText"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
+    <TextView
 
-    <EditText
-        android:id="@+id/passwordConfirmEditText"
+        android:id="@+id/textView6"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="64dp"
-        android:drawableEnd="@android:drawable/ic_menu_view"
         android:fontFamily="@font/overpass"
-        android:gravity="start"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:maxLength="10"
+        android:gravity="center"
+        android:text="Resend OTP"
         android:textColor="@color/textGrey"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/sendOTPButton"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+        app:layout_constraintStart_toStartOf="@id/otpEditText"
+        app:layout_constraintTop_toBottomOf="@+id/otpEditText" />
+
+    <TextView
+
+        android:id="@+id/timerText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/overpass"
+        android:gravity="center"
+        android:text="1:00 left"
+        android:textColor="@color/textGrey"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="@id/otpEditText"
+        app:layout_constraintTop_toBottomOf="@+id/otpEditText" />
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/sign_in_button"
+        android:id="@+id/sendOTPButton"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_marginTop="42dp"
         android:backgroundTint="#F78E4D"
-        android:fontFamily="@font/rancho"
+        android:fontFamily="@font/overpass"
         android:text="Submit"
         android:textAllCaps="false"
         android:textColor="@color/black"
-        android:textSize="30dp"
         app:cornerRadius="18dp"
         app:layout_constraintBottom_toTopOf="@+id/imageView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
     <ImageView
@@ -132,7 +137,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
+        app:layout_constraintTop_toBottomOf="@+id/sendOTPButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

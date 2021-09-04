@@ -1,43 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
-    android:layout_gravity="center"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/mobileNoLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/img"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/mobileEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Phone Number"
-        android:padding="10dp"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="15dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/mobileEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPhonetic"
-            android:textAlignment="center" />
-    </com.google.android.material.textfield.TextInputLayout>
+        android:layout_marginStart="86dp"
+        android:layout_marginTop="42dp"
+        android:src="@drawable/ic_home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--    <EditText-->
-<!--        android:inputType="textPhonetic"-->
-<!--        android:textAlignment="center"-->
-<!--        android:hint="phoneNumber"-->
-<!--        android:id="@+id/mobileEditText"-->
-<!--        android:ems="10"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"/>-->
+    <!--    <ImageView-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="300dp"-->
+    <!--        android:alpha="0.2"-->
+    <!--        android:src="@drawable/s1_building"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/rancho"
+        android:text="Build Up"
+        android:textColor="@color/white"
+        android:textSize="50sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/mobileEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:fontFamily="@font/overpass"
+        android:gravity="center"
+        android:hint="Mobile Number"
+        android:inputType="number"
+        android:maxLength="10"
+        android:textColor="@color/textGrey"
+
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <TextView
+
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/overpass"
+        android:gravity="center"
+        android:text="Otp will be send to this number"
+        android:textColor="@color/textGrey"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/sendOTPButton"
+        app:layout_constraintEnd_toEndOf="@id/mobileEditText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/mobileEditText"
+        app:layout_constraintTop_toBottomOf="@+id/mobileEditText" />
 
     <com.google.android.material.button.MaterialButton
-        android:text="Send OTP"
         android:id="@+id/sendOTPButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="42dp"
+        android:backgroundTint="#F78E4D"
+        android:fontFamily="@font/overpass"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:cornerRadius="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-</LinearLayout>
+
+    <ImageView
+        android:scaleType="fitXY"
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/construction_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sendOTPButton" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
