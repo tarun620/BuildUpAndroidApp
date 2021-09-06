@@ -9,6 +9,8 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_7
 }
 
+
+
 dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.0.1'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
@@ -21,5 +23,9 @@ dependencies {
     //test
     testImplementation 'junit:junit:4.+'
 
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
     implementation 'org.conscrypt:conscrypt-android:2.2.1'
+    implementation 'com.github.razerdp:AnimatedPieView:1.2.3'
+
 }

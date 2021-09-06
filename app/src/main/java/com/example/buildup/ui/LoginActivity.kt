@@ -14,6 +14,7 @@ import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import com.example.api.BuildUpClient
 import com.example.buildup.AuthViewModel
+import com.example.buildup.R
 import com.example.buildup.databinding.ActivityLoginBinding
 
 
@@ -54,9 +55,11 @@ class LoginActivity : AppCompatActivity() {
 
         _binding?.apply {
 
-            mobileNoLayout.addOnEditTextAttachedListener {
 
-            }
+
+//            mobileNoLayout.addOnEditTextAttachedListener {
+//
+//            }
             LoginButton.setOnClickListener {
                 loginActivityProgressBar.visibility=VISIBLE
 //                val call=api.login(LoginData( mobileNoEditText.text.toString(),passwordEditText.text.toString()))

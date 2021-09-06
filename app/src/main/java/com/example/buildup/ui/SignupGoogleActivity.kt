@@ -19,31 +19,30 @@ class SignupGoogleActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_signup_google)
 
         _binding= ActivitySignupGoogleBinding.inflate(layoutInflater)
-        authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
-
-        setContentView(_binding?.root)
-
-        val emailGoogle:String?=intent.getStringExtra("emailgooogle")
-        Toast.makeText(this,"this is "+emailGoogle,Toast.LENGTH_SHORT).show()
-
-        _binding?.sendOTPButton?.setOnClickListener {
-            authViewModel.signupGoogleSaveMobile(_binding?.mobileEditText?.text.toString(),emailGoogle!!)
-
-            authViewModel.resp.observe({lifecycle}){
-                if(it?.success!!){
-                    Toast.makeText(this,"Otp Sent Successfully,Please check your inbox..",Toast.LENGTH_SHORT).show()
-                    val intent= Intent(this,OtpGoogleActivity::class.java)
-                    intent.putExtra("mobileNoGoogle",_binding?.mobileEditText?.text.toString())
-                    intent.putExtra("emailGoogle",emailGoogle)
-                    startActivity(intent)
-                }
-                else{
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-                    Log.d("errorSignupGoogle",it.error.toString())
-                }
-            }
-        }
+//        authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
+//
+//        setContentView(_binding?.root)
+//
+//        val emailGoogle:String?=intent.getStringExtra("emailgooogle")
+//        Toast.makeText(this,"this is "+emailGoogle,Toast.LENGTH_SHORT).show()
+//
+//        _binding?.sendOTPButton?.setOnClickListener {
+//            authViewModel.signupGoogleSaveMobile(_binding?.mobileEditText?.text.toString(),emailGoogle!!)
+//
+//            authViewModel.resp.observe({lifecycle}){
+//                if(it?.success!!){
+//                    Toast.makeText(this,"Otp Sent Successfully,Please check your inbox..",Toast.LENGTH_SHORT).show()
+//                    val intent= Intent(this,OtpGoogleActivity::class.java)
+//                    intent.putExtra("mobileNoGoogle",_binding?.mobileEditText?.text.toString())
+//                    intent.putExtra("emailGoogle",emailGoogle)
+//                    startActivity(intent)
+//                }
+//                else{
+//                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+//                    Log.d("errorSignupGoogle",it.error.toString())
+//                }
+//            }
+//        }
     }
-
 
 }
