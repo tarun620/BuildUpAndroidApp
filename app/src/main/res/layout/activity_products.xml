@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:background="#E5E5E5"
         android:orientation="vertical"
-        tools:context=".ui.ProductsActivity">
+        tools:context=".ui.Products.layouts.ProductsActivity">
 
         <TextView
             android:id="@+id/textView5"

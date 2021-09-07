@@ -1,56 +1,53 @@
 package com.example.buildup
 
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.api.BuildUpClient
-import com.example.api.models.entities.LoginData
-import com.example.api.models.responses.*
-import com.example.api.models.responses.expenditure.ExpenditureArrayResponse
-import com.example.api.models.responses.expenditure.TotalExpenditureResponse
-import com.example.api.models.responses.products.ProductCategoriesResponse
-import com.example.api.models.responses.products.ProductResponse
-import com.example.api.models.responses.products.ProductSubCategoriesResponse
-import com.example.api.models.responses.products.ProductsArrayResponse
-import com.example.api.models.responses.property.PropertiesResponse
-import com.example.api.models.responses.property.SinglePropertyResponse
+import com.example.api.models.responses.expenditure.expenditureResponses.ExpendituresResponse
+import com.example.api.models.responses.expenditure.expenditureResponses.TotalExpenditureResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginGoogleResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.SignupMobileResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.SuccessMessageResponse
+import com.example.api.models.responses.products.productsResponses.ProductCategoriesResponse
+import com.example.api.models.responses.products.productsResponses.ProductResponse
+import com.example.api.models.responses.products.productsResponses.ProductSubCategoriesResponse
+import com.example.api.models.responses.products.productsResponses.ProductsResponse
+import com.example.api.models.responses.property.propertyResponses.PropertiesResponse
+import com.example.api.models.responses.property.propertyResponses.SinglePropertyResponse
 import com.example.api.models.responses.updates.UpdatesResponse
 import com.example.buildup.data.UserRepo
-import com.example.buildup.helpers.ErrorUtilsNew
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 class AuthViewModel:ViewModel() {
 
-    private val _resp= MutableLiveData<SignupMobileResponse?>()
-    private val _respNew=MutableLiveData<SignupMobileFinalResponse?>()
+    private val _resp= MutableLiveData<SuccessMessageResponse?>()
+    private val _respNew=MutableLiveData<SignupMobileResponse?>()
     private val _respNewImage=MutableLiveData<LoginResponse?>()
     private val _respNewImageGoogle=MutableLiveData<LoginGoogleResponse?>()
     private val _respPropertyArray=MutableLiveData<PropertiesResponse?>()
     private val _respProperty=MutableLiveData<SinglePropertyResponse?>()
     private val _respUpdatesArray=MutableLiveData<UpdatesResponse?>()
     private val _respTotalExpenditure= MutableLiveData<TotalExpenditureResponse>()
-    private val _respExpenditureArray=MutableLiveData<ExpenditureArrayResponse>()
+    private val _respExpenditureArray=MutableLiveData<ExpendituresResponse>()
     private val _respProductCategoryArray= MutableLiveData<ProductCategoriesResponse>()
     private val _respProductSubCategoryArray= MutableLiveData<ProductSubCategoriesResponse>()
-    private val _respProducts=MutableLiveData<ProductsArrayResponse>()
+    private val _respProducts=MutableLiveData<ProductsResponse>()
     private val _respProduct=MutableLiveData<ProductResponse>()
 
-    val resp:LiveData<SignupMobileResponse?> = _resp
-    val respNew:LiveData<SignupMobileFinalResponse?> = _respNew
+    val resp:LiveData<SuccessMessageResponse?> = _resp
+    val respNew:LiveData<SignupMobileResponse?> = _respNew
     val respNewImage:LiveData<LoginResponse?> = _respNewImage
     val respNewImageGoogle:LiveData<LoginGoogleResponse?> = _respNewImageGoogle
     val respPropertyArray:LiveData<PropertiesResponse?> = _respPropertyArray
     val respUpdatesArray:LiveData<UpdatesResponse?> = _respUpdatesArray
     val respProperty:LiveData<SinglePropertyResponse?> = _respProperty
     val respTotalExpenditure:LiveData<TotalExpenditureResponse?> = _respTotalExpenditure
-    val respExpenditureArray:LiveData<ExpenditureArrayResponse?> = _respExpenditureArray
+    val respExpenditureArray:LiveData<ExpendituresResponse?> = _respExpenditureArray
     val respProductCategoryArray:LiveData<ProductCategoriesResponse?> = _respProductCategoryArray
     val respProductSubCategoryArray:LiveData<ProductSubCategoriesResponse> = _respProductSubCategoryArray
-    val respProducts:LiveData<ProductsArrayResponse> = _respProducts
+    val respProducts:LiveData<ProductsResponse> = _respProducts
     val respProduct:LiveData<ProductResponse> = _respProduct
 
     fun signup(mobileNo : String)=viewModelScope.launch {

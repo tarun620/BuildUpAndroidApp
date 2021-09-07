@@ -28,7 +28,7 @@ object BuildUpClient {
 
     val retrofitBuilder=Retrofit.Builder()
 //            .baseUrl(" http://localhost:5000/")
-        .baseUrl(" http://192.168.0.106:5000/")
+        .baseUrl(" http://192.168.0.102:5000/")
         .addConverterFactory(MoshiConverterFactory.create())
 
     val retrofit= retrofitBuilder.client(okHttpBuilder.build()).build()
