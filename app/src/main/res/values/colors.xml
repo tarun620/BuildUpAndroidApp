@@ -11,4 +11,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="stepView_grey">#929292</color>
     <color name="stepView_green">#6CEE79</color>
+    <color name="orange_main">#F78E4D</color>
 </resources>

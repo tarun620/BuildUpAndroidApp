@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    app:cardElevation="16dp"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="24dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:padding="4dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/property_card_view">
+
+        <TextView
+            android:id="@+id/propertyNameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/overpass"
+            android:textColor="@color/orange_main"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Property A" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:background="@color/orange_main"
+            app:layout_constraintEnd_toEndOf="@id/propertyNameText"
+            app:layout_constraintStart_toStartOf="@id/propertyNameText"
+            app:layout_constraintTop_toBottomOf="@id/propertyNameText" />
+
+
+        <TextView
+            android:id="@+id/propertyStatusText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/overpass"
+            android:textColor="@color/orange_main"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/propertyNameText"
+            tools:text="1 room completed by today" />
+
+        <TextView
+            android:id="@+id/propertyETAText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/overpass"
+            android:textColor="@color/orange_main"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/propertyStatusText"
+            tools:text="ETA 5 months" />
+
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
