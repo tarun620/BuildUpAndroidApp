@@ -12,7 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.ProductActivity"></activity>
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.ProductActivity" />
         <activity android:name=".ui.ProductSubCategoryActivity" />
         <activity android:name=".ui.ProductCategoryActivity" />
         <activity android:name=".ui.ProductsActivity" />
@@ -47,11 +57,7 @@
         </activity>
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
