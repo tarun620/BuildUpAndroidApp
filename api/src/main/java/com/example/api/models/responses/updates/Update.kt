@@ -14,6 +14,8 @@ data class Update(
     val description: String,
     @Json(name = "expenditureId")
     val expenditureId: String?,
+    @Json(name = "workCategoryId")
+    val workCategoryId: WorkCategoryId?,
     @Json(name = "_id")
     val id: String
 )

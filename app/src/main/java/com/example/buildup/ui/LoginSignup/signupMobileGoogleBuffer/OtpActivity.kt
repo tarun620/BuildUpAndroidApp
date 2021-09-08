@@ -1,44 +1,70 @@
 package com.example.buildup.ui.LoginSignup.signupMobileGoogleBuffer
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityOtpBinding
 import com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
+import java.text.DecimalFormat
+import java.text.NumberFormat
+
 
 class OtpActivity : AppCompatActivity() {
 //    private var _binding:ActivityOtpBinding?=null
     private var _binding:ActivityOtpBinding?=null
-
     lateinit var authViewModel: AuthViewModel
+
+     var mobileNoEditText: String?=null
+     var nameEditText: String?=null
+     var emailEditText: String?=null
+     var passwordEditText: String?=null
+     var mobileNoGoogle: String?=null
+     var emailGoogle: String?=null
+
+    var START_MILLI_SECONDS = 60000L
+    lateinit var countdown_timer: CountDownTimer
+    var time_in_milli_seconds = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val mobileNoEditText:String?=intent.getStringExtra("mobileNo")
-        val nameEditText=intent.getStringExtra("name")
-        val emailEditText=intent.getStringExtra("email")
-        val passwordEditText=intent.getStringExtra("password")
-
-        val mobileNoGoogle=intent.getStringExtra("mobileNoGoogle")
-        val emailGoogle=intent.getStringExtra("emailGoogle")
-
-        Log.d("OtpActivity-mobile Number  ",mobileNoEditText.toString())
-        Log.d("OtpActivity-name  ",nameEditText.toString())
-        Log.d("OtpActivity-email  ",emailEditText.toString())
-        Log.d("OtpActivity-password",passwordEditText.toString())
-//        val mobileNoGoogle:String?=intent.getStringExtra("mobileNoGoogle")
-//        Toast.makeText(this,"this is "+mobileNo,Toast.LENGTH_SHORT).show()
-//        Toast.makeText(this,"this is "+mobileNoGoogle+" from google",Toast.LENGTH_SHORT).show()
 
         _binding= ActivityOtpBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding?.root)
 
+        mobileNoEditText= intent.getStringExtra("mobileNo")
+        nameEditText=intent.getStringExtra("name")
+        emailEditText=intent.getStringExtra("email")
+        passwordEditText=intent.getStringExtra("password")
+        mobileNoGoogle=intent.getStringExtra("mobileNoGoogle")
+        emailGoogle=intent.getStringExtra("emailGoogle")
+
+
+        _binding?.resendOTP?.visibility= INVISIBLE
+        _binding?.timerText?.visibility= VISIBLE
+        OtpTimer()
+        verifyMobileNumberWithOTP()
+
+        _binding?.resendOTP?.setOnClickListener {
+            if(mobileNoGoogle.isNullOrBlank())
+                sendOTP(mobileNoEditText!!)
+            else
+                sendOTP(mobileNoGoogle!!)
+
+            OtpTimer()
+            _binding?.resendOTP?.visibility= INVISIBLE
+            _binding?.timerText?.visibility= VISIBLE
+        }
+    }
+
+    private fun verifyMobileNumberWithOTP(){
         _binding?.apply {
             submit.setOnClickListener {
                 if(mobileNoGoogle.isNullOrBlank()){ // it means it is signup using mobile number not GOOGLE
@@ -47,11 +73,6 @@ class OtpActivity : AppCompatActivity() {
                     authViewModel.resp.observe({lifecycle}){
                         if(it?.success!!){
                             Toast.makeText(this@OtpActivity,it.message,Toast.LENGTH_SHORT).show()
-//                        val intent= Intent(this@OtpActivity,CompleteProfileActivity::class.java)
-//                        intent.putExtra("mobileNo",mobileNoEditText)
-//                        intent.putExtra("email",emailEditText)
-//                        intent.putExtra("password",passwordEditText)
-//                        startActivity(intent)
                             completeProfile(nameEditText,emailEditText,mobileNoEditText,passwordEditText)
                         }
                         else{
@@ -81,10 +102,9 @@ class OtpActivity : AppCompatActivity() {
 
             }
         }
-
     }
 
-    fun completeProfile(name:String?,email:String?,mobileNo:String?,password:String?){
+    private fun completeProfile(name:String?,email:String?,mobileNo:String?,password:String?){
         authViewModel.completeProfile(mobileNo!!,name!!,email!!,password!!)
 
         authViewModel.respNew.observe({lifecycle}){
@@ -98,4 +118,51 @@ class OtpActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun sendOTP(mobileNo:String){
+        authViewModel.signup(mobileNo)
+
+        authViewModel.resp.observe({lifecycle}){
+            if(it?.success!!){
+                Toast.makeText(this,"Otp Sent Successfully,Please check your inbox..",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorSignup",it.error.toString())
+            }
+        }
+    }
+
+    private fun OtpTimer(){
+        time_in_milli_seconds = 1 *10000L // 5 minutes
+        startTimer(time_in_milli_seconds)
+    }
+
+    private fun startTimer(time_in_seconds: Long) {
+        countdown_timer = object : CountDownTimer(time_in_seconds, 1000) {
+            override fun onFinish() {
+                _binding?.resendOTP?.visibility= VISIBLE
+                _binding?.timerText?.visibility= INVISIBLE
+            }
+
+            override fun onTick(p0: Long) {
+                time_in_milli_seconds = p0
+                updateTextUI()
+            }
+        }
+        countdown_timer.start()
+
+    }
+
+    private fun updateTextUI() {
+        val minute = (time_in_milli_seconds / 1000) / 60
+        val seconds = (time_in_milli_seconds / 1000) % 60
+
+        if(seconds.toString().length==1)
+            _binding?.timerText?.text = "$minute:0$seconds"
+        else
+            _binding?.timerText?.text = "$minute:$seconds"
+    }
+
+
 }
