@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
-import com.example.buildup.databinding.ActivityCompleteProfileBinding
 import com.example.buildup.databinding.ActivityExpenditureBinding
 
 class ExpenditureActivity : AppCompatActivity() {

@@ -12,27 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".ui.SplashActivity"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.ProductActivity" />
-        <activity android:name=".ui.ProductSubCategoryActivity" />
-        <activity android:name=".ui.ProductCategoryActivity" />
-        <activity android:name=".ui.ProductsActivity" />
-        <activity android:name=".ui.ExpenditureActivity" />
-        <activity android:name=".ui.UpdatesActivity" />
-        <activity android:name=".ui.PropertyActivity" />
-        <activity android:name=".ui.AddPropertyActivity" />
-        <activity android:name=".ui.CompleteProfileGoogleActivity" />
+        <activity android:name=".ui.Products.layouts.ProductActivity"></activity>
+        <activity android:name=".ui.Products.layouts.ProductSubCategoryActivity" />
+        <activity android:name=".ui.Products.layouts.ProductCategoryActivity" />
+        <activity android:name=".ui.Products.layouts.ProductsActivity" />
+        <activity android:name=".ui.Expenditure.ExpenditureActivity" />
+        <activity android:name=".ui.Updates.UpdatesActivity" />
+        <activity android:name=".ui.Property.layouts.PropertyActivity" />
+        <activity android:name=".ui.Property.layouts.AddPropertyActivity" />
+        <activity android:name="com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity" />
         <activity android:name=".ui.OtpGoogleActivity" />
-        <activity android:name=".ui.SignupGoogleActivity" />
+        <activity android:name="com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
         <activity android:name=".ui.GoogleLoginActivity" />
         <activity android:name=".TestActivity">
 
@@ -43,10 +33,10 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".ui.LoggedInActivity" />
+        <activity android:name=".ui.Property.layouts.PropertiesActivity" />
         <activity android:name=".ui.CompleteProfileActivity" />
-        <activity android:name=".ui.OtpActivity" />
-        <activity android:name=".ui.SignupActivity">
+        <activity android:name="com.example.buildup.ui.LoginSignup.signupMobileGoogleBuffer.OtpActivity" />
+        <activity android:name="com.example.buildup.ui.LoginSignup.signupMobile.SignupActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -55,9 +45,19 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

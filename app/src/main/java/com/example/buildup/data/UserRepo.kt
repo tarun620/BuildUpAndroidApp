@@ -2,19 +2,20 @@ package com.example.buildup.data
 
 import android.util.Log
 import com.example.api.BuildUpClient
-import com.example.api.models.entities.*
-import com.example.api.models.responses.LoginGoogleResponse
-import com.example.api.models.responses.LoginResponse
-import com.example.api.models.responses.SignupMobileFinalResponse
-import com.example.api.models.responses.SignupMobileResponse
-import com.example.api.models.responses.expenditure.ExpenditureArrayResponse
-import com.example.api.models.responses.expenditure.TotalExpenditureResponse
-import com.example.api.models.responses.products.ProductCategoriesResponse
-import com.example.api.models.responses.products.ProductResponse
-import com.example.api.models.responses.products.ProductSubCategoriesResponse
-import com.example.api.models.responses.products.ProductsArrayResponse
-import com.example.api.models.responses.property.PropertiesResponse
-import com.example.api.models.responses.property.SinglePropertyResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginGoogleResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.SignupMobileResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.SuccessMessageResponse
+import com.example.api.models.responses.expenditure.expenditureResponses.ExpendituresResponse
+import com.example.api.models.responses.expenditure.expenditureResponses.TotalExpenditureResponse
+import com.example.api.models.responses.loginSignup.loginSignupEntities.*
+import com.example.api.models.responses.products.productsResponses.ProductCategoriesResponse
+import com.example.api.models.responses.products.productsResponses.ProductResponse
+import com.example.api.models.responses.products.productsResponses.ProductSubCategoriesResponse
+import com.example.api.models.responses.products.productsResponses.ProductsResponse
+import com.example.api.models.responses.property.propertyEntities.AddPropertyData
+import com.example.api.models.responses.property.propertyResponses.PropertiesResponse
+import com.example.api.models.responses.property.propertyResponses.SinglePropertyResponse
 import com.example.api.models.responses.updates.UpdatesResponse
 //import com.example.buildup.helpers.ErrorUtils.parseError
 import com.example.buildup.helpers.ErrorUtilsNew
@@ -26,7 +27,7 @@ object UserRepo {
     val api=BuildUpClient.api
     val authApi=BuildUpClient.authApi
 
-    suspend fun signup(mobileNo : String): SignupMobileResponse? {
+    suspend fun signup(mobileNo : String): SuccessMessageResponse? {
         try{
             Log.d("TagUserRepo","Entered signup func")
             val response=api.mobileNumberInputFunc(SignupMobileData(mobileNo))
@@ -39,41 +40,41 @@ object UserRepo {
             else{
                 Log.d("TagUserRepo","code flow entered else block")
 //                val gson = Gson()
-//                val type = object : TypeToken<APIErrorNew>() {}.type
-//                var apiErrorNew: APIErrorNew = gson.fromJson(response.errorBody()!!.charStream(), type)
+//                val type = object : TypeToken<APIError>() {}.type
+//                var apiErrorNew: APIError = gson.fromJson(response.errorBody()!!.charStream(), type)
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return SignupMobileResponse(null,false,apiErrorNew.error)
-//                return SignupMobileResponse(null,null,"hard coded error")
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+//                return SuccessMessageResponse(null,null,"hard coded error")
 
             }
 
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return SignupMobileResponse(null,false,"Network Failure")
+            return SuccessMessageResponse(null,false,"Network Failure")
         }
 
     }
 
-    suspend fun verifyOTP(mobileNo: String,otp:String):SignupMobileResponse?{
+    suspend fun verifyOTP(mobileNo: String,otp:String): SuccessMessageResponse?{
         try{
-            val response =api.verifyOTPFunc(SignupMobileOTPData(mobileNo,otp))
+            val response =api.verifyOTPFunc(sendOTPMobile(mobileNo,otp))
             if(response.isSuccessful){
                 return response.body()
             }
             else{
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return SignupMobileResponse(null,false,apiErrorNew.error)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
             }
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return SignupMobileResponse(null,false,"Network Failure")
+            return SuccessMessageResponse(null,false,"Network Failure")
         }
 
     }
 
-    suspend fun completeProfile(mobileNo: String,name:String,email:String,password:String):SignupMobileFinalResponse?{
+    suspend fun completeProfile(mobileNo: String,name:String,email:String,password:String): SignupMobileResponse?{
         try{
-            val response=api.signpMobileFinal(SignupData(mobileNo,name,email,password))
+            val response=api.signpMobileFinal(CompleteProfileMobileData(mobileNo,name,email,password))
 
             if(response.isSuccessful){
                 BuildUpClient.authToken=response.body()?.token
@@ -81,11 +82,11 @@ object UserRepo {
             }
             else{
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return SignupMobileFinalResponse(null,false,null,null,apiErrorNew.error)
+                return SignupMobileResponse(null,false,null,null,apiErrorNew.error)
             }
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return SignupMobileFinalResponse(null,false,null,null,"Network Failure")
+            return SignupMobileResponse(null,false,null,null,"Network Failure")
         }
     }
 
@@ -100,8 +101,8 @@ object UserRepo {
             }
             else{
 //              val gson = Gson()
-//              val type = object : TypeToken<APIErrorNew>() {}.type
-//              var apiErrorNew: APIErrorNew = gson.fromJson(response.errorBody()!!.charStream(), type)
+//              val type = object : TypeToken<APIError>() {}.type
+//              var apiErrorNew: APIError = gson.fromJson(response.errorBody()!!.charStream(), type)
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
                 return LoginResponse(null,false,null,null,apiErrorNew.error)
             }
@@ -113,7 +114,7 @@ object UserRepo {
         }
     }
 
-    suspend fun loginSignupGoogle(name:String,email:String,profileImage:String?):LoginGoogleResponse?{
+    suspend fun loginSignupGoogle(name:String,email:String,profileImage:String?): LoginGoogleResponse?{
         try{
             val response=api.loginGoogle(LoginGoogleData(email,name,profileImage))
 
@@ -131,7 +132,7 @@ object UserRepo {
         }
     }
 
-    suspend fun signupGoogleSaveMobile(mobileNo:String,email:String):SignupMobileResponse?{
+    suspend fun signupGoogleSaveMobile(mobileNo:String,email:String): SuccessMessageResponse?{
 
         try{
             val response=api.signupGoogleSaveMobile(SignupGoogleMobileData(mobileNo, email))
@@ -141,15 +142,15 @@ object UserRepo {
             }
             else{
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return SignupMobileResponse(null,false,apiErrorNew.error)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
             }
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return SignupMobileResponse(null,false,"Network Failure")
+            return SuccessMessageResponse(null,false,"Network Failure")
         }
     }
 
-    suspend fun completeProfileGoogle(email: String,mobileNo: String,password: String):SignupMobileFinalResponse?{
+    suspend fun completeProfileGoogle(email: String,mobileNo: String,password: String): SignupMobileResponse?{
 
         try{
             val response=api.completeProfileGoogle(CompleteProfileGoogleData(email, mobileNo, password))
@@ -160,11 +161,11 @@ object UserRepo {
             }
             else{
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return SignupMobileFinalResponse(null,false,null,null,apiErrorNew.error)
+                return SignupMobileResponse(null,false,null,null,apiErrorNew.error)
             }
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return SignupMobileFinalResponse(null,false,null,null,"Network Failure")
+            return SignupMobileResponse(null,false,null,null,"Network Failure")
         }
     }
 
@@ -175,7 +176,7 @@ object UserRepo {
             colony:String,
             city:String,
             state:String,
-            pincode:Int):SignupMobileResponse?{
+            pincode:Int): SuccessMessageResponse?{
 
         try{
             val response= authApi.addProperty(AddPropertyData(name, type, houseNo, colony, city, state, pincode))
@@ -185,11 +186,11 @@ object UserRepo {
             }
             else{
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return SignupMobileResponse(null,false,apiErrorNew.error)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
             }
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return SignupMobileResponse(null,false,"Network Failure")
+            return SuccessMessageResponse(null,false,"Network Failure")
         }
     }
 
@@ -210,7 +211,7 @@ object UserRepo {
         }
     }
 
-    suspend fun getProperty(propertyId: String):SinglePropertyResponse?{
+    suspend fun getProperty(propertyId: String): SinglePropertyResponse?{
         try{
             val response= authApi.getProperty(propertyId)
 
@@ -244,7 +245,7 @@ object UserRepo {
         }
     }
 
-    suspend fun getTotalExpenditure(propertyId: String):TotalExpenditureResponse?{
+    suspend fun getTotalExpenditure(propertyId: String): TotalExpenditureResponse?{
 
         try{
             val response= authApi.getTotalExpenditure(propertyId)
@@ -262,7 +263,7 @@ object UserRepo {
         }
     }
 
-    suspend fun getExpenditureArray(propertyId: String):ExpenditureArrayResponse?{
+    suspend fun getExpenditureArray(propertyId: String): ExpendituresResponse?{
         try{
             val response= authApi.getExpenditureArray(propertyId)
 
@@ -271,15 +272,15 @@ object UserRepo {
             }
             else{
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return ExpenditureArrayResponse(null,null,false,apiErrorNew.error)
+                return ExpendituresResponse(null,null,false,apiErrorNew.error)
             }
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return ExpenditureArrayResponse(null,null,false,"Network Failure")
+            return ExpendituresResponse(null,null,false,"Network Failure")
         }
     }
 
-    suspend fun getProductCategories():ProductCategoriesResponse?{
+    suspend fun getProductCategories(): ProductCategoriesResponse?{
 
         try{
             val response= authApi.getProductCategories()
@@ -296,7 +297,7 @@ object UserRepo {
             return ProductCategoriesResponse(null,false,"Network Failure")
         }
     }
-    suspend fun getProductSubCategories(productCategoryId:String):ProductSubCategoriesResponse?{
+    suspend fun getProductSubCategories(productCategoryId:String): ProductSubCategoriesResponse?{
 
         try{
             val response= authApi.getProductSubCategories(productCategoryId)
@@ -314,7 +315,7 @@ object UserRepo {
         }
     }
 
-    suspend fun getProducts(productSubCategoryId:String):ProductsArrayResponse?{
+    suspend fun getProducts(productSubCategoryId:String): ProductsResponse?{
 
         try{
             val response= authApi.getProducts(productSubCategoryId)
@@ -324,15 +325,15 @@ object UserRepo {
             }
             else{
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return ProductsArrayResponse(null,null,false,apiErrorNew.error)
+                return ProductsResponse(null,null,false,apiErrorNew.error)
             }
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return ProductsArrayResponse(null,null,false,"Network Failure")
+            return ProductsResponse(null,null,false,"Network Failure")
         }
     }
 
-    suspend fun getProduct(productId:String):ProductResponse?{
+    suspend fun getProduct(productId:String): ProductResponse?{
 
         try{
             val response= authApi.getProduct(productId)

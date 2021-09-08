@@ -1,13 +1,16 @@
 package com.example.buildup
 
 import com.example.api.BuildUpClient
-import com.example.api.models.entities.*
+import com.example.api.models.responses.loginSignup.loginSignupEntities.CompleteProfileMobileData
+import com.example.api.models.responses.loginSignup.loginSignupEntities.SignupGoogleMobileData
+import com.example.api.models.responses.loginSignup.loginSignupEntities.SignupMobileData
+import com.example.api.models.responses.loginSignup.loginSignupEntities.sendOTPMobile
+import com.example.api.models.responses.property.propertyEntities.AddPropertyData
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Test
-import sun.rmi.runtime.Log
 
 
 class BuildUpClientTests {
@@ -15,7 +18,7 @@ class BuildUpClientTests {
     @Test
     fun `send mobile number`(){
         runBlocking{
-            val signupMobileData=SignupMobileData(
+            val signupMobileData= SignupMobileData(
                 mobileNo ="9211118292"
             )
             val resp=BuildUpClient.api.mobileNumberInputFunc(signupMobileData)
@@ -25,7 +28,7 @@ class BuildUpClientTests {
 @Test
     fun `verify otp`(){
         runBlocking {
-            val signupMobileOTPData=SignupMobileOTPData(
+            val signupMobileOTPData= sendOTPMobile(
                 mobileNo = "9211118299",
                 otp = "1261"
             )
@@ -37,7 +40,7 @@ class BuildUpClientTests {
     @Test
     fun `signup complete profile`(){
         runBlocking {
-            val signupData=SignupData(
+            val signupData= CompleteProfileMobileData(
                 mobileNo = "9211118297",
                 name = "test_user3",
                 email = "testuser4@test.com",
@@ -77,7 +80,7 @@ class BuildUpClientTests {
     @Test
     fun `signup gooogle mobile number save`(){
         runBlocking {
-            val signupGoogleMobileData=SignupGoogleMobileData(
+            val signupGoogleMobileData= SignupGoogleMobileData(
                     email = "testuser2@test.com",
                     mobileNo = "9123456783"
             )
@@ -89,7 +92,7 @@ class BuildUpClientTests {
     @Test
     fun addProperty(){
         runBlocking {
-            val addPropertyData=AddPropertyData(
+            val addPropertyData= AddPropertyData(
                 name = "Property A",
                 type = "home",
                 houseNo = "B5",

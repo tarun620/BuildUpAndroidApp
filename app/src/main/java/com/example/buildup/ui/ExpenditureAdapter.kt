@@ -6,12 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.api.models.responses.expenditure.Expenditure
-import com.example.api.models.responses.updates.Update
+import com.example.api.models.responses.expenditure.expenditureEntities.Expenditure
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemExpenditureBinding
 import com.example.buildup.extensions.timeStamp
-import kotlin.math.exp
 
 class ExpenditureAdapter : ListAdapter<Expenditure, ExpenditureAdapter.ExpenditureViewHolder>(
         object : DiffUtil.ItemCallback<Expenditure>(){

@@ -1,13 +1,12 @@
 package com.example.api.services
 
-import com.example.api.models.entities.*
-import com.example.api.models.responses.LoginGoogleResponse
-import com.example.api.models.responses.LoginResponse
-import com.example.api.models.responses.SignupMobileFinalResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginGoogleResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.SignupMobileResponse
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
-import com.example.api.models.responses.SignupMobileResponse
-import retrofit2.Call
+import com.example.api.models.responses.loginSignup.loginSignupResponses.SuccessMessageResponse
+import com.example.api.models.responses.loginSignup.loginSignupEntities.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -18,25 +17,25 @@ BuildUpAPI {
 //sending mobile number
     @POST("signup/mobile")
     suspend fun mobileNumberInputFunc(
-        @Body userCreds:SignupMobileData
-    ): Response<SignupMobileResponse>
+        @Body userCreds: SignupMobileData
+    ): Response<SuccessMessageResponse>
 
 //sending mobile number and otp
     @POST("signup/verify-otp")
     suspend fun verifyOTPFunc(
-        @Body userCredsOTP:SignupMobileOTPData
-        ):Response<SignupMobileResponse>
+        @Body userCredsOTP: sendOTPMobile
+        ):Response<SuccessMessageResponse>
 
 //complete proile- final step for signup using mobile
     @POST("signup/mobile/complete-profile")
     suspend fun signpMobileFinal(
-        @Body userCreds:SignupData
-    ):Response<SignupMobileFinalResponse>
+        @Body userCreds: CompleteProfileMobileData
+    ):Response<SignupMobileResponse>
 
 //login
     @POST("login/mobile")
     suspend fun login(
-        @Body userCreds:LoginData
+        @Body userCreds: LoginData
     ):Response<LoginResponse>
 
 
@@ -53,11 +52,11 @@ BuildUpAPI {
     @POST("signup/google/save-mobile")
     suspend fun signupGoogleSaveMobile(
         @Body userCreds: SignupGoogleMobileData
-    ):Response<SignupMobileResponse>
+    ):Response<SuccessMessageResponse>
 
 // compleete profile for google signup -last step for googe signup
     @POST("signup/google/complete-profile")
     suspend fun completeProfileGoogle(
-        @Body userCreds:CompleteProfileGoogleData
-    ):Response<SignupMobileFinalResponse>
+        @Body userCreds: CompleteProfileGoogleData
+    ):Response<SignupMobileResponse>
 }
