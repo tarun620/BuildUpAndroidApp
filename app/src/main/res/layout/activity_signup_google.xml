@@ -9,7 +9,7 @@
         android:id="@+id/imageView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/img"
+        android:src="@drawable/login_screen_bg"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/mobileEditText"
         app:layout_constraintEnd_toEndOf="parent"

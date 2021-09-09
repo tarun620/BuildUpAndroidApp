@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
+import com.example.buildup.R
 import com.example.buildup.databinding.ActivityLoginSignupBinding
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.example.buildup.ui.LoginSignup.signupMobile.SignupActivity
@@ -99,6 +100,10 @@ class LoginSignupActivity : AppCompatActivity() {
 //                emailEditText.hint="Mobile Number"
                 emailEditText.text?.clear()
                 passwordEditText.text!!.clear()
+                SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
+                SignupButtonToggle.setTextColor(resources.getColor(R.color.black))
+                LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
+                LoginButtonToggle.setTextColor(resources.getColor(R.color.white))
 
                 var layoutparams:ConstraintLayout.LayoutParams= forgetPasswordTextview.layoutParams as ConstraintLayout.LayoutParams
                 layoutparams.topToBottom=passwordTextInputLayout.id
@@ -111,6 +116,12 @@ class LoginSignupActivity : AppCompatActivity() {
                 confirmPasswordTextInputLayout.visibility= VISIBLE
                 forgetPasswordTextview.visibility= View.GONE
                 SignUpButton.text="Sign Up"
+                SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
+                SignupButtonToggle.setTextColor(resources.getColor(R.color.white))
+                LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
+                LoginButtonToggle.setTextColor(resources.getColor(R.color.black))
+
+
 //                emailEditText.hint="Email"
                 emailTextInputLayout.hint="Email"
                 emailEditText.text?.clear()
