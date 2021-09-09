@@ -5,8 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View
+import android.view.View.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -88,11 +88,11 @@ class LoginSignupActivity : AppCompatActivity() {
 
         _binding?.apply {
 
-            forgetPasswordTextview.visibility= INVISIBLE
+            forgetPasswordTextview.visibility= View.GONE
 
             LoginButtonToggle.setOnClickListener {
                 isLOGIN=true
-                confirmPasswordTextInputLayout.visibility= INVISIBLE
+                confirmPasswordTextInputLayout.visibility= View.GONE
                 forgetPasswordTextview.visibility= VISIBLE
                 SignUpButton.text="Sign In"
                 emailTextInputLayout.hint="Mobile Number"
@@ -109,7 +109,7 @@ class LoginSignupActivity : AppCompatActivity() {
             SignupButtonToggle.setOnClickListener {
                 isLOGIN=false
                 confirmPasswordTextInputLayout.visibility= VISIBLE
-                forgetPasswordTextview.visibility= INVISIBLE
+                forgetPasswordTextview.visibility= View.GONE
                 SignUpButton.text="Sign Up"
 //                emailEditText.hint="Email"
                 emailTextInputLayout.hint="Email"

@@ -7,10 +7,9 @@
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="300dp"
         android:scaleType="fitXY"
         android:src="@drawable/img"
-        app:layout_constraintBottom_toTopOf="@+id/emailTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -208,13 +207,13 @@
         android:textColor="@color/textGrey"
         android:textColorHint="@color/textGrey"
         android:textSize="18sp"
+        android:visibility="gone"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/orange_main"
         app:hintTextColor="@color/textGrey"
         app:layout_constraintBottom_toTopOf="@+id/forgetPasswordTextview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout"
         app:passwordToggleEnabled="true">
@@ -240,9 +239,8 @@
         android:text="Forget Password"
         android:textColor="@color/textGrey"
         android:textSize="20sp"
-        android:layout_marginEnd="48dp"
         app:layout_constraintBottom_toTopOf="@id/SignUpButton"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/passwordTextInputLayout"
         app:layout_constraintTop_toBottomOf="@id/confirmPasswordTextInputLayout" />
 
     <com.google.android.material.button.MaterialButton
