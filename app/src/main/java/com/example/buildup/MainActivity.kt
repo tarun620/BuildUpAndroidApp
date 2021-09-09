@@ -6,13 +6,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.example.buildup.databinding.ActivityMainBinding
 import com.example.buildup.databinding.ActivitySplashBinding
 import com.example.buildup.ui.LoginSignup.signupMobile.SignupActivity
-import com.example.buildup.ui.SplashActivity
 
 class MainActivity : AppCompatActivity() {
 

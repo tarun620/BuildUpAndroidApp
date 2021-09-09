@@ -3,10 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-anydpi/card_view_black_bg.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-anydpi/ic_back_up_btn.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-anydpi/ic_colored_card_view_bg.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-anydpi/ic_ellipse.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-anydpi/ic_expense.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-anydpi/ic_line.xml" value="0.2465277777777778" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-anydpi/ic_pay.xml" value="0.2534188034188034" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-anydpi/ic_products.xml" value="0.2465277777777778" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable-hdpi/radio_home_selected.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/blur_image.xml" value="0.3435185185185185" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_baseline_house_24.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_btn_bg.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_dashboard.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_facebook.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_goggle.xml" value="0.2465277777777778" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_home.xml" value="0.20033783783783785" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_menu_login.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_menu_signup.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/ic_notification.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/pb_circular_determinative.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/products.xml" value="0.2465277777777778" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/property_card_view.xml" value="0.2465277777777778" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/radio_home_normal.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/radio_home_selector.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/radio_normal_address.xml" value="0.25416666666666665" />
@@ -14,6 +34,7 @@
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/radio_work_selected.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/drawable/radio_work_selector.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/font/rancho.xml" value="0.3435185185185185" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_add_property.xml" value="0.290234375" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_expenditure.xml" value="0.25101351351351353" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_google_login.xml" value="0.25101351351351353" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_logged_in.xml" value="0.25101351351351353" />
@@ -40,7 +61,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
