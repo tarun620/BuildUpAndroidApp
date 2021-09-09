@@ -32,8 +32,8 @@ class PropertyListAdapter(val context: Context, val properties: List<PropertyRes
 
     inner class PropertyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var propertyName = itemView.findViewById<TextView>(R.id.tv_propertyName)
-        var propertyDesc = itemView.findViewById<TextView>(R.id.tv_propertydesc)
-        var propertyEta = itemView.findViewById<TextView>(R.id.tv_eta)
+        var propertyDesc = itemView.findViewById<TextView>(R.id.tv_propertyLatestUpdate)
+        var propertyEta = itemView.findViewById<TextView>(R.id.tv_propertyETA)
 
 
         init {

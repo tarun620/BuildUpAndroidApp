@@ -50,6 +50,11 @@ class PropertyActivity : AppCompatActivity() {
         _bindingUpdates.updatesRecyclerView.isNestedScrollingEnabled=true
 
         setContentView(_binding?.root)
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
 //        setContentView(_bindingUpdates?.root)
 
         val propertyId:String?=intent.getStringExtra("propertyId")

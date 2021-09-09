@@ -28,6 +28,9 @@ class SignupActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
 //        Toast.makeText(this@SignupActivity,"SignupActivity Launched",Toast.LENGTH_LONG).show()
 
         val emailEditText=intent.getStringExtra("email")

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
@@ -54,6 +53,10 @@ class LoginSignupActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
 
         //AUTO LOGIN USING SAVED INSTANCE OF LOGIN CREDENTIALS IN SHARED PREFERENCES
 
@@ -236,8 +239,6 @@ class LoginSignupActivity : AppCompatActivity() {
                 val signInIntent = mGoogleSignInClient.signInIntent
                 startActivityForResult(signInIntent, RC_SIGN_IN)
             }
-
-
         }
     }
 

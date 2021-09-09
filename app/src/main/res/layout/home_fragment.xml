@@ -8,8 +8,9 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="0dp"
         android:id="@+id/appBar"
+        android:background="@null"
+        app:elevation="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_collapseMode="pin"
+            android:background="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -50,25 +52,25 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-                <ImageView
-                    android:id="@+id/buttonNotification"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:src="@drawable/ic_notification"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/buttonProfile"
-                    app:layout_constraintTop_toTopOf="parent" />
+<!--                <ImageView-->
+<!--                    android:id="@+id/buttonNotification"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:src="@drawable/ic_notification"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/buttonProfile"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-                <ImageView
-                    android:id="@+id/buttonSearch"
-                    android:src="@drawable/ic_search"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/buttonNotification"
-                    android:layout_marginEnd="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+<!--                <ImageView-->
+<!--                    android:id="@+id/buttonSearch"-->
+<!--                    android:src="@drawable/ic_search"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/buttonNotification"-->
+<!--                    android:layout_marginEnd="16dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"/>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,7 +93,7 @@
         app:layout_constraintTop_toBottomOf="@id/appBar" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProperty"
+        android:id="@+id/propertyRecyclerView"
         tools:listitem="@layout/item_property"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -101,9 +103,10 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <ImageView
+        android:id="@+id/addPropertyButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvProperty"
+        app:layout_constraintTop_toBottomOf="@id/propertyRecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add"/>

@@ -51,7 +51,7 @@
 
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
-                    tools:listitem="@layout/list_item_update" />
+                        tools:listitem="@layout/list_item_update" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 

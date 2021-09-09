@@ -11,6 +11,10 @@ class ProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         var productId=intent.getStringExtra("productId")
 
         Toast.makeText(this,"this is product Activity with prdoctId:${productId}",Toast.LENGTH_SHORT).show()
