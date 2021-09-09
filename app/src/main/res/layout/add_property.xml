@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@id/back_btn">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etName"
+            android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@id/etFullNameLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPincode"
+            android:id="@+id/et_pincode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start"
@@ -126,7 +126,7 @@
         app:layout_constraintTop_toBottomOf="@id/etPincodeLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etState"
+            android:id="@+id/et_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
@@ -156,7 +156,7 @@
         app:layout_constraintTop_toBottomOf="@id/etPincodeLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCity"
+            android:id="@+id/et_city"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start"
@@ -242,7 +242,7 @@
         app:layout_constraintTop_toBottomOf="@id/etColonyLayout">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etLandmark"
+            android:id="@+id/et_landmark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
@@ -302,6 +302,7 @@
         android:layout_margin="12dp"
         android:backgroundTint="@color/orange_main"
         android:text="Add"
+        android:id="@+id/submitButton"
         android:textColor="@color/white"
         android:textAllCaps="false"
         app:elevation="24dp"
