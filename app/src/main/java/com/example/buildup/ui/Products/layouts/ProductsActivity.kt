@@ -37,6 +37,11 @@ class ProductsActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         getProducts(productSubCategoryId)
 
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)

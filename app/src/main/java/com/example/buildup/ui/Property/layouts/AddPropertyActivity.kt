@@ -19,6 +19,10 @@ class AddPropertyActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         _binding?.apply{
             submitButton.setOnClickListener {
                 authViewModel.addProperty(

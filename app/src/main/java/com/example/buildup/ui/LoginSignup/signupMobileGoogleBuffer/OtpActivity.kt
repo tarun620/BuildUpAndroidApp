@@ -39,6 +39,10 @@ class OtpActivity : AppCompatActivity() {
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding?.root)
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         mobileNoEditText= intent.getStringExtra("mobileNo")
         nameEditText=intent.getStringExtra("name")
         emailEditText=intent.getStringExtra("email")
@@ -134,7 +138,7 @@ class OtpActivity : AppCompatActivity() {
     }
 
     private fun OtpTimer(){
-        time_in_milli_seconds = 1 *10000L // 5 minutes
+        time_in_milli_seconds = 1 *10000L // 10 sec
         startTimer(time_in_milli_seconds)
     }
 

@@ -24,6 +24,10 @@ class SignupGoogleFinalProfileActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         val mobileNoGoogle:String?=intent.getStringExtra("mobileNoGoogle")
         val emailGoogle:String?=intent.getStringExtra("emailGoogle")
 

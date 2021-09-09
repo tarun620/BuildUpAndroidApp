@@ -38,6 +38,11 @@ class ProductCategoryActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         getProductCategories()
 //        val catId=getProductCategories()
 //        getProductSubCategories(catId)

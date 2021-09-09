@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.Products.layouts.ProductActivity"></activity>
+        <activity android:name=".ui.TestActivityProgressBar"></activity>
+        <activity android:name=".ui.Products.layouts.ProductActivity" />
         <activity android:name=".ui.Products.layouts.ProductSubCategoryActivity" />
         <activity android:name=".ui.Products.layouts.ProductCategoryActivity" />
         <activity android:name=".ui.Products.layouts.ProductsActivity" />
@@ -20,9 +21,9 @@
         <activity android:name=".ui.Updates.UpdatesActivity" />
         <activity android:name=".ui.Property.layouts.PropertyActivity" />
         <activity android:name=".ui.Property.layouts.AddPropertyActivity" />
-        <activity android:name="com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity" />
+        <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity" />
         <activity android:name=".ui.OtpGoogleActivity" />
-        <activity android:name="com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
+        <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
         <activity android:name=".ui.GoogleLoginActivity" />
         <activity android:name=".TestActivity">
 
@@ -35,8 +36,8 @@
         </activity>
         <activity android:name=".ui.Property.layouts.PropertiesActivity" />
         <activity android:name=".ui.CompleteProfileActivity" />
-        <activity android:name="com.example.buildup.ui.LoginSignup.signupMobileGoogleBuffer.OtpActivity" />
-        <activity android:name="com.example.buildup.ui.LoginSignup.signupMobile.SignupActivity">
+        <activity android:name=".ui.LoginSignup.signupMobileGoogleBuffer.OtpActivity" />
+        <activity android:name=".ui.LoginSignup.signupMobile.SignupActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -45,7 +46,7 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity" >
+        <activity android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,11 +54,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 

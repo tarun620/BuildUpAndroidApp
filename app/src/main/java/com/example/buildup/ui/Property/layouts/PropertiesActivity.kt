@@ -13,11 +13,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityPropertiesBinding
+import com.example.buildup.databinding.HomeFragmentBinding
 import com.example.buildup.ui.Property.adapters.PropertyAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class PropertiesActivity : AppCompatActivity() {
-    private lateinit var _binding:ActivityPropertiesBinding
+//    private lateinit var _binding:ActivityPropertiesBinding
+    private lateinit var _binding:HomeFragmentBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var propertyAdapter: PropertyAdapter
     lateinit var swipeRefreshLayout:SwipeRefreshLayout
@@ -29,7 +31,7 @@ class PropertiesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_logged_in)
 
-        _binding= ActivityPropertiesBinding.inflate(layoutInflater)
+        _binding= HomeFragmentBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         propertyAdapter= PropertyAdapter{openProperty(it)}
 
@@ -38,7 +40,12 @@ class PropertiesActivity : AppCompatActivity() {
 
         setContentView(_binding.root)
 
-        swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
+//        swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
+
 
         _binding.addPropertyButton.setOnClickListener {
             var intent= Intent(this, AddPropertyActivity::class.java)
@@ -47,11 +54,11 @@ class PropertiesActivity : AppCompatActivity() {
 
         getProperties()
 
-        swipeRefreshLayout.setOnRefreshListener {
-            Toast.makeText(this,"refreshed.",Toast.LENGTH_SHORT).show()
-            getProperties()
-            swipeRefreshLayout.isRefreshing = false
-        }
+//        swipeRefreshLayout.setOnRefreshListener {
+//            Toast.makeText(this,"refreshed.",Toast.LENGTH_SHORT).show()
+//            getProperties()
+//            swipeRefreshLayout.isRefreshing = false
+//        }
 
 
     }
@@ -60,6 +67,7 @@ class PropertiesActivity : AppCompatActivity() {
         authViewModel.getProperties()
         authViewModel.respPropertyArray.observe({lifecycle}){
             if(it?.success!!){
+                Log.d("completed", it.properties?.get(0)?.completed.toString())
                 Toast.makeText(this,"property fetching successful",Toast.LENGTH_SHORT).show()
                 propertyAdapter.submitList(it.properties)
             }

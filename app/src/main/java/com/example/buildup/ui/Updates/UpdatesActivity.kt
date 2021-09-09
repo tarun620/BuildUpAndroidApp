@@ -34,6 +34,11 @@ class UpdatesActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
 
         getUpdates(propertyId!!)

@@ -32,6 +32,10 @@ class ExpenditureActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
 
         getExpenditureAmount(propertyId!!)

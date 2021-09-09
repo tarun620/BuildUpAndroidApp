@@ -26,6 +26,10 @@ class SignupGoogleActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar()?.hide();
+        }
+
         val emailGoogle:String?=intent.getStringExtra("emailgoogle")
         Toast.makeText(this,"this is "+emailGoogle,Toast.LENGTH_SHORT).show()
 
