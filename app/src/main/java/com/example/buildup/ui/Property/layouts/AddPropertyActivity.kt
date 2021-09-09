@@ -11,6 +11,7 @@ import com.example.buildup.databinding.ActivityAddPropertyBinding
 class AddPropertyActivity : AppCompatActivity() {
     private lateinit var _binding:ActivityAddPropertyBinding
     private lateinit var authViewModel: AuthViewModel
+    private lateinit var addressType: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_add_property)
@@ -24,10 +25,19 @@ class AddPropertyActivity : AppCompatActivity() {
         }
 
         _binding?.apply{
+
+            radioTypeGroup.setOnCheckedChangeListener { group, checkedId ->
+                if(checkedId == radioHome.id){
+                    addressType == radioHome.text.toString()
+                }
+                else if (checkedId == radioWork.id){
+                    addressType == radioWork.text.toString()
+                }
+            }
             submitButton.setOnClickListener {
                 authViewModel.addProperty(
                     etName.text.toString(),
-                        etType.text.toString(),
+                        addressType,
                         etHouseNo.text.toString(),
                         etColony.text.toString(),
                         etCity.text.toString(),

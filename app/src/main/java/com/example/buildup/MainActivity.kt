@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.databinding.ActivitySplashBinding
+import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity
 import com.example.buildup.ui.LoginSignup.signupMobile.SignupActivity
 
 class MainActivity : AppCompatActivity() {
@@ -54,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 _binding!!.homeIcon.startAnimation(zoomIn)
                 _binding!!.homeIcon.visibility = View.GONE
                 Handler().postDelayed({
-                    startActivity(Intent(this, SignupActivity::class.java))
+                    startActivity(Intent(this, LoginSignupActivity::class.java))
 
                 }, 400)
 
