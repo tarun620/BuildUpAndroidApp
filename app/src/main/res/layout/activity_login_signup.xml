@@ -96,6 +96,7 @@
         app:layout_constraintBottom_toTopOf="@+id/passwordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:errorEnabled="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
         app:passwordToggleEnabled="false">
@@ -148,6 +149,7 @@
         android:textColorHint="@color/textGrey"
         android:textSize="18sp"
         app:hintTextColor="@color/textGrey"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/confirmPasswordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -191,7 +193,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmPasswordTextInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -204,8 +205,6 @@
         android:textColorHint="@color/textGrey"
         android:textSize="18sp"
         android:visibility="gone"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="@color/orange_main"
         app:hintTextColor="@color/textGrey"
         app:layout_constraintBottom_toTopOf="@+id/forgetPasswordTextview"
         app:layout_constraintEnd_toEndOf="parent"
