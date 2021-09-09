@@ -81,7 +81,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailTextInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -93,8 +92,6 @@
         android:textColor="@color/textGrey"
         android:textColorHint="@color/textGrey"
         android:textSize="18sp"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="@color/orange_main"
         app:hintTextColor="@color/textGrey"
         app:layout_constraintBottom_toTopOf="@+id/passwordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +106,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/overpass"
             android:gravity="start"
+            android:backgroundTint="@color/white"
             android:inputType="textEmailAddress"
             android:textColor="@color/textGrey"
             android:textSize="18sp" />
@@ -138,7 +136,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTextInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -150,8 +147,6 @@
         android:textColor="@color/textGrey"
         android:textColorHint="@color/textGrey"
         android:textSize="18sp"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeColor="@color/orange_main"
         app:hintTextColor="@color/textGrey"
         app:layout_constraintBottom_toTopOf="@+id/confirmPasswordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -166,6 +161,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/overpass"
             android:gravity="start"
+            android:backgroundTint="@color/white"
             android:inputType="textPassword"
             android:textColor="@color/textGrey"
             android:textSize="18sp" />

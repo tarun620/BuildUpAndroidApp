@@ -19,7 +19,13 @@
         <activity android:name=".ui.Expenditure.ExpenditureActivity" />
         <activity android:name=".ui.Updates.UpdatesActivity" />
         <activity android:name=".ui.Property.layouts.PropertyActivity" />
-        <activity android:name=".ui.Property.layouts.AddPropertyActivity" />
+        <activity android:name=".ui.Property.layouts.AddPropertyActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity" />
         <activity android:name=".ui.OtpGoogleActivity" />
         <activity android:name="com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
@@ -49,11 +55,7 @@
 
         </activity>
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

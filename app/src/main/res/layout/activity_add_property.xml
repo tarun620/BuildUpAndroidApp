@@ -38,6 +38,7 @@
         android:layout_marginEnd="24dp"
         android:hint="Full Name*"
         app:boxCornerRadiusBottomEnd="12dp"
+        app:errorEnabled="true"
         app:boxCornerRadiusBottomStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusTopStart="12dp"
@@ -80,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start"
+            android:maxLength="6"
             android:inputType="number"
             android:textColor="@color/textGrey"
             android:textSize="16sp" />
@@ -129,7 +131,7 @@
             android:id="@+id/et_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="text"
 
             android:textColor="@color/textGrey"
             android:textSize="16sp" />
@@ -160,7 +162,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="start"
-            android:inputType="number"
+            android:inputType="text"
             android:textColor="@color/textGrey"
             android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
