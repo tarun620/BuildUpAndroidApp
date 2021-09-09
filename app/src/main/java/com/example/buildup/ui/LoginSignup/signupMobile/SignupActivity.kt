@@ -32,6 +32,8 @@ class SignupActivity : AppCompatActivity() {
 
         val emailEditText=intent.getStringExtra("email")
         val passwordEditText=intent.getStringExtra("password")
+        Log.d("signupActivity",emailEditText.toString())
+        Log.d("signupActivity",passwordEditText.toString())
         _binding?.apply {
             sendOTPButton.setOnClickListener {
 

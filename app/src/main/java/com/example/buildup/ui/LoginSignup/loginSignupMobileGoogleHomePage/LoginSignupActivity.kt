@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
@@ -37,6 +38,10 @@ class LoginSignupActivity : AppCompatActivity() {
     private var token:String?=null
     private lateinit var sharedPrefrences: SharedPreferences
     private var RC_SIGN_IN = 123
+    private var isEmailValid=false
+    private var isMobileNoValid=false
+    private var isPasswordValid=false
+    private var isConfirmPasswordValid=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,34 +78,40 @@ class LoginSignupActivity : AppCompatActivity() {
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
+        //validate email , mobile number , password, confirm passowrd
+
+//        _binding?.SignUpButton?.isEnabled=false
+//        setValidationsSignUp()
+
         _binding?.apply {
 
             forgetPasswordTextview.visibility= INVISIBLE
 
             LoginButtonToggle.setOnClickListener {
                 isLOGIN=true
-                passwordConfirmEditText.visibility= INVISIBLE
+                confirmPasswordTextInputLayout.visibility= INVISIBLE
                 forgetPasswordTextview.visibility= VISIBLE
                 SignUpButton.text="Sign In"
-                emailEditText.hint="Mobile Number"
-                emailEditText.text.clear()
-                passwordEditText.text.clear()
-
+                emailTextInputLayout.hint="Mobile Number"
+//                emailEditText.hint="Mobile Number"
+                emailEditText.text?.clear()
+                passwordEditText.text!!.clear()
 
                 var layoutparams:ConstraintLayout.LayoutParams= forgetPasswordTextview.layoutParams as ConstraintLayout.LayoutParams
-                layoutparams.topToBottom=passwordEditText.id
-                layoutparams.endToEnd=passwordEditText.id
+                layoutparams.topToBottom=passwordTextInputLayout.id
+                layoutparams.endToEnd=passwordTextInputLayout.id
                 forgetPasswordTextview.layoutParams=layoutparams
             }
 
             SignupButtonToggle.setOnClickListener {
                 isLOGIN=false
-                passwordConfirmEditText.visibility= VISIBLE
+                confirmPasswordTextInputLayout.visibility= VISIBLE
                 forgetPasswordTextview.visibility= INVISIBLE
                 SignUpButton.text="Sign Up"
-                emailEditText.hint="Email"
-                emailEditText.text.clear()
-                passwordEditText.text.clear()
+//                emailEditText.hint="Email"
+                emailTextInputLayout.hint="Email"
+                emailEditText.text?.clear()
+                passwordEditText.text!!.clear()
             }
 
             SignUpButton.setOnClickListener {
@@ -229,6 +240,38 @@ class LoginSignupActivity : AppCompatActivity() {
 
         }
     }
+
+//    private fun setValidationsLogin(){
+//    }
+//    private fun setValidationsSignUp(){
+//        _binding?.apply {
+//            if(emailEditText.text.toString().isNullOrBlank()){
+//                emailEditText.error="Email Cannot be Blank"
+//                isEmailValid = false;
+//            }
+//
+//            else if (!Patterns.EMAIL_ADDRESS.matcher(emailEditText.text.toString()).matches()) {
+//                emailEditText.error="Invalid Email"
+//                isEmailValid = false;
+//            }
+//            else  {
+//                isEmailValid = true;
+//            }
+//
+//            if (passwordEditText.text.toString().isEmpty()) {
+//                passwordEditText.error="Password Cannot be Empty"
+//                isPasswordValid = false;
+//            } else  {
+//                isPasswordValid = true;
+//            }
+//
+//            if (isEmailValid && isPasswordValid) {
+////                Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
+//                SignUpButton.isEnabled=true
+//            }
+//        }
+//
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
