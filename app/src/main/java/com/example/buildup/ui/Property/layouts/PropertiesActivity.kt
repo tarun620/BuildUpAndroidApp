@@ -66,7 +66,7 @@ class PropertiesActivity : AppCompatActivity() {
         authViewModel.getProperties()
         authViewModel.respPropertyArray.observe({lifecycle}){
             if(it?.success!!){
-                Log.d("completed", it.properties?.get(0)?.completed.toString())
+//                Log.d("completed", it.properties?.get(0)?.completed.toString())
                 Toast.makeText(this,"property fetching successful",Toast.LENGTH_SHORT).show()
                 propertyAdapter.submitList(it.properties)
             }

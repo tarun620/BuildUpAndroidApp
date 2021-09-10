@@ -5,14 +5,16 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.util.Patterns
+import android.view.View
+import android.view.View.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
+import com.example.buildup.R
 import com.example.buildup.databinding.ActivityLoginSignupBinding
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.example.buildup.ui.LoginSignup.signupMobile.SignupActivity
@@ -25,31 +27,31 @@ import com.google.android.gms.tasks.Task
 
 
 class LoginSignupActivity : AppCompatActivity() {
-    companion object{
-        var PREFS_FILE_AUTH="prefs_auth"
-        var PREFS_KEY_TOKEN="token"
+    companion object {
+        var PREFS_FILE_AUTH = "prefs_auth"
+        var PREFS_KEY_TOKEN = "token"
     }
 
-//    private var _binding: ActivityLoginBinding?=null
-    private var _binding:ActivityLoginSignupBinding?=null
-    private var isLOGIN=false
+    //    private var _binding: ActivityLoginBinding?=null
+    private var _binding: ActivityLoginSignupBinding? = null
+    private var isLOGIN = false
     lateinit var authViewModel: AuthViewModel
-    private var token:String?=null
+    private var token: String? = null
     private lateinit var sharedPrefrences: SharedPreferences
     private var RC_SIGN_IN = 123
-    private var isEmailValid=false
-    private var isMobileNoValid=false
-    private var isPasswordValid=false
-    private var isConfirmPasswordValid=false
+    private var isEmailValid = false
+    private var isMobileNoValid = false
+    private var isPasswordValid = false
+    private var isConfirmPasswordValid = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_login)
 
 //        _binding= ActivityLoginBinding.inflate(layoutInflater)
-        _binding=ActivityLoginSignupBinding.inflate(layoutInflater)
-        authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
-        sharedPrefrences=getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+        _binding = ActivityLoginSignupBinding.inflate(layoutInflater)
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
         setContentView(_binding?.root)
 
@@ -88,31 +90,42 @@ class LoginSignupActivity : AppCompatActivity() {
 
         _binding?.apply {
 
-            forgetPasswordTextview.visibility= INVISIBLE
+            forgetPasswordTextview.visibility = View.GONE
 
             LoginButtonToggle.setOnClickListener {
-                isLOGIN=true
-                confirmPasswordTextInputLayout.visibility= INVISIBLE
-                forgetPasswordTextview.visibility= VISIBLE
-                SignUpButton.text="Sign In"
-                emailTextInputLayout.hint="Mobile Number"
+                isLOGIN = true
+                confirmPasswordTextInputLayout.visibility = View.GONE
+                forgetPasswordTextview.visibility = VISIBLE
+                SignUpButton.text = "Sign In"
+                emailTextInputLayout.hint = "Mobile Number"
 //                emailEditText.hint="Mobile Number"
                 emailEditText.text?.clear()
                 passwordEditText.text!!.clear()
+                SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
+                SignupButtonToggle.setTextColor(resources.getColor(R.color.black))
+                LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
+                LoginButtonToggle.setTextColor(resources.getColor(R.color.white))
 
-                var layoutparams:ConstraintLayout.LayoutParams= forgetPasswordTextview.layoutParams as ConstraintLayout.LayoutParams
-                layoutparams.topToBottom=passwordTextInputLayout.id
-                layoutparams.endToEnd=passwordTextInputLayout.id
-                forgetPasswordTextview.layoutParams=layoutparams
+                var layoutparams: ConstraintLayout.LayoutParams =
+                    forgetPasswordTextview.layoutParams as ConstraintLayout.LayoutParams
+                layoutparams.topToBottom = passwordTextInputLayout.id
+                layoutparams.endToEnd = passwordTextInputLayout.id
+                forgetPasswordTextview.layoutParams = layoutparams
             }
 
             SignupButtonToggle.setOnClickListener {
-                isLOGIN=false
-                confirmPasswordTextInputLayout.visibility= VISIBLE
-                forgetPasswordTextview.visibility= INVISIBLE
-                SignUpButton.text="Sign Up"
+                isLOGIN = false
+                confirmPasswordTextInputLayout.visibility = VISIBLE
+                forgetPasswordTextview.visibility = View.GONE
+                SignUpButton.text = "Sign Up"
+                SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
+                SignupButtonToggle.setTextColor(resources.getColor(R.color.white))
+                LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
+                LoginButtonToggle.setTextColor(resources.getColor(R.color.black))
+
+
 //                emailEditText.hint="Email"
-                emailTextInputLayout.hint="Email"
+                emailTextInputLayout.hint = "Email"
                 emailEditText.text?.clear()
                 passwordEditText.text!!.clear()
             }
@@ -189,47 +202,62 @@ class LoginSignupActivity : AppCompatActivity() {
 //                })
 
 
-
 //authviewmodel way-initial way
 
-                if(isLOGIN){  // Login request ( we are in login toggle button)
-                    authViewModel.login(emailEditText.text.toString(),passwordEditText.text.toString())
+                if (validations()) {
+                    if (isLOGIN) {  // Login request ( we are in login toggle button)
+                        authViewModel.login(
+                            emailEditText.text.toString(),
+                            passwordEditText.text.toString()
+                        )
 
-                    authViewModel.respNewImage.observe({lifecycle}){
-                        if(it?.token!=null && it.success!!){
-                            Log.d("TAGTokenOutside",it.token.toString())
-                            it.token?.let{t->
-                                sharedPrefrences.edit{
+                        authViewModel.respNewImage.observe({ lifecycle }) {
+                            if (it?.token != null && it.success!!) {
+                                Log.d("TAGTokenOutside", it.token.toString())
+                                it.token?.let { t ->
+                                    sharedPrefrences.edit {
 //                                putString(PREFS_KEY_TOKEN,t)
-                                    putString("token",t)
-                                    Log.d("TAGSettingSP", sharedPrefrences.getString("token",null).toString())
+                                        putString("token", t)
+                                        Log.d(
+                                            "TAGSettingSP",
+                                            sharedPrefrences.getString("token", null).toString()
+                                        )
 //                                Log.d("TAGSettingSP", PREFS_KEY_TOKEN)
+                                    }
+                                } ?: run {                       //     ?: IS CALLED ELVIS OPERATOR
+                                    sharedPrefrences.edit {
+                                        remove("token")
+                                    }
                                 }
-                            }?:run{                       //     ?: IS CALLED ELVIS OPERATOR
-                                sharedPrefrences.edit{
-                                    remove("token")
-                                }
+
+                                Log.d("TAGSuccess", it.message.toString())
+//                        loginActivityProgressBar.visibility= INVISIBLE
+                                Toast.makeText(
+                                    this@LoginSignupActivity,
+                                    it.message,
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                val intent =
+                                    Intent(this@LoginSignupActivity, PropertiesActivity::class.java)
+                                startActivity(intent)
+                            } else {
+//                        loginActivityProgressBar.visibility= INVISIBLE
+                                Toast.makeText(
+                                    this@LoginSignupActivity,
+                                    it?.error,
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                Log.d("TAGError", it?.error.toString())
                             }
-
-                            Log.d("TAGSuccess",it.message.toString())
-//                        loginActivityProgressBar.visibility= INVISIBLE
-                            Toast.makeText(this@LoginSignupActivity,it.message,Toast.LENGTH_SHORT).show()
-                            val intent= Intent(this@LoginSignupActivity, PropertiesActivity::class.java)
-                            startActivity(intent)
                         }
-                        else{
-//                        loginActivityProgressBar.visibility= INVISIBLE
-                            Toast.makeText(this@LoginSignupActivity,it?.error,Toast.LENGTH_SHORT).show()
-                            Log.d("TAGError",it?.error.toString())
-                        }
+                    } else {  // Signup Request using Mobile Number (we are in Signup Toggle Button)
+                        val intent = Intent(this@LoginSignupActivity, SignupActivity::class.java)
+                        intent.putExtra("email", emailEditText.text.toString())
+                        intent.putExtra("password", passwordEditText.text.toString())
+                        startActivity(intent)
                     }
-                }
-
-                else{  // Signup Request using Mobile Number (we are in Signup Toggle Button)
-                    val intent=Intent(this@LoginSignupActivity, SignupActivity::class.java)
-                    intent.putExtra("email",emailEditText.text.toString())
-                    intent.putExtra("password",passwordEditText.text.toString())
-                    startActivity(intent)
                 }
 
             }
@@ -290,13 +318,13 @@ class LoginSignupActivity : AppCompatActivity() {
                 completedTask.getResult(ApiException::class.java)
 
             // Signed in successfully, show authenticated UI.
-            Log.d("googleSignin","I am in try block..")
+            Log.d("googleSignin", "I am in try block..")
             updateUI(account)
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("googleSignin", "signInResult:failed code=" + e.statusCode)
-            Log.d("googleSignin","I am in catch block..")
+            Log.d("googleSignin", "I am in catch block..")
             updateUI(null)
         }
     }
@@ -307,7 +335,11 @@ class LoginSignupActivity : AppCompatActivity() {
 //                signInButton?.visibility = View.VISIBLE
 //
 //            }
-            Toast.makeText(this,"Something Went Wrong. Please try again later.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Something Went Wrong. Please try again later.",
+                Toast.LENGTH_SHORT
+            ).show()
         } else {
             _binding?.apply {
 //                signInButton?.visibility = View.GONE
@@ -318,25 +350,51 @@ class LoginSignupActivity : AppCompatActivity() {
                     account.photoUrl.toString()
                 )
 
-                authViewModel.respNewImageGoogle.observe({lifecycle}){
-                    if(it?.token!=null && it.success!!){
-                        Toast.makeText(this@LoginSignupActivity,it.message, Toast.LENGTH_SHORT).show()
-                        val intent=Intent(this@LoginSignupActivity, PropertiesActivity::class.java)
+                authViewModel.respNewImageGoogle.observe({ lifecycle }) {
+                    if (it?.token != null && it.success!!) {
+                        Toast.makeText(this@LoginSignupActivity, it.message, Toast.LENGTH_SHORT)
+                            .show()
+                        val intent =
+                            Intent(this@LoginSignupActivity, PropertiesActivity::class.java)
                         startActivity(intent)
-                    }
-                    else if(it?.token==null && it?.user==null && it?.success!!){
-                        Toast.makeText(this@LoginSignupActivity,it.message,Toast.LENGTH_SHORT).show()
-                        val intent=Intent(this@LoginSignupActivity, SignupGoogleActivity::class.java)
-                        intent.putExtra("emailgoogle",account.email.toString())
+                    } else if (it?.token == null && it?.user == null && it?.success!!) {
+                        Toast.makeText(this@LoginSignupActivity, it.message, Toast.LENGTH_SHORT)
+                            .show()
+                        val intent =
+                            Intent(this@LoginSignupActivity, SignupGoogleActivity::class.java)
+                        intent.putExtra("emailgoogle", account.email.toString())
                         startActivity(intent)
-                    }
-                    else{
-                        Toast.makeText(this@LoginSignupActivity,it.error,Toast.LENGTH_SHORT).show()
-                        Log.d("errorGoogleLogin",it.error.toString())
+                    } else {
+                        Toast.makeText(this@LoginSignupActivity, it.error, Toast.LENGTH_SHORT)
+                            .show()
+                        Log.d("errorGoogleLogin", it.error.toString())
                     }
                 }
             }
         }
+    }
+
+    private fun validations(): Boolean {
+        _binding?.apply {
+            if (emailEditText.text.toString() == null || emailEditText.text.toString() == "" || !Patterns.EMAIL_ADDRESS.matcher(
+                    emailEditText.text.toString()
+                ).matches()
+            ) {
+                emailTextInputLayout.error = "Please fill your email properly"
+                return false
+            } else if (passwordEditText.text.toString() === null || passwordEditText.text.toString() == "" || passwordEditText.length() < 6) {
+                passwordTextInputLayout.error = "Please input password of atleast 5 characters"
+                return false
+            } else if (confirmPasswordTextInputLayout.visibility == View.VISIBLE) {
+                if (passwordConfirmEditText.text.toString() == null || passwordConfirmEditText.text.toString() == "" || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()) {
+                    confirmPasswordTextInputLayout.error = "Password doesn't match"
+                    return false
+                }
+            } else {
+                return true
+            }
+        }
+        return false
     }
 
 }
