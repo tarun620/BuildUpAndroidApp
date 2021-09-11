@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -12,7 +15,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.edit
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
+import com.example.api.BuildUpClient
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityLoginSignupBinding
@@ -34,11 +39,12 @@ class LoginSignupActivity : AppCompatActivity() {
 
     //    private var _binding: ActivityLoginBinding?=null
     private var _binding: ActivityLoginSignupBinding? = null
-    private var isLOGIN = false
+    private var isLOGIN = true
     lateinit var authViewModel: AuthViewModel
     private var token: String? = null
     private lateinit var sharedPrefrences: SharedPreferences
     private var RC_SIGN_IN = 123
+    private var doubleBackToExitPressedOnce = false
     private var isEmailValid = false
     private var isMobileNoValid = false
     private var isPasswordValid = false
@@ -63,9 +69,7 @@ class LoginSignupActivity : AppCompatActivity() {
         //AUTO LOGIN USING SAVED INSTANCE OF LOGIN CREDENTIALS IN SHARED PREFERENCES
 
 //        token=sharedPrefrences.getString("token",null)
-//        Log.d("TAGGettingSPOutside",token.toString())
 //        if(token!=null){
-//            Log.d("TAGGettingSPInside", token.toString())
 //            BuildUpClient.authToken=token
 //            val intent=Intent(this,PropertiesActivity::class.java)
 //            startActivity(intent)
@@ -83,38 +87,20 @@ class LoginSignupActivity : AppCompatActivity() {
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
-        //validate email , mobile number , password, confirm passowrd
-
-//        _binding?.SignUpButton?.isEnabled=false
-//        setValidationsSignUp()
 
         _binding?.apply {
 
-            forgetPasswordTextview.visibility = View.GONE
+            defaultLoginToggle()
 
             LoginButtonToggle.setOnClickListener {
-                isLOGIN = true
-                confirmPasswordTextInputLayout.visibility = View.GONE
-                forgetPasswordTextview.visibility = VISIBLE
-                SignUpButton.text = "Sign In"
-                emailTextInputLayout.hint = "Mobile Number"
-//                emailEditText.hint="Mobile Number"
-                emailEditText.text?.clear()
-                passwordEditText.text!!.clear()
-                SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
-                SignupButtonToggle.setTextColor(resources.getColor(R.color.black))
-                LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
-                LoginButtonToggle.setTextColor(resources.getColor(R.color.white))
-
-                var layoutparams: ConstraintLayout.LayoutParams =
-                    forgetPasswordTextview.layoutParams as ConstraintLayout.LayoutParams
-                layoutparams.topToBottom = passwordTextInputLayout.id
-                layoutparams.endToEnd = passwordTextInputLayout.id
-                forgetPasswordTextview.layoutParams = layoutparams
+                defaultLoginToggle()
             }
 
             SignupButtonToggle.setOnClickListener {
                 isLOGIN = false
+                emailTextInputLayout.error=null
+                passwordTextInputLayout.error=null
+                confirmPasswordTextInputLayout.error=null
                 confirmPasswordTextInputLayout.visibility = VISIBLE
                 forgetPasswordTextview.visibility = View.GONE
                 SignUpButton.text = "Sign Up"
@@ -122,90 +108,14 @@ class LoginSignupActivity : AppCompatActivity() {
                 SignupButtonToggle.setTextColor(resources.getColor(R.color.white))
                 LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
                 LoginButtonToggle.setTextColor(resources.getColor(R.color.black))
-
-
-//                emailEditText.hint="Email"
                 emailTextInputLayout.hint = "Email"
                 emailEditText.text?.clear()
                 passwordEditText.text!!.clear()
             }
 
             SignUpButton.setOnClickListener {
-//                loginActivityProgressBar.visibility=VISIBLE
-//                val call=api.login(LoginData( mobileNoEditText.text.toString(),passwordEditText.text.toString()))
-//                call.enqueue(object : retrofit2.Callback<LoginResponse>{
-//                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-//                        Toast.makeText(this@LoginActivity,"Login Failure: ${t.message}",Toast.LENGTH_SHORT).show()
-//
-//                    }
-//
-//                    override fun onResponse(
-//                        call: Call<LoginResponse>,
-//                        response: Response<LoginResponse>
-//                    ) {
-//
-//                        //PASSED
-////                        if(!response.isSuccessful){
-////                            val gson = Gson()
-////                            val type = object : TypeToken<APIError>() {}.type
-////                            var errorResponse: APIError = gson.fromJson(response.errorBody()!!.charStream(), type)
-////                            Toast.makeText(this@LoginActivity,errorResponse.error,Toast.LENGTH_SHORT).show()
-////                        }
-//
-//                        //PASSED
-////                        if (!response.isSuccessful) {
-////                            val error = StringBuilder()
-////                            try {
-////                                var bufferedReader: BufferedReader? = null
-////                                if (response.errorBody() != null) {
-////                                    bufferedReader = BufferedReader(InputStreamReader(
-////                                            response.errorBody()!!.byteStream()))
-////                                    var eLine: String? = null
-////                                    while (bufferedReader.readLine().also({ eLine = it }) != null) {
-////                                        error.append(eLine)
-////                                    }
-////                                    bufferedReader.close()
-////                                }
-////                            } catch (e: Exception) {
-//////                                error.append(e.message)
-////                            }
-////                            Log.e("Error", error.toString())
-////                            val jObjError = JSONObject(error.toString())
-////                            var errorMessage=jObjError.getString("error")
-////                            Toast.makeText(this@LoginActivity,errorMessage,Toast.LENGTH_SHORT).show()
-////                        }
-//
-//
-//
-//
-//                        //PASSED
-////                        if (response.isSuccessful) {
-////                            // Do your success stuff...
-////                        } else {
-////                            try {
-////                                val jObjError = JSONObject(response.errorBody()!!.string())
-////                                var errorMessage=jObjError.getJSONObject("error").getString("message")
-////                                errorMessage= errorMessage.substringAfter("Value")
-////                                errorMessage=errorMessage?.substringBefore(" at")
-////                                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
-////                                Log.d("LoginActivity",errorMessage)
-////                            } catch (e: Exception) {
-////                                var errorMessage=e.message
-////                                errorMessage=errorMessage?.substringAfter("Value ")
-////                                errorMessage=errorMessage?.substringBefore(" at")
-////                                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
-////                                Log.d("LoginActivity",e.message.toString())
-////
-////                            }
-////                        }
-//                    }
-//                })
-
-
-//authviewmodel way-initial way
-
-                if (validations()) {
-                    if (isLOGIN) {  // Login request ( we are in login toggle button)
+                if (isLOGIN) { // Login request ( we are in login toggle button)
+                    if(validationSignIn()){
                         authViewModel.login(
                             emailEditText.text.toString(),
                             passwordEditText.text.toString()
@@ -216,43 +126,24 @@ class LoginSignupActivity : AppCompatActivity() {
                                 Log.d("TAGTokenOutside", it.token.toString())
                                 it.token?.let { t ->
                                     sharedPrefrences.edit {
-//                                putString(PREFS_KEY_TOKEN,t)
                                         putString("token", t)
-                                        Log.d(
-                                            "TAGSettingSP",
-                                            sharedPrefrences.getString("token", null).toString()
-                                        )
-//                                Log.d("TAGSettingSP", PREFS_KEY_TOKEN)
                                     }
                                 } ?: run {                       //     ?: IS CALLED ELVIS OPERATOR
                                     sharedPrefrences.edit {
                                         remove("token")
                                     }
                                 }
-
-                                Log.d("TAGSuccess", it.message.toString())
-//                        loginActivityProgressBar.visibility= INVISIBLE
-                                Toast.makeText(
-                                    this@LoginSignupActivity,
-                                    it.message,
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                                val intent =
-                                    Intent(this@LoginSignupActivity, PropertiesActivity::class.java)
+                                val intent = Intent(this@LoginSignupActivity, PropertiesActivity::class.java)
                                 startActivity(intent)
-                            } else {
-//                        loginActivityProgressBar.visibility= INVISIBLE
-                                Toast.makeText(
-                                    this@LoginSignupActivity,
-                                    it?.error,
-                                    Toast.LENGTH_SHORT
-                                )
-                                    .show()
-                                Log.d("TAGError", it?.error.toString())
+                            }
+                            else {
+                                Toast.makeText(this@LoginSignupActivity, it?.error, Toast.LENGTH_SHORT).show()
                             }
                         }
-                    } else {  // Signup Request using Mobile Number (we are in Signup Toggle Button)
+                    }
+
+                } else { // Signup Request using Mobile Number (we are in Signup Toggle Button)
+                    if(validationSignUp()){
                         val intent = Intent(this@LoginSignupActivity, SignupActivity::class.java)
                         intent.putExtra("email", emailEditText.text.toString())
                         intent.putExtra("password", passwordEditText.text.toString())
@@ -269,38 +160,6 @@ class LoginSignupActivity : AppCompatActivity() {
             }
         }
     }
-
-//    private fun setValidationsLogin(){
-//    }
-//    private fun setValidationsSignUp(){
-//        _binding?.apply {
-//            if(emailEditText.text.toString().isNullOrBlank()){
-//                emailEditText.error="Email Cannot be Blank"
-//                isEmailValid = false;
-//            }
-//
-//            else if (!Patterns.EMAIL_ADDRESS.matcher(emailEditText.text.toString()).matches()) {
-//                emailEditText.error="Invalid Email"
-//                isEmailValid = false;
-//            }
-//            else  {
-//                isEmailValid = true;
-//            }
-//
-//            if (passwordEditText.text.toString().isEmpty()) {
-//                passwordEditText.error="Password Cannot be Empty"
-//                isPasswordValid = false;
-//            } else  {
-//                isPasswordValid = true;
-//            }
-//
-//            if (isEmailValid && isPasswordValid) {
-////                Toast.makeText(getApplicationContext(), "Successfully", Toast.LENGTH_SHORT).show();
-//                SignUpButton.isEnabled=true
-//            }
-//        }
-//
-//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -374,27 +233,168 @@ class LoginSignupActivity : AppCompatActivity() {
         }
     }
 
-    private fun validations(): Boolean {
+    private fun validationSignUp(): Boolean {
+        Log.d("loginSignupActivity","validations function triggered")
         _binding?.apply {
-            if (emailEditText.text.toString() == null || emailEditText.text.toString() == "" || !Patterns.EMAIL_ADDRESS.matcher(
-                    emailEditText.text.toString()
-                ).matches()
-            ) {
-                emailTextInputLayout.error = "Please fill your email properly"
+
+            emailTextInputLayout.error=null
+            passwordTextInputLayout.error=null
+            confirmPasswordTextInputLayout.error=null
+
+            if (emailEditText.text.toString().isNullOrBlank() || !Patterns.EMAIL_ADDRESS.matcher(emailEditText.text.toString()).matches()) {
+                emailTextInputLayout.error = "Please enter a valid email"
                 return false
-            } else if (passwordEditText.text.toString() === null || passwordEditText.text.toString() == "" || passwordEditText.length() < 6) {
-                passwordTextInputLayout.error = "Please input password of atleast 5 characters"
+            }
+            else if (passwordEditText.text.toString().isNullOrBlank() || passwordEditText.length() < 8) {
+                passwordTextInputLayout.error = "Please input password of atleast 8 characters"
                 return false
-            } else if (confirmPasswordTextInputLayout.visibility == View.VISIBLE) {
-                if (passwordConfirmEditText.text.toString() == null || passwordConfirmEditText.text.toString() == "" || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()) {
-                    confirmPasswordTextInputLayout.error = "Password doesn't match"
-                    return false
-                }
-            } else {
+            }
+            else if (passwordConfirmEditText.text.toString().isNullOrBlank() || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()) {
+                confirmPasswordTextInputLayout.error = "Password doesn't match"
+                return false
+            }
+            else {
                 return true
             }
         }
         return false
     }
 
+    private fun validationSignIn(): Boolean {
+
+        _binding?.apply {
+
+            emailTextInputLayout.error=null
+            passwordTextInputLayout.error=null
+
+            if (emailEditText.text.toString().isNullOrBlank() || emailEditText.text.toString().length!=10) {
+                emailTextInputLayout.error = "Please enter valid mobile number"
+                return false
+            }
+
+            else if (passwordEditText.text.toString().isNullOrBlank() || passwordEditText.length() < 8) {
+                passwordTextInputLayout.error = "Please input password of atleast 8 characters"
+                return false
+            }
+            else {
+                return true
+            }
+        }
+        return false
+    }
+
+    private fun defaultLoginToggle(){
+        isLOGIN = true
+        _binding?.apply {
+            emailTextInputLayout.error=null
+            passwordTextInputLayout.error=null
+            confirmPasswordTextInputLayout.visibility = View.GONE
+            forgetPasswordTextview.visibility = VISIBLE
+            SignUpButton.text = "Sign In"
+            emailTextInputLayout.hint = "Mobile Number"
+            emailEditText.text?.clear()
+            passwordEditText.text!!.clear()
+            SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
+            SignupButtonToggle.setTextColor(resources.getColor(R.color.black))
+            LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
+            LoginButtonToggle.setTextColor(resources.getColor(R.color.white))
+
+            var layoutparams: ConstraintLayout.LayoutParams =
+                forgetPasswordTextview.layoutParams as ConstraintLayout.LayoutParams
+            layoutparams.topToBottom = passwordTextInputLayout.id
+            layoutparams.endToEnd = passwordTextInputLayout.id
+            forgetPasswordTextview.layoutParams = layoutparams
+        }
+
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+//            return  //closes the current activity only
+            this.finishAffinity();   //closes the entire application
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+    }
+
+
+
 }
+
+
+// API ERROR HANDLING - alternate method
+
+
+//                loginActivityProgressBar.visibility=VISIBLE
+//                val call=api.login(LoginData( mobileNoEditText.text.toString(),passwordEditText.text.toString()))
+//                call.enqueue(object : retrofit2.Callback<LoginResponse>{
+//                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+//                        Toast.makeText(this@LoginActivity,"Login Failure: ${t.message}",Toast.LENGTH_SHORT).show()
+//
+//                    }
+//
+//                    override fun onResponse(
+//                        call: Call<LoginResponse>,
+//                        response: Response<LoginResponse>
+//                    ) {
+//
+//                        //PASSED
+////                        if(!response.isSuccessful){
+////                            val gson = Gson()
+////                            val type = object : TypeToken<APIError>() {}.type
+////                            var errorResponse: APIError = gson.fromJson(response.errorBody()!!.charStream(), type)
+////                            Toast.makeText(this@LoginActivity,errorResponse.error,Toast.LENGTH_SHORT).show()
+////                        }
+//
+//                        //PASSED
+////                        if (!response.isSuccessful) {
+////                            val error = StringBuilder()
+////                            try {
+////                                var bufferedReader: BufferedReader? = null
+////                                if (response.errorBody() != null) {
+////                                    bufferedReader = BufferedReader(InputStreamReader(
+////                                            response.errorBody()!!.byteStream()))
+////                                    var eLine: String? = null
+////                                    while (bufferedReader.readLine().also({ eLine = it }) != null) {
+////                                        error.append(eLine)
+////                                    }
+////                                    bufferedReader.close()
+////                                }
+////                            } catch (e: Exception) {
+//////                                error.append(e.message)
+////                            }
+////                            Log.e("Error", error.toString())
+////                            val jObjError = JSONObject(error.toString())
+////                            var errorMessage=jObjError.getString("error")
+////                            Toast.makeText(this@LoginActivity,errorMessage,Toast.LENGTH_SHORT).show()
+////                        }
+//
+//
+//
+//
+//                        //PASSED
+////                        if (response.isSuccessful) {
+////                            // Do your success stuff...
+////                        } else {
+////                            try {
+////                                val jObjError = JSONObject(response.errorBody()!!.string())
+////                                var errorMessage=jObjError.getJSONObject("error").getString("message")
+////                                errorMessage= errorMessage.substringAfter("Value")
+////                                errorMessage=errorMessage?.substringBefore(" at")
+////                                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
+////                                Log.d("LoginActivity",errorMessage)
+////                            } catch (e: Exception) {
+////                                var errorMessage=e.message
+////                                errorMessage=errorMessage?.substringAfter("Value ")
+////                                errorMessage=errorMessage?.substringBefore(" at")
+////                                Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_LONG).show()
+////                                Log.d("LoginActivity",e.message.toString())
+////
+////                            }
+////                        }
+//                    }
+//                })
