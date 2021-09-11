@@ -11,7 +11,7 @@ import com.example.buildup.databinding.ActivityAddPropertyBinding
 class AddPropertyActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityAddPropertyBinding
     private lateinit var authViewModel: AuthViewModel
-    private  var addressType: String = ""
+    private  var addressType: String = "Home"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_add_property)

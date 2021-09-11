@@ -1,5 +1,6 @@
 package com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +9,8 @@ import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.View.*
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -376,9 +379,7 @@ class LoginSignupActivity : AppCompatActivity() {
 
     private fun validations(): Boolean {
         _binding?.apply {
-            if (emailEditText.text.toString() == null || emailEditText.text.toString() == "" || !Patterns.EMAIL_ADDRESS.matcher(
-                    emailEditText.text.toString()
-                ).matches()
+            if (emailEditText.text.toString() == null || emailEditText.text.toString() == ""
             ) {
                 emailTextInputLayout.error = "Please fill your email properly"
                 return false
@@ -396,5 +397,7 @@ class LoginSignupActivity : AppCompatActivity() {
         }
         return false
     }
+
+
 
 }
