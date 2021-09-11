@@ -28,6 +28,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.internal.Objects
 import com.google.android.gms.tasks.Task
 
 
@@ -37,7 +38,6 @@ class LoginSignupActivity : AppCompatActivity() {
         var PREFS_KEY_TOKEN = "token"
     }
 
-    //    private var _binding: ActivityLoginBinding?=null
     private var _binding: ActivityLoginSignupBinding? = null
     private var isLOGIN = true
     lateinit var authViewModel: AuthViewModel
@@ -45,22 +45,15 @@ class LoginSignupActivity : AppCompatActivity() {
     private lateinit var sharedPrefrences: SharedPreferences
     private var RC_SIGN_IN = 123
     private var doubleBackToExitPressedOnce = false
-    private var isEmailValid = false
-    private var isMobileNoValid = false
-    private var isPasswordValid = false
-    private var isConfirmPasswordValid = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_login)
-
-//        _binding= ActivityLoginBinding.inflate(layoutInflater)
         _binding = ActivityLoginSignupBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
         setContentView(_binding?.root)
-
 
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.hide();
@@ -141,6 +134,9 @@ class LoginSignupActivity : AppCompatActivity() {
                             }
                         }
                     }
+                    else{
+                        Toast.makeText(this@LoginSignupActivity,"Please fill all required fields correctly",Toast.LENGTH_SHORT).show()
+                    }
 
                 } else { // Signup Request using Mobile Number (we are in Signup Toggle Button)
                     if(validationSignUp()){
@@ -148,6 +144,9 @@ class LoginSignupActivity : AppCompatActivity() {
                         intent.putExtra("email", emailEditText.text.toString())
                         intent.putExtra("password", passwordEditText.text.toString())
                         startActivity(intent)
+                    }
+                    else{
+                        Toast.makeText(this@LoginSignupActivity,"Please fill all required fields correctly",Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -267,7 +266,7 @@ class LoginSignupActivity : AppCompatActivity() {
             emailTextInputLayout.error=null
             passwordTextInputLayout.error=null
 
-            if (emailEditText.text.toString().isNullOrBlank() || emailEditText.text.toString().length!=10) {
+            if (emailEditText.text.toString().isNullOrBlank() || emailEditText.text.toString().length<10) {
                 emailTextInputLayout.error = "Please enter valid mobile number"
                 return false
             }

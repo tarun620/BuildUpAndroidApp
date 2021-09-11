@@ -31,25 +31,45 @@ class SignupGoogleActivity : AppCompatActivity() {
         }
 
         val emailGoogle:String?=intent.getStringExtra("emailgoogle")
-        Toast.makeText(this,"this is "+emailGoogle,Toast.LENGTH_SHORT).show()
 
-            _binding?.sendOTPButton?.setOnClickListener {
-            authViewModel.signupGoogleSaveMobile(_binding?.mobileEditText?.text.toString(),emailGoogle!!)
+        _binding?.sendOTPButton?.setOnClickListener {
+            if(validationMobileNumber()){
+                authViewModel.signupGoogleSaveMobile(_binding?.mobileEditText?.text.toString(),emailGoogle!!)
 
-            authViewModel.resp.observe({lifecycle}){
-                if(it?.success!!){
-                    Toast.makeText(this,"Otp Sent Successfully,Please check your inbox..",Toast.LENGTH_SHORT).show()
-                    val intent= Intent(this, OtpActivity::class.java)
-                    intent.putExtra("mobileNoGoogle",_binding?.mobileEditText?.text.toString())
-                    intent.putExtra("emailGoogle",emailGoogle)
-                    startActivity(intent)
-                }
-                else{
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-                    Log.d("errorSignupGoogle",it.error.toString())
+                authViewModel.resp.observe({lifecycle}){
+                    if(it?.success!!){
+                        Toast.makeText(this,"Otp Sent Successfully,Please check your inbox..",Toast.LENGTH_SHORT).show()
+                        val intent= Intent(this, OtpActivity::class.java)
+                        intent.putExtra("mobileNoGoogle",_binding?.mobileEditText?.text.toString())
+                        intent.putExtra("emailGoogle",emailGoogle)
+                        startActivity(intent)
+                    }
+                    else{
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                        Log.d("errorSignupGoogle",it.error.toString())
+                    }
                 }
             }
+            else{
+                Toast.makeText(this,"Please fill all required fields correctly",Toast.LENGTH_SHORT).show()
+            }
         }
+    }
+
+    private fun validationMobileNumber(): Boolean {
+
+        _binding?.apply {
+
+            mobileTextInputLayout.error=null
+            if (mobileEditText.text.toString().isNullOrBlank() || mobileEditText.text.toString().length<10) {
+                mobileTextInputLayout.error = "Please enter valid mobile number"
+                return false
+            }
+            else {
+                return true
+            }
+        }
+        return false
     }
 
 
