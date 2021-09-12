@@ -46,6 +46,7 @@ class LoginSignupActivity : AppCompatActivity() {
     private var isMobileNoValid = false
     private var isPasswordValid = false
     private var isConfirmPasswordValid = false
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
