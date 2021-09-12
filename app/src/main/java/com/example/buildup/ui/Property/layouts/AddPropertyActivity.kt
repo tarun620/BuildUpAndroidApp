@@ -7,11 +7,12 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityAddPropertyBinding
+import com.example.buildup.ui.Property.adapters.PropertyAdapter
 
 class AddPropertyActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityAddPropertyBinding
     private lateinit var authViewModel: AuthViewModel
-    private  var addressType: String = ""
+    private  var addressType: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_add_property)
@@ -25,19 +26,19 @@ class AddPropertyActivity : AppCompatActivity() {
         }
 
         _binding?.apply {
-
             radioTypeGroup.setOnCheckedChangeListener { group, checkedId ->
                 if (checkedId == radioHome.id) {
-                    addressType == radioHome.text.toString()
+                    addressType = "Home"
                 } else if (checkedId == radioWork.id) {
-                    addressType == radioWork.text.toString()
+                    addressType = "Work"
                 }
             }
+
             submitButton.setOnClickListener {
                 if (validation()) {
                     authViewModel.addProperty(
                         etName.text.toString(),
-                        addressType,
+                        addressType!!,
                         etHouseNo.text.toString(),
                         etColony.text.toString(),
                         etCity.text.toString(),
@@ -63,44 +64,50 @@ class AddPropertyActivity : AppCompatActivity() {
 
     private fun validation(): Boolean {
         _binding.apply {
+            etFullNameLayout.error = null
+            etPincodeLayout.error = null
+            etStateLayout.error = null
+            etCityLayout.error = null
+            etHousNoLayout.error = null
+            etColonyLayout.error = null
             if (etName.text.toString() == null || etName.text.toString() == "") {
-                etFullNameLayout.error = "Please fill Full name"
+                etFullNameLayout.error = "Please Fill Full Name"
                 etFullNameLayout.requestFocus()
                 return false
-            }else if (etPincode.text.toString() == null || etPincode.text.toString() == ""|| etPincode.text.toString().length!=6) {
-                etPincodeLayout.error = "Please fill Pincode properly"
+            } else if (etPincode.text.isNullOrBlank() || etPincode.text.toString().length < 6) {
+                etPincodeLayout.error = "Enter Pincode"
                 etPincodeLayout.requestFocus()
 
                 return false
-            } else if (etState.text.toString() == null || etState.text.toString() == "") {
-                etStateLayout.error = "Please fill State"
+            } else if (etState.text.isNullOrBlank()) {
+                etStateLayout.error = "Please Fill State"
                 etStateLayout.requestFocus()
 
                 return false
-            } else if (etCity.text.toString() == null || etCity.text.toString() == "") {
-                etCityLayout.error = "Please fill City"
+            } else if (etCity.text.isNullOrBlank()) {
+                etCityLayout.error = "Please Fill City"
                 etCityLayout.requestFocus()
 
                 return false
-            } else if (etHouseNo.text.toString() == null || etHouseNo.text.toString() == "") {
-                etHousNoLayout.error = "Please fill House no"
+            } else if (etHouseNo.text.toString().isNullOrBlank()) {
+                etHousNoLayout.error = "Please Fill House Number"
                 etHousNoLayout.requestFocus()
                 return false
-            }  else if (etColony.text.toString() == null || etColony.text.toString() == "") {
-                etColonyLayout.error = "Please fill Colony"
+            } else if (etColony.text.toString().isNullOrBlank()) {
+                etColonyLayout.error = "Please Fill Colony"
                 etColonyLayout.requestFocus()
-
                 return false
-            } else if (addressType == "") {
+            } else if (addressType.isNullOrBlank()) {
                 Toast.makeText(
                     this@AddPropertyActivity,
-                    "Please select Address Type",
+                    "Please Select Address Type",
                     Toast.LENGTH_SHORT
                 ).show()
                 return false
-            }  else {
+            } else {
                 return true
             }
         }
     }
+
 }

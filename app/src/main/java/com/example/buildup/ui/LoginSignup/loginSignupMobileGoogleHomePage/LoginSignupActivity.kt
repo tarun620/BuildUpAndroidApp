@@ -116,7 +116,6 @@ class LoginSignupActivity : AppCompatActivity() {
 
                         authViewModel.respNewImage.observe({ lifecycle }) {
                             if (it?.token != null && it.success!!) {
-                                Log.d("TAGTokenOutside", it.token.toString())
                                 it.token?.let { t ->
                                     sharedPrefrences.edit {
                                         putString("token", t)
@@ -242,14 +241,17 @@ class LoginSignupActivity : AppCompatActivity() {
 
             if (emailEditText.text.toString().isNullOrBlank() || !Patterns.EMAIL_ADDRESS.matcher(emailEditText.text.toString()).matches()) {
                 emailTextInputLayout.error = "Please enter a valid email"
+                emailTextInputLayout.requestFocus()
                 return false
             }
             else if (passwordEditText.text.toString().isNullOrBlank() || passwordEditText.length() < 8) {
                 passwordTextInputLayout.error = "Please input password of atleast 8 characters"
+                passwordTextInputLayout.requestFocus()
                 return false
             }
             else if (passwordConfirmEditText.text.toString().isNullOrBlank() || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()) {
                 confirmPasswordTextInputLayout.error = "Password doesn't match"
+                confirmPasswordTextInputLayout.requestFocus()
                 return false
             }
             else {
@@ -268,11 +270,13 @@ class LoginSignupActivity : AppCompatActivity() {
 
             if (emailEditText.text.toString().isNullOrBlank() || emailEditText.text.toString().length<10) {
                 emailTextInputLayout.error = "Please enter valid mobile number"
+                emailTextInputLayout.requestFocus()
                 return false
             }
 
             else if (passwordEditText.text.toString().isNullOrBlank() || passwordEditText.length() < 8) {
                 passwordTextInputLayout.error = "Please input password of atleast 8 characters"
+                passwordTextInputLayout.requestFocus()
                 return false
             }
             else {

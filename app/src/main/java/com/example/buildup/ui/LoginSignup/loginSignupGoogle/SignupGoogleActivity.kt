@@ -63,6 +63,7 @@ class SignupGoogleActivity : AppCompatActivity() {
             mobileTextInputLayout.error=null
             if (mobileEditText.text.toString().isNullOrBlank() || mobileEditText.text.toString().length<10) {
                 mobileTextInputLayout.error = "Please enter valid mobile number"
+                mobileTextInputLayout.requestFocus()
                 return false
             }
             else {

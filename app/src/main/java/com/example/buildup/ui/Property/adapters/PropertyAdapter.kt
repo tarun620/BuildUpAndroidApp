@@ -42,9 +42,17 @@ class PropertyAdapter(val onPropertyClicked:(propertyId:String?)->Unit) : ListAd
             val property=getItem(position)
 
             tvPropertyName.text=property.name
-            tvPropertyLatestUpdate.text=property.latestUpdate?.description
-            tvPropertyETA.text= "ETA" +" : "+ property.eta?.value.toString()+" "+property.eta?.unit
-            var progress=((property.completed!!)*100)/6
+            if(!property?.latestUpdate?.description.isNullOrBlank())
+                if(property?.latestUpdate?.description?.length!!>15)
+                    tvPropertyLatestUpdate.text=property.latestUpdate?.description!!.substring(0,15) + " " + ". . ."
+                else
+                    tvPropertyLatestUpdate.text=property.latestUpdate?.description
+            if(property.eta!=null)
+                tvPropertyETA.text= "ETA" +" : "+ property.eta?.value.toString()+" "+property.eta?.unit
+            var progress=0
+            if(property.completed!=null){
+                progress=((property.completed!!)*100)/6
+            }
             propertyProgress.progress=progress
             tvProgress.text= abs(progress).toString() + "%"
             root.setOnClickListener { onPropertyClicked(property.id) }

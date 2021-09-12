@@ -68,6 +68,7 @@ class PropertiesActivity : AppCompatActivity() {
             if(it?.success!!){
 //                Log.d("completed", it.properties?.get(0)?.completed.toString())
                 Toast.makeText(this,"property fetching successful",Toast.LENGTH_SHORT).show()
+                Log.d("propertiesActivity",it.properties?.size.toString())
                 propertyAdapter.submitList(it.properties)
             }
             else{

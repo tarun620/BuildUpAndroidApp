@@ -79,9 +79,11 @@ class SignupActivity : AppCompatActivity() {
 
             if(nameEditText.text.toString().isNullOrBlank() || !nameEditText.text?.matches(regex)!!){
                 nameTextInputLayout.error= "Please enter Valid Name"
+                nameTextInputLayout.requestFocus()
             }
             else if (mobileEditText.text.toString().isNullOrBlank() || mobileEditText.text.toString().length<10) {
                 mobileTextInputLayout.error = "Please enter valid mobile number"
+                mobileTextInputLayout.requestFocus()
                 return false
             }
             else {

@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.util.TypedValue
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
+import com.example.buildup.R
 import com.example.buildup.databinding.ActivityOtpBinding
 import com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity

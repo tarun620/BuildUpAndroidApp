@@ -63,10 +63,12 @@ class SignupGoogleFinalProfileActivity : AppCompatActivity() {
 
             if (passwordEditText.text.toString().isNullOrBlank() || passwordEditText.length() < 8) {
                 passwordTextInputLayout.error = "Please input password of atleast 8 characters"
+                passwordTextInputLayout.requestFocus()
                 return false
             }
             else if (passwordConfirmEditText.text.toString().isNullOrBlank() || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()) {
                 confirmPasswordTextInputLayout.error = "Password doesn't match"
+                confirmPasswordTextInputLayout.requestFocus()
                 return false
             }
             else {
