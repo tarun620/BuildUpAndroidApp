@@ -2,8 +2,10 @@ package com.example.buildup.ui.Property.layouts
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -11,11 +13,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
+import com.example.buildup.R
 import com.example.buildup.databinding.ActivityAddPropertyBinding
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -28,6 +33,8 @@ class AddPropertyActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityAddPropertyBinding
     private lateinit var authViewModel: AuthViewModel
     private  var addressType: String = "Home"
+    private lateinit var dialog: Dialog
+
 
     private val REQUEST_CHECK_SETTINGS = 1000
     private lateinit var locationRequest: LocationRequest
@@ -81,7 +88,9 @@ class AddPropertyActivity : AppCompatActivity() {
             }
 
             locationButton.setOnClickListener{
+                showDialog()
                 turnOnGPS()
+
             }
 
 
@@ -260,6 +269,10 @@ class AddPropertyActivity : AppCompatActivity() {
 
                         currentAddress =
                             address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
+                        _binding.locationButton.text = currentAddress
+                        _binding.locationButton.setBackgroundColor(resources.getColor(R.color.textGrey))
+
+                        hideDialog()
 
                         Log.d("Location if", currentAddress)
 
@@ -316,6 +329,10 @@ class AddPropertyActivity : AppCompatActivity() {
                                     address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
 
                                 Log.d("Location else", currentAddress)
+                                _binding.locationButton.text = currentAddress
+                                _binding.locationButton.setBackgroundColor(resources.getColor(R.color.textGrey))
+
+                                hideDialog()
 
 //                                startAddPostActivity(currentAddress)
                             }
@@ -334,5 +351,25 @@ class AddPropertyActivity : AppCompatActivity() {
 
     fun removeLocationUpdates() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+    }
+
+    fun showDialog() {
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+
+        dialog.setContentView(R.layout.progress_bar_layout)
+        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawableResource(
+            android.R.color.transparent
+        )
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog.show()
+    }
+
+    fun hideDialog() {
+        dialog.dismiss()
     }
 }
