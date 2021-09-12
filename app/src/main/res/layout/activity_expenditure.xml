@@ -6,7 +6,7 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Expenditure.ExpenditureActivity">
+    tools:context=".ui.ExpenditureActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
 
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/propertyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Expenses and History"
@@ -36,7 +36,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3">
+                app:layout_constraintTop_toBottomOf="@+id/propertyName">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"

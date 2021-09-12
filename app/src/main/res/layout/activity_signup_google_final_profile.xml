@@ -10,7 +10,7 @@
         android:layout_height="0dp"
         android:scaleType="fitXY"
         android:src="@drawable/login_screen_bg"
-        app:layout_constraintBottom_toTopOf="@+id/passwordEditText"
+        app:layout_constraintBottom_toTopOf="@+id/passwordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="86dp"
         android:layout_marginTop="42dp"
-        android:tint="@color/white"
+        app:tint="@color/white"
         android:src="@drawable/home_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -59,46 +59,114 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordTextInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="64dp"
-        android:drawableEnd="@android:drawable/ic_menu_view"
-        android:fontFamily="@font/overpass"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:animateLayoutChanges="false"
         android:gravity="start"
         android:hint="Password"
-        android:inputType="textPassword"
         android:textColor="@color/textGrey"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/passwordConfirmEditText"
+        android:textColorHint="@color/textGrey"
+        android:textSize="18sp"
+        app:hintTextColor="@color/textGrey"
+        app:errorEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/confirmPasswordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/overpass"
+            android:gravity="start"
+            android:backgroundTint="@color/white"
+            android:inputType="textPassword"
+            android:textColor="@color/textGrey"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-    <EditText
-        android:id="@+id/passwordConfirmEditText"
-        android:layout_width="0dp"
+<!--    <EditText-->
+<!--        android:id="@+id/passwordTextInputLayout"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="64dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="64dp"-->
+<!--        android:drawableEnd="@android:drawable/ic_menu_view"-->
+<!--        android:fontFamily="@font/overpass"-->
+<!--        android:gravity="start"-->
+<!--        android:hint="Password"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:textColor="@color/textGrey"-->
+<!--        android:textSize="22sp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/passwordConfirmEditText"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/imageView3" />-->
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/confirmPasswordTextInputLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="64dp"
-        android:drawableEnd="@android:drawable/ic_menu_view"
-        android:fontFamily="@font/overpass"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:animateLayoutChanges="false"
         android:gravity="start"
         android:hint="Confirm Password"
-        android:inputType="textPassword"
         android:textColor="@color/textGrey"
-        android:textSize="22sp"
+        android:textColorHint="@color/textGrey"
+        android:textSize="18sp"
+        app:hintTextColor="@color/textGrey"
         app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout"
+        app:passwordToggleEnabled="true">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordConfirmEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/overpass"
+            android:gravity="start"
+            android:inputType="textPassword"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/textGrey"
+            android:textSize="18sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <EditText-->
+<!--        android:id="@+id/passwordConfirmEditText"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="64dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="64dp"-->
+<!--        android:drawableEnd="@android:drawable/ic_menu_view"-->
+<!--        android:fontFamily="@font/overpass"-->
+<!--        android:gravity="start"-->
+<!--        android:hint="Confirm Password"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:textColor="@color/textGrey"-->
+<!--        android:textSize="22sp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/sign_in_button"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />-->
 
 
     <com.google.android.material.button.MaterialButton
@@ -117,7 +185,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTextInputLayout" />
 
 
     <ImageView

@@ -13,13 +13,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityPropertiesBinding
-import com.example.buildup.databinding.HomeFragmentBinding
 import com.example.buildup.ui.Property.adapters.PropertyAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class PropertiesActivity : AppCompatActivity() {
 //    private lateinit var _binding:ActivityPropertiesBinding
-    private lateinit var _binding:HomeFragmentBinding
+    private lateinit var _binding:ActivityPropertiesBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var propertyAdapter: PropertyAdapter
     lateinit var swipeRefreshLayout:SwipeRefreshLayout
@@ -31,7 +30,7 @@ class PropertiesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_logged_in)
 
-        _binding= HomeFragmentBinding.inflate(layoutInflater)
+        _binding= ActivityPropertiesBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         propertyAdapter= PropertyAdapter{openProperty(it)}
 

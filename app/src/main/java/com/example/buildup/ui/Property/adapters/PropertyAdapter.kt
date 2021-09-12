@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responses.property.propertyResponses.PropertyResponse
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemPropertyBinding
-import com.example.buildup.databinding.ListItemPropertyBinding
 import kotlin.math.abs
 
 class PropertyAdapter(val onPropertyClicked:(propertyId:String?)->Unit) : ListAdapter<PropertyResponse, PropertyAdapter.PropertyViewHolder>(
