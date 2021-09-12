@@ -19,7 +19,7 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             android:id="@+id/titleText"
-            android:fontFamily="@font/overpass"
+            android:fontFamily="@font/rancho"
             android:gravity="center"
             android:text="Successfully \n Verified"
             android:layout_width="wrap_content"

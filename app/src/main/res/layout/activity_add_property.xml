@@ -28,7 +28,7 @@
         app:layout_constraintStart_toEndOf="@id/back_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/etFullNameLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
@@ -38,10 +38,10 @@
         android:layout_marginEnd="24dp"
         android:hint="Full Name"
         app:boxCornerRadiusBottomEnd="12dp"
-        app:errorEnabled="true"
         app:boxCornerRadiusBottomStart="12dp"
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusTopStart="12dp"
+        app:errorEnabled="true"
         app:hintAnimationEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,12 +71,12 @@
         app:boxCornerRadiusTopEnd="12dp"
         app:boxCornerRadiusTopStart="12dp"
         app:hintAnimationEnabled="true"
-        app:layout_constraintEnd_toStartOf="@+id/materialButton"
+        app:layout_constraintEnd_toStartOf="@+id/locationButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etFullNameLayout">
 
-            <com.google.android.material.textfield.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_pincode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -88,19 +88,44 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLayoutLocation"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:hint="Pincode*"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:hintAnimationEnabled="true"
+        app:layout_constraintEnd_toStartOf="@+id/locationButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etFullNameLayout">
+
+        <TextView
+            android:id="@+id/txtLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/materialButton"
+        android:id="@+id/locationButton"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="12dp"
-        app:cornerRadius="12dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
         android:backgroundTint="@color/orange_main"
         android:text="Use my current Location"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="12sp"
+        app:cornerRadius="12dp"
         app:icon="@drawable/add_location"
         app:layout_constraintBottom_toBottomOf="@+id/etPincodeLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -300,18 +325,18 @@
     </RadioGroup>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/submitButton"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:backgroundTint="@color/orange_main"
         android:text="Add"
-        android:id="@+id/submitButton"
-        android:textColor="@color/white"
         android:textAllCaps="false"
-        app:elevation="24dp"
+        android:textColor="@color/white"
         android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:elevation="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

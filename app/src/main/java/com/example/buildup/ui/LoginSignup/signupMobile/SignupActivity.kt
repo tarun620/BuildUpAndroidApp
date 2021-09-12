@@ -67,7 +67,6 @@ class SignupActivity : AppCompatActivity() {
             }
         }
 
-
     }
 
     private fun validationSignUp(): Boolean {
@@ -92,6 +91,8 @@ class SignupActivity : AppCompatActivity() {
         }
         return false
     }
+
+
 
 
 }

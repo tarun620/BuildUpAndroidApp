@@ -73,44 +73,38 @@ class OtpActivity : AppCompatActivity() {
     private fun verifyMobileNumberWithOTP(){
         _binding?.apply {
             submit.setOnClickListener {
-                if(validationOTP()){
-                    if(mobileNoGoogle.isNullOrBlank()){ // it means it is signup using mobile number not GOOGLE
-                        authViewModel.verifyOTP(mobileNoEditText!!,otpEditText.text.toString())
+                if(mobileNoGoogle.isNullOrBlank()){ // it means it is signup using mobile number not GOOGLE
+                    authViewModel.verifyOTP(mobileNoEditText!!,otpEditText.text.toString())
 
-                        authViewModel.resp.observe({lifecycle}){
-                            if(it?.success!!){
-                                Toast.makeText(this@OtpActivity,it.message,Toast.LENGTH_SHORT).show()
-                                completeProfile(nameEditText,emailEditText,mobileNoEditText,passwordEditText)
-                            }
-                            else{
-                                Toast.makeText(this@OtpActivity,it.error,Toast.LENGTH_SHORT).show()
-                                Log.d("errorOtp",it.error.toString())
-                            }
+                    authViewModel.resp.observe({lifecycle}){
+                        if(it?.success!!){
+                            Toast.makeText(this@OtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                            completeProfile(nameEditText,emailEditText,mobileNoEditText,passwordEditText)
                         }
-                    }
-
-                    else{  // it means it is a signup using mobile GOOGLE not Mobile Number .
-                        authViewModel.verifyOTP(mobileNoGoogle!!,otpEditText.text.toString())
-
-                        authViewModel.resp.observe({lifecycle}){
-                            if(it?.success!!){
-                                Toast.makeText(this@OtpActivity,it.message,Toast.LENGTH_SHORT).show()
-                                val intent=Intent(this@OtpActivity, SignupGoogleFinalProfileActivity::class.java)
-                                intent.putExtra("mobileNoGoogle",mobileNoGoogle)
-                                intent.putExtra("emailGoogle",emailGoogle)
-                                startActivity(intent)
-                            }
-                            else{
-                                Toast.makeText(this@OtpActivity,it.error,Toast.LENGTH_SHORT).show()
-
-                            }
+                        else{
+                            Toast.makeText(this@OtpActivity,it.error,Toast.LENGTH_SHORT).show()
+                            Log.d("errorOtp",it.error.toString())
                         }
                     }
                 }
-                else{
-                    Toast.makeText(this@OtpActivity,"Please fill all required fields correctly",Toast.LENGTH_SHORT).show()
-                }
 
+                else{  // it means it is a signup using mobile GOOGLE not Mobile Number .
+                    authViewModel.verifyOTP(mobileNoGoogle!!,otpEditText.text.toString())
+
+                    authViewModel.resp.observe({lifecycle}){
+                        if(it?.success!!){
+                            Toast.makeText(this@OtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                            val intent=Intent(this@OtpActivity, SignupGoogleFinalProfileActivity::class.java)
+                            intent.putExtra("mobileNoGoogle",mobileNoGoogle)
+                            intent.putExtra("emailGoogle",emailGoogle)
+                            startActivity(intent)
+                        }
+                        else{
+                            Toast.makeText(this@OtpActivity,it.error,Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
+                }
 
             }
         }
@@ -171,24 +165,9 @@ class OtpActivity : AppCompatActivity() {
         val seconds = (time_in_milli_seconds / 1000) % 60
 
         if(seconds.toString().length==1)
-            _binding?.timerText?.text = "$minute:0$seconds" + " " + "left"
+            _binding?.timerText?.text = "$minute:0$seconds"
         else
-            _binding?.timerText?.text = "$minute:$seconds" + " " + "left"
-    }
-
-    private fun validationOTP(): Boolean {
-        _binding?.apply {
-
-            otpTextInputLayout.error=null
-
-            if(otpEditText.text.toString().isNullOrBlank() || otpEditText.text.toString().length<4){
-                otpTextInputLayout.error= "Please enter Valid OTP"
-            }
-            else {
-                return true
-            }
-        }
-        return false
+            _binding?.timerText?.text = "$minute:$seconds"
     }
 
 
