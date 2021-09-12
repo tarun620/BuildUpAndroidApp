@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -77,27 +78,14 @@ class LoginSignupActivity : AppCompatActivity() {
 
         _binding?.apply {
 
-            defaultLoginToggle()
+            loginToggle()
 
             LoginButtonToggle.setOnClickListener {
-                defaultLoginToggle()
+                loginToggle()
             }
 
             SignupButtonToggle.setOnClickListener {
-                isLOGIN = false
-                emailTextInputLayout.error=null
-                passwordTextInputLayout.error=null
-                confirmPasswordTextInputLayout.error=null
-                confirmPasswordTextInputLayout.visibility = VISIBLE
-                forgetPasswordTextview.visibility = View.GONE
-                SignUpButton.text = "Sign Up"
-                SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
-                SignupButtonToggle.setTextColor(resources.getColor(R.color.white))
-                LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
-                LoginButtonToggle.setTextColor(resources.getColor(R.color.black))
-                emailTextInputLayout.hint = "Email"
-                emailEditText.text?.clear()
-                passwordEditText.text!!.clear()
+                signupToggle()
             }
 
             SignUpButton.setOnClickListener {
@@ -280,9 +268,10 @@ class LoginSignupActivity : AppCompatActivity() {
         return false
     }
 
-    private fun defaultLoginToggle(){
+    private fun loginToggle(){
         isLOGIN = true
         _binding?.apply {
+            emailTextInputLayout.requestFocus()
             emailTextInputLayout.error=null
             passwordTextInputLayout.error=null
             confirmPasswordTextInputLayout.visibility = View.GONE
@@ -301,6 +290,27 @@ class LoginSignupActivity : AppCompatActivity() {
             layoutparams.topToBottom = passwordTextInputLayout.id
             layoutparams.endToEnd = passwordTextInputLayout.id
             forgetPasswordTextview.layoutParams = layoutparams
+        }
+
+    }
+
+    private fun signupToggle(){
+        isLOGIN = false
+        _binding?.apply {
+            emailTextInputLayout.requestFocus()
+            emailTextInputLayout.error=null
+            passwordTextInputLayout.error=null
+            confirmPasswordTextInputLayout.error=null
+            confirmPasswordTextInputLayout.visibility = VISIBLE
+            forgetPasswordTextview.visibility = View.GONE
+            SignUpButton.text = "Sign Up"
+            SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
+            SignupButtonToggle.setTextColor(resources.getColor(R.color.white))
+            LoginButtonToggle.setBackgroundColor(resources.getColor(R.color.white))
+            LoginButtonToggle.setTextColor(resources.getColor(R.color.black))
+            emailTextInputLayout.hint = "Email"
+            emailEditText.text?.clear()
+            passwordEditText.text!!.clear()
         }
 
     }

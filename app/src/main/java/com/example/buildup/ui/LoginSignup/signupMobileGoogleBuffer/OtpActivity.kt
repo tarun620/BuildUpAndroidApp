@@ -1,12 +1,16 @@
 package com.example.buildup.ui.LoginSignup.signupMobileGoogleBuffer
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.util.TypedValue
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +34,8 @@ class OtpActivity : AppCompatActivity() {
      var passwordEditText: String?=null
      var mobileNoGoogle: String?=null
      var emailGoogle: String?=null
+
+    private lateinit var dialog: Dialog
 
     var START_MILLI_SECONDS = 60000L
     lateinit var countdown_timer: CountDownTimer
@@ -88,16 +94,17 @@ class OtpActivity : AppCompatActivity() {
                     }
                 }
 
-                else{  // it means it is a signup using mobile GOOGLE not Mobile Number .
+                else{  // it means it is a signup using GOOGLE not Mobile Number .
                     authViewModel.verifyOTP(mobileNoGoogle!!,otpEditText.text.toString())
 
                     authViewModel.resp.observe({lifecycle}){
                         if(it?.success!!){
                             Toast.makeText(this@OtpActivity,it.message,Toast.LENGTH_SHORT).show()
-                            val intent=Intent(this@OtpActivity, SignupGoogleFinalProfileActivity::class.java)
-                            intent.putExtra("mobileNoGoogle",mobileNoGoogle)
-                            intent.putExtra("emailGoogle",emailGoogle)
-                            startActivity(intent)
+                            showDialog()
+//                            val intent=Intent(this@OtpActivity, SignupGoogleFinalProfileActivity::class.java)
+//                            intent.putExtra("mobileNoGoogle",mobileNoGoogle)
+//                            intent.putExtra("emailGoogle",emailGoogle)
+//                            startActivity(intent)
                         }
                         else{
                             Toast.makeText(this@OtpActivity,it.error,Toast.LENGTH_SHORT).show()
@@ -116,8 +123,9 @@ class OtpActivity : AppCompatActivity() {
         authViewModel.respNew.observe({lifecycle}){
             if(it?.token!=null && it.success!!){
                 Toast.makeText(this,it.message,Toast.LENGTH_SHORT).show()
-                val intent=Intent(this, PropertiesActivity::class.java)
-                startActivity(intent)
+                showDialog()
+//                val intent=Intent(this, PropertiesActivity::class.java)
+//                startActivity(intent)
             }
             else{
                 Toast.makeText(this,it?.error,Toast.LENGTH_SHORT).show()
@@ -168,6 +176,40 @@ class OtpActivity : AppCompatActivity() {
             _binding?.timerText?.text = "$minute:0$seconds"
         else
             _binding?.timerText?.text = "$minute:$seconds"
+    }
+
+    private fun showDialog() {
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+
+        dialog.setContentView(R.layout.asset_succes_dialog)
+        dialog.setCancelable(false)
+
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog.show()
+
+        if (mobileNoEditText == null) {
+
+            Handler().postDelayed({
+                dialog.dismiss()
+                val intent = Intent(
+                    this@OtpActivity,
+                    SignupGoogleFinalProfileActivity::class.java
+                )
+                intent.putExtra("mobileNoGoogle", mobileNoGoogle)
+                intent.putExtra("emailGoogle", emailGoogle)
+                startActivity(intent)
+            }, 3000)
+        } else {
+
+            Handler().postDelayed({
+                dialog.dismiss()
+                startActivity(Intent(this, PropertiesActivity::class.java))
+            }, 3000)
+        }
     }
 
 

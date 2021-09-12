@@ -29,11 +29,12 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import java.util.*
 import com.example.buildup.ui.Property.adapters.PropertyAdapter
+import com.google.android.gms.location.LocationRequest
 
 class AddPropertyActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityAddPropertyBinding
     private lateinit var authViewModel: AuthViewModel
-    private  var addressType: String = "Home"
+//    private  var addressType: String?=null
     private lateinit var dialog: Dialog
 
 
@@ -94,7 +95,6 @@ class AddPropertyActivity : AppCompatActivity() {
                 turnOnGPS()
 
             }
-
 
             authViewModel.resp.observe({ lifecycle }) {
                 if (it?.success!!) {
@@ -270,9 +270,9 @@ class AddPropertyActivity : AppCompatActivity() {
                         Log.e("atif(location != null)", "reached here")
 
                         val geoCoder = Geocoder(this@AddPropertyActivity, Locale.getDefault())
-                        val address: ArrayList<Address>? = geoCoder.getFromLocation(
+                        val address: MutableList<Address>? = geoCoder.getFromLocation(
                             location.latitude, location.longitude, 1
-                        ) as ArrayList<Address>?
+                        )
 
                         currentAddress =
                             address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
