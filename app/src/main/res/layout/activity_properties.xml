@@ -113,4 +113,19 @@
             android:src="@drawable/ic_add"/>
 
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:id="@+id/bottomNav"
+        app:elevation="10dp"
+        app:menu="@menu/bottom_menu"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/bottom_nav_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:itemRippleColor="@color/orange_main"
+        app:itemIconTint="#D3D3D3"
+        />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
