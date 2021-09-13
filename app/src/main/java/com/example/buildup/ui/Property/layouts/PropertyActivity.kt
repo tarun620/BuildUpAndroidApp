@@ -22,6 +22,7 @@ import com.example.buildup.ui.Updates.UpdatesActivity
 import com.example.buildup.ui.Updates.UpdatesAdapter
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.shuhart.stepview.StepView
+import java.util.*
 
 
 class PropertyActivity : AppCompatActivity() {
@@ -40,7 +41,6 @@ class PropertyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_property)
-
 
         _binding= PropertyLayoutBinding.inflate(layoutInflater)
         _bindingUpdates=ActivityUpdatesBinding.inflate(layoutInflater)
@@ -62,7 +62,10 @@ class PropertyActivity : AppCompatActivity() {
         val propertyId:String?=intent.getStringExtra("propertyId")
 
                 //PERSISTENT BOTTOM SHEET
-        val bottomSheet = findViewById<ConstraintLayout>(R.id.activity_updates)
+            BottomSheetBehavior.from(_binding.bottomSheet).apply {
+                peekHeight = 300
+                this.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
 
 //        getUpdates(propertyId!!)
 //        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)

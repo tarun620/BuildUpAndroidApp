@@ -276,8 +276,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
                         currentAddress =
                             address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
-                        _binding.locationButton.text = currentAddress
-                        _binding.locationButton.setBackgroundColor(resources.getColor(R.color.textGrey))
+
 
                         hideDialog()
 
