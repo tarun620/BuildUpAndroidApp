@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="0dp"
         android:id="@+id/appBar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
         android:background="@null"
         app:elevation="0dp"
-        android:layout_height="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,8 +21,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_collapseMode="pin"
             android:background="@null"
+            app:layout_collapseMode="pin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -52,25 +53,25 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/buttonNotification"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:src="@drawable/ic_notification"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toStartOf="@id/buttonProfile"-->
-<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/buttonNotification"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginEnd="16dp"-->
+                <!--                    android:src="@drawable/ic_notification"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintEnd_toStartOf="@id/buttonProfile"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
 
-<!--                <ImageView-->
-<!--                    android:id="@+id/buttonSearch"-->
-<!--                    android:src="@drawable/ic_search"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintEnd_toStartOf="@id/buttonNotification"-->
-<!--                    android:layout_marginEnd="16dp"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"/>-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/buttonSearch"-->
+                <!--                    android:src="@drawable/ic_search"-->
+                <!--                    app:layout_constraintTop_toTopOf="parent"-->
+                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                    app:layout_constraintEnd_toStartOf="@id/buttonNotification"-->
+                <!--                    android:layout_marginEnd="16dp"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"/>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -94,38 +95,74 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/propertyRecyclerView"
-        tools:listitem="@layout/item_property"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:itemCount="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_property" />
 
-        <ImageView
-            android:id="@+id/addPropertyButton"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_gravity="bottom"
+            app:fabCradleMargin="20dp"
+            android:backgroundTint="@color/orange_main"
+            app:fabCradleVerticalOffset="10dp"
+            app:fabCradleRoundedCornerRadius="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                app:itemIconTint="@color/white"
+                android:layout_marginEnd="16dp"
+                app:itemRippleColor="@color/white"
+                app:menu="@menu/bottom_menu" />
+
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_property_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/propertyRecyclerView"
-            android:src="@drawable/ic_add"/>
+            android:src="@android:drawable/ic_input_add"
+
+            android:backgroundTint="@color/orange_main"
+            app:tint="@android:color/white"
+            app:layout_anchor="@id/bottomAppBar" />
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:id="@+id/bottomNav"
-        app:elevation="10dp"
-        app:menu="@menu/bottom_menu"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/bottom_nav_bg"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:itemRippleColor="@color/orange_main"
-        app:itemIconTint="#D3D3D3"
-        />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+    <!--        android:id="@+id/bottomNavigationView"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        android:outlineSpotShadowColor="@color/textGrey"-->
+    <!--        app:elevation="12dp"-->
+    <!--        android:background="@drawable/bottom_nav"-->
+    <!--        app:itemIconTint="@color/white"-->
+    <!--        app:itemRippleColor="@color/white"-->
+    <!--        app:menu="@menu/bottom_menu" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

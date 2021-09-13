@@ -13,15 +13,18 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityPropertiesBinding
+import com.example.buildup.ui.CartActivity
+import com.example.buildup.ui.ProfileActivity
 import com.example.buildup.ui.Property.adapters.PropertyAdapter
+import com.example.buildup.ui.WishlistActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class PropertiesActivity : AppCompatActivity() {
-//    private lateinit var _binding:ActivityPropertiesBinding
-    private lateinit var _binding:ActivityPropertiesBinding
+    //    private lateinit var _binding:ActivityPropertiesBinding
+    private lateinit var _binding: ActivityPropertiesBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var propertyAdapter: PropertyAdapter
-    lateinit var swipeRefreshLayout:SwipeRefreshLayout
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private var doubleBackToExitPressedOnce = false
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
@@ -30,14 +33,16 @@ class PropertiesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_logged_in)
 
-        _binding= ActivityPropertiesBinding.inflate(layoutInflater)
-        authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
-        propertyAdapter= PropertyAdapter{openProperty(it)}
+        _binding = ActivityPropertiesBinding.inflate(layoutInflater)
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        propertyAdapter = PropertyAdapter { openProperty(it) }
 
-        _binding.propertyRecyclerView.layoutManager= LinearLayoutManager(this)
-        _binding.propertyRecyclerView.adapter=propertyAdapter
+        _binding.propertyRecyclerView.layoutManager = LinearLayoutManager(this)
+        _binding.propertyRecyclerView.adapter = propertyAdapter
 
         setContentView(_binding.root)
+
+        _binding.bottomNavigationView.background = null
 
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.hide();
@@ -46,12 +51,15 @@ class PropertiesActivity : AppCompatActivity() {
 //        swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
 
 
-        _binding.addPropertyButton.setOnClickListener {
-            var intent= Intent(this, AddPropertyActivity::class.java)
+        _binding.addPropertyBtn.setOnClickListener {
+            var intent = Intent(this, AddPropertyActivity::class.java)
             startActivity(intent)
         }
 
+
+
         getProperties()
+        setupBottomNavigationBar()
 
 //        swipeRefreshLayout.setOnRefreshListener {
 //            Toast.makeText(this,"refreshed.",Toast.LENGTH_SHORT).show()
@@ -62,26 +70,25 @@ class PropertiesActivity : AppCompatActivity() {
 
     }
 
-    fun getProperties(){
+    fun getProperties() {
         authViewModel.getProperties()
-        authViewModel.respPropertyArray.observe({lifecycle}){
-            if(it?.success!!){
+        authViewModel.respPropertyArray.observe({ lifecycle }) {
+            if (it?.success!!) {
 //                Log.d("completed", it.properties?.get(0)?.completed.toString())
-                Toast.makeText(this,"property fetching successful",Toast.LENGTH_SHORT).show()
-                Log.d("propertiesActivity",it.properties?.size.toString())
+                Toast.makeText(this, "property fetching successful", Toast.LENGTH_SHORT).show()
+                Log.d("propertiesActivity", it.properties?.size.toString())
                 propertyAdapter.submitList(it.properties)
-            }
-            else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-                Log.d("errorLoggedIn",it.error.toString())
+            } else {
+                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                Log.d("errorLoggedIn", it.error.toString())
             }
 
         }
     }
 
-    fun openProperty(propertyId:String?){
-        val intent=Intent(this, PropertyActivity::class.java)
-        intent.putExtra("propertyId",propertyId)
+    fun openProperty(propertyId: String?) {
+        val intent = Intent(this, PropertyActivity::class.java)
+        intent.putExtra("propertyId", propertyId)
         startActivity(intent)
 //        Toast.makeText(this,"propertyId:${propertyId}",Toast.LENGTH_SHORT).show()
     }
@@ -98,4 +105,39 @@ class PropertiesActivity : AppCompatActivity() {
 
         Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
+
+
+    private fun setupBottomNavigationBar() {
+
+        _binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+
+                R.id.nav_home -> {
+
+
+                }
+                R.id.nav_cart -> {
+
+                    startActivity(Intent(this, CartActivity::class.java))
+
+                }
+
+                R.id.nav_wishlist -> {
+
+                    startActivity(Intent(this, WishlistActivity::class.java))
+
+
+                }
+
+                R.id.nav_profile -> {
+
+                    startActivity(Intent(this, ProfileActivity::class.java))
+
+
+                }
+            }
+            true
+        }
+    }
+
 }

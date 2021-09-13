@@ -53,6 +53,8 @@ class PropertyActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+
+
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.hide();
         }
@@ -66,6 +68,8 @@ class PropertyActivity : AppCompatActivity() {
                 peekHeight = 300
                 this.state = BottomSheetBehavior.STATE_COLLAPSED
             }
+
+
 
 //        getUpdates(propertyId!!)
 //        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
