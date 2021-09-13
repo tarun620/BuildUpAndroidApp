@@ -177,7 +177,8 @@ class AddPropertyActivity : AppCompatActivity() {
             try {
                 val response: LocationSettingsResponse = task.getResult(ApiException::class.java)
 
-                getLocation() //user device location is already turned on and hence didn't entre the catch block
+                hideDialog()
+//                getLocation() //user device location is already turned on and hence didn't entre the catch block
             } catch (ex: ApiException) {
                 when (ex.statusCode) {
 
@@ -246,9 +247,9 @@ class AddPropertyActivity : AppCompatActivity() {
                 ),
                 44
             )
+            hideDialog()
         } else {
 
-//            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
 
 
             Log.e("atElseOfGetLocation", "reached here")
@@ -274,13 +275,19 @@ class AddPropertyActivity : AppCompatActivity() {
                             location.latitude, location.longitude, 1
                         )
 
+                        val city = address?.get(0)?.subLocality
+                        val state = address?.get(0)?.locality
+
+
+                        _binding.etState.setText(state.toString())
+                        _binding.etCity.setText(city.toString())
+
                         currentAddress =
                             address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
 
 
                         hideDialog()
 
-                        Log.d("Location if", currentAddress)
 
 //                        startAddPostActivity(currentAddress)
 
@@ -331,12 +338,19 @@ class AddPropertyActivity : AppCompatActivity() {
                                         latitude, longitude, 1
                                     ) as ArrayList<Address>?
 
+                                val city = address?.get(0)?.subLocality
+                                val state = address?.get(0)?.locality
+
+
+
+
                                 currentAddress =
                                     address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
 
-                                Log.d("Location else", currentAddress)
-                                _binding.locationButton.text = currentAddress
-                                _binding.locationButton.setBackgroundColor(resources.getColor(R.color.textGrey))
+                                Log.e("Location else", currentAddress)
+
+
+
 
                                 hideDialog()
 
@@ -349,6 +363,7 @@ class AddPropertyActivity : AppCompatActivity() {
                             locationCallback,
                             Looper.myLooper()
                         )
+                        hideDialog()
                     }
                 }
             })
