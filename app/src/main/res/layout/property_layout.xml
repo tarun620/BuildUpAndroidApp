@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -443,26 +442,28 @@
             </LinearLayout>
 
 
-            <FrameLayout
-                android:id="@+id/bottom_sheet"
+
+
+
+
+            <!-- Bottom sheet contents. -->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <FrameLayout
+            android:background="@drawable/bottom_card_bg"
+            android:layout_gravity="bottom"
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="24dp"
-
-                android:background="@drawable/bottom_card_bg"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/productsCategoryButton">
-
-                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-
-                <!-- Bottom sheet contents. -->
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                android:layout_height="match_parent">
 
 
                 <View
@@ -511,17 +512,11 @@
                     tools:listitem="@layout/item_updates" />
 
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </FrameLayout>
-
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-</androidx.core.widget.NestedScrollView>
