@@ -34,7 +34,8 @@ import com.google.android.gms.location.LocationRequest
 class AddPropertyActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityAddPropertyBinding
     private lateinit var authViewModel: AuthViewModel
-//    private  var addressType: String?=null
+
+    //    private  var addressType: String?=null
     private lateinit var dialog: Dialog
 
 
@@ -50,7 +51,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
-    private  var addressType: String? = null
+    private var addressType: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_add_property)
@@ -90,7 +91,7 @@ class AddPropertyActivity : AppCompatActivity() {
 
             }
 
-            locationButton.setOnClickListener{
+            locationButton.setOnClickListener {
                 showDialog()
                 turnOnGPS()
 
@@ -178,7 +179,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 val response: LocationSettingsResponse = task.getResult(ApiException::class.java)
 
                 hideDialog()
-//                getLocation() //user device location is already turned on and hence didn't entre the catch block
+                getLocation() //user device location is already turned on and hence didn't entre the catch block
             } catch (ex: ApiException) {
                 when (ex.statusCode) {
 
@@ -251,7 +252,6 @@ class AddPropertyActivity : AppCompatActivity() {
         } else {
 
 
-
             Log.e("atElseOfGetLocation", "reached here")
 
             fusedLocationProviderClient.lastLocation.addOnCompleteListener(object :
@@ -275,15 +275,29 @@ class AddPropertyActivity : AppCompatActivity() {
                             location.latitude, location.longitude, 1
                         )
 
-                        val city = address?.get(0)?.subLocality
-                        val state = address?.get(0)?.locality
+                        val colony = address?.get(0)?.subLocality
+                        val city = address?.get(0)?.locality
+
+                        val state = address?.get(0)?.adminArea
+                        val postalCode = address?.get(0)?.postalCode
+
 
 
                         _binding.etState.setText(state.toString())
                         _binding.etCity.setText(city.toString())
 
-                        currentAddress =
-                            address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
+                        _binding.etCity.setText(city.toString())
+                        _binding.etState.setText(state.toString())
+                        _binding.etPincode.setText(postalCode.toString())
+                        _binding.etColony.setText(colony.toString())
+                        _binding.locationButton.isEnabled = false
+                        _binding.locationButton.setBackgroundColor(getColor(R.color.textGrey))
+                        _binding.locationButton.setTextColor(getColor(R.color.white))
+                        _binding.etPincode.isEnabled = false
+                        _binding.etState.isEnabled = false
+                        _binding.etCity.isEnabled = false
+
+
 
 
                         hideDialog()
@@ -333,21 +347,32 @@ class AddPropertyActivity : AppCompatActivity() {
 
                                 val geoCoder =
                                     Geocoder(this@AddPropertyActivity, Locale.getDefault())
-                                val address: ArrayList<Address>? =
+                                val address: MutableList<Address>? =
                                     geoCoder.getFromLocation(
                                         latitude, longitude, 1
-                                    ) as ArrayList<Address>?
+                                    )
 
-                                val city = address?.get(0)?.subLocality
-                                val state = address?.get(0)?.locality
+                                val colony = address?.get(0)?.subLocality
+                                val city = address?.get(0)?.locality
+
+                                val state = address?.get(0)?.adminArea
+                                val postalCode = address?.get(0)?.postalCode
 
 
 
+                                _binding.etState.setText(state.toString())
+                                _binding.etCity.setText(city.toString())
 
-                                currentAddress =
-                                    address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
-
-                                Log.e("Location else", currentAddress)
+                                _binding.etCity.setText(city.toString())
+                                _binding.etState.setText(state.toString())
+                                _binding.etPincode.setText(postalCode.toString())
+                                _binding.etColony.setText(colony.toString())
+                                _binding.locationButton.isEnabled = false
+                                _binding.locationButton.setBackgroundColor(getColor(R.color.textGrey))
+                                _binding.locationButton.setTextColor(getColor(R.color.white))
+                                _binding.etPincode.isEnabled = false
+                                _binding.etState.isEnabled = false
+                                _binding.etCity.isEnabled = false
 
 
 

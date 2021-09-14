@@ -201,7 +201,7 @@
         android:textColor="@color/textGrey"
         android:textColorHint="@color/textGrey"
         android:textSize="18sp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:hintTextColor="@color/textGrey"
         app:layout_constraintBottom_toTopOf="@+id/forgetPasswordTextview"
         app:layout_constraintEnd_toEndOf="parent"

@@ -127,13 +127,19 @@ class PropertyActivity : AppCompatActivity() {
 //        }
 
         _binding.expensesButton.setOnClickListener {
-            val intent=Intent(this, ExpenditureActivity::class.java)
+            val intent=Intent(
+                this,
+                ExpenditureActivity::class.java
+            )
             intent.putExtra("propertyId",propertyId)
             startActivity(intent)
         }
 
         _binding.productsCategoryButton.setOnClickListener {
-            val intent=Intent(this, ProductCategoryActivity::class.java)
+            val intent=Intent(
+                this,
+                ProductCategoryActivity::class.java
+            )
             intent.putExtra("propertyId",propertyId)
             startActivity(intent)
         }
