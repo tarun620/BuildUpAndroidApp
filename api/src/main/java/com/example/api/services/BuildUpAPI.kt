@@ -26,6 +26,11 @@ BuildUpAPI {
         @Body userCredsOTP: sendOTPMobile
         ):Response<SuccessMessageResponse>
 
+//check if user already exists with given email
+//    @POST("api/user/exists")
+//    suspend fun isUserCreated(
+//        @Body userCreds:
+//    )
 //complete proile- final step for signup using mobile
     @POST("signup/mobile/complete-profile")
     suspend fun signpMobileFinal(
