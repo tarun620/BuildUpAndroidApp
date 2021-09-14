@@ -18,6 +18,9 @@
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ChangePassword"
+            android:exported="true" />
+        <activity
             android:name=".ui.LoginSignup.loginSignupGoogle.ForgotPassOtpActivity"
             android:exported="true" />
         <activity
@@ -45,7 +48,6 @@
         <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
         <activity android:name=".ui.GoogleLoginActivity" />
         <activity android:name=".TestActivity">
-
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
