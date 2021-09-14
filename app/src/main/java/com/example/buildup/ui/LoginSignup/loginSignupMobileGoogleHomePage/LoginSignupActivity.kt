@@ -54,6 +54,10 @@ class LoginSignupActivity : AppCompatActivity() {
             getSupportActionBar()?.hide();
         }
 
+
+        _binding!!.forgetPasswordTextview.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+        }
         //AUTO LOGIN USING SAVED INSTANCE OF LOGIN CREDENTIALS IN SHARED PREFERENCES
 
 //        token=sharedPrefrences.getString("token",null)
@@ -90,7 +94,7 @@ class LoginSignupActivity : AppCompatActivity() {
 
             SignUpButton.setOnClickListener {
                 if (isLOGIN) { // Login request ( we are in login toggle button)
-                    if(validationSignIn()){
+                    if (validationSignIn()) {
                         authViewModel.login(
                             emailEditText.text.toString(),
                             passwordEditText.text.toString()
@@ -107,27 +111,37 @@ class LoginSignupActivity : AppCompatActivity() {
                                         remove("token")
                                     }
                                 }
-                                val intent = Intent(this@LoginSignupActivity, PropertiesActivity::class.java)
+                                val intent =
+                                    Intent(this@LoginSignupActivity, PropertiesActivity::class.java)
                                 startActivity(intent)
-                            }
-                            else {
-                                Toast.makeText(this@LoginSignupActivity, it?.error, Toast.LENGTH_SHORT).show()
+                            } else {
+                                Toast.makeText(
+                                    this@LoginSignupActivity,
+                                    it?.error,
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
-                    }
-                    else{
-                        Toast.makeText(this@LoginSignupActivity,"Please fill all required fields correctly",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(
+                            this@LoginSignupActivity,
+                            "Please fill all required fields correctly",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 } else { // Signup Request using Mobile Number (we are in Signup Toggle Button)
-                    if(validationSignUp()){
+                    if (validationSignUp()) {
                         val intent = Intent(this@LoginSignupActivity, SignupActivity::class.java)
                         intent.putExtra("email", emailEditText.text.toString())
                         intent.putExtra("password", passwordEditText.text.toString())
                         startActivity(intent)
-                    }
-                    else{
-                        Toast.makeText(this@LoginSignupActivity,"Please fill all required fields correctly",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(
+                            this@LoginSignupActivity,
+                            "Please fill all required fields correctly",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
@@ -214,29 +228,33 @@ class LoginSignupActivity : AppCompatActivity() {
     }
 
     private fun validationSignUp(): Boolean {
-        Log.d("loginSignupActivity","validations function triggered")
+        Log.d("loginSignupActivity", "validations function triggered")
         _binding?.apply {
 
-            emailTextInputLayout.error=null
-            passwordTextInputLayout.error=null
-            confirmPasswordTextInputLayout.error=null
+            emailTextInputLayout.error = null
+            passwordTextInputLayout.error = null
+            confirmPasswordTextInputLayout.error = null
 
-            if (emailEditText.text.toString().isNullOrBlank() || !Patterns.EMAIL_ADDRESS.matcher(emailEditText.text.toString()).matches()) {
+            if (emailEditText.text.toString().isNullOrBlank() || !Patterns.EMAIL_ADDRESS.matcher(
+                    emailEditText.text.toString()
+                ).matches()
+            ) {
                 emailTextInputLayout.error = "Please enter a valid email"
                 emailTextInputLayout.requestFocus()
                 return false
-            }
-            else if (passwordEditText.text.toString().isNullOrBlank() || passwordEditText.length() < 8) {
+            } else if (passwordEditText.text.toString()
+                    .isNullOrBlank() || passwordEditText.length() < 8
+            ) {
                 passwordTextInputLayout.error = "Please input password of atleast 8 characters"
                 passwordTextInputLayout.requestFocus()
                 return false
-            }
-            else if (passwordConfirmEditText.text.toString().isNullOrBlank() || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()) {
+            } else if (passwordConfirmEditText.text.toString()
+                    .isNullOrBlank() || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()
+            ) {
                 confirmPasswordTextInputLayout.error = "Password doesn't match"
                 confirmPasswordTextInputLayout.requestFocus()
                 return false
-            }
-            else {
+            } else {
                 return true
             }
         }
@@ -247,33 +265,34 @@ class LoginSignupActivity : AppCompatActivity() {
 
         _binding?.apply {
 
-            emailTextInputLayout.error=null
-            passwordTextInputLayout.error=null
+            emailTextInputLayout.error = null
+            passwordTextInputLayout.error = null
 
-            if (emailEditText.text.toString().isNullOrBlank() || emailEditText.text.toString().length<10) {
+            if (emailEditText.text.toString()
+                    .isNullOrBlank() || emailEditText.text.toString().length < 10
+            ) {
                 emailTextInputLayout.error = "Please enter valid mobile number"
                 emailTextInputLayout.requestFocus()
                 return false
-            }
-
-            else if (passwordEditText.text.toString().isNullOrBlank() || passwordEditText.length() < 8) {
+            } else if (passwordEditText.text.toString()
+                    .isNullOrBlank() || passwordEditText.length() < 8
+            ) {
                 passwordTextInputLayout.error = "Please input password of atleast 8 characters"
                 passwordTextInputLayout.requestFocus()
                 return false
-            }
-            else {
+            } else {
                 return true
             }
         }
         return false
     }
 
-    private fun loginToggle(){
+    private fun loginToggle() {
         isLOGIN = true
         _binding?.apply {
             emailTextInputLayout.requestFocus()
-            emailTextInputLayout.error=null
-            passwordTextInputLayout.error=null
+            emailTextInputLayout.error = null
+            passwordTextInputLayout.error = null
             confirmPasswordTextInputLayout.visibility = View.GONE
             forgetPasswordTextview.visibility = VISIBLE
             SignUpButton.text = "Sign In"
@@ -294,13 +313,13 @@ class LoginSignupActivity : AppCompatActivity() {
 
     }
 
-    private fun signupToggle(){
+    private fun signupToggle() {
         isLOGIN = false
         _binding?.apply {
             emailTextInputLayout.requestFocus()
-            emailTextInputLayout.error=null
-            passwordTextInputLayout.error=null
-            confirmPasswordTextInputLayout.error=null
+            emailTextInputLayout.error = null
+            passwordTextInputLayout.error = null
+            confirmPasswordTextInputLayout.error = null
             confirmPasswordTextInputLayout.visibility = VISIBLE
             forgetPasswordTextview.visibility = View.GONE
             SignUpButton.text = "Sign Up"
@@ -327,7 +346,6 @@ class LoginSignupActivity : AppCompatActivity() {
 
         Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
     }
-
 
 
 }

@@ -10,5 +10,7 @@ class ForgotPassOtpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityForgotPassOtpBinding.inflate(layoutInflater)
         setContentView(_binding.root)
+
+        _binding.etOtp1.requestFocus()
     }
 }
