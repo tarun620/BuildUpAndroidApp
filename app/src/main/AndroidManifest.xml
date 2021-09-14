@@ -18,6 +18,9 @@
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ForgotPasswordActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.CartActivity"
             android:exported="true" />
         <activity
