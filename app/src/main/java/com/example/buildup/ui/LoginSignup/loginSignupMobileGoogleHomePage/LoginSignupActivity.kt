@@ -132,10 +132,23 @@ class LoginSignupActivity : AppCompatActivity() {
 
                 } else { // Signup Request using Mobile Number (we are in Signup Toggle Button)
                     if (validationSignUp()) {
-                        val intent = Intent(this@LoginSignupActivity, SignupActivity::class.java)
-                        intent.putExtra("email", emailEditText.text.toString())
-                        intent.putExtra("password", passwordEditText.text.toString())
-                        startActivity(intent)
+                        authViewModel.isUserExist(emailEditText.text.toString())
+
+                        authViewModel.respIsUserExist.observe({lifecycle}){
+                            if(it.success && it.userExists){
+                                emailTextInputLayout.error="User Already Registered With This Email"
+                            }
+                            else if(it.success && !it.userExists){
+                                val intent = Intent(this@LoginSignupActivity, SignupActivity::class.java)
+                                intent.putExtra("email", emailEditText.text.toString())
+                                intent.putExtra("password", passwordEditText.text.toString())
+                                startActivity(intent)
+                            }
+                            else{
+                                Toast.makeText(this@LoginSignupActivity, it?.error, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
                     } else {
                         Toast.makeText(
                             this@LoginSignupActivity,
@@ -290,7 +303,6 @@ class LoginSignupActivity : AppCompatActivity() {
     private fun loginToggle() {
         isLOGIN = true
         _binding?.apply {
-            emailTextInputLayout.requestFocus()
             emailTextInputLayout.error = null
             passwordTextInputLayout.error = null
             confirmPasswordTextInputLayout.visibility = View.GONE
@@ -316,7 +328,6 @@ class LoginSignupActivity : AppCompatActivity() {
     private fun signupToggle() {
         isLOGIN = false
         _binding?.apply {
-            emailTextInputLayout.requestFocus()
             emailTextInputLayout.error = null
             passwordTextInputLayout.error = null
             confirmPasswordTextInputLayout.error = null

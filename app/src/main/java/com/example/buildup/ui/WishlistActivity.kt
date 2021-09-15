@@ -11,7 +11,7 @@ import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
 private lateinit var _binding: ActivityWishlistBinding
 
-class WishlistActivity : AppCompatActivity() {
+class  WishlistActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityWishlistBinding.inflate(layoutInflater)

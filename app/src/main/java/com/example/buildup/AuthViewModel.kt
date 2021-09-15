@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.api.models.entities.User
 import com.example.api.models.responses.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responses.expenditure.expenditureResponses.TotalExpenditureResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginGoogleResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SignupMobileResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SuccessMessageResponse
+import com.example.api.models.responses.loginSignup.loginSignupResponses.*
 import com.example.api.models.responses.products.productsResponses.ProductCategoriesResponse
 import com.example.api.models.responses.products.productsResponses.ProductResponse
 import com.example.api.models.responses.products.productsResponses.ProductSubCategoriesResponse
@@ -35,6 +33,7 @@ class AuthViewModel:ViewModel() {
     private val _respProductSubCategoryArray= MutableLiveData<ProductSubCategoriesResponse>()
     private val _respProducts=MutableLiveData<ProductsResponse>()
     private val _respProduct=MutableLiveData<ProductResponse>()
+    private val _respIsUserExist=MutableLiveData<UserExistResponse>()
 
     val resp:LiveData<SuccessMessageResponse?> = _resp
     val respNew:LiveData<SignupMobileResponse?> = _respNew
@@ -49,6 +48,7 @@ class AuthViewModel:ViewModel() {
     val respProductSubCategoryArray:LiveData<ProductSubCategoriesResponse> = _respProductSubCategoryArray
     val respProducts:LiveData<ProductsResponse> = _respProducts
     val respProduct:LiveData<ProductResponse> = _respProduct
+    val respIsUserExist:LiveData<UserExistResponse> = _respIsUserExist
 
     fun signup(mobileNo : String)=viewModelScope.launch {
         UserRepo.signup(mobileNo).let {
@@ -158,5 +158,10 @@ class AuthViewModel:ViewModel() {
         }
     }
 
+    fun isUserExist(email:String)=viewModelScope.launch {
+        UserRepo.isUserExist(email).let {
+            _respIsUserExist.postValue(it)
+        }
+    }
 }
 

@@ -1,12 +1,9 @@
 package com.example.api.services
 
-import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginGoogleResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SignupMobileResponse
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SuccessMessageResponse
 import com.example.api.models.responses.loginSignup.loginSignupEntities.*
+import com.example.api.models.responses.loginSignup.loginSignupResponses.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -26,6 +23,11 @@ BuildUpAPI {
         @Body userCredsOTP: sendOTPMobile
         ):Response<SuccessMessageResponse>
 
+//check if user exixts with given email
+    @POST("api/user/exists")
+    suspend fun isUserExist(
+        @Body userCreds : UserExistData
+    ) : Response<UserExistResponse>
 //complete proile- final step for signup using mobile
     @POST("signup/mobile/complete-profile")
     suspend fun signpMobileFinal(

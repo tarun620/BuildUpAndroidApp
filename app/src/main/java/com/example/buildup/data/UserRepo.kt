@@ -2,13 +2,10 @@ package com.example.buildup.data
 
 import android.util.Log
 import com.example.api.BuildUpClient
-import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginGoogleResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SignupMobileResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SuccessMessageResponse
 import com.example.api.models.responses.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responses.expenditure.expenditureResponses.TotalExpenditureResponse
 import com.example.api.models.responses.loginSignup.loginSignupEntities.*
+import com.example.api.models.responses.loginSignup.loginSignupResponses.*
 import com.example.api.models.responses.products.productsResponses.ProductCategoriesResponse
 import com.example.api.models.responses.products.productsResponses.ProductResponse
 import com.example.api.models.responses.products.productsResponses.ProductSubCategoriesResponse
@@ -348,6 +345,21 @@ object UserRepo {
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
             return ProductResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun isUserExist(email: String): UserExistResponse?{
+        try{
+            val response= api.isUserExist(UserExistData(email))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return UserExistResponse(false,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return UserExistResponse(false,false,"Network Failure")
         }
     }
 }
