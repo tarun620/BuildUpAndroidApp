@@ -57,6 +57,7 @@
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_otp.xml" value="0.25101351351351353" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_otp_google.xml" value="0.25101351351351353" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_product.xml" value="0.25101351351351353" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_product_category.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_product_sub_category.xml" value="0.25101351351351353" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_profile.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/activity_properties.xml" value="0.26974358974358975" />
@@ -73,7 +74,13 @@
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/home_fragment.xml" value="0.22" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/item_property.xml" value="0.22" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/item_updates.xml" value="0.18986486486486487" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/list_item_product.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/list_item_product_category.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/list_item_product_category_new.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/list_item_product_sub_category.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/list_item_update.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/otp_layout.xml" value="0.38697916666666665" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/product_layout.xml" value="0.33" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/progress_bar_layout.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/property_layout.xml" value="0.22" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpApp/app/src/main/res/layout/sign_up_layout.xml" value="0.25101351351351353" />
