@@ -3,7 +3,6 @@ package com.example.buildup.ui.Property.layouts
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Address
@@ -411,7 +410,7 @@ class AddPropertyActivity : AppCompatActivity() {
         dialogProgress = Dialog(this)
         dialogProgress.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
 
-        dialogProgress.setContentView(R.layout.progress_bar_layout)
+        dialogProgress.setContentView(R.layout.asset_progress_bar)
         dialogProgress.setCancelable(false)
         dialogProgress.window?.setBackgroundDrawableResource(
             android.R.color.transparent

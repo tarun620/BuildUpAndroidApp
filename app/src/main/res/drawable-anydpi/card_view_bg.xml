@@ -5,13 +5,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <solid
-        android:color="@color/white"/>
+        android:color="@color/orange_main"/>
 
     <corners android:radius="20dp"/>
 
-    <stroke
-        android:width="2dp"
-        android:color="#FF6100"/>
 
 
 </shape>
