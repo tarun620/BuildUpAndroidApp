@@ -1,4 +1,4 @@
-package com.example.buildup.ui
+package com.example.buildup.ui.BottomNavigation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,9 +8,9 @@ import com.example.buildup.databinding.ActivityProfileBinding
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
 
-private lateinit var _binding: ActivityProfileBinding
 
 class ProfileActivity : AppCompatActivity() {
+    private lateinit var _binding: ActivityProfileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityProfileBinding.inflate(layoutInflater)

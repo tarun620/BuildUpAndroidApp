@@ -1,19 +1,17 @@
-package com.example.buildup.ui
+package com.example.buildup.ui.BottomNavigation
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.buildup.R
-import com.example.buildup.databinding.ActivityWishlistBinding
+import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
-
-private lateinit var _binding: ActivityWishlistBinding
-
-class  WishlistActivity : AppCompatActivity() {
+class CartActivity : AppCompatActivity() {
+    private lateinit var _binding: ActivityCartBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityWishlistBinding.inflate(layoutInflater)
+        _binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(_binding.root)
         _binding.bottomNavigationView.background = null
 
@@ -29,17 +27,18 @@ class  WishlistActivity : AppCompatActivity() {
 
                 R.id.nav_home -> {
 
-                    startActivity(Intent(this,PropertiesActivity::class.java))
+                    startActivity(Intent(this, PropertiesActivity::class.java))
+
 
                 }
                 R.id.nav_cart -> {
 
-                    startActivity(Intent(this, CartActivity::class.java))
 
                 }
 
                 R.id.nav_wishlist -> {
 
+                    startActivity(Intent(this, WishlistActivity::class.java))
 
 
                 }
@@ -54,5 +53,4 @@ class  WishlistActivity : AppCompatActivity() {
             true
         }
     }
-
 }
