@@ -13,10 +13,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityPropertiesBinding
-import com.example.buildup.ui.CartActivity
-import com.example.buildup.ui.ProfileActivity
+import com.example.buildup.ui.BottomNavigation.CartActivity
+import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.Property.adapters.PropertyAdapter
-import com.example.buildup.ui.WishlistActivity
+import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class PropertiesActivity : AppCompatActivity() {

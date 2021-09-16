@@ -140,8 +140,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/ic_input_add"
-
             android:backgroundTint="@color/orange_main"
+            android:background="@color/orange_main"
             app:tint="@android:color/white"
             app:layout_anchor="@id/bottomAppBar" />
 

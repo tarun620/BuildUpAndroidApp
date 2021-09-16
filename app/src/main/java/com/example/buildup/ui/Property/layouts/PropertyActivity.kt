@@ -13,9 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.baoyachi.stepview.bean.StepBean
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
-import com.example.buildup.databinding.ActivityPropertyBinding
 import com.example.buildup.databinding.ActivityUpdatesBinding
-import com.example.buildup.databinding.PropertyLayoutBinding
+import com.example.buildup.databinding.ActivityPropertyBinding
 import com.example.buildup.ui.ExpenditureActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Updates.UpdatesActivity
@@ -30,7 +29,7 @@ class PropertyActivity : AppCompatActivity() {
     var helpArray= arrayOf<String>("Layout","Structure","Fitting","Flooring","Touching","Done")
     val stepsBeanList: MutableList<StepBean> = ArrayList()
 //    private lateinit var _binding:ActivityPropertyBinding
-    private lateinit var _binding:PropertyLayoutBinding
+    private lateinit var _binding:ActivityPropertyBinding
     private lateinit var _bindingUpdates:ActivityUpdatesBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var updatesAdapter: UpdatesAdapter
@@ -42,7 +41,7 @@ class PropertyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_property)
 
-        _binding= PropertyLayoutBinding.inflate(layoutInflater)
+        _binding= ActivityPropertyBinding.inflate(layoutInflater)
         _bindingUpdates=ActivityUpdatesBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         updatesAdapter= UpdatesAdapter()
