@@ -19,6 +19,6 @@ data class AddPropertyData(
     val state:String,
     @Json(name = "pincode")
     val pincode:Int,
-    @Json(name = "coordinates")
-    val coordinates:ArrayList<Double>
+//    @Json(name = "coordinates")
+//    val coordinates:ArrayList<Double>
 )

@@ -99,8 +99,7 @@ class AddPropertyActivity : AppCompatActivity() {
                         etColony.text.toString(),
                         etCity.text.toString(),
                         etState.text.toString(),
-                        etPincode.text.toString().toInt(),
-                        coordinates
+                        etPincode.text.toString().toInt()
                     //TODO("Add Landmark also")
                     )
 
