@@ -3,39 +3,43 @@ package com.example.buildup.ui.Property.layouts
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityAddPropertyBinding
+import com.example.buildup.databinding.AssetSuccesDialogBinding
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import java.util.*
-import com.example.buildup.ui.Property.adapters.PropertyAdapter
 import com.google.android.gms.location.LocationRequest
+import kotlin.collections.ArrayList
 
 class AddPropertyActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityAddPropertyBinding
+    private lateinit var _bindingDialog: AssetSuccesDialogBinding
     private lateinit var authViewModel: AuthViewModel
-//    private  var addressType: String?=null
-    private lateinit var dialog: Dialog
+
+    //    private  var addressType: String?=null
+    private lateinit var dialogProgress: Dialog
+    private lateinit var dialogSuccess: Dialog
 
 
     private val REQUEST_CHECK_SETTINGS = 1000
@@ -50,11 +54,13 @@ class AddPropertyActivity : AppCompatActivity() {
 
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
-    private  var addressType: String? = null
+    private var coordinates = ArrayList<Double>()
+    private var addressType: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_add_property)
         _binding = ActivityAddPropertyBinding.inflate(layoutInflater)
+        _bindingDialog= AssetSuccesDialogBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -75,8 +81,18 @@ class AddPropertyActivity : AppCompatActivity() {
                 }
             }
 
+            locationButton.setOnClickListener {
+                showProgressDialog()
+                turnOnGPS()
+
+            }
+
             submitButton.setOnClickListener {
                 if (validation()) {
+
+                    coordinates.add(longitude)
+                    coordinates.add(latitude)
+
                     authViewModel.addProperty(
                         etName.text.toString(),
                         addressType!!,
@@ -84,26 +100,23 @@ class AddPropertyActivity : AppCompatActivity() {
                         etColony.text.toString(),
                         etCity.text.toString(),
                         etState.text.toString(),
-                        etPincode.text.toString().toInt()
+                        etPincode.text.toString().toInt(),
+                        coordinates
+                    //TODO("Add Landmark also")
                     )
+
+                    authViewModel.resp.observe({ lifecycle }) {
+                        if (it?.success!!) {
+//                            Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
+                            showSuccessDialog()
+                        } else {
+                            Toast.makeText(this@AddPropertyActivity, it?.error, Toast.LENGTH_SHORT).show()
+                            Log.d("errorAddProperty", it?.error.toString())
+                        }
+                    }
                 }
-
-            }
-
-            locationButton.setOnClickListener{
-                showDialog()
-                turnOnGPS()
-
-            }
-
-            authViewModel.resp.observe({ lifecycle }) {
-                if (it?.success!!) {
-                    Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
-                    finish()
-                } else {
-                    Toast.makeText(this@AddPropertyActivity, it?.error, Toast.LENGTH_SHORT).show()
-                    Log.d("errorAddProperty", it?.error.toString())
-                }
+                else
+                    Toast.makeText(this@AddPropertyActivity,"Enter All Required Details",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -177,6 +190,7 @@ class AddPropertyActivity : AppCompatActivity() {
             try {
                 val response: LocationSettingsResponse = task.getResult(ApiException::class.java)
 
+                hideProgressDialog()
                 getLocation() //user device location is already turned on and hence didn't entre the catch block
             } catch (ex: ApiException) {
                 when (ex.statusCode) {
@@ -246,9 +260,8 @@ class AddPropertyActivity : AppCompatActivity() {
                 ),
                 44
             )
+            hideProgressDialog()
         } else {
-
-//            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
 
 
             Log.e("atElseOfGetLocation", "reached here")
@@ -274,14 +287,31 @@ class AddPropertyActivity : AppCompatActivity() {
                             location.latitude, location.longitude, 1
                         )
 
-                        currentAddress =
-                            address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
-                        _binding.locationButton.text = currentAddress
-                        _binding.locationButton.setBackgroundColor(resources.getColor(R.color.textGrey))
+                        val colony = address?.get(0)?.subLocality
+                        val city = address?.get(0)?.locality
 
-                        hideDialog()
+                        val state = address?.get(0)?.adminArea
+                        val postalCode = address?.get(0)?.postalCode
 
-                        Log.d("Location if", currentAddress)
+
+
+                        _binding.apply{
+                            etState.setText(state.toString())
+                            etCity.setText(city.toString())
+                            etCity.setText(city.toString())
+                            etState.setText(state.toString())
+                            etPincode.setText(postalCode.toString())
+                            etColony.setText(colony.toString())
+                            locationButton.isEnabled = false
+                            locationButton.setBackgroundColor(getColor(R.color.textGrey))
+                            locationButton.setTextColor(getColor(R.color.white))
+//                            etPincode.isEnabled = false
+//                            etState.isEnabled = false
+//                            etCity.isEnabled = false
+                        }
+
+                        hideProgressDialog()
+
 
 //                        startAddPostActivity(currentAddress)
 
@@ -327,19 +357,35 @@ class AddPropertyActivity : AppCompatActivity() {
 
                                 val geoCoder =
                                     Geocoder(this@AddPropertyActivity, Locale.getDefault())
-                                val address: ArrayList<Address>? =
+                                val address: MutableList<Address>? =
                                     geoCoder.getFromLocation(
                                         latitude, longitude, 1
-                                    ) as ArrayList<Address>?
+                                    )
 
-                                currentAddress =
-                                    address?.get(0)?.subLocality + ", " + address?.get(0)?.locality
+                                val colony = address?.get(0)?.subLocality
+                                val city = address?.get(0)?.locality
 
-                                Log.d("Location else", currentAddress)
-                                _binding.locationButton.text = currentAddress
-                                _binding.locationButton.setBackgroundColor(resources.getColor(R.color.textGrey))
+                                val state = address?.get(0)?.adminArea
+                                val postalCode = address?.get(0)?.postalCode
 
-                                hideDialog()
+
+                                _binding.apply{
+                                    etState.setText(state.toString())
+                                    etCity.setText(city.toString())
+                                    etCity.setText(city.toString())
+                                    etState.setText(state.toString())
+                                    etPincode.setText(postalCode.toString())
+                                    etColony.setText(colony.toString())
+                                    locationButton.isEnabled = false
+                                    locationButton.setBackgroundColor(getColor(R.color.textGrey))
+                                    locationButton.setTextColor(getColor(R.color.white))
+//                            etPincode.isEnabled = false
+//                            etState.isEnabled = false
+//                            etCity.isEnabled = false
+                                }
+
+
+                                hideProgressDialog()
 
 //                                startAddPostActivity(currentAddress)
                             }
@@ -350,34 +396,62 @@ class AddPropertyActivity : AppCompatActivity() {
                             locationCallback,
                             Looper.myLooper()
                         )
+                        hideProgressDialog()
                     }
                 }
             })
         }
     }
 
-    fun removeLocationUpdates() {
+    private fun removeLocationUpdates() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
-    fun showDialog() {
-        dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+    private fun showProgressDialog() {
+        dialogProgress = Dialog(this)
+        dialogProgress.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
 
-        dialog.setContentView(R.layout.progress_bar_layout)
-        dialog.setCancelable(false)
-        dialog.window?.setBackgroundDrawableResource(
+        dialogProgress.setContentView(R.layout.progress_bar_layout)
+        dialogProgress.setCancelable(false)
+        dialogProgress.window?.setBackgroundDrawableResource(
             android.R.color.transparent
         )
         val lp = WindowManager.LayoutParams()
-        lp.copyFrom(dialog.window!!.attributes)
+        lp.copyFrom(dialogProgress.window!!.attributes)
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        dialog.show()
+        dialogProgress.show()
     }
 
-    fun hideDialog() {
-        dialog.dismiss()
+    private fun showSuccessDialog(){
+        dialogSuccess = Dialog(this)
+        dialogSuccess.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+        dialogSuccess.setContentView(_bindingDialog.root)
+        _bindingDialog.titleText.text ="Property\nAdded\nSuccessfully"
+
+        dialogSuccess.setCancelable(false)
+
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialogSuccess.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialogSuccess.show()
+
+
+        Handler().postDelayed({
+            dialogSuccess.dismiss()
+            finish()  // closes the current acitivity and goes back to PropertiesActivity
+        }, 3000)
+
     }
+
+    private fun hideProgressDialog() {
+        dialogProgress.dismiss()
+    }
+
+    private fun hideSuccessDialog(){
+        dialogSuccess.dismiss()
+    }
+
 
 }

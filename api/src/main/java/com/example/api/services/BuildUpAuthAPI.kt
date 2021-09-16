@@ -1,16 +1,16 @@
 package com.example.api.services
 
-import com.example.api.models.responses.property.propertyEntities.AddPropertyData
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SuccessMessageResponse
-import com.example.api.models.responses.expenditure.expenditureResponses.ExpendituresResponse
-import com.example.api.models.responses.expenditure.expenditureResponses.TotalExpenditureResponse
-import com.example.api.models.responses.products.productsResponses.ProductCategoriesResponse
-import com.example.api.models.responses.products.productsResponses.ProductResponse
-import com.example.api.models.responses.products.productsResponses.ProductSubCategoriesResponse
-import com.example.api.models.responses.products.productsResponses.ProductsResponse
-import com.example.api.models.responses.property.propertyResponses.PropertiesResponse
-import com.example.api.models.responses.property.propertyResponses.SinglePropertyResponse
-import com.example.api.models.responses.updates.UpdatesResponse
+import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
+import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.SuccessMessageResponse
+import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
+import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductsResponse
+import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
+import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import retrofit2.Response
 import retrofit2.http.*
 

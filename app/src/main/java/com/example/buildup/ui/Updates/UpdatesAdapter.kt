@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.api.models.responses.updates.Update
+import com.example.api.models.responsesAndData.updates.Update
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemUpdateBinding
 import com.example.buildup.extensions.timeStamp

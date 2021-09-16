@@ -4,19 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.api.models.responses.expenditure.expenditureResponses.ExpendituresResponse
-import com.example.api.models.responses.expenditure.expenditureResponses.TotalExpenditureResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginGoogleResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.LoginResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SignupMobileResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.SuccessMessageResponse
-import com.example.api.models.responses.products.productsResponses.ProductCategoriesResponse
-import com.example.api.models.responses.products.productsResponses.ProductResponse
-import com.example.api.models.responses.products.productsResponses.ProductSubCategoriesResponse
-import com.example.api.models.responses.products.productsResponses.ProductsResponse
-import com.example.api.models.responses.property.propertyResponses.PropertiesResponse
-import com.example.api.models.responses.property.propertyResponses.SinglePropertyResponse
-import com.example.api.models.responses.updates.UpdatesResponse
+import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
+import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
+import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
+import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductsResponse
+import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
+import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.buildup.data.UserRepo
 import kotlinx.coroutines.launch
 
@@ -35,6 +32,7 @@ class AuthViewModel:ViewModel() {
     private val _respProductSubCategoryArray= MutableLiveData<ProductSubCategoriesResponse>()
     private val _respProducts=MutableLiveData<ProductsResponse>()
     private val _respProduct=MutableLiveData<ProductResponse>()
+    private val _respIsUserExist=MutableLiveData<UserExistResponse>()
 
     val resp:LiveData<SuccessMessageResponse?> = _resp
     val respNew:LiveData<SignupMobileResponse?> = _respNew
@@ -49,6 +47,7 @@ class AuthViewModel:ViewModel() {
     val respProductSubCategoryArray:LiveData<ProductSubCategoriesResponse> = _respProductSubCategoryArray
     val respProducts:LiveData<ProductsResponse> = _respProducts
     val respProduct:LiveData<ProductResponse> = _respProduct
+    val respIsUserExist:LiveData<UserExistResponse> = _respIsUserExist
 
     fun signup(mobileNo : String)=viewModelScope.launch {
         UserRepo.signup(mobileNo).let {
@@ -99,8 +98,9 @@ class AuthViewModel:ViewModel() {
             colony:String,
             city:String,
             state:String,
-            pincode:Int)=viewModelScope.launch {
-        UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode).let {
+            pincode:Int,
+            coordinates:ArrayList<Double>)=viewModelScope.launch {
+        UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode,coordinates).let {
             _resp.postValue(it)
         }
     }
@@ -158,5 +158,10 @@ class AuthViewModel:ViewModel() {
         }
     }
 
+    fun isUserExist(email:String)=viewModelScope.launch {
+        UserRepo.isUserExist(email).let {
+            _respIsUserExist.postValue(it)
+        }
+    }
 }
 

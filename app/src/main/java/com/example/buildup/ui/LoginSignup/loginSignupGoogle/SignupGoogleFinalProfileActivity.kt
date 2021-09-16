@@ -1,26 +1,32 @@
 package com.example.buildup.ui.LoginSignup.loginSignupGoogle
 
+import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.util.Patterns
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
+import com.example.buildup.R
 import com.example.buildup.databinding.ActivitySignupGoogleFinalProfileBinding
+import com.example.buildup.databinding.AssetSuccesDialogBinding
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
 class SignupGoogleFinalProfileActivity : AppCompatActivity() {
-//    private var _binding:ActivityCompleteProfileGoogleBinding?=null
     private var _binding:ActivitySignupGoogleFinalProfileBinding?=null
+    private lateinit var _bindingDialog : AssetSuccesDialogBinding
     lateinit var authViewModel: AuthViewModel
+    private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_signup_google_password)
 
-//        _binding= ActivityCompleteProfileGoogleBinding.inflate(layoutInflater)
         _binding= ActivitySignupGoogleFinalProfileBinding.inflate(layoutInflater)
+        _bindingDialog= AssetSuccesDialogBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
 
         setContentView(_binding?.root)
@@ -40,8 +46,9 @@ class SignupGoogleFinalProfileActivity : AppCompatActivity() {
                 authViewModel.respNew.observe({lifecycle}){
                     if(it?.token!=null && it.success!!){
                         Toast.makeText(this@SignupGoogleFinalProfileActivity,it.message, Toast.LENGTH_SHORT).show()
-                        val intent=Intent(this, PropertiesActivity::class.java)
-                        startActivity(intent)
+                        showDialog()
+//                        val intent=Intent(this, PropertiesActivity::class.java)
+//                        startActivity(intent)
                     }
                     else{
                         Toast.makeText(this@SignupGoogleFinalProfileActivity,it?.error,Toast.LENGTH_SHORT).show()
@@ -77,4 +84,26 @@ class SignupGoogleFinalProfileActivity : AppCompatActivity() {
         }
         return false
     }
+    private fun showDialog() {
+        dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+        dialog.setContentView(_bindingDialog.root)
+        _bindingDialog.titleText.text="Successfully\nLogged In"
+        dialog.setCancelable(false)
+
+        val lp = WindowManager.LayoutParams()
+        lp.copyFrom(dialog.window!!.attributes)
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog.show()
+
+
+        Handler().postDelayed({
+            dialog.dismiss()
+            val intent=Intent(this, PropertiesActivity::class.java)
+            startActivity(intent)
+        }, 3000)
+
+    }
+
 }
