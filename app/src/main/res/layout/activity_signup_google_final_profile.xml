@@ -72,7 +72,6 @@
         android:textColorHint="@color/textGrey"
         android:textSize="18sp"
         app:hintTextColor="@color/textGrey"
-        app:errorEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/confirmPasswordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

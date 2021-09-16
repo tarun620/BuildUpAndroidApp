@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityProfileBinding
+import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
 
 private lateinit var _binding: ActivityProfileBinding
@@ -27,7 +28,7 @@ class ProfileActivity : AppCompatActivity() {
             when (it.itemId) {
 
                 R.id.nav_home -> {
-
+                    startActivity(Intent(this, PropertiesActivity::class.java))
 
                 }
                 R.id.nav_cart -> {
@@ -40,12 +41,9 @@ class ProfileActivity : AppCompatActivity() {
 
                     startActivity(Intent(this, WishlistActivity::class.java))
 
-
                 }
 
                 R.id.nav_profile -> {
-
-                    startActivity(Intent(this, ProfileActivity::class.java))
 
 
                 }

@@ -2,8 +2,8 @@ package com.example.api.services
 
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
-import com.example.api.models.responses.loginSignup.loginSignupEntities.*
-import com.example.api.models.responses.loginSignup.loginSignupResponses.*
+import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.*
+import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

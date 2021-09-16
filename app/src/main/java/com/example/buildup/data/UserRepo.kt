@@ -2,18 +2,18 @@ package com.example.buildup.data
 
 import android.util.Log
 import com.example.api.BuildUpClient
-import com.example.api.models.responses.expenditure.expenditureResponses.ExpendituresResponse
-import com.example.api.models.responses.expenditure.expenditureResponses.TotalExpenditureResponse
-import com.example.api.models.responses.loginSignup.loginSignupEntities.*
-import com.example.api.models.responses.loginSignup.loginSignupResponses.*
-import com.example.api.models.responses.products.productsResponses.ProductCategoriesResponse
-import com.example.api.models.responses.products.productsResponses.ProductResponse
-import com.example.api.models.responses.products.productsResponses.ProductSubCategoriesResponse
-import com.example.api.models.responses.products.productsResponses.ProductsResponse
-import com.example.api.models.responses.property.propertyEntities.AddPropertyData
-import com.example.api.models.responses.property.propertyResponses.PropertiesResponse
-import com.example.api.models.responses.property.propertyResponses.SinglePropertyResponse
-import com.example.api.models.responses.updates.UpdatesResponse
+import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
+import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
+import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.*
+import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
+import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductsResponse
+import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
+import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
+import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.updates.UpdatesResponse
 //import com.example.buildup.helpers.ErrorUtils.parseError
 import com.example.buildup.helpers.ErrorUtilsNew
 import java.io.IOException
@@ -173,10 +173,11 @@ object UserRepo {
             colony:String,
             city:String,
             state:String,
-            pincode:Int): SuccessMessageResponse?{
+            pincode:Int,
+            coordinates:ArrayList<Double>): SuccessMessageResponse?{
 
         try{
-            val response= authApi.addProperty(AddPropertyData(name, type, houseNo, colony, city, state, pincode))
+            val response= authApi.addProperty(AddPropertyData(name, type, houseNo, colony, city, state, pincode,coordinates))
 
             if(response.isSuccessful){
                 return response.body()

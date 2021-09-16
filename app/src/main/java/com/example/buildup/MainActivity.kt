@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 _binding!!.homeIcon.visibility = View.GONE
                 Handler().postDelayed({
                     if (sharedPrefrences.getString(PREFS_KEY_TOKEN, null) != null) {
-                        val intent = Intent(this, PropertiesActivity::class.java)
+                        val intent = Intent(this, LoginSignupActivity::class.java)
                         startActivity(intent)
                     } else {
 

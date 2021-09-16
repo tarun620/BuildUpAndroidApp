@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityOtpBinding
+import com.example.buildup.databinding.AssetSuccesDialogBinding
 import com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import java.text.DecimalFormat
@@ -26,6 +27,7 @@ import java.text.NumberFormat
 class OtpActivity : AppCompatActivity() {
 //    private var _binding:ActivityOtpBinding?=null
     private var _binding:ActivityOtpBinding?=null
+    private lateinit var _bindingDialog : AssetSuccesDialogBinding
     lateinit var authViewModel: AuthViewModel
 
      var mobileNoEditText: String?=null
@@ -44,6 +46,7 @@ class OtpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         _binding= ActivityOtpBinding.inflate(layoutInflater)
+        _bindingDialog= AssetSuccesDialogBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding?.root)
 
@@ -181,8 +184,13 @@ class OtpActivity : AppCompatActivity() {
     private fun showDialog() {
         dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+        dialog.setContentView(_bindingDialog.root)
 
-        dialog.setContentView(R.layout.asset_succes_dialog)
+        if (mobileNoEditText.isNullOrBlank())
+            _bindingDialog.titleText.text="Successfully\nVerified"
+        else
+            _bindingDialog.titleText.text="Successfully\nVerified\n&\nLogged In"
+
         dialog.setCancelable(false)
 
         val lp = WindowManager.LayoutParams()
@@ -191,7 +199,7 @@ class OtpActivity : AppCompatActivity() {
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
         dialog.show()
 
-        if (mobileNoEditText == null) {
+        if (mobileNoEditText.isNullOrBlank()) {
 
             Handler().postDelayed({
                 dialog.dismiss()

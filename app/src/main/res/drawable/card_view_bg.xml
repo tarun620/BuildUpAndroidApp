@@ -3,7 +3,7 @@
 
 
   <solid
-    android:color="@color/white"/>
+    android:color="@color/orange_main"/>
 
   <stroke
     android:color="@color/orange_main"

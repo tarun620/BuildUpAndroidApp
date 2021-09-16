@@ -1,11 +1,11 @@
 package com.example.buildup
 
 import com.example.api.BuildUpClient
-import com.example.api.models.responses.loginSignup.loginSignupEntities.CompleteProfileMobileData
-import com.example.api.models.responses.loginSignup.loginSignupEntities.SignupGoogleMobileData
-import com.example.api.models.responses.loginSignup.loginSignupEntities.SignupMobileData
-import com.example.api.models.responses.loginSignup.loginSignupEntities.sendOTPMobile
-import com.example.api.models.responses.property.propertyEntities.AddPropertyData
+import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.CompleteProfileMobileData
+import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.SignupGoogleMobileData
+import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.SignupMobileData
+import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.sendOTPMobile
+import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
 import kotlinx.coroutines.runBlocking

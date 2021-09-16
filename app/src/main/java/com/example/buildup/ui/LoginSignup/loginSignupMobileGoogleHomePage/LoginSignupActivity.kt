@@ -139,12 +139,14 @@ class LoginSignupActivity : AppCompatActivity() {
                                 emailTextInputLayout.error="User Already Registered With This Email"
                             }
                             else if(it.success && !it.userExists){
+                                emailTextInputLayout.error=null
                                 val intent = Intent(this@LoginSignupActivity, SignupActivity::class.java)
                                 intent.putExtra("email", emailEditText.text.toString())
                                 intent.putExtra("password", passwordEditText.text.toString())
                                 startActivity(intent)
                             }
                             else{
+                                emailTextInputLayout.error=null
                                 Toast.makeText(this@LoginSignupActivity, it?.error, Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -303,8 +305,12 @@ class LoginSignupActivity : AppCompatActivity() {
     private fun loginToggle() {
         isLOGIN = true
         _binding?.apply {
+            emailTextInputLayout.clearFocus()
+            passwordTextInputLayout.clearFocus()
             emailTextInputLayout.error = null
+            emailTextInputLayout.isErrorEnabled=false
             passwordTextInputLayout.error = null
+            passwordTextInputLayout.isErrorEnabled=false
             confirmPasswordTextInputLayout.visibility = View.GONE
             forgetPasswordTextview.visibility = VISIBLE
             SignUpButton.text = "Sign In"
@@ -328,11 +334,17 @@ class LoginSignupActivity : AppCompatActivity() {
     private fun signupToggle() {
         isLOGIN = false
         _binding?.apply {
+            emailTextInputLayout.clearFocus()
+            passwordTextInputLayout.clearFocus()
+            confirmPasswordTextInputLayout.clearFocus()
             emailTextInputLayout.error = null
+            emailTextInputLayout.isErrorEnabled=false
             passwordTextInputLayout.error = null
+            passwordTextInputLayout.isErrorEnabled=false
             confirmPasswordTextInputLayout.error = null
+            confirmPasswordTextInputLayout.isErrorEnabled=false
             confirmPasswordTextInputLayout.visibility = VISIBLE
-            forgetPasswordTextview.visibility = View.GONE
+            forgetPasswordTextview.visibility = GONE
             SignUpButton.text = "Sign Up"
             SignupButtonToggle.setBackgroundColor(resources.getColor(R.color.orange_main))
             SignupButtonToggle.setTextColor(resources.getColor(R.color.white))

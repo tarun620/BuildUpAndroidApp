@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.api.models.responses.expenditure.expenditureEntities.Expenditure
+import com.example.api.models.responsesAndData.expenditure.expenditureEntities.Expenditure
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemExpenditureBinding
 import com.example.buildup.extensions.timeStamp

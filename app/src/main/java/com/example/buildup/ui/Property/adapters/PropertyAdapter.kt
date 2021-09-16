@@ -1,13 +1,12 @@
 package com.example.buildup.ui.Property.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.api.models.responses.property.propertyResponses.PropertyResponse
+import com.example.api.models.responsesAndData.property.propertyResponses.PropertyResponse
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemPropertyBinding
 import kotlin.math.abs

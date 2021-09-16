@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.api.models.responses.products.productsEntities.Products
+import com.example.api.models.responsesAndData.products.productsEntities.Products
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemProductBinding
 import com.example.buildup.extensions.newLoadImage

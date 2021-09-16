@@ -3,7 +3,6 @@ package com.example.buildup.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.api.models.responses.property.propertyResponses.PropertiesResponse
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityWishlistBinding
 import com.example.buildup.ui.Property.layouts.PropertiesActivity

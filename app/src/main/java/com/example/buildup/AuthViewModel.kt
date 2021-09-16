@@ -4,17 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.api.models.entities.User
-import com.example.api.models.responses.expenditure.expenditureResponses.ExpendituresResponse
-import com.example.api.models.responses.expenditure.expenditureResponses.TotalExpenditureResponse
-import com.example.api.models.responses.loginSignup.loginSignupResponses.*
-import com.example.api.models.responses.products.productsResponses.ProductCategoriesResponse
-import com.example.api.models.responses.products.productsResponses.ProductResponse
-import com.example.api.models.responses.products.productsResponses.ProductSubCategoriesResponse
-import com.example.api.models.responses.products.productsResponses.ProductsResponse
-import com.example.api.models.responses.property.propertyResponses.PropertiesResponse
-import com.example.api.models.responses.property.propertyResponses.SinglePropertyResponse
-import com.example.api.models.responses.updates.UpdatesResponse
+import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
+import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
+import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
+import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
+import com.example.api.models.responsesAndData.products.productsResponses.ProductsResponse
+import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
+import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.buildup.data.UserRepo
 import kotlinx.coroutines.launch
 
@@ -99,8 +98,9 @@ class AuthViewModel:ViewModel() {
             colony:String,
             city:String,
             state:String,
-            pincode:Int)=viewModelScope.launch {
-        UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode).let {
+            pincode:Int,
+            coordinates:ArrayList<Double>)=viewModelScope.launch {
+        UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode,coordinates).let {
             _resp.postValue(it)
         }
     }

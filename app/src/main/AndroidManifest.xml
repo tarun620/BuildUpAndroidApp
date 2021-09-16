@@ -18,10 +18,10 @@
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ChangePassword"
+            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ChangePasswordActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.LoginSignup.loginSignupGoogle.ForgotPassOtpActivity"
+            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.OtpNewActivity"
             android:exported="true" />
         <activity
             android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ForgotPasswordActivity"
