@@ -25,13 +25,13 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivitySplashBinding? = null
     private lateinit var authViewModel: AuthViewModel
 
-    private lateinit var sharedPrefrences: SharedPreferences
+//    private lateinit var sharedPrefrences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivitySplashBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+//        sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
         setContentView(_binding?.root)
 
@@ -55,14 +55,14 @@ class MainActivity : AppCompatActivity() {
                 _binding!!.homeIcon.startAnimation(zoomIn)
                 _binding!!.homeIcon.visibility = View.GONE
                 Handler().postDelayed({
-                    if (sharedPrefrences.getString(PREFS_KEY_TOKEN, null) != null) {
-                        val intent = Intent(this, LoginSignupActivity::class.java)
-                        startActivity(intent)
-                    } else {
+//                    if (sharedPrefrences.getString(PREFS_KEY_TOKEN, null) != null) {
+//                        val intent = Intent(this, LoginSignupActivity::class.java)
+//                        startActivity(intent)
+//                    } else {
 
                         startActivity(Intent(this, LoginSignupActivity::class.java))
 
-                    }
+//                    }
                 }, 400)
 
             }, 500)
