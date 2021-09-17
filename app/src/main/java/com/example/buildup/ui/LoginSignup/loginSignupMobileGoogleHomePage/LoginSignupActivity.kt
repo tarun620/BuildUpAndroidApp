@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
+import android.text.InputFilter
+import android.text.InputType
 import android.util.Log
 import android.util.Patterns
 import android.view.View
@@ -307,6 +309,8 @@ class LoginSignupActivity : AppCompatActivity() {
         _binding?.apply {
             emailTextInputLayout.clearFocus()
             passwordTextInputLayout.clearFocus()
+            emailEditText.filters = arrayOf(InputFilter.LengthFilter(10))  //setting max length as 10
+            emailEditText.inputType=InputType.TYPE_CLASS_NUMBER   //making input type as numeric value only
             emailTextInputLayout.error = null
             emailTextInputLayout.isErrorEnabled=false
             passwordTextInputLayout.error = null

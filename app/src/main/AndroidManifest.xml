@@ -45,23 +45,9 @@
         <activity android:name=".ui.Property.layouts.AddPropertyActivity" />
         <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity" />
         <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         <activity android:name=".ui.Property.layouts.PropertiesActivity" />
         <activity android:name=".ui.LoginSignup.signupMobileGoogleBuffer.OtpActivity" />
         <activity android:name=".ui.LoginSignup.signupMobile.SignupActivity">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity" />
         <activity android:name=".MainActivity">
