@@ -359,6 +359,7 @@ class LoginSignupActivity : AppCompatActivity() {
             emailTextInputLayout.hint = "Email"
             emailEditText.text?.clear()
             passwordEditText.text!!.clear()
+            passwordConfirmEditText.text!!.clear()
         }
 
     }
