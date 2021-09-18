@@ -35,6 +35,7 @@ class ProductsActivity : AppCompatActivity() {
         _binding.productsRecyclerView.adapter=productAdapter
 
 
+
         setContentView(_binding?.root)
 
 
