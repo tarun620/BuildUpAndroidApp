@@ -67,8 +67,7 @@ class   ProductCategoryActivity : AppCompatActivity() {
                 Toast.makeText(this,"product categories fetching successful", Toast.LENGTH_SHORT).show()
                 productCategoryAdapter.submitList(it.productCategories)
                 productCategoryAdapter.notifyDataSetChanged()
-//                propertyCategoryId=it.productCategories[0].id
-                Log.d("propertyid",propertyCategoryId.toString())
+                getProductSubCategories(it.productCategories?.get(0)?.id!!)
             }
             else{
                 Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()

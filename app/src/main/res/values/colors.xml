@@ -15,4 +15,5 @@
     <color name="orange_theme">#FF6100</color>
     <color name="grey_theme">#BFBFBF</color>
     <color name="grey_bg">#EDF1FF</color>
+    <color name="grey_bg_poducts">#F3F3F3</color>
 </resources>

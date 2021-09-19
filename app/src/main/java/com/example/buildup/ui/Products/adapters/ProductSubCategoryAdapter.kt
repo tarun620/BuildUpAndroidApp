@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.products.productsEntities.ProductSubCategory
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemProductCategoryBinding
+import com.example.buildup.databinding.ListItemProductSubCategoryBinding
 import com.example.buildup.extensions.loadImage
+import com.example.buildup.extensions.newLoadImage
 
 class ProductSubCategoryAdapter(val onProductSubCategoryClicked:(productSubCategoryId:String?)->Unit): ListAdapter<ProductSubCategory, ProductSubCategoryAdapter.ProductSubCategoryViewHolder>(
     object : DiffUtil.ItemCallback<ProductSubCategory>(){
@@ -27,7 +29,7 @@ class ProductSubCategoryAdapter(val onProductSubCategoryClicked:(productSubCateg
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductSubCategoryViewHolder {
         return ProductSubCategoryViewHolder(
             parent.context.getSystemService(LayoutInflater::class.java).inflate(
-                R.layout.list_item_product_category,
+                R.layout.list_item_product_sub_category,
                 parent,
                 false
             )
@@ -35,11 +37,13 @@ class ProductSubCategoryAdapter(val onProductSubCategoryClicked:(productSubCateg
     }
 
     override fun onBindViewHolder(holder: ProductSubCategoryViewHolder, position: Int) {
-        val bind=ListItemProductCategoryBinding.bind(holder.itemView).apply {
+        val bind=ListItemProductSubCategoryBinding.bind(holder.itemView).apply {
             val productSubCategory=getItem(position)
 
-            ivProductCategoryImage.loadImage(productSubCategory.image)
-            tvProductCategoryName.text=productSubCategory.name
+            ivProductSubCategoryImage.newLoadImage(productSubCategory.image)
+            tvProductSubCategoryName.text=productSubCategory.name
+//            ivProductCategoryImage.loadImage(productSubCategory.image)
+//            tvProductCategoryName.text=productSubCategory.name
 
             root.setOnClickListener { onProductSubCategoryClicked(productSubCategory.id) }
         }
