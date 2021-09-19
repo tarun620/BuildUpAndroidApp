@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ProductSubCategoriesResponse(
-    @Json(name = "productSubCategories")
+    @Json(name = "subCategories")
     val productSubCategories: List<ProductSubCategory>?,
     @Json(name = "success")
     val success: Boolean?,

@@ -15,7 +15,7 @@ import com.example.buildup.databinding.ActivityProductCategoryBinding
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapter
 import com.example.buildup.ui.Products.adapters.ProductSubCategoryAdapter
 
-class ProductCategoryActivity : AppCompatActivity() {
+class   ProductCategoryActivity : AppCompatActivity() {
 //    private lateinit var _binding:ActivityProductCategoryBinding
     private lateinit var _binding:ActivityProductCategoryBinding
     private lateinit var authViewModel: AuthViewModel
@@ -101,6 +101,7 @@ class ProductCategoryActivity : AppCompatActivity() {
         authViewModel.getProductSubCategories(productCategoryId)
         authViewModel.respProductSubCategoryArray.observe({lifecycle}){
             if(it.success!!){
+//                Log.d("testLog",it.productSubCategories)
                 Toast.makeText(this,"product sub categories fetching successful", Toast.LENGTH_SHORT).show()
                 productSubCategoryAdapter.submitList(it.productSubCategories)
             }

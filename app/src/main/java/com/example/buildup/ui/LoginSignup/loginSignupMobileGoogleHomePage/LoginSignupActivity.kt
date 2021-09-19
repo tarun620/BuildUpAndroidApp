@@ -341,6 +341,8 @@ class LoginSignupActivity : AppCompatActivity() {
             emailTextInputLayout.clearFocus()
             passwordTextInputLayout.clearFocus()
             confirmPasswordTextInputLayout.clearFocus()
+            emailEditText.filters = arrayOf(InputFilter.LengthFilter(30))  //setting max length as 10
+            emailEditText.inputType=InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             emailTextInputLayout.error = null
             emailTextInputLayout.isErrorEnabled=false
             passwordTextInputLayout.error = null
@@ -357,6 +359,7 @@ class LoginSignupActivity : AppCompatActivity() {
             emailTextInputLayout.hint = "Email"
             emailEditText.text?.clear()
             passwordEditText.text!!.clear()
+            passwordConfirmEditText.text!!.clear()
         }
 
     }
