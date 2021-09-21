@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="SORT BY"
+        android:textColor="@color/textGrey"
+        android:textSize="16sp"
+        android:fontFamily="@font/overpass"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_marginTop="12dp"
+        android:background="@color/textGrey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+
+    <TextView
+        android:id="@+id/highToLowBtn"
+        android:text="Price - high to low"
+        android:textColor="@color/textGrey"
+        android:textSize="16sp"
+        android:fontFamily="@font/overpass"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/popularityBtn"
+        android:text="Popularity"
+        android:textColor="@color/textGrey"
+        android:textSize="16sp"
+        android:fontFamily="@font/overpass"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/discountBtn"
+        android:text="Discount"
+        android:textColor="@color/textGrey"
+        android:textSize="16sp"
+        android:fontFamily="@font/overpass"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/lowToHighBtn"
+        android:text="Price - low to high"
+        android:textColor="@color/textGrey"
+        android:textSize="16sp"
+        android:fontFamily="@font/overpass"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/customerRatingBtn"
+        android:text="Customer Rating"
+        android:textColor="@color/textGrey"
+        android:textSize="16sp"
+        android:fontFamily="@font/overpass"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
