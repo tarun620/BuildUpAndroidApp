@@ -98,8 +98,9 @@ class AuthViewModel:ViewModel() {
             colony:String,
             city:String,
             state:String,
-            pincode:Int)=viewModelScope.launch {
-        UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode).let {
+            pincode:Int,
+            coordinates:ArrayList<Double>)=viewModelScope.launch {
+        UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode,coordinates).let {
             _resp.postValue(it)
         }
     }

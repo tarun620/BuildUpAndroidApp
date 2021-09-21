@@ -173,10 +173,11 @@ object UserRepo {
             colony:String,
             city:String,
             state:String,
-            pincode:Int): SuccessMessageResponse?{
+            pincode:Int,
+            coordinates:ArrayList<Double>): SuccessMessageResponse?{
 
         try{
-            val response= authApi.addProperty(AddPropertyData(name, type, houseNo, colony, city, state, pincode))
+            val response= authApi.addProperty(AddPropertyData(name, type, houseNo, colony, city, state, pincode,coordinates))
 
             if(response.isSuccessful){
                 return response.body()
