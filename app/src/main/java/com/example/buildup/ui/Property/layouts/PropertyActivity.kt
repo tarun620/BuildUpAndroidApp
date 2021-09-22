@@ -19,6 +19,7 @@ import com.example.buildup.ui.ExpenditureActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Updates.UpdatesActivity
 import com.example.buildup.ui.Updates.UpdatesAdapter
+import com.example.buildup.ui.UpdatesBottomSheetFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.shuhart.stepview.StepView
 import java.util.*
@@ -26,14 +27,17 @@ import java.util.*
 
 class PropertyActivity : AppCompatActivity() {
 
-    var helpArray= arrayOf<String>("Layout","Structure","Fitting","Flooring","Touching","Done")
+    var helpArray =
+        arrayOf<String>("Layout", "Structure", "Fitting", "Flooring", "Touching", "Done")
     val stepsBeanList: MutableList<StepBean> = ArrayList()
-//    private lateinit var _binding:ActivityPropertyBinding
-    private lateinit var _binding:ActivityPropertyBinding
-    private lateinit var _bindingUpdates:ActivityUpdatesBinding
+
+    //    private lateinit var _binding:ActivityPropertyBinding
+    private lateinit var _binding: ActivityPropertyBinding
+    private lateinit var _bindingUpdates: ActivityUpdatesBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var updatesAdapter: UpdatesAdapter
-//    private lateinit var horizontalStepView: HorizontalStepView
+
+    //    private lateinit var horizontalStepView: HorizontalStepView
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
 
@@ -41,14 +45,14 @@ class PropertyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_property)
 
-        _binding= ActivityPropertyBinding.inflate(layoutInflater)
-        _bindingUpdates=ActivityUpdatesBinding.inflate(layoutInflater)
-        authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
-        updatesAdapter= UpdatesAdapter()
+        _binding = ActivityPropertyBinding.inflate(layoutInflater)
+        _bindingUpdates = ActivityUpdatesBinding.inflate(layoutInflater)
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        updatesAdapter = UpdatesAdapter()
 
-        _bindingUpdates.updatesRecyclerView.layoutManager= LinearLayoutManager(this)
-        _bindingUpdates.updatesRecyclerView.adapter=updatesAdapter
-        _bindingUpdates.updatesRecyclerView.isNestedScrollingEnabled=true
+        _bindingUpdates.updatesRecyclerView.layoutManager = LinearLayoutManager(this)
+        _bindingUpdates.updatesRecyclerView.adapter = updatesAdapter
+        _bindingUpdates.updatesRecyclerView.isNestedScrollingEnabled = true
 
         setContentView(_binding?.root)
 
@@ -60,14 +64,15 @@ class PropertyActivity : AppCompatActivity() {
 
 //        setContentView(_bindingUpdates?.root)
 
-        val propertyId:String?=intent.getStringExtra("propertyId")
+        val propertyId: String? = intent.getStringExtra("propertyId")
 
-                //PERSISTENT BOTTOM SHEET
-            BottomSheetBehavior.from(_binding.bottomSheet).apply {
-                peekHeight = 300
-                this.state = BottomSheetBehavior.STATE_COLLAPSED
-            }
+        supportFragmentManager.beginTransaction().replace(R.id.updateBottomFrame,UpdatesBottomSheetFragment()).commit()
 
+        //PERSISTENT BOTTOM SHEET
+        BottomSheetBehavior.from(_binding.updateBottomFrame).apply {
+            peekHeight = 350
+            this.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
 
 
 //        getUpdates(propertyId!!)
@@ -97,7 +102,6 @@ class PropertyActivity : AppCompatActivity() {
 //        horizontalStepView=findViewById<HorizontalStepView>(R.id.stepsView)
 
 
-
         //MODAL BOTTOM SHEET
         // Creating the new Fragment with the name passed in.
 //        val fragment = MyDialogBottomSheet.newInstance(propertyId!!)
@@ -105,17 +109,15 @@ class PropertyActivity : AppCompatActivity() {
 //        MyDialogBottomSheet().show(supportFragmentManager,"")
 
 
-
         authViewModel.getProperty(propertyId!!)
 
-        authViewModel.respProperty.observe({lifecycle}){
-            if(it?.success!!){
-                _binding.propertyName.text=it.property?.name
+        authViewModel.respProperty.observe({ lifecycle }) {
+            if (it?.success!!) {
+                _binding.propertyName.text = it.property?.name
 //                _binding.completedStatus.text="Completed Stage : ${it.property.completed.toString()}"
-            }
-            else{
-                Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
-                Log.d("errorProperty",it.error.toString())
+            } else {
+                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                Log.d("errorProperty", it.error.toString())
             }
         }
 
@@ -126,42 +128,41 @@ class PropertyActivity : AppCompatActivity() {
 //        }
 
         _binding.expensesButton.setOnClickListener {
-            val intent=Intent(
+            val intent = Intent(
                 this,
                 ExpenditureActivity::class.java
             )
-            intent.putExtra("propertyId",propertyId)
+            intent.putExtra("propertyId", propertyId)
             startActivity(intent)
         }
 
         _binding.productsCategoryButton.setOnClickListener {
-            val intent=Intent(
+            val intent = Intent(
                 this,
                 ProductCategoryActivity::class.java
             )
-            intent.putExtra("propertyId",propertyId)
+            intent.putExtra("propertyId", propertyId)
             startActivity(intent)
         }
 
     }
 
-    fun updateUI(){
-        _bindingUpdates.updatesRecyclerView.layoutManager= LinearLayoutManager(this)
-        _bindingUpdates.updatesRecyclerView.adapter=updatesAdapter
+    fun updateUI() {
+        _bindingUpdates.updatesRecyclerView.layoutManager = LinearLayoutManager(this)
+        _bindingUpdates.updatesRecyclerView.adapter = updatesAdapter
         updatesAdapter.notifyDataSetChanged()
     }
 
-    fun getUpdates(propertyId:String){
+    fun getUpdates(propertyId: String) {
         authViewModel.getUpdates(propertyId)
-        authViewModel.respUpdatesArray.observe({lifecycle}){
-            if(it?.success!!){
-                Toast.makeText(this,"updates fetching successful", Toast.LENGTH_SHORT).show()
+        authViewModel.respUpdatesArray.observe({ lifecycle }) {
+            if (it?.success!!) {
+                Toast.makeText(this, "updates fetching successful", Toast.LENGTH_SHORT).show()
                 updatesAdapter.submitList(it.updates)
 
-            }
-            else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-                Log.d("errorUpdates",it.error.toString())
+            } else {
+                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                Log.d("errorUpdates", it.error.toString())
             }
         }
     }
