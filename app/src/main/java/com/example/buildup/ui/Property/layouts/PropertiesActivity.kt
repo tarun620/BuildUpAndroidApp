@@ -1,11 +1,14 @@
 package com.example.buildup.ui.Property.layouts
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.WorkSource
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -46,6 +49,8 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 //        setContentView(R.layout.activity_logged_in)
 
         _binding = ActivityPropertiesBinding.inflate(layoutInflater)
+        setContentView(_binding.root)
+
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         propertyAdapter = PropertyAdapter { openProperty(it) }
         setupNavigationDrawer()
@@ -56,7 +61,10 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         _binding.propertyRecyclerView.adapter = propertyAdapter
         propertyAdapter.notifyDataSetChanged()
 
-        setContentView(_binding.root)
+        _binding.buttonDashboard.setOnClickListener {
+            this._binding.drawer.openDrawer(Gravity.LEFT)
+        }
+
 
         _binding.bottomNavigationView.background = null
 

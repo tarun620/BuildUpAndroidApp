@@ -112,6 +112,7 @@
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/activity_signup.xml" value="0.3346846846846847" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/activity_wishlist.xml" value="0.10277777777777777" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/activity_work_in_progress.xml" value="0.3346846846846847" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/app_bar_main.xml" value="0.31767955801104975" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/cart_item_layout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/cart_layout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/filter_layout.xml" value="0.22" />
@@ -120,6 +121,9 @@
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/item_wishlist_layout.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/layout_wishlist.xml" value="0.33" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/list_item_product.xml" value="0.11931818181818182" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/list_item_product_category.xml" value="0.3346846846846847" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/list_item_product_sub_category.xml" value="0.31767955801104975" />
+        <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/list_item_update.xml" value="0.3346846846846847" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/menu_header.xml" value="0.22" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/payment_item_layout.xml" value="0.33" />
         <entry key="..\:/Users/Bhavishay/StudioProjects/BuildUpProject/app/src/main/res/layout/product_layout.xml" value="0.38697916666666665" />
