@@ -18,6 +18,9 @@
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.WorkInProgressActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ChangePasswordActivity"
             android:exported="true" />
         <activity
@@ -47,8 +50,7 @@
         <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
         <activity android:name=".ui.Property.layouts.PropertiesActivity" />
         <activity android:name=".ui.LoginSignup.signupMobileGoogleBuffer.OtpActivity" />
-        <activity android:name=".ui.LoginSignup.signupMobile.SignupActivity">
-        </activity>
+        <activity android:name=".ui.LoginSignup.signupMobile.SignupActivity"></activity>
         <activity android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

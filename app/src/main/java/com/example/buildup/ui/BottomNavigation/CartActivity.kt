@@ -5,52 +5,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityCartBinding
+import com.example.buildup.databinding.CartLayoutBinding
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
 class CartActivity : AppCompatActivity() {
-    private lateinit var _binding: ActivityCartBinding
+    private lateinit var _binding: CartLayoutBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityCartBinding.inflate(layoutInflater)
+        _binding = CartLayoutBinding.inflate(layoutInflater)
         setContentView(_binding.root)
-        _binding.bottomNavigationView.background = null
 
-        setupBottomNavigationBar()
-
-    }
-
-
-    private fun setupBottomNavigationBar() {
-
-        _binding.bottomNavigationView.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-
-                R.id.nav_home -> {
-
-                    startActivity(Intent(this, PropertiesActivity::class.java))
-
-
-                }
-                R.id.nav_cart -> {
-
-
-                }
-
-                R.id.nav_wishlist -> {
-
-                    startActivity(Intent(this, WishlistActivity::class.java))
-
-
-                }
-
-                R.id.nav_profile -> {
-
-                    startActivity(Intent(this, ProfileActivity::class.java))
-
-
-                }
-            }
-            true
+        _binding.backBtn.setOnClickListener {
+            startActivity(Intent(this,PropertiesActivity::class.java))
         }
+
+
+
     }
+
+
+
 }

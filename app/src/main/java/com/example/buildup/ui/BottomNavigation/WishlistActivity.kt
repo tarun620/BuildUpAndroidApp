@@ -14,44 +14,14 @@ class  WishlistActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityWishlistBinding.inflate(layoutInflater)
         setContentView(_binding.root)
-        _binding.bottomNavigationView.background = null
 
-        setupBottomNavigationBar()
-
-    }
-
-
-    private fun setupBottomNavigationBar() {
-
-        _binding.bottomNavigationView.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-
-                R.id.nav_home -> {
-
-                    startActivity(Intent(this,PropertiesActivity::class.java))
-
-                }
-                R.id.nav_cart -> {
-
-                    startActivity(Intent(this, CartActivity::class.java))
-
-                }
-
-                R.id.nav_wishlist -> {
-
-
-
-                }
-
-                R.id.nav_profile -> {
-
-                    startActivity(Intent(this, ProfileActivity::class.java))
-
-
-                }
-            }
-            true
+        _binding.backBtn.setOnClickListener {
+            startActivity(Intent(this,WishlistActivity::class.java))
         }
+
+
     }
+
+
 
 }

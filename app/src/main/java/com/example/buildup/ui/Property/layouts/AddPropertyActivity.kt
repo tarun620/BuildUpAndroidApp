@@ -65,6 +65,7 @@ class AddPropertyActivity : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
 
+
         setContentView(_binding?.root)
 
         if (getSupportActionBar() != null) {
