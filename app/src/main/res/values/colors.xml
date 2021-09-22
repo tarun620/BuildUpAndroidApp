@@ -16,4 +16,5 @@
     <color name="grey_theme">#BFBFBF</color>
     <color name="grey_bg">#EDF1FF</color>
     <color name="grey_bg_poducts">#F3F3F3</color>
+    <color name="grey_bg_2">#F6F7FB</color>
 </resources>
