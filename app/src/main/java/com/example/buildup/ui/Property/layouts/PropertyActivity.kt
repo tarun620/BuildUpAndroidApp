@@ -72,6 +72,7 @@ class PropertyActivity : AppCompatActivity() {
         BottomSheetBehavior.from(_binding.updateBottomFrame).apply {
             peekHeight = 350
             this.state = BottomSheetBehavior.STATE_COLLAPSED
+//            setPeekHeight(800)
         }
 
 

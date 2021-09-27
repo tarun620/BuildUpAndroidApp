@@ -79,10 +79,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/llTimeline"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="4dp"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -112,7 +113,7 @@
 
         <View
             android:id="@+id/line_1"
-            android:layout_width="32dp"
+            android:layout_width="24dp"
             android:layout_height="2dp"
             android:background="@drawable/ic_line"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -141,7 +142,7 @@
 
         <View
             android:id="@+id/line_2"
-            android:layout_width="32dp"
+            android:layout_width="24dp"
             android:layout_height="2dp"
             android:background="@drawable/ic_line"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -170,7 +171,7 @@
 
         <View
             android:id="@+id/line_3"
-            android:layout_width="32dp"
+            android:layout_width="24dp"
             android:layout_height="2dp"
             android:background="@drawable/ic_line"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -199,7 +200,7 @@
 
         <View
             android:id="@+id/line_4"
-            android:layout_width="32dp"
+            android:layout_width="24dp"
             android:layout_height="2dp"
             android:background="@drawable/ic_line"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -228,7 +229,7 @@
 
         <View
             android:id="@+id/line_5"
-            android:layout_width="32dp"
+            android:layout_width="24dp"
             android:layout_height="2dp"
             android:background="@drawable/ic_line"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -257,8 +258,9 @@
 
         <View
             android:id="@+id/line_6"
-            android:layout_width="32dp"
+            android:layout_width="0dp"
             android:layout_height="2dp"
+            app:layout_constraintEnd_toStartOf="@id/home_ic"
             android:background="@drawable/ic_line"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ellipse_6"
@@ -266,8 +268,9 @@
 
 
         <ImageView
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:id="@+id/home_ic"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="12dp"
@@ -282,8 +285,11 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintStart_toEndOf="@id/expensesButton"
         android:layout_height="220dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:src="@drawable/house_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llTimeline" />
@@ -293,6 +299,7 @@
         android:id="@+id/expensesButton"
         android:layout_width="70dp"
         android:layout_height="100dp"
+        android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:background="@drawable/item_property_card_bg"
         android:gravity="center"
@@ -324,12 +331,13 @@
         android:layout_height="100dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
         android:background="@drawable/card_view_black_bg"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/expensesButton"
+        app:layout_constraintStart_toStartOf="@+id/expensesButton"
         app:layout_constraintTop_toBottomOf="@+id/expensesButton">
 
         <ImageView
@@ -352,13 +360,12 @@
         android:layout_width="70dp"
         android:layout_height="100dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
         android:background="@drawable/item_property_card_bg"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/view_pay"
+        app:layout_constraintStart_toStartOf="@+id/view_pay"
         app:layout_constraintTop_toBottomOf="@+id/view_pay">
 
         <ImageView
@@ -383,7 +390,7 @@
         android:id="@+id/view_watch_live"
         android:layout_width="120dp"
         android:layout_height="70dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/item_property_card_bg"
         android:gravity="center"
@@ -410,14 +417,13 @@
         android:id="@+id/view_weekly_videos"
         android:layout_width="127dp"
         android:layout_height="70dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="12dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/item_property_card_bg"
         android:gravity="center"
 
         android:orientation="vertical"
 
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/view_watch_live"
         app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
@@ -440,7 +446,6 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
