@@ -114,6 +114,15 @@
             tools:listitem="@layout/item_property" />
 
 
+        <View
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/propertyRecyclerView"
+
+            android:layout_width="match_parent"
+            android:layout_height="140dp"/>
+
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -135,6 +144,7 @@
                     android:id="@+id/bottomNavigationView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
                     android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
                     app:itemIconTint="@color/white"
