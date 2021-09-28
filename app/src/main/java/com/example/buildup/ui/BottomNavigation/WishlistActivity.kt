@@ -15,12 +15,54 @@ class  WishlistActivity : AppCompatActivity() {
         _binding = ActivityWishlistBinding.inflate(layoutInflater)
         setContentView(_binding.root)
 
+        _binding.bottomNavigationView.background = null
+        setupBottomNavigationBar()
+
+        _binding.bottomNavigationView.menu.getItem(2).isEnabled = false
+        _binding.bottomNavigationView.menu.getItem(2).isChecked = true
+
+
         _binding.backBtn.setOnClickListener {
-            startActivity(Intent(this,WishlistActivity::class.java))
+            finish()
+//            startActivity(Intent(this,WishlistActivity::class.java))
+        }
+        _binding.cartBtn.setOnClickListener {
+            val intent=Intent(this,CartActivity::class.java)
+            startActivity(intent)
         }
 
 
     }
+
+    private fun setupBottomNavigationBar() {
+
+        _binding.bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+
+                R.id.nav_home -> {
+                    startActivity(Intent(this, PropertiesActivity::class.java))
+
+
+                }
+                R.id.nav_cart -> {
+                    startActivity(Intent(this, CartActivity::class.java))
+
+                }
+
+                R.id.nav_wishlist -> {
+
+
+                }
+
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+
+                }
+            }
+            true
+        }
+    }
+
 
 
 

@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.updates.Update
 import com.example.buildup.R
+import com.example.buildup.databinding.ItemUpdatesBinding
 import com.example.buildup.databinding.ListItemUpdateBinding
+import com.example.buildup.extensions.loadImage
 import com.example.buildup.extensions.timeStamp
 
 class UpdatesAdapter: ListAdapter<Update, UpdatesAdapter.UpdateViewHolder>(
@@ -30,7 +32,7 @@ class UpdatesAdapter: ListAdapter<Update, UpdatesAdapter.UpdateViewHolder>(
 
         return UpdateViewHolder(
             parent.context.getSystemService(LayoutInflater::class.java).inflate(
-                R.layout.list_item_update,
+                R.layout.item_updates,
                 parent,
                 false
             )
@@ -38,12 +40,13 @@ class UpdatesAdapter: ListAdapter<Update, UpdatesAdapter.UpdateViewHolder>(
     }
 
     override fun onBindViewHolder(holder: UpdateViewHolder, position: Int) {
-        var bind=ListItemUpdateBinding.bind(holder.itemView).apply {
+        var bind=ItemUpdatesBinding.bind(holder.itemView).apply {
             val update=getItem(position)
 
-            tvUpdateDesc.text=update.description
-//            tvUpdateDate.text=update.createdAt
-            tvUpdateDate.timeStamp=update.createdAt
+            updatesImage.loadImage(update.workCategoryId?.image!!)
+            updatesTitle.text=update.workCategoryId?.name
+            updatesDesc.text=update.description
+            updatesDate.timeStamp=update.createdAt
 
         }
     }

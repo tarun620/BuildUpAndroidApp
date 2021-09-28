@@ -74,7 +74,9 @@ class LoginSignupActivity : AppCompatActivity() {
 
         val gso =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestProfile()
                 .requestEmail()
+                .requestIdToken(resources.getString(R.string.googleAccountWebClientID))
                 .build()
 
         // Build a GoogleSignInClient with the options specified by gso.
@@ -166,16 +168,20 @@ class LoginSignupActivity : AppCompatActivity() {
 
             // LOGIN-SIGNUP using GOOGLE
             googleLoginButton.setOnClickListener {
+                mGoogleSignInClient.signOut()
                 val signInIntent = mGoogleSignInClient.signInIntent
                 startActivityForResult(signInIntent, RC_SIGN_IN)
+                Log.d("google123Onclick","reached here")
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d("google123OnActivityResult","reached here")
 
         if (requestCode == RC_SIGN_IN) {
+            Log.d("google123OnActivityResultInsideIf","reached here")
             val task =
                 GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
@@ -183,14 +189,16 @@ class LoginSignupActivity : AppCompatActivity() {
     }
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        Log.d("google123handleSignInResult","reached here")
         try {
             val account =
                 completedTask.getResult(ApiException::class.java)
 
             // Signed in successfully, show authenticated UI.
-            Log.d("googleSignin", "I am in try block..")
+            Log.d("google123handleSignInResultInsideTry","reached here")
             updateUI(account)
         } catch (e: ApiException) {
+            Log.d("google123handleSignInResultInsideCatch","reached here")
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.w("googleSignin", "signInResult:failed code=" + e.statusCode)
@@ -201,24 +209,28 @@ class LoginSignupActivity : AppCompatActivity() {
 
     private fun updateUI(account: GoogleSignInAccount?) {
         if (account == null) {
-//            _binding?.apply {
-//                signInButton?.visibility = View.VISIBLE
-//
-//            }
+            Log.d("google123updateUIInsideIf","reached here")
             Toast.makeText(
                 this,
                 "Something Went Wrong. Please try again later.",
                 Toast.LENGTH_SHORT
             ).show()
         } else {
+            Log.d("google123updateUIInsideElse","reached here")
+            Log.d("google123updateUIInsideElse",account.displayName)
+            Log.d("google123updateUIInsideElse",account.email)
+            if(account.photoUrl==null)
+                Log.d("google123updateUIInsideElse","photoUrl is Null")
+
             _binding?.apply {
-//                signInButton?.visibility = View.GONE
-//                Log.d("test123","testLog")
                 authViewModel.loginSignupGoogle(
-                    account.displayName.toString(),
-                    account.email.toString(),
+                    account.displayName,
+                    account.email,
+//                    null
                     account.photoUrl.toString()
                 )
+
+                Log.d("google123afterApirequest","reached here")
 
                 authViewModel.respNewImageGoogle.observe({ lifecycle }) {
                     if (it?.token != null && it.success!!) {

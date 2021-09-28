@@ -10,10 +10,11 @@
 
     <ImageView
         android:id="@+id/back_btn"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="19dp"
+        android:padding="5dp"
         android:src="@drawable/ic_back_up_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -93,21 +94,38 @@
             android:id="@+id/ellipse_1"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_colored_ellipse"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_border_ellipse"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/timeline_text_1"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="1"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/ellipse_1"
             app:layout_constraintEnd_toEndOf="@id/ellipse_1"
             app:layout_constraintStart_toStartOf="@id/ellipse_1"
             app:layout_constraintTop_toTopOf="@id/ellipse_1" />
+
+        <TextView
+            android:id="@+id/timeLineDesc1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Layout"
+            android:textColor="@color/timeline_blue"
+            android:textSize="13sp"
+            android:fontFamily="@font/overpass"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="@id/timeline_text_1"
+            app:layout_constraintEnd_toEndOf="@id/timeline_text_1"
+            app:layout_constraintTop_toBottomOf="@id/timeline_text_1"/>
+
 
         <View
             android:id="@+id/line_1"
@@ -122,21 +140,37 @@
             android:id="@+id/ellipse_2"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_colored_ellipse"
+            android:src="@drawable/ic_border_ellipse"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/line_1"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/timeline_text_2"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="2"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/ellipse_2"
             app:layout_constraintEnd_toEndOf="@id/ellipse_2"
             app:layout_constraintStart_toStartOf="@id/ellipse_2"
             app:layout_constraintTop_toTopOf="@id/ellipse_2" />
+
+        <TextView
+            android:id="@+id/timeLineDesc2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Structure"
+            android:textColor="@color/timeline_blue"
+            android:textSize="13sp"
+            android:fontFamily="@font/overpass"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="@id/timeline_text_2"
+            app:layout_constraintEnd_toEndOf="@id/timeline_text_2"
+            app:layout_constraintTop_toBottomOf="@id/timeline_text_2"/>
+
 
         <View
             android:id="@+id/line_2"
@@ -151,21 +185,35 @@
             android:id="@+id/ellipse_3"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_colored_ellipse"
+            android:src="@drawable/ic_border_ellipse"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/line_2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/timeline_text_3"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center"
             android:text="3"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/ellipse_3"
             app:layout_constraintEnd_toEndOf="@id/ellipse_3"
             app:layout_constraintStart_toStartOf="@id/ellipse_3"
             app:layout_constraintTop_toTopOf="@id/ellipse_3" />
+        <TextView
+            android:id="@+id/timeLineDesc3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Fitting"
+            android:textColor="@color/timeline_blue"
+            android:textSize="13sp"
+            android:fontFamily="@font/overpass"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="@id/timeline_text_3"
+            app:layout_constraintEnd_toEndOf="@id/timeline_text_3"
+            app:layout_constraintTop_toBottomOf="@id/timeline_text_3"/>
 
         <View
             android:id="@+id/line_3"
@@ -186,6 +234,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/timeline_text_4"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center"
@@ -195,6 +244,19 @@
             app:layout_constraintEnd_toEndOf="@id/ellipse_4"
             app:layout_constraintStart_toStartOf="@id/ellipse_4"
             app:layout_constraintTop_toTopOf="@id/ellipse_4" />
+        <TextView
+            android:id="@+id/timeLineDesc4"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Flooring"
+            android:textColor="@color/timeline_blue"
+            android:textSize="13sp"
+            android:fontFamily="@font/overpass"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="@id/timeline_text_4"
+            app:layout_constraintEnd_toEndOf="@id/timeline_text_4"
+            app:layout_constraintTop_toBottomOf="@id/timeline_text_4"/>
 
         <View
             android:id="@+id/line_4"
@@ -215,6 +277,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/timeline_text_5"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center"
@@ -224,6 +287,20 @@
             app:layout_constraintEnd_toEndOf="@id/ellipse_5"
             app:layout_constraintStart_toStartOf="@id/ellipse_5"
             app:layout_constraintTop_toTopOf="@id/ellipse_5" />
+
+        <TextView
+            android:id="@+id/timeLineDesc5"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Interior"
+            android:textColor="@color/timeline_blue"
+            android:textSize="13sp"
+            android:fontFamily="@font/overpass"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="@id/timeline_text_5"
+            app:layout_constraintEnd_toEndOf="@id/timeline_text_5"
+            app:layout_constraintTop_toBottomOf="@id/timeline_text_5"/>
 
         <View
             android:id="@+id/line_5"
@@ -244,6 +321,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/timeline_text_6"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center"
@@ -253,6 +331,19 @@
             app:layout_constraintEnd_toEndOf="@id/ellipse_6"
             app:layout_constraintStart_toStartOf="@id/ellipse_6"
             app:layout_constraintTop_toTopOf="@id/ellipse_6" />
+        <TextView
+            android:id="@+id/timeLineDesc6"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Finishing"
+            android:textColor="@color/timeline_blue"
+            android:textSize="13sp"
+            android:fontFamily="@font/overpass"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="@id/timeline_text_6"
+            app:layout_constraintEnd_toEndOf="@id/timeline_text_6"
+            app:layout_constraintTop_toBottomOf="@id/timeline_text_6"/>
 
         <View
             android:id="@+id/line_6"
@@ -266,17 +357,28 @@
 
 
         <ImageView
-            android:id="@+id/home_ic"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
+            android:id="@+id/ellipse_7"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:layout_marginBottom="16dp"
-            android:layout_marginEnd="12dp"
-            android:src="@drawable/home_icon"
+            android:src="@drawable/ic_vector_3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/line_6"
             app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/timeLineDesc7"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="Done"
+            android:textColor="@color/timeline_blue"
+            android:textSize="13sp"
+            android:fontFamily="@font/overpass"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toStartOf="@id/ellipse_7"
+            app:layout_constraintEnd_toEndOf="@id/ellipse_7"
+            app:layout_constraintTop_toBottomOf="@id/ellipse_7"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -454,6 +556,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="24dp"
+            
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
 

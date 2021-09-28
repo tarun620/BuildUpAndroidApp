@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:backgroundTint="@color/orange_main"
+                android:backgroundTint="@color/white"
                 app:fabCradleMargin="20dp"
                 app:fabCradleRoundedCornerRadius="20dp"
                 app:fabCradleVerticalOffset="10dp">
@@ -147,8 +147,8 @@
 
                     android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
-                    app:itemIconTint="@color/white"
-                    app:itemRippleColor="@color/white"
+                    app:labelVisibilityMode="labeled"
+                    app:itemIconTint="@drawable/navigation_view_colored"
                     app:menu="@menu/bottom_menu" />
 
 
@@ -159,7 +159,6 @@
                 android:id="@+id/add_property_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:src="@android:drawable/ic_input_add"
                 app:backgroundTint="@color/orange_main"
                 app:layout_anchor="@id/bottomAppBar"
@@ -195,8 +194,9 @@
         android:layout_gravity="start"
         app:headerLayout="@layout/menu_header"
         app:menu="@menu/dashboard_menu"
+
         app:itemTextAppearance="@font/rancho"
         app:itemTextColor="@color/orange_main"
         app:itemIconTint="@color/orange_main"
-        app:itemHorizontalPadding="40dp" />
+        app:itemHorizontalPadding="18dp" />
 </androidx.drawerlayout.widget.DrawerLayout>

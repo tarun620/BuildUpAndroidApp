@@ -9,7 +9,8 @@
         android:id="@+id/back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="19dp"
+        android:padding="5dp"
         android:src="@drawable/ic_back_up_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -62,6 +63,9 @@
         android:id="@+id/productsCategoryRecyclerView"
         android:layout_width="100dp"
         android:layout_height="0dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/grey_bg_poducts"
         tools:itemCount="12"
         tools:listitem="@layout/list_item_product_category"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -139,6 +143,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/productsCategoryRecyclerView"
         app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

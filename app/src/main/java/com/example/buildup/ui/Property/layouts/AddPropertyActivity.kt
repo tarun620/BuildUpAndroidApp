@@ -29,6 +29,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import java.util.*
 import com.google.android.gms.location.LocationRequest
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.asCoroutineDispatcher
 import kotlin.collections.ArrayList
 
 class AddPropertyActivity : AppCompatActivity() {
@@ -51,9 +53,9 @@ class AddPropertyActivity : AppCompatActivity() {
 
     var count: Int = 0
 
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
-    private var coordinates = ArrayList<Double>()
+    private var latitude: Double=0.0
+    private var longitude: Double=0.0
+    private lateinit var coordinates:ArrayList<Double>
     private var addressType: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +63,7 @@ class AddPropertyActivity : AppCompatActivity() {
         _binding = ActivityAddPropertyBinding.inflate(layoutInflater)
         _bindingDialog= AssetSuccesDialogBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        coordinates=ArrayList()
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -72,6 +75,9 @@ class AddPropertyActivity : AppCompatActivity() {
             getSupportActionBar()?.hide();
         }
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
         _binding?.apply {
             radioTypeGroup.setOnCheckedChangeListener { group, checkedId ->
                 if (checkedId == radioHome.id) {
@@ -84,15 +90,11 @@ class AddPropertyActivity : AppCompatActivity() {
             locationButton.setOnClickListener {
                 showProgressDialog()
                 turnOnGPS()
+        }
 
-            }
 
             submitButton.setOnClickListener {
                 if (validation()) {
-
-                    coordinates.add(longitude)
-                    coordinates.add(latitude)
-
                     authViewModel.addProperty(
                         etName.text.toString(),
                         addressType!!,
@@ -100,9 +102,8 @@ class AddPropertyActivity : AppCompatActivity() {
                         etColony.text.toString(),
                         etCity.text.toString(),
                         etState.text.toString(),
-                        etPincode.text.toString().toInt()
-                    //TODO("Add Landmark also")
-                    )
+                        etPincode.text.toString().toInt(),
+                        coordinates)
 
                     authViewModel.resp.observe({ lifecycle }) {
                         if (it?.success!!) {
@@ -169,7 +170,7 @@ class AddPropertyActivity : AppCompatActivity() {
     }
 
     fun turnOnGPS() {
-
+//        Log.d("coordinates","In turnOnGPS")
         locationRequest = LocationRequest.create()
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         locationRequest.setInterval(300)
@@ -285,6 +286,9 @@ class AddPropertyActivity : AppCompatActivity() {
                         val address: MutableList<Address>? = geoCoder.getFromLocation(
                             location.latitude, location.longitude, 1
                         )
+                        // adding coordinates value to arrayList
+                        coordinates.add(location.longitude)
+                        coordinates.add(location.latitude)
 
                         val colony = address?.get(0)?.subLocality
                         val city = address?.get(0)?.locality

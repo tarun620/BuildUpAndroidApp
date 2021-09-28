@@ -1,5 +1,6 @@
 package com.example.buildup
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -74,6 +75,7 @@ class AuthViewModel:ViewModel() {
     }
 
     fun loginSignupGoogle(name:String,email:String,profileImage:String?)=viewModelScope.launch{
+        Log.d("google123AuthViewModel","reached here")
         UserRepo.loginSignupGoogle(name,email,profileImage).let {
             _respNewImageGoogle.postValue(it)
         }
@@ -98,8 +100,9 @@ class AuthViewModel:ViewModel() {
             colony:String,
             city:String,
             state:String,
-            pincode:Int)=viewModelScope.launch {
-        UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode).let {
+            pincode:Int,
+            coordinates:ArrayList<Double>)=viewModelScope.launch {
+        UserRepo.addProperty(name, type, houseNo, colony, city, state, pincode,coordinates).let {
             _resp.postValue(it)
         }
     }

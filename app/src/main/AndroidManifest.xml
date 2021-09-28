@@ -17,6 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.Products.layouts.SearchActivity"></activity>
+        <activity android:name=".ui.Expenditure.PaymentActivity" />
         <activity
             android:name=".ui.WorkInProgressActivity"
             android:exported="true" />
@@ -39,10 +41,9 @@
             android:name=".ui.BottomNavigation.ProfileActivity"
             android:exported="true" />
         <activity android:name=".ui.Products.layouts.ProductActivity" />
-        <activity android:name=".ui.Products.layouts.ProductSubCategoryActivity" />
         <activity android:name=".ui.Products.layouts.ProductCategoryActivity" />
         <activity android:name=".ui.Products.layouts.ProductsActivity" />
-        <activity android:name=".ui.ExpenditureActivity" />
+        <activity android:name=".ui.Expenditure.ExpenditureActivity" />
         <activity android:name=".ui.Updates.UpdatesActivity" />
         <activity android:name=".ui.Property.layouts.PropertyActivity" />
         <activity android:name=".ui.Property.layouts.AddPropertyActivity" />
@@ -50,7 +51,7 @@
         <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
         <activity android:name=".ui.Property.layouts.PropertiesActivity" />
         <activity android:name=".ui.LoginSignup.signupMobileGoogleBuffer.OtpActivity" />
-        <activity android:name=".ui.LoginSignup.signupMobile.SignupActivity"></activity>
+        <activity android:name=".ui.LoginSignup.signupMobile.SignupActivity" />
         <activity android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

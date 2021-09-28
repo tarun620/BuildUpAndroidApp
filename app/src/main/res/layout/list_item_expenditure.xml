@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:background="#FFF4ED"
                 android:padding="5dp"
-                android:src="@drawable/ic_phone_image" />
+                android:src="@drawable/ic_icon_expenditure_phone" />
         </androidx.cardview.widget.CardView>
 
         <LinearLayout

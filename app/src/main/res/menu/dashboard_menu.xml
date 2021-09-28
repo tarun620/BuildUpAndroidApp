@@ -3,12 +3,11 @@
     <group android:checkableBehavior="single">
 
 
-
         <item
 
             android:id="@+id/nav_build_up_plus"
             android:icon="@drawable/home_icon"
-            android:title="BuildUp Plus Zone" />
+            android:title="BuildUp Plus Zone"/>
 
         <item
 
@@ -51,11 +50,13 @@
     </group>
 
 
-    <group>
+    <group android:id="@+id/dummy">
 
         <item
             android:id="@+id/nav_help_center"
-            android:title="Help Center" />
+            android:title="Help Center"
+
+            />
 
 
         <item
@@ -72,7 +73,7 @@
 
         <item
             android:id="@+id/nav_sign_out"
-            android:title="Help Center" />
+            android:title="Sign Out" />
 
 
     </group>

@@ -13,6 +13,9 @@ class ChangePasswordActivity : AppCompatActivity() {
         _binding= ActivityChangePasswordBinding.inflate(layoutInflater)
         setContentView(_binding.root)
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
         _binding.resetPasswordButton.setOnClickListener {
             if(validationPassword()){
                     //TODO("Backend not yet implemented")

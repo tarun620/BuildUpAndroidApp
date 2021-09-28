@@ -1,58 +1,40 @@
 package com.example.buildup.ui.Property.layouts
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.baoyachi.stepview.bean.StepBean
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
-import com.example.buildup.databinding.ActivityUpdatesBinding
 import com.example.buildup.databinding.ActivityPropertyBinding
-import com.example.buildup.ui.ExpenditureActivity
+import com.example.buildup.ui.BottomNavigation.ProfileActivity
+import com.example.buildup.ui.Expenditure.ExpenditureActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
-import com.example.buildup.ui.Updates.UpdatesActivity
-import com.example.buildup.ui.Updates.UpdatesAdapter
-import com.example.buildup.ui.UpdatesBottomSheetFragment
+import com.example.buildup.ui.Updates.UpdatesBottomSheetFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.shuhart.stepview.StepView
-import java.util.*
 
 
 class PropertyActivity : AppCompatActivity() {
 
-    var helpArray =
-        arrayOf<String>("Layout", "Structure", "Fitting", "Flooring", "Touching", "Done")
-    val stepsBeanList: MutableList<StepBean> = ArrayList()
-
-    //    private lateinit var _binding:ActivityPropertyBinding
     private lateinit var _binding: ActivityPropertyBinding
-    private lateinit var _bindingUpdates: ActivityUpdatesBinding
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var updatesAdapter: UpdatesAdapter
+//    private val face = ResourcesCompat.getFont(this, R.font.overpass_extrabold)
 
-    //    private lateinit var horizontalStepView: HorizontalStepView
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    private var face = resources.getFont(R.font.overpass_bold)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_property)
 
         _binding = ActivityPropertyBinding.inflate(layoutInflater)
-        _bindingUpdates = ActivityUpdatesBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        updatesAdapter = UpdatesAdapter()
-
-        _bindingUpdates.updatesRecyclerView.layoutManager = LinearLayoutManager(this)
-        _bindingUpdates.updatesRecyclerView.adapter = updatesAdapter
-        _bindingUpdates.updatesRecyclerView.isNestedScrollingEnabled = true
 
         setContentView(_binding?.root)
 
@@ -62,52 +44,27 @@ class PropertyActivity : AppCompatActivity() {
             getSupportActionBar()?.hide();
         }
 
-//        setContentView(_bindingUpdates?.root)
-
         val propertyId: String? = intent.getStringExtra("propertyId")
 
-        supportFragmentManager.beginTransaction().replace(R.id.updateBottomFrame,UpdatesBottomSheetFragment()).commit()
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        val myFragment = UpdatesBottomSheetFragment()
 
         //PERSISTENT BOTTOM SHEET
         BottomSheetBehavior.from(_binding.updateBottomFrame).apply {
-            peekHeight = 350
+            peekHeight = 348
             this.state = BottomSheetBehavior.STATE_COLLAPSED
 //            setPeekHeight(800)
         }
+        val bundle = Bundle()
+        bundle.putString("propertyId", propertyId)
+        Log.d("propertyId",bundle.getString("propertyId")!!)
+        val fragobj = UpdatesBottomSheetFragment()
+        fragobj.arguments = bundle
 
-
-//        getUpdates(propertyId!!)
-//        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
-//
-//        bottomSheetBehavior.addBottomSheetCallback(object :
-//                BottomSheetBehavior.BottomSheetCallback(){
-//
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-////                Toast.makeText(this@PropertyActivity,"slided",Toast.LENGTH_SHORT).show()
-////                getUpdates(propertyId!!)
-////                updateUI()
-//            }
-//
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//                when (newState) {
-////                    BottomSheetBehavior.STATE_COLLAPSED -> getUpdates(propertyId!!)
-////                    BottomSheetBehavior.STATE_EXPANDED -> getUpdates(propertyId!!)
-////                    BottomSheetBehavior.STATE_DRAGGING -> getUpdates(propertyId!!)
-////                    BottomSheetBehavior.STATE_SETTLING -> getUpdates(propertyId!!)
-////                    BottomSheetBehavior.STATE_HIDDEN -> getUpdates(propertyId!!)
-////                    else -> getUpdates(propertyId!!)
-//                }
-//            }
-//
-//        })
-//        horizontalStepView=findViewById<HorizontalStepView>(R.id.stepsView)
-
-
-        //MODAL BOTTOM SHEET
-        // Creating the new Fragment with the name passed in.
-//        val fragment = MyDialogBottomSheet.newInstance(propertyId!!)
-//        fragment.show(supportFragmentManager,"")
-//        MyDialogBottomSheet().show(supportFragmentManager,"")
+        fragmentTransaction.add(R.id.updateBottomFrame,
+            UpdatesBottomSheetFragment()
+        ).commit()
 
 
         authViewModel.getProperty(propertyId!!)
@@ -115,18 +72,13 @@ class PropertyActivity : AppCompatActivity() {
         authViewModel.respProperty.observe({ lifecycle }) {
             if (it?.success!!) {
                 _binding.propertyName.text = it.property?.name
+                timeLineHandling(it.property?.completed)
 //                _binding.completedStatus.text="Completed Stage : ${it.property.completed.toString()}"
             } else {
                 Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
                 Log.d("errorProperty", it.error.toString())
             }
         }
-
-//        _binding.getUpdatesButton.setOnClickListener {
-//            val intent=Intent(this, UpdatesActivity::class.java)
-//            intent.putExtra("propertyId",propertyId)
-//            startActivity(intent)
-//        }
 
         _binding.expensesButton.setOnClickListener {
             val intent = Intent(
@@ -146,25 +98,119 @@ class PropertyActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
+        _binding.btnProfile.setOnClickListener {
+            val intent=Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
-    fun updateUI() {
-        _bindingUpdates.updatesRecyclerView.layoutManager = LinearLayoutManager(this)
-        _bindingUpdates.updatesRecyclerView.adapter = updatesAdapter
-        updatesAdapter.notifyDataSetChanged()
+    fun timeLineHandling(completed:Int?){
+        if(completed==null)
+            return
+
+        _binding.apply {
+            var face = Typeface.createFromAsset(
+                assets,
+                "fonts/overpass_bold.ttf"
+            )
+
+           if(completed==1){
+               completedEqualsOne(face)
+           }
+            else if(completed==2){
+                completedEqualsTwo(face)
+
+           }
+           else if(completed==3){
+               completedEqualsThree(face)
+
+           }
+            else if(completed==4){
+               completedEqualsFour(face)
+           }
+
+           else if(completed==5){
+               completedEqualsFive(face)
+           }
+           else if(completed==6){
+               completedEqualsSix(face)
+           }
+           else if(completed==7){
+               completedEqualsSeven(face)
+           }
+
+        }
     }
 
-    fun getUpdates(propertyId: String) {
-        authViewModel.getUpdates(propertyId)
-        authViewModel.respUpdatesArray.observe({ lifecycle }) {
-            if (it?.success!!) {
-                Toast.makeText(this, "updates fetching successful", Toast.LENGTH_SHORT).show()
-                updatesAdapter.submitList(it.updates)
+    fun completedEqualsOne(face:Typeface){
+        _binding.apply {
+            var face = Typeface.createFromAsset(
+                assets,
+                "fonts/overpass_bold.ttf"
+            )
+            ellipse1.setImageResource(R.drawable.ic_colored_ellipse)
+            timelineText1.setTextColor(getColor(R.color.white))
+               timeLineDesc1.typeface=face
+        }
+    }
 
-            } else {
-                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
-                Log.d("errorUpdates", it.error.toString())
-            }
+    fun completedEqualsTwo(face:Typeface){
+        _binding.apply {
+            completedEqualsOne(face)
+            line1.setBackgroundColor(getColor(R.color.timeline_blue))
+            ellipse2.setImageResource(R.drawable.ic_colored_ellipse)
+            timelineText2.setTextColor(getColor(R.color.white))
+               timeLineDesc2.typeface=face
+
+        }
+    }
+    fun completedEqualsThree(face:Typeface){
+        _binding.apply {
+            completedEqualsTwo(face)
+            line2.setBackgroundColor(getColor(R.color.timeline_blue))
+            ellipse3.setImageResource(R.drawable.ic_colored_ellipse)
+            timelineText3.setTextColor(getColor(R.color.white))
+               timeLineDesc3.typeface=face
+        }
+    }
+
+    fun completedEqualsFour(face:Typeface){
+        _binding.apply {
+            completedEqualsThree(face)
+            line3.setBackgroundColor(getColor(R.color.timeline_blue))
+            ellipse4.setImageResource(R.drawable.ic_colored_ellipse)
+            timelineText4.setTextColor(getColor(R.color.white))
+               timeLineDesc4.typeface=face
+        }
+    }
+
+    fun completedEqualsFive(face:Typeface){
+        _binding.apply {
+            completedEqualsFour(face)
+            line4.setBackgroundColor(getColor(R.color.timeline_blue))
+            ellipse5.setImageResource(R.drawable.ic_colored_ellipse)
+            timelineText5.setTextColor(getColor(R.color.white))
+               timeLineDesc5.typeface=face
+        }
+    }
+    fun completedEqualsSix(face:Typeface){
+        _binding.apply {
+            completedEqualsFive(face)
+            line5.setBackgroundColor(getColor(R.color.timeline_blue))
+            ellipse6.setImageResource(R.drawable.ic_colored_ellipse)
+            timelineText6.setTextColor(getColor(R.color.white))
+               timeLineDesc6.typeface=face
+        }
+    }
+    fun completedEqualsSeven(face:Typeface){
+        _binding.apply {
+            completedEqualsSix(face)
+            line6.setBackgroundColor(getColor(R.color.timeline_blue))
+               timeLineDesc7.typeface=face
         }
     }
 }

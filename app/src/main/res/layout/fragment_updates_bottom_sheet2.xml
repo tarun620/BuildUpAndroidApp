@@ -14,7 +14,7 @@
             android:id="@+id/view2"
             android:layout_width="140dp"
             android:layout_height="6dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/ic_view_line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,15 +37,17 @@
 
         <View
             android:id="@+id/view3"
-            android:layout_width="match_parent"
+            android:layout_width="110dp"
             android:layout_height="1dp"
+            android:layout_marginStart="24dp"
             android:background="@color/textGrey"
             app:layout_constraintEnd_toEndOf="@+id/textView4"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/updatesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

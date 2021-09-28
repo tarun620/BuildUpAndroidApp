@@ -5,7 +5,7 @@
     android:id="@+id/swipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ExpenditureActivity">
+    tools:context=".ui.Expenditure.ExpenditureActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,6 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:padding="5dp"
                 android:src="@drawable/ic_back_up_btn"
                 app:layout_constraintBottom_toBottomOf="@+id/propertyName"
                 app:layout_constraintStart_toStartOf="parent"

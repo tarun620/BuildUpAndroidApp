@@ -1,4 +1,4 @@
-package com.example.buildup.ui
+package com.example.buildup.ui.Expenditure
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import com.example.buildup.R
 import com.example.buildup.databinding.ListItemExpenditureBinding
 import com.example.buildup.extensions.timeStamp
 
-class ExpenditureAdapter : ListAdapter<Expenditure, ExpenditureAdapter.ExpenditureViewHolder>(
+class ExpenditureAdapter(val onExpenditureItemClicked:(productCategoryId:String?)->Unit) : ListAdapter<Expenditure, ExpenditureAdapter.ExpenditureViewHolder>(
         object : DiffUtil.ItemCallback<Expenditure>(){
             override fun areItemsTheSame(oldItem: Expenditure, newItem: Expenditure): Boolean {
                 return oldItem==newItem
@@ -51,6 +51,8 @@ class ExpenditureAdapter : ListAdapter<Expenditure, ExpenditureAdapter.Expenditu
 
             tvExpenditureAmount.text=expenditure.amount.toString()
             tvExpenditureDate.timeStamp=expenditure.createdAt
+
+            root.setOnClickListener { onExpenditureItemClicked(expenditure.id) }
         }
     }
 }

@@ -36,6 +36,9 @@ class OtpNewActivity : AppCompatActivity() {
 
         OtpTimer()
         blockLetterOtpHandler()
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
         _binding.verifyOTP.setOnClickListener {
             val otp=getFullOtpFromBlockLetters()
             if(isOtpValid(otp!!)){

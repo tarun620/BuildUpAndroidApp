@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityProductCategoryBinding
+import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapter
 import com.example.buildup.ui.Products.adapters.ProductSubCategoryAdapter
 
@@ -42,11 +43,21 @@ class   ProductCategoryActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
-
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.hide();
         }
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
+        _binding.searchBtn.setOnClickListener {
+            val intent=Intent(this,SearchActivity::class.java)
+            startActivity(intent)
+        }
+        _binding.cartBtn.setOnClickListener {
+            val intent=Intent(this, CartActivity::class.java)
+            startActivity(intent)
+        }
         getProductCategories()
 //        val catId=getProductCategories()
 //        getProductSubCategories(catId)
@@ -67,8 +78,7 @@ class   ProductCategoryActivity : AppCompatActivity() {
                 Toast.makeText(this,"product categories fetching successful", Toast.LENGTH_SHORT).show()
                 productCategoryAdapter.submitList(it.productCategories)
                 productCategoryAdapter.notifyDataSetChanged()
-//                propertyCategoryId=it.productCategories[0].id
-                Log.d("propertyid",propertyCategoryId.toString())
+                getProductSubCategories(it.productCategories?.get(0)?.id!!)
             }
             else{
                 Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()

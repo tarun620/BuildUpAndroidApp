@@ -55,7 +55,8 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         propertyAdapter = PropertyAdapter { openProperty(it) }
         setupNavigationDrawer()
         _binding.bottomNavigationView.menu.getItem(0).isEnabled = false
-        _binding.bottomNavigationView.menu.getItem(2).isChecked = true
+        _binding.bottomNavigationView.menu.getItem(0).isChecked = true
+
 
         _binding.propertyRecyclerView.layoutManager = LinearLayoutManager(this)
         _binding.propertyRecyclerView.adapter = propertyAdapter
@@ -76,11 +77,14 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
 
         _binding.addPropertyBtn.setOnClickListener {
-            var intent = Intent(this, AddPropertyActivity::class.java)
+            val intent = Intent(this, AddPropertyActivity::class.java)
             startActivity(intent)
         }
 
-
+        _binding.buttonProfile.setOnClickListener {
+            val intent=Intent(this,ProfileActivity::class.java)
+            startActivity(intent)
+        }
 
         getProperties()
         setupBottomNavigationBar()

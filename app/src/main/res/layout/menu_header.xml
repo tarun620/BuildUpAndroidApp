@@ -8,10 +8,10 @@
 
     <ImageView
         android:id="@+id/iv_profileImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="64dp"
         android:src="@drawable/ic_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,9 +24,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/overpass"
+        android:textFontWeight="600"
         android:text="Bhavishay Gulati"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/iv_profileImage"
         app:layout_constraintTop_toBottomOf="@id/iv_profileImage" />
@@ -37,17 +38,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/overpass"
-        android:text="7011934272"
+        android:textFontWeight="400"
+        android:text="+91 7011934272"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/tv_fullname"
         app:layout_constraintTop_toBottomOf="@id/tv_fullname" />
 
     <ImageView
         android:layout_marginTop="8dp"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="55dp"
+        android:layout_height="49dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:src="@drawable/home_icon"

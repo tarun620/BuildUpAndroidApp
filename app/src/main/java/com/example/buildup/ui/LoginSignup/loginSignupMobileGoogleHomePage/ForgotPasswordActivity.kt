@@ -24,7 +24,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
         }
 
         _binding.backBtn.setOnClickListener {
-            startActivity(Intent(this, LoginSignupActivity::class.java))
+//            startActivity(Intent(this, LoginSignupActivity::class.java))
+            finish()
         }
 
         _binding.submitButton.setOnClickListener {

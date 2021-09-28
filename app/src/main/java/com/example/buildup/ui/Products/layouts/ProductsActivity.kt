@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityProductsBinding
+import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.Products.adapters.ProductAdapter
 
 class ProductsActivity : AppCompatActivity() {
@@ -43,6 +44,17 @@ class ProductsActivity : AppCompatActivity() {
             getSupportActionBar()?.hide();
         }
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
+        _binding.searchBtn.setOnClickListener {
+            val intent=Intent(this,SearchActivity::class.java)
+            startActivity(intent)
+        }
+        _binding.cartBtn.setOnClickListener {
+            val intent=Intent(this,CartActivity::class.java)
+            startActivity(intent)
+        }
         getProducts(productSubCategoryId)
 
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
