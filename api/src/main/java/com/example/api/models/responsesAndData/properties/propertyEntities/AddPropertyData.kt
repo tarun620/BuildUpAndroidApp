@@ -20,5 +20,7 @@ data class AddPropertyData(
     @Json(name = "pincode")
     val pincode:Int,
     @Json(name = "coordinates")
-    val coordinates:List<Double>?
+    val coordinates:List<Double>?,
+    @Json(name ="landmark")
+    val landmark:String?
 )

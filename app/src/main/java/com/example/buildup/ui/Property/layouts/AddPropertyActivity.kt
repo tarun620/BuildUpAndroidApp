@@ -95,15 +95,31 @@ class AddPropertyActivity : AppCompatActivity() {
 
             submitButton.setOnClickListener {
                 if (validation()) {
-                    authViewModel.addProperty(
-                        etName.text.toString(),
-                        addressType!!,
-                        etHouseNo.text.toString(),
-                        etColony.text.toString(),
-                        etCity.text.toString(),
-                        etState.text.toString(),
-                        etPincode.text.toString().toInt(),
-                        coordinates)
+                    if(etLandmark.text.isNullOrBlank()){
+                        authViewModel.addProperty(
+                            etName.text.toString(),
+                            addressType!!,
+                            etHouseNo.text.toString(),
+                            etColony.text.toString(),
+                            etCity.text.toString(),
+                            etState.text.toString(),
+                            etPincode.text.toString().toInt(),
+                            coordinates,
+                            null)
+                    }
+                    else{
+                        authViewModel.addProperty(
+                            etName.text.toString(),
+                            addressType!!,
+                            etHouseNo.text.toString(),
+                            etColony.text.toString(),
+                            etCity.text.toString(),
+                            etState.text.toString(),
+                            etPincode.text.toString().toInt(),
+                            coordinates,
+                            etLandmark.text.toString())
+                    }
+
 
                     authViewModel.resp.observe({ lifecycle }) {
                         if (it?.success!!) {
