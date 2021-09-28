@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_margin="5dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -12,8 +12,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:padding="12dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -22,20 +23,46 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:src="@drawable/basin_mixer_1x" />
+                android:layout_marginTop="12dp"
+                android:src="@drawable/basin_mixer_1x"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_brandName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/overpass"
+                android:gravity="start"
+                android:text="Jaguar"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_productImage" />
 
             <TextView
                 android:id="@+id/tv_productName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Jaguar tap"
-                android:padding="15dp"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_gravity="start"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/overpass"
+                android:text="Vignette Mixture"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_brandName" />
 
             <TextView
                 android:id="@+id/tv_productPrice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_productName"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/overpass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -43,8 +70,17 @@
                 android:text="2200"
                 android:textColor="#FD9651"
                 android:textSize="23sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/btn_wishlist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_save_wishlist"
+                app:layout_constraintTop_toTopOf="@id/tv_productPrice"
+                app:layout_constraintBottom_toBottomOf="@id/tv_productPrice"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 

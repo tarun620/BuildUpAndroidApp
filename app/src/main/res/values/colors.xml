@@ -17,4 +17,8 @@
     <color name="grey_bg">#EDF1FF</color>
     <color name="grey_bg_poducts">#F3F3F3</color>
     <color name="grey_bg_2">#F6F7FB</color>
+    <color name="timeline_grey">#929292</color>
+    <color name="orange_image_bg">#FFF4ED</color>
+    <color name="timeline_blue">#0F123F</color>
+    <color name="grey_bottom_nav">#D3D3D3</color>
 </resources>

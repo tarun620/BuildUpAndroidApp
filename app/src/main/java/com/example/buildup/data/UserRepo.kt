@@ -113,7 +113,7 @@ object UserRepo {
 
     suspend fun loginSignupGoogle(name:String,email:String,profileImage:String?): LoginGoogleResponse?{
         try{
-            val response=api.loginGoogle(LoginGoogleData(email,name,profileImage))
+            val response=api.loginGoogle(LoginGoogleData(name,email,profileImage))
 
             if(response.isSuccessful){
                 BuildUpClient.authToken=response.body()?.token

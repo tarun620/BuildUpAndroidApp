@@ -68,12 +68,16 @@ class AddPropertyActivity : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
 
+
         setContentView(_binding?.root)
 
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.hide();
         }
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
         _binding?.apply {
             radioTypeGroup.setOnCheckedChangeListener { group, checkedId ->
                 if (checkedId == radioHome.id) {

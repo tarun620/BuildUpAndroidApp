@@ -1,5 +1,6 @@
-package com.example.buildup.ui
+package com.example.buildup.ui.Expenditure
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +27,7 @@ class ExpenditureActivity : AppCompatActivity() {
         _binding= ActivityExpenditureBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
 
-        expenditureAdapter= ExpenditureAdapter()
+        expenditureAdapter= ExpenditureAdapter{openPaymentActivity(it)}
         _binding.expenditureRecyclerView.layoutManager=LinearLayoutManager(this)
         _binding.expenditureRecyclerView.adapter=expenditureAdapter
 
@@ -36,6 +37,9 @@ class ExpenditureActivity : AppCompatActivity() {
             getSupportActionBar()?.hide();
         }
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
 
         getExpenditureAmount(propertyId!!)
@@ -90,5 +94,11 @@ class ExpenditureActivity : AppCompatActivity() {
             }
 
         }
+    }
+    fun openPaymentActivity(expenpenditureId:String?){
+        val intent=Intent(this,PaymentActivity::class.java)
+        intent.putExtra("expenpenditureId",expenpenditureId)
+        startActivity(intent)
+
     }
 }
