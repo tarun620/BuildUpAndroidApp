@@ -118,7 +118,6 @@
                 android:id="@+id/forward_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="42dp"
                 android:src="@drawable/ic_forward_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

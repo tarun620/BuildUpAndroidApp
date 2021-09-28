@@ -42,7 +42,8 @@ class ProductAdapter(val onProductClicked:(productId:String?)->Unit): ListAdapte
             ivProductImage.newLoadImage(product.image[0])
 //            ivProductImage.setImageResource(R.drawable.basin_mixer_1x)
             tvProductName.text=product.name
-            tvProductPrice.text=product.amount.toString()
+            tvProductPrice.text="₹" + " " + product.amount.toString()
+            tvProductMRP.text="₹" + " " + product.mrp.toString()
 
             root.setOnClickListener { onProductClicked(product.id) }
         }

@@ -349,7 +349,7 @@
             android:id="@+id/line_6"
             android:layout_width="0dp"
             android:layout_height="2dp"
-            app:layout_constraintEnd_toStartOf="@id/home_ic"
+            app:layout_constraintEnd_toStartOf="@id/ellipse_7"
             android:background="@drawable/ic_line"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ellipse_6"

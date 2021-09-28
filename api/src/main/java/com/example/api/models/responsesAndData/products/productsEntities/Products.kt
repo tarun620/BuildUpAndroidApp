@@ -13,5 +13,8 @@ data class Products(
     @Json(name = "image")
     val image: List<String>,
     @Json(name = "name")
-    val name: String
+    val name: String,
+    @Json(name= "mrp")
+    val mrp: Int
+
 )
