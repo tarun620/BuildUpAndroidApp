@@ -16,6 +16,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <me.relex.circleindicator.CircleIndicator3
+        android:id="@+id/circleIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_gravity="bottom"
+        app:ci_animator="@anim/indicator_animator"
+        app:ci_animator_reverse="@anim/indicator_animator_reverse"
+        app:ci_drawable="@drawable/black_radius_square"
+        app:ci_height="4dp"
+        app:ci_margin="6dp"
+        app:ci_width="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/productVewPager" />
+
+
 
     <ImageView
         android:id="@+id/btn_cart"
@@ -220,18 +236,18 @@
     </com.google.android.material.card.MaterialCardView>
 
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/bottom_card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardView">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_card_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:background="@drawable/product_card_bg"
+            android:elevation="32dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardView">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -258,5 +274,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
