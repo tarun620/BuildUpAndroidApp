@@ -450,6 +450,8 @@ class AddPropertyActivity : AppCompatActivity() {
 
     }
 
+
+
     private fun hideProgressDialog() {
         dialogProgress.dismiss()
     }

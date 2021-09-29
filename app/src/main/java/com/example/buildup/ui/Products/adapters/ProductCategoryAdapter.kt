@@ -1,5 +1,6 @@
 package com.example.buildup.ui.Products.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,9 @@ class ProductCategoryAdapter(val onProductCategoryClicked:(productCategoryId:Str
             ivProductCategoryImage.loadImage(productCategory.image)
             tvProductCategoryName.text=productCategory.name
 
-            root.setOnClickListener { onProductCategoryClicked(productCategory.id) }
+            root.setOnClickListener { onProductCategoryClicked(productCategory.id)
+//                itemLayout.setBackgroundColor(Color.WHITE)
+            }
         }
     }
 
