@@ -154,7 +154,8 @@ class PropertyActivity : AppCompatActivity() {
             )
             ellipse1.setImageResource(R.drawable.ic_colored_ellipse)
             timelineText1.setTextColor(getColor(R.color.white))
-               timeLineDesc1.typeface=face
+            timeLineDesc1.typeface=face
+            timeLineDesc1.setTextColor(getColor(R.color.timeline_blue))
         }
     }
 
@@ -164,7 +165,9 @@ class PropertyActivity : AppCompatActivity() {
             line1.setBackgroundColor(getColor(R.color.timeline_blue))
             ellipse2.setImageResource(R.drawable.ic_colored_ellipse)
             timelineText2.setTextColor(getColor(R.color.white))
-               timeLineDesc2.typeface=face
+            timeLineDesc2.typeface=face
+            timeLineDesc2.setTextColor(getColor(R.color.timeline_blue))
+
 
         }
     }
@@ -174,7 +177,9 @@ class PropertyActivity : AppCompatActivity() {
             line2.setBackgroundColor(getColor(R.color.timeline_blue))
             ellipse3.setImageResource(R.drawable.ic_colored_ellipse)
             timelineText3.setTextColor(getColor(R.color.white))
-               timeLineDesc3.typeface=face
+            timeLineDesc3.typeface=face
+            timeLineDesc3.setTextColor(getColor(R.color.timeline_blue))
+
         }
     }
 
@@ -184,7 +189,8 @@ class PropertyActivity : AppCompatActivity() {
             line3.setBackgroundColor(getColor(R.color.timeline_blue))
             ellipse4.setImageResource(R.drawable.ic_colored_ellipse)
             timelineText4.setTextColor(getColor(R.color.white))
-               timeLineDesc4.typeface=face
+            timeLineDesc4.typeface=face
+            timeLineDesc4.setTextColor(getColor(R.color.timeline_blue))
         }
     }
 
@@ -194,7 +200,8 @@ class PropertyActivity : AppCompatActivity() {
             line4.setBackgroundColor(getColor(R.color.timeline_blue))
             ellipse5.setImageResource(R.drawable.ic_colored_ellipse)
             timelineText5.setTextColor(getColor(R.color.white))
-               timeLineDesc5.typeface=face
+            timeLineDesc5.typeface=face
+            timeLineDesc5.setTextColor(getColor(R.color.timeline_blue))
         }
     }
     fun completedEqualsSix(face:Typeface){
@@ -203,14 +210,16 @@ class PropertyActivity : AppCompatActivity() {
             line5.setBackgroundColor(getColor(R.color.timeline_blue))
             ellipse6.setImageResource(R.drawable.ic_colored_ellipse)
             timelineText6.setTextColor(getColor(R.color.white))
-               timeLineDesc6.typeface=face
+            timeLineDesc6.typeface=face
+            timeLineDesc6.setTextColor(getColor(R.color.timeline_blue))
         }
     }
     fun completedEqualsSeven(face:Typeface){
         _binding.apply {
             completedEqualsSix(face)
             line6.setBackgroundColor(getColor(R.color.timeline_blue))
-               timeLineDesc7.typeface=face
+            timeLineDesc7.typeface=face
+            timeLineDesc7.setTextColor(getColor(R.color.timeline_blue))
         }
     }
 }
