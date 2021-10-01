@@ -87,7 +87,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/product_card_bg"
-            android:elevation="12dp"
+            android:elevation="32dp"
+
             android:orientation="horizontal"
             android:weightSum="2"
             android:outlineSpotShadowColor="@color/textGrey"
@@ -102,6 +103,7 @@
                 android:text="Sort"
                 app:iconTint="@color/black"
 
+                android:id="@+id/btn_sortBy"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
                 app:icon="@drawable/ic_sort"
                 app:iconGravity="textStart"
@@ -117,6 +119,7 @@
                 android:text="Filter"
                 app:iconTint="@color/black"
                 app:iconGravity="textStart"
+                android:id="@+id/btn_filter"
                 android:layout_weight="1"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
                 app:icon="@drawable/ic_filter"

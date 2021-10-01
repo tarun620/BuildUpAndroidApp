@@ -16,30 +16,32 @@ import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapter
 import com.example.buildup.ui.Products.adapters.ProductSubCategoryAdapter
 
-class   ProductCategoryActivity : AppCompatActivity() {
-//    private lateinit var _binding:ActivityProductCategoryBinding
-    private lateinit var _binding:ActivityProductCategoryBinding
+class ProductCategoryActivity : AppCompatActivity() {
+    //    private lateinit var _binding:ActivityProductCategoryBinding
+    private lateinit var _binding: ActivityProductCategoryBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var productCategoryAdapter: ProductCategoryAdapter
     private lateinit var subProductCategoryAdapter: ProductSubCategoryAdapter
     private lateinit var productSubCategoryAdapter: ProductSubCategoryAdapter
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private var propertyCategoryId:String?=null
+    private var propertyCategoryId: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_product_category)
 
-        _binding= ActivityProductCategoryBinding.inflate(layoutInflater)
-        authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
-        productCategoryAdapter= ProductCategoryAdapter{openProductCategory(it)}
+        _binding = ActivityProductCategoryBinding.inflate(layoutInflater)
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        productCategoryAdapter = ProductCategoryAdapter {
+            openProductCategory(it)
+        }
 
-        productSubCategoryAdapter= ProductSubCategoryAdapter{onProductSubCategoryClicked(it)}
+        productSubCategoryAdapter = ProductSubCategoryAdapter { onProductSubCategoryClicked(it) }
 
-        _binding.productsCategoryRecyclerView.layoutManager=LinearLayoutManager(this)
-        _binding.productsCategoryRecyclerView.adapter=productCategoryAdapter
+        _binding.productsCategoryRecyclerView.layoutManager = LinearLayoutManager(this)
+        _binding.productsCategoryRecyclerView.adapter = productCategoryAdapter
 
-        _binding.productsSubCategoryRecyclerView.layoutManager= GridLayoutManager(this,3)
-        _binding.productsSubCategoryRecyclerView.adapter=productSubCategoryAdapter
+        _binding.productsSubCategoryRecyclerView.layoutManager = GridLayoutManager(this, 3)
+        _binding.productsSubCategoryRecyclerView.adapter = productSubCategoryAdapter
 
         setContentView(_binding?.root)
 
@@ -51,11 +53,11 @@ class   ProductCategoryActivity : AppCompatActivity() {
             finish()
         }
         _binding.searchBtn.setOnClickListener {
-            val intent=Intent(this,SearchActivity::class.java)
+            val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
         }
         _binding.cartBtn.setOnClickListener {
-            val intent=Intent(this, CartActivity::class.java)
+            val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
         }
         getProductCategories()
@@ -71,24 +73,24 @@ class   ProductCategoryActivity : AppCompatActivity() {
 //        }
     }
 
-    fun getProductCategories(){
+    fun getProductCategories() {
         authViewModel.getProductCategories()
-        authViewModel.respProductCategoryArray.observe({lifecycle}){
-            if(it?.success!!){
-                Toast.makeText(this,"product categories fetching successful", Toast.LENGTH_SHORT).show()
+        authViewModel.respProductCategoryArray.observe({ lifecycle }) {
+            if (it?.success!!) {
+                Toast.makeText(this, "product categories fetching successful", Toast.LENGTH_SHORT)
+                    .show()
                 productCategoryAdapter.submitList(it.productCategories)
                 productCategoryAdapter.notifyDataSetChanged()
                 getProductSubCategories(it.productCategories?.get(0)?.id!!)
-            }
-            else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-                Log.d("errorProductCategory",it.error.toString())
+            } else {
+                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                Log.d("errorProductCategory", it.error.toString())
             }
         }
 //        return propertyCategoryId!!
     }
 
-//    fun getProductSubCategories(productCategoryId:String){
+    //    fun getProductSubCategories(productCategoryId:String){
 //        authViewModel.getProductSubCategories(productCategoryId)
 //        authViewModel.respProductSubCategoryArray.observe({lifecycle}){
 //            if(it.success){
@@ -100,32 +102,37 @@ class   ProductCategoryActivity : AppCompatActivity() {
 //                Toast.makeText(this,"product sub categories fetching failed.", Toast.LENGTH_SHORT).show()
 //        }
 //    }
-    fun openProductCategory(productCategoryId:String?){
+    fun openProductCategory(productCategoryId: String?) {
 
-      getProductSubCategories(productCategoryId.toString())
+        getProductSubCategories(productCategoryId.toString())
 
 //        getProductSubCategories(productCategoryId!!)
     }
 
-    fun getProductSubCategories(productCategoryId:String){
+    fun getProductSubCategories(productCategoryId: String) {
         authViewModel.getProductSubCategories(productCategoryId)
-        authViewModel.respProductSubCategoryArray.observe({lifecycle}){
-            if(it.success!!){
+        authViewModel.respProductSubCategoryArray.observe({ lifecycle }) {
+            if (it.success!!) {
 //                Log.d("testLog",it.productSubCategories)
-                Toast.makeText(this,"product sub categories fetching successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "product sub categories fetching successful",
+                    Toast.LENGTH_SHORT
+                ).show()
                 productSubCategoryAdapter.submitList(it.productSubCategories)
-            }
-            else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-                Log.d("errorProductSubCategory",it.error.toString())
+            } else {
+                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                Log.d("errorProductSubCategory", it.error.toString())
             }
         }
     }
-    fun onProductSubCategoryClicked(productSubCategoryId:String?){
-        val intent= Intent(this, ProductsActivity::class.java)
-        intent.putExtra("productSubCategoryId",productSubCategoryId)
+
+    fun onProductSubCategoryClicked(productSubCategoryId: String?) {
+        val intent = Intent(this, ProductsActivity::class.java)
+        intent.putExtra("productSubCategoryId", productSubCategoryId)
         startActivity(intent)
-        Toast.makeText(this,"productSubCategoryId:${productSubCategoryId}",Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "productSubCategoryId:${productSubCategoryId}", Toast.LENGTH_SHORT)
+            .show()
     }
 
 //    fun onProductSubCategoryClicked(productSubCategoryId:String?){

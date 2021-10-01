@@ -249,5 +249,12 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         return true
     }
 
+    override fun onResume() {
+        super.onResume()
+        Toast.makeText(this,"On resume Called",Toast.LENGTH_SHORT).show()
+        propertyAdapter.notifyDataSetChanged()
+
+    }
+
 
 }

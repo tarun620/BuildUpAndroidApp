@@ -7,14 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
@@ -103,27 +101,40 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appBar" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/propertyRecyclerView"
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7"
-            tools:itemCount="1"
-            tools:listitem="@layout/item_property" />
+            app:layout_constraintTop_toBottomOf="@id/textView7">
 
 
-        <View
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/propertyRecyclerView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/propertyRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_property" />
 
-            android:layout_width="match_parent"
-            android:layout_height="140dp"/>
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="140dp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/propertyRecyclerView" />-->
+
+
+        </ScrollView>
 
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -147,8 +158,8 @@
 
                     android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
-                    app:labelVisibilityMode="labeled"
                     app:itemIconTint="@drawable/navigation_view_colored"
+                    app:labelVisibilityMode="labeled"
                     app:menu="@menu/bottom_menu" />
 
 
@@ -163,7 +174,6 @@
                 app:backgroundTint="@color/orange_main"
                 app:layout_anchor="@id/bottomAppBar"
                 app:tint="@color/white" />
-
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -186,17 +196,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/nav_view"
-        android:background="@android:color/white"
         android:layout_gravity="start"
+        android:background="@android:color/white"
         app:headerLayout="@layout/menu_header"
-        app:menu="@menu/dashboard_menu"
+        app:itemHorizontalPadding="18dp"
 
+        app:itemIconTint="@color/orange_main"
         app:itemTextAppearance="@font/rancho"
         app:itemTextColor="@color/orange_main"
-        app:itemIconTint="@color/orange_main"
-        app:itemHorizontalPadding="18dp" />
+        app:menu="@menu/dashboard_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

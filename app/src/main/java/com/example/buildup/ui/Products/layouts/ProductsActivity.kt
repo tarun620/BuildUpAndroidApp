@@ -55,6 +55,12 @@ class ProductsActivity : AppCompatActivity() {
             val intent=Intent(this,CartActivity::class.java)
             startActivity(intent)
         }
+
+        _binding.btnSortBy.setOnClickListener {
+            val fragment = BottomSortByFragment()
+            fragment.show(supportFragmentManager,fragment.tag)
+
+        }
         getProducts(productSubCategoryId)
 
         swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)

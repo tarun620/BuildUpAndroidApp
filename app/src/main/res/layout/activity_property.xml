@@ -544,18 +544,17 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_watch_live">
+        app:layout_constraintTop_toBottomOf="@+id/propertyName">
 
         <FrameLayout
             android:id="@+id/updateBottomFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            
+
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" />
 
 
