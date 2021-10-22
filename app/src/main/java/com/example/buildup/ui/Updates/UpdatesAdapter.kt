@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.updates.Update
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemUpdatesBinding
-import com.example.buildup.databinding.ListItemUpdateBinding
 import com.example.buildup.extensions.loadImage
 import com.example.buildup.extensions.timeStamp
 

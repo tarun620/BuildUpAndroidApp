@@ -56,7 +56,10 @@ class UpdatesBottomSheetFragment : Fragment() {
 
 //        Log.d("propertyIdFragment",arguments?.getString("propertyId")!!)
 //        propertyId = arguments?.getString("propertyId")!!
-        propertyId="613cbe78cb1b6b3fb0d7905b"
+//        val bundle = arguments
+//        propertyId = bundle?.getString("propertyId").toString()
+//        Log.d("propertyId in fragment",propertyId)
+        propertyId="6153282604447a0fec5b2938"
 
 
         return _binding.root

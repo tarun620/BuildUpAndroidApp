@@ -52,15 +52,14 @@ class PropertyActivity : AppCompatActivity() {
 
         //PERSISTENT BOTTOM SHEET
         BottomSheetBehavior.from(_binding.updateBottomFrame).apply {
-            peekHeight = 348
+            peekHeight = 320
             this.state = BottomSheetBehavior.STATE_COLLAPSED
 //            setPeekHeight(800)
         }
         val bundle = Bundle()
         bundle.putString("propertyId", propertyId)
         Log.d("propertyId",bundle.getString("propertyId")!!)
-        val fragobj = UpdatesBottomSheetFragment()
-        fragobj.arguments = bundle
+        myFragment.arguments = bundle
 
         fragmentTransaction.add(R.id.updateBottomFrame,
             UpdatesBottomSheetFragment()

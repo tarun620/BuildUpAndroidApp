@@ -44,7 +44,6 @@
         <activity android:name=".ui.Products.layouts.ProductCategoryActivity" />
         <activity android:name=".ui.Products.layouts.ProductsActivity" />
         <activity android:name=".ui.Expenditure.ExpenditureActivity" />
-        <activity android:name=".ui.Updates.UpdatesActivity" />
         <activity android:name=".ui.Property.layouts.PropertyActivity" />
         <activity android:name=".ui.Property.layouts.AddPropertyActivity" />
         <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity" />
