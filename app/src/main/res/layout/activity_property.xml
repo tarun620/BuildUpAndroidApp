@@ -133,6 +133,7 @@
             android:background="@drawable/ic_line"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ellipse_1"
+            app:layout_constraintEnd_toStartOf="@id/ellipse_2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView

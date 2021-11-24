@@ -3,12 +3,13 @@ package com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityForgotPasswordBinding
 
-class ForgotPasswordActivity : AppCompatActivity() {
+class ForgetPasswordActivity : AppCompatActivity() {
 
     private lateinit var _binding: ActivityForgotPasswordBinding
     lateinit var authViewModel: AuthViewModel
@@ -30,7 +31,21 @@ class ForgotPasswordActivity : AppCompatActivity() {
 
         _binding.submitButton.setOnClickListener {
             if(validationMobileNumber()){
-                startActivity(Intent(this, OtpNewActivity::class.java))
+                authViewModel.forgetPassword(_binding.mobileEditText.text.toString())
+
+                authViewModel.respForgetPassword.observe({lifecycle}){
+                    if(it?.success!!){
+                        Toast.makeText(this,"Otp Sent Successfully,Please check your inbox..",Toast.LENGTH_SHORT).show()
+                        val intent=Intent(this,ForgetPasswordOtpActivity::class.java)
+                        intent.putExtra("mobileNo",_binding.mobileEditText.text.toString())
+                        startActivity(intent)
+                    }
+                    else{
+                        Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
+                        Log.d("errorSignup",it.error.toString())
+                    }
+                }
+
             }
             else{
                 Toast.makeText(this,"Please fill all required fields correctly", Toast.LENGTH_SHORT).show()

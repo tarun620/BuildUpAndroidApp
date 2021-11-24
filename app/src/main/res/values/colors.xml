@@ -13,6 +13,7 @@
     <color name="stepView_green">#6CEE79</color>
     <color name="orange_main">#F35114</color>
     <color name="orange_theme">#FF6100</color>
+    <color name="orange_theme_main">#F78E4D</color>
     <color name="grey_theme">#BFBFBF</color>
     <color name="grey_bg">#EDF1FF</color>
     <color name="grey_bg_poducts">#F3F3F3</color>
@@ -21,4 +22,12 @@
     <color name="orange_image_bg">#FFF4ED</color>
     <color name="timeline_blue">#0F123F</color>
     <color name="grey_bottom_nav">#D3D3D3</color>
+    <color name="grey_product_mrp">#D8D8D8</color>
+    <color name="green_order">#0CB683</color>
+    <color name="grey_bg_orrder_screen">#F5F5F5</color>
+    <color name="black_text">#333333</color>
+    <color name="grey_order">#9D9C9C</color>
+    <color name="grey_order_view">#D4D0D0</color>
+    <color name="selected_green_timeline">#14FF00</color>
+    <color name="grey_btn_bg">#F4F4F4</color>
 </resources>

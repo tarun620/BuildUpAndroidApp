@@ -10,10 +10,12 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.databinding.ActivitySplashBinding
+import com.example.buildup.ui.IntroScreens.IntroScreen
 import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity
 import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity.Companion.PREFS_FILE_AUTH
 import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity.Companion.PREFS_KEY_TOKEN
 import com.example.buildup.ui.LoginSignup.signupMobile.SignupActivity
+import com.example.buildup.ui.LoginSignupSelectorActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
 class MainActivity : AppCompatActivity() {
@@ -56,11 +58,11 @@ class MainActivity : AppCompatActivity() {
                 _binding!!.homeIcon.visibility = View.GONE
                 Handler().postDelayed({
                     if (sharedPrefrences.getString(PREFS_KEY_TOKEN, null) != null) {
-                        val intent = Intent(this, LoginSignupActivity::class.java)
+                        val intent = Intent(this, IntroScreen::class.java)
                         startActivity(intent)
                     } else {
 
-                        startActivity(Intent(this, LoginSignupActivity::class.java))
+                        startActivity(Intent(this, IntroScreen::class.java))
 
                     }
                 }, 400)

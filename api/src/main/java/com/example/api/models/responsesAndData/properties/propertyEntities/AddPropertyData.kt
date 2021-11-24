@@ -7,6 +7,8 @@ import com.squareup.moshi.JsonClass
 data class AddPropertyData(
     @Json(name = "name")
     val name:String,
+    @Json(name = "mobileNo")
+    val mobileNo:String,
     @Json(name="type")
     val type:String,
     @Json(name="houseNo")

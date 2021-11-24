@@ -6,7 +6,7 @@
 
 
     <ImageView
-        android:id="@+id/googleLoginButton"
+        android:id="@+id/googleSignupButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="110dp"
@@ -26,7 +26,7 @@
         android:text="or"
         android:textColor="@color/textGrey"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/googleLoginButton"
+        app:layout_constraintBottom_toTopOf="@id/googleSignupButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -104,7 +104,7 @@
         app:startIconDrawable="@drawable/ic_lock">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordConfirmEditText"
+            android:id="@+id/confirmPasswordEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="@color/white"
@@ -203,7 +203,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="32dp"
         android:scaleType="fitXY"
-        android:src="@drawable/login_screen_bg"
+        android:src="@drawable/bg_banner_homescreen_"
         app:layout_constraintBottom_toTopOf="@id/spinner_country_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

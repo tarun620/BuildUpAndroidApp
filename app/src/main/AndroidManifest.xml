@@ -17,7 +17,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.Products.layouts.SearchActivity"></activity>
+        <activity android:name=".ui.Address.layouts.AddressesActivity"></activity>
+        <activity android:name=".ui.Orders.layouts.OrderActivity" />
+        <activity android:name=".ui.Orders.layouts.OrdersActivity" />
+        <activity android:name=".ui.IntroScreens.GetStartedActivity" />
+        <activity android:name=".ui.NewSendOtpActivity" />
+        <activity android:name=".ui.NewOtpActivity" />
+        <activity android:name=".ui.NewSignupActivity" />
+        <activity android:name=".ui.NewLoginActivity" />
+        <activity android:name=".ui.LoginSignupSelectorActivity" />
+        <activity android:name=".ui.Products.layouts.SearchActivity" />
         <activity android:name=".ui.Expenditure.PaymentActivity" />
         <activity
             android:name=".ui.WorkInProgressActivity"
@@ -26,10 +35,10 @@
             android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ChangePasswordActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.OtpNewActivity"
+            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ForgetPasswordOtpActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ForgotPasswordActivity"
+            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ForgetPasswordActivity"
             android:exported="true" />
         <activity
             android:name=".ui.BottomNavigation.CartActivity"
@@ -40,6 +49,7 @@
         <activity
             android:name=".ui.BottomNavigation.ProfileActivity"
             android:exported="true" />
+        <activity android:name=".ui.IntroScreens.IntroScreen" />
         <activity android:name=".ui.Products.layouts.ProductActivity" />
         <activity android:name=".ui.Products.layouts.ProductCategoryActivity" />
         <activity android:name=".ui.Products.layouts.ProductsActivity" />

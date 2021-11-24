@@ -1,9 +1,18 @@
 package com.example.api.services
 
+import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
+import com.example.api.models.responsesAndData.address.GetAddressesResponse
+import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartData
+import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartFromWishlistData
+import com.example.api.models.responsesAndData.cart.cartEntities.UpdateProductQuantityCartData
+import com.example.api.models.responsesAndData.cart.cartResponses.GetProductsFromCartResponse
 import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.SuccessMessageResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
+import com.example.api.models.responsesAndData.order.CreateOrderData
+import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
+import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
 import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
 import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
 import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
@@ -11,6 +20,8 @@ import com.example.api.models.responsesAndData.products.productsResponses.Produc
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
+import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
+import com.example.api.models.responsesAndData.wishlist.ProductIdForWishlistData
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -62,4 +73,66 @@ interface BuildUpAuthAPI {
     suspend fun getProduct(
         @Path("id") productId:String
     ):Response<ProductResponse>
+
+    @POST("api/cart")
+    suspend fun addProductToCart(
+        @Body productIdForCartData: ProductIdForCartFromWishlistData
+    ):Response<SuccessMessageResponse>
+
+    @GET("api/cart")
+    suspend fun getProductsFromCart():Response<GetProductsFromCartResponse>
+
+    @PUT("api/cart")
+    suspend fun updateProductQuantityCart(
+        @Body updateProductQuantityCartData: UpdateProductQuantityCartData
+    ):Response<SuccessMessageResponse>
+
+    @HTTP(method = "DELETE", path= "api/cart",hasBody = true)
+    suspend fun removeProductFromCart(
+        @Body productIdForCartData: ProductIdForCartData
+    ):Response<SuccessMessageResponse>
+
+//    @DELETE("api/cart")
+//    suspend fun removeProductFromCart(
+//        @Body productIdForCartData: ProductIdForCartData
+//    ):Response<SuccessMessageResponse>
+
+    @PUT("api/product/wishlist")
+    suspend fun addProductToWishlist(
+        @Body productIdForWishlistData: ProductIdForWishlistData
+    ):Response<SuccessMessageResponse>
+
+    @HTTP(method = "DELETE", path= "api/product/wishlist",hasBody = true)
+    suspend fun removeProductFromWishlist(
+        @Body productIdForWishlistData: ProductIdForWishlistData
+    ):Response<SuccessMessageResponse>
+
+//    @DELETE("api/product/wishlist")
+//    suspend fun removeProductFromWishlist(
+//        @Body productId: String
+//    ):Response<SuccessMessageResponse>
+
+    @GET("api/product/wishlist")
+    suspend fun getWishlist():Response<GetWishlistResponse>
+
+    @POST("api/order")
+    suspend fun createOrder(
+        @Body createOrderData: CreateOrderData
+    ):Response<SuccessMessageResponse>
+
+    @GET("api/order")
+    suspend fun getAllOrders():Response<GetAllOrdersResponse>
+
+    @GET("api/order/{id}")
+    suspend fun getOrderById(
+        @Path("id") orderId:String
+    ):Response<GetOrderByIdResponse>
+
+    @GET("api/property/address")
+    suspend fun getAddresses() :  Response<GetAddressesResponse>
+
+    @GET("api/property/address/{id}")
+    suspend fun getAddressById(
+        @Path("id") propertyId:String
+    ) : Response<GetAddressbyByIdResponse>
 }

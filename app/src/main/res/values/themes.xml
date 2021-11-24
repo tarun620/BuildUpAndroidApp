@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.BuildUp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/orange_main</item>
+        <item name="colorPrimary">@color/orange_theme_main</item>
         <item name="colorPrimaryVariant">#FA7828</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->

@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class sendOTPMobile(
+data class SendOTPMobile(
     @Json(name = "mobileNo")
     val mobileNo: String,
     @Json(name = "otp")

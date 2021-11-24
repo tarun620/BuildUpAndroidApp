@@ -41,9 +41,17 @@ class ProductAdapter(val onProductClicked:(productId:String?)->Unit): ListAdapte
 
             ivProductImage.newLoadImage(product.image[0])
 //            ivProductImage.setImageResource(R.drawable.basin_mixer_1x)
+            tvBrandName.text=product.brand.name
             tvProductName.text=product.name
             tvProductPrice.text="₹" + " " + product.amount.toString()
             tvProductMRP.text="₹" + " " + product.mrp.toString()
+//            if()
+//            btnWishlist.setOnClickListener {
+//
+//            }
+//            if(product.isWishlisted){
+//                btnWishlist.setImageResource(R.)
+//            }
 
             root.setOnClickListener { onProductClicked(product.id) }
         }

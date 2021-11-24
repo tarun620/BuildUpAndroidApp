@@ -1,54 +1,72 @@
-package com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage
+package com.example.buildup.ui
 
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
-import com.example.buildup.R
-import com.example.buildup.databinding.ActivityOtpNewBinding
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import com.example.buildup.AuthViewModel
+import com.example.buildup.databinding.ActivityNewOtpBinding
+import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.google.android.material.snackbar.Snackbar
 
+class NewOtpActivity : AppCompatActivity() {
 
-class OtpNewActivity : AppCompatActivity() {
-
-    private lateinit var _binding: ActivityOtpNewBinding
+    private lateinit var _binding: ActivityNewOtpBinding
+    lateinit var authViewModel: AuthViewModel
     var START_MILLI_SECONDS = 60000L
     lateinit var countdown_timer: CountDownTimer
     var time_in_milli_seconds = 0L
+    var mobileNoEditText: String?=null
+    private var isLogin=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityOtpNewBinding.inflate(layoutInflater)
+//        setContentView(R.layout.activity_new_otp)
+        _binding = ActivityNewOtpBinding.inflate(layoutInflater)
+        authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
 
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.hide()
         }
 
-        _binding.etOtp1.requestFocus()
-        _binding.resendOTP.visibility= View.INVISIBLE
-        _binding.timerText.visibility= View.VISIBLE
+        mobileNoEditText= intent.getStringExtra("mobileNo")
+        isLogin=intent.getBooleanExtra("isLogin",false)
 
-        OtpTimer()
-        blockLetterOtpHandler()
-        _binding.backBtn.setOnClickListener {
-            finish()
-        }
-        _binding.verifyOTP.setOnClickListener {
-            val otp=getFullOtpFromBlockLetters()
-            if(isOtpValid(otp!!)){
-                //            TODO("functionality not implemented yet in backend")
-                startActivity(Intent(this,ChangePasswordActivity::class.java))
+        _binding.apply {
+            etOtp1.requestFocus()
+            resendOTP.visibility= View.INVISIBLE
+            timerText.visibility= View.VISIBLE
+
+            OtpTimer()
+            blockLetterOtpHandler()
+            backBtn.setOnClickListener {
+                finish()
+            }
+            verifyOTP.setOnClickListener {
+                val otp=getFullOtpFromBlockLetters()
+                if(isOtpValid(otp!!)){
+                    verifyMobileNumberWithOTP(otp)
+                }
             }
 
+            resendOTP.setOnClickListener {
+                sendOTP(mobileNoEditText!!)
+                OtpTimer()
+                resendOTP.visibility= View.INVISIBLE
+                timerText.visibility= View.VISIBLE
+            }
         }
-    }
 
+    }
 
     private fun blockLetterOtpHandler() {
         class GenericKeyEvent internal constructor(private val currentView: EditText, private val previousView: EditText?) : View.OnKeyListener{
@@ -64,7 +82,8 @@ class OtpNewActivity : AppCompatActivity() {
 
         }
 
-        class GenericTextWatcher internal constructor(private val currentView: View, private val nextView: View?) : TextWatcher {
+        class GenericTextWatcher internal constructor(private val currentView: View, private val nextView: View?) :
+            TextWatcher {
             override fun afterTextChanged(editable: Editable) { // TODO Auto-generated method stub
                 val text = editable.toString()
                 when (currentView.id) {
@@ -114,7 +133,7 @@ class OtpNewActivity : AppCompatActivity() {
 
     private fun isOtpValid(otp:String?):Boolean{
         if(otp.isNullOrBlank() || otp.length!=4){
-            val snakbar=Snackbar.make(_binding.root,"Please enter OTP in valid format",Snackbar.LENGTH_SHORT)
+            val snakbar= Snackbar.make(_binding.root,"Please enter OTP in valid format", Snackbar.LENGTH_SHORT)
             snakbar.show()
             return false
         }
@@ -149,4 +168,63 @@ class OtpNewActivity : AppCompatActivity() {
         else
             _binding.timerText.text = "$minute:$seconds"
     }
+
+    private fun verifyMobileNumberWithOTP(otp:String){
+        _binding?.apply {
+            verifyOTP.setOnClickListener {
+                if(isLogin){
+                    authViewModel.verifyOTPLogin(mobileNoEditText!!,otp)
+
+                    authViewModel.respNewImage.observe({lifecycle}){
+                        if(it?.success!! && it.token!=null && it.user!=null){
+                            Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                            val intent=Intent(this@NewOtpActivity,PropertiesActivity::class.java)
+                            startActivity(intent)
+                        }
+                        else{
+                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+                else{
+                    authViewModel.verifyOtpSignup(mobileNoEditText!!,otp)
+
+                    authViewModel.resp.observe({lifecycle}){
+                        if(it?.success!!){
+                            Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                            val intent=Intent(this@NewOtpActivity,NewSignupActivity::class.java)
+                            intent.putExtra("mobileNo",mobileNoEditText)
+                            startActivity(intent)
+                        }
+                        else{
+                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
+                            Log.d("errorOtp",it.error.toString())
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
+    private fun sendOTP(mobileNo:String){
+
+        if(isLogin){
+            authViewModel.login(mobileNo)
+        }
+        else{
+            authViewModel.signup(mobileNo)
+
+        }
+        authViewModel.resp.observe({lifecycle}){
+            if(it?.success!!){
+                Toast.makeText(this,"Otp Sent Successfully,Please check your inbox..",Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                Log.d("errorSignup",it.error.toString())
+            }
+        }
+    }
+
 }

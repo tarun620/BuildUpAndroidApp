@@ -1,11 +1,14 @@
 package com.example.buildup.ui.Property.layouts
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -15,15 +18,21 @@ import com.example.buildup.R
 import com.example.buildup.databinding.ActivityPropertyBinding
 import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.Expenditure.ExpenditureActivity
+import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Updates.UpdatesBottomSheetFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
 class PropertyActivity : AppCompatActivity() {
+    companion object {
+        var PREFS_FILE_AUTH = "prefs_property"
+        var PREFS_KEY_TOKEN = "propertyId"
+    }
 
     private lateinit var _binding: ActivityPropertyBinding
     private lateinit var authViewModel: AuthViewModel
+    private lateinit var sharedPrefrences: SharedPreferences
 //    private val face = ResourcesCompat.getFont(this, R.font.overpass_extrabold)
 
 //    @RequiresApi(Build.VERSION_CODES.O)
@@ -35,6 +44,8 @@ class PropertyActivity : AppCompatActivity() {
 
         _binding = ActivityPropertyBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+
 
         setContentView(_binding?.root)
 
@@ -69,13 +80,18 @@ class PropertyActivity : AppCompatActivity() {
         authViewModel.getProperty(propertyId!!)
 
         authViewModel.respProperty.observe({ lifecycle }) {
-            if (it?.success!!) {
+            if (it?.property?.id != null && it.success!!) {
+                it.property?.id.let { t->
+                    sharedPrefrences.edit {
+                        putString("propertyId",t)
+                    }
+                }
                 _binding.propertyName.text = it.property?.name
                 timeLineHandling(it.property?.completed)
 //                _binding.completedStatus.text="Completed Stage : ${it.property.completed.toString()}"
             } else {
-                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
-                Log.d("errorProperty", it.error.toString())
+                Toast.makeText(this, it?.error, Toast.LENGTH_SHORT).show()
+                Log.d("errorProperty", it?.error.toString())
             }
         }
 

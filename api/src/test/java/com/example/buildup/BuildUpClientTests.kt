@@ -4,7 +4,7 @@ import com.example.api.BuildUpClient
 import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.CompleteProfileMobileData
 import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.SignupGoogleMobileData
 import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.SignupMobileData
-import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.sendOTPMobile
+import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.SendOTPMobile
 import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
@@ -28,11 +28,11 @@ class BuildUpClientTests {
 @Test
     fun `verify otp`(){
         runBlocking {
-            val signupMobileOTPData= sendOTPMobile(
+            val signupMobileOTPData= SendOTPMobile(
                 mobileNo = "9211118299",
                 otp = "1261"
             )
-            val resp=BuildUpClient.api.verifyOTPFunc(signupMobileOTPData)
+            val resp=BuildUpClient.api.verifyOTPFuncSignup(signupMobileOTPData)
             resp.body()?.success?.let { assertTrue(it) }
         }
     }

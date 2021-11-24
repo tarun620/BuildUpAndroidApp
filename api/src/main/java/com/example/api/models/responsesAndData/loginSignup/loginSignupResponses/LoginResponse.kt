@@ -1,7 +1,7 @@
 package com.example.api.models.responsesAndData.loginSignup.loginSignupResponses
 
 
-import com.example.api.models.entities.UserWithImage
+import com.example.api.models.entities. UserWithImage
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

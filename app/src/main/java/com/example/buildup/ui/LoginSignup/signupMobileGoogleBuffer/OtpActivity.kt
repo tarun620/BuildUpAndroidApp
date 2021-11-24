@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.util.Log
-import android.util.TypedValue
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.Window
@@ -15,13 +14,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
-import com.example.buildup.R
 import com.example.buildup.databinding.ActivityOtpBinding
 import com.example.buildup.databinding.AssetSuccesDialogBinding
 import com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
-import java.text.DecimalFormat
-import java.text.NumberFormat
 
 
 class OtpActivity : AppCompatActivity() {
@@ -83,7 +79,7 @@ class OtpActivity : AppCompatActivity() {
         _binding?.apply {
             submit.setOnClickListener {
                 if(mobileNoGoogle.isNullOrBlank()){ // it means it is signup using mobile number not GOOGLE
-                    authViewModel.verifyOTP(mobileNoEditText!!,otpEditText.text.toString())
+                    authViewModel.verifyOtpSignup(mobileNoEditText!!,otpEditText.text.toString())
 
                     authViewModel.resp.observe({lifecycle}){
                         if(it?.success!!){
@@ -98,7 +94,7 @@ class OtpActivity : AppCompatActivity() {
                 }
 
                 else{  // it means it is a signup using GOOGLE not Mobile Number .
-                    authViewModel.verifyOTP(mobileNoGoogle!!,otpEditText.text.toString())
+                    authViewModel.verifyOtpSignup(mobileNoGoogle!!,otpEditText.text.toString())
 
                     authViewModel.resp.observe({lifecycle}){
                         if(it?.success!!){
@@ -121,7 +117,7 @@ class OtpActivity : AppCompatActivity() {
     }
 
     private fun completeProfile(name:String?,email:String?,mobileNo:String?,password:String?){
-        authViewModel.completeProfile(mobileNo!!,name!!,email!!,password!!)
+        authViewModel.completeProfile(mobileNo!!,name!!,email!!)
 
         authViewModel.respNew.observe({lifecycle}){
             if(it?.token!=null && it.success!!){

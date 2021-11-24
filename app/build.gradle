@@ -93,4 +93,11 @@ dependencies {
 
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+
+    implementation 'com.tbuonomo:dotsindicator:4.2'
+    implementation 'com.github.vipulasri:timelineview:1.1.5'
+    implementation 'com.shuhart.stepview:stepview:1.5.1'
+
+
 }

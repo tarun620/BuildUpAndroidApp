@@ -81,9 +81,9 @@ class AddPropertyActivity : AppCompatActivity() {
         _binding?.apply {
             radioTypeGroup.setOnCheckedChangeListener { group, checkedId ->
                 if (checkedId == radioHome.id) {
-                    addressType = "Home"
+                    addressType = "home"
                 } else if (checkedId == radioWork.id) {
-                    addressType = "Work"
+                    addressType = "work"
                 }
             }
 
@@ -91,21 +91,45 @@ class AddPropertyActivity : AppCompatActivity() {
                 showProgressDialog()
                 turnOnGPS()
         }
+//            _binding.apply {
+//                etFullNameLayout.error = null
+//                etMobileLayout.error = null
+//                etPincodeLayout.error = null
+//                etStateLayout.error = null
+//                etCityLayout.error = null
+//                etHousNoLayout.error = null
+//                etColonyLayout.error = null
+//            }
 
 
             submitButton.setOnClickListener {
                 if (validation()) {
-                    authViewModel.addProperty(
-                        etName.text.toString(),
-                        addressType!!,
-                        etHouseNo.text.toString(),
-                        etColony.text.toString(),
-                        etCity.text.toString(),
-                        etState.text.toString(),
-                        etPincode.text.toString().toInt(),
-                        coordinates,
-                    null)
-
+                    if(etLandmark.text.isNullOrBlank()){
+                        authViewModel.addProperty(
+                            etName.text.toString(),
+                            etMobile.text.toString(),
+                            addressType!!,
+                            etHouseNo.text.toString(),
+                            etColony.text.toString(),
+                            etCity.text.toString(),
+                            etState.text.toString(),
+                            etPincode.text.toString().toInt(),
+                            coordinates,
+                            null)
+                    }
+                    else{
+                        authViewModel.addProperty(
+                            etName.text.toString(),
+                            etMobile.text.toString(),
+                            addressType!!,
+                            etHouseNo.text.toString(),
+                            etColony.text.toString(),
+                            etCity.text.toString(),
+                            etState.text.toString(),
+                            etPincode.text.toString().toInt(),
+                            coordinates,
+                            etLandmark.text.toString())
+                    }
 
                     authViewModel.resp.observe({ lifecycle }) {
                         if (it?.success!!) {
@@ -126,19 +150,34 @@ class AddPropertyActivity : AppCompatActivity() {
     private fun validation(): Boolean {
         _binding.apply {
             etFullNameLayout.error = null
+            etMobileLayout.error = null
             etPincodeLayout.error = null
             etStateLayout.error = null
             etCityLayout.error = null
             etHousNoLayout.error = null
             etColonyLayout.error = null
-            if (etName.text.toString() == null || etName.text.toString() == "") {
+
+            etFullNameLayout.isErrorEnabled=false
+            etMobileLayout.isErrorEnabled=false
+            etPincodeLayout.isErrorEnabled=false
+            etStateLayout.isErrorEnabled=false
+            etCityLayout.isErrorEnabled=false
+            etHousNoLayout.isErrorEnabled=false
+            etColonyLayout.isErrorEnabled=false
+
+
+            if (etName.text.toString().isNullOrBlank() || etName.text.toString() == "") {
                 etFullNameLayout.error = "Please Fill Full Name"
                 etFullNameLayout.requestFocus()
                 return false
-            } else if (etPincode.text.isNullOrBlank() || etPincode.text.toString().length < 6) {
+            } else if (etMobile.text.isNullOrBlank() || etMobile.text.toString().length < 10) {
+                etMobileLayout.error = "Enter Mobile Number"
+                etMobileLayout.requestFocus()
+                return false
+            }
+            else if (etPincode.text.isNullOrBlank() || etPincode.text.toString().length < 6) {
                 etPincodeLayout.error = "Enter Pincode"
                 etPincodeLayout.requestFocus()
-
                 return false
             } else if (etState.text.isNullOrBlank()) {
                 etStateLayout.error = "Please Fill State"

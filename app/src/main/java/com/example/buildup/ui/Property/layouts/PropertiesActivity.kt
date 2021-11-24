@@ -25,10 +25,12 @@ import com.example.api.models.responsesAndData.products.productsEntities.Product
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityPropertiesBinding
+import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.Property.adapters.PropertyAdapter
 import com.example.buildup.ui.BottomNavigation.WishlistActivity
+import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.WorkInProgressActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -211,7 +213,7 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
 
             R.id.nav_my_order -> {
-                startActivity(Intent(this@PropertiesActivity,WorkInProgressActivity::class.java))
+                startActivity(Intent(this@PropertiesActivity,OrdersActivity::class.java))
             }
 
             R.id.nav_my_cart -> {
@@ -226,7 +228,7 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 startActivity(Intent(this@PropertiesActivity,ProfileActivity::class.java))
             }
             R.id.nav_about_buildUp -> {
-                startActivity(Intent(this@PropertiesActivity,WorkInProgressActivity::class.java))
+                startActivity(Intent(this@PropertiesActivity,AddressesActivity::class.java))
             }
             R.id.nav_help_center -> {
                 startActivity(Intent(this@PropertiesActivity,WorkInProgressActivity::class.java))
@@ -252,7 +254,8 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     override fun onResume() {
         super.onResume()
         Toast.makeText(this,"On resume Called",Toast.LENGTH_SHORT).show()
-        propertyAdapter.notifyDataSetChanged()
+
+        getProperties()
 
     }
 

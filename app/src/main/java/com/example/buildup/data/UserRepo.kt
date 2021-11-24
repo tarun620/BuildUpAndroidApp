@@ -2,10 +2,20 @@ package com.example.buildup.data
 
 import android.util.Log
 import com.example.api.BuildUpClient
+import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
+import com.example.api.models.responsesAndData.address.GetAddressesResponse
+import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartData
+import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartFromWishlistData
+import com.example.api.models.responsesAndData.cart.cartEntities.UpdateProductQuantityCartData
+import com.example.api.models.responsesAndData.cart.cartResponses.GetProductsFromCartResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
 import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.*
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
+import com.example.api.models.responsesAndData.order.CreateOrderData
+import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
+import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
+import com.example.api.models.responsesAndData.order.PaymentData
 import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
 import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
 import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
@@ -14,8 +24,11 @@ import com.example.api.models.responsesAndData.property.propertyEntities.AddProp
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
+import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
+import com.example.api.models.responsesAndData.wishlist.ProductIdForWishlistData
 //import com.example.buildup.helpers.ErrorUtils.parseError
 import com.example.buildup.helpers.ErrorUtilsNew
+import retrofit2.Response
 import java.io.IOException
 
 //import org.junit.Assert.*
@@ -52,9 +65,9 @@ object UserRepo {
 
     }
 
-    suspend fun verifyOTP(mobileNo: String,otp:String): SuccessMessageResponse?{
+    suspend fun verifyOTPSignup(mobileNo: String, otp:String): SuccessMessageResponse?{
         try{
-            val response =api.verifyOTPFunc(sendOTPMobile(mobileNo,otp))
+            val response =api.verifyOTPFuncSignup(SendOTPMobile(mobileNo,otp))
             if(response.isSuccessful){
                 return response.body()
             }
@@ -69,9 +82,11 @@ object UserRepo {
 
     }
 
-    suspend fun completeProfile(mobileNo: String,name:String,email:String,password:String): SignupMobileResponse?{
+
+
+    suspend fun completeProfile(mobileNo: String,name:String,email:String): SignupMobileResponse?{
         try{
-            val response=api.signpMobileFinal(CompleteProfileMobileData(mobileNo,name,email,password))
+            val response=api.signpMobileFinal(CompleteProfileMobileData(mobileNo,name,email))
 
             if(response.isSuccessful){
                 BuildUpClient.authToken=response.body()?.token
@@ -87,13 +102,13 @@ object UserRepo {
         }
     }
 
-    suspend fun login(mobileNo:String,password: String): LoginResponse? {
+    suspend fun login(mobileNo:String): SuccessMessageResponse? {
 
         try{
-            val response=api.login(LoginData(mobileNo,password))
+            val response=api.login(LoginData(mobileNo))
 
             if(response.isSuccessful){
-                BuildUpClient.authToken=response.body()?.token
+//                BuildUpClient.authToken=response.body()?.token
                 return response.body()
             }
             else{
@@ -101,14 +116,31 @@ object UserRepo {
 //              val type = object : TypeToken<APIError>() {}.type
 //              var apiErrorNew: APIError = gson.fromJson(response.errorBody()!!.charStream(), type)
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
-                return LoginResponse(null,false,null,null,apiErrorNew.error)
-            }
+                return SuccessMessageResponse(null,false,apiErrorNew.error)            }
 
 
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
-            return LoginResponse(null,false,null,null,"Network Failure")
+            return SuccessMessageResponse(null,false,"Network Failure")
         }
+    }
+
+    suspend fun verifyOTPLogin(mobileNo: String, otp:String): LoginResponse?{
+        try{
+            val response =api.verifyOTPFuncLogin(SendOTPMobile(mobileNo,otp))
+            if(response.isSuccessful){
+                BuildUpClient.authToken=response.body()?.token
+                return response.body()
+            }
+            else{
+                val apiErrorNew= ErrorUtilsNew.parseError(response)
+                return LoginResponse(null,false,null,null,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            Log.d("TagUserRepo","Network failure")
+            return LoginResponse(null,false,null,null,"Network failure")
+        }
+
     }
 
     suspend fun loginSignupGoogle(name:String,email:String,profileImage:String?): LoginGoogleResponse?{
@@ -147,6 +179,24 @@ object UserRepo {
         }
     }
 
+    suspend fun verifyOTPFuncSignupGoogle(mobileNo: String, otp:String): LoginGoogleResponse?{
+        try{
+            val response =api.verifyOTPFuncSignupGoogle(SendOTPMobile(mobileNo,otp))
+            if(response.isSuccessful){
+                BuildUpClient.authToken=response.body()?.token
+                return response.body()
+            }
+            else{
+                val apiErrorNew= ErrorUtilsNew.parseError(response)
+                return LoginGoogleResponse(null,false,null,null,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            Log.d("TagUserRepo","Network failure")
+            return LoginGoogleResponse(null,false,null,null,"Network failure")
+        }
+
+    }
+
     suspend fun completeProfileGoogle(email: String,mobileNo: String,password: String): SignupMobileResponse?{
 
         try{
@@ -168,6 +218,7 @@ object UserRepo {
 
     suspend fun addProperty(
             name:String,
+            mobileNo:String,
             type:String,
             houseNo:String,
             colony:String,
@@ -178,7 +229,7 @@ object UserRepo {
             landmark:String?): SuccessMessageResponse?{
 
         try{
-            val response= authApi.addProperty(AddPropertyData(name, type, houseNo, colony, city, state, pincode,coordinates,landmark))
+            val response= authApi.addProperty(AddPropertyData(name, mobileNo, type, houseNo, colony, city, state, pincode,coordinates,landmark))
 
             if(response.isSuccessful){
                 return response.body()
@@ -350,18 +401,230 @@ object UserRepo {
         }
     }
 
-    suspend fun isUserExist(email: String): UserExistResponse?{
+//    suspend fun isUserExist(email: String): UserExistResponse?{
+//        try{
+//            val response= api.isUserExist(UserExistData(email))
+//            if(response.isSuccessful){
+//                return response.body()
+//            }
+//            else{
+//                val apiErrorNew=ErrorUtilsNew.parseError(response)
+//                return UserExistResponse(false,false,apiErrorNew.error)
+//            }
+//        }catch (e:IOException){
+//            return UserExistResponse(false,false,"Network Failure")
+//        }
+//    }
+
+    suspend fun forgetPassword(mobileNo:String):SuccessMessageResponse?{
         try{
-            val response= api.isUserExist(UserExistData(email))
+            val response=api.forgetPassword(SignupMobileData(mobileNo))
             if(response.isSuccessful){
                 return response.body()
             }
             else{
                 val apiErrorNew=ErrorUtilsNew.parseError(response)
-                return UserExistResponse(false,false,apiErrorNew.error)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
             }
         }catch (e:IOException){
-            return UserExistResponse(false,false,"Network Failure")
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun setNewPassword(mobileNo: String,password: String):SuccessMessageResponse?{
+        try{
+            val response=api.setNewPassword(SetNewPasswordData(mobileNo, password))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun addProductToCart(productId: String,fromWishlist:Boolean):SuccessMessageResponse?{
+        try{
+            val response= authApi.addProductToCart(ProductIdForCartFromWishlistData(productId,fromWishlist))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getProductsFromCart(): GetProductsFromCartResponse?{
+        try{
+            val response= authApi.getProductsFromCart()
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetProductsFromCartResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetProductsFromCartResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun updateProductQuantityCart(productId: String, quantity:Int):SuccessMessageResponse?{
+        try{
+            val response= authApi.updateProductQuantityCart(UpdateProductQuantityCartData(productId,quantity))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun removeProductFromCart(productId: String):SuccessMessageResponse?{
+        try{
+            val response= authApi.removeProductFromCart(ProductIdForCartData(productId))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun addProductToWishlist(productId: String):SuccessMessageResponse?{
+        try{
+            val response= authApi.addProductToWishlist(ProductIdForWishlistData(productId))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun removeProductFromWishlist(productId: String):SuccessMessageResponse?{
+        try{
+            val response= authApi.removeProductFromWishlist(ProductIdForWishlistData(productId))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getWishlist(): GetWishlistResponse?{
+        try{
+            val response= authApi.getWishlist()
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetWishlistResponse(false,null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetWishlistResponse(false,null,false,"Network Failure")
+        }
+    }
+
+    suspend fun createOrder(propertyId: String,paymentMethod:String,transactionId:String,isPersonalUse:Boolean):SuccessMessageResponse?{
+        try{
+            val response= authApi.createOrder(CreateOrderData(propertyId, PaymentData(paymentMethod,transactionId),isPersonalUse))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getAllOrders():GetAllOrdersResponse?{
+        try {
+            val response= authApi.getAllOrders()
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetAllOrdersResponse(false,null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetAllOrdersResponse(false,null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getOrderById(orderId:String): GetOrderByIdResponse?{
+        try{
+            val response= authApi.getOrderById(orderId)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetOrderByIdResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetOrderByIdResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getAddresses():GetAddressesResponse?{
+        try{
+            val response= authApi.getAddresses()
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetAddressesResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetAddressesResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getAddressById(propertyId: String):GetAddressbyByIdResponse?{
+        try{
+            val response= authApi.getAddressById(propertyId)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetAddressbyByIdResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetAddressbyByIdResponse(null,false,"Network Failure")
         }
     }
 }

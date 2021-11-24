@@ -12,9 +12,6 @@ data class CompleteProfileMobileData(
     val name : String,
 
     @Json(name="email")
-    val email : String,
-
-    @Json(name="password")
-    val password : String
+    val email : String
 
 )

@@ -17,17 +17,20 @@ BuildUpAPI {
         @Body userCreds: SignupMobileData
     ): Response<SuccessMessageResponse>
 
-//sending mobile number and otp
-    @POST("signup/verify-otp")
-    suspend fun verifyOTPFunc(
-        @Body userCredsOTP: sendOTPMobile
+//sending mobile number and otp for signup
+    @POST("verify-otp/signup")
+    suspend fun verifyOTPFuncSignup(
+        @Body userCredsOTP: SendOTPMobile
         ):Response<SuccessMessageResponse>
 
+
 //check if user exixts with given email
-    @POST("api/user/exists")
-    suspend fun isUserExist(
-        @Body userCreds : UserExistData
-    ) : Response<UserExistResponse>
+
+//    @POST("api/user/exists")
+//    suspend fun isUserExist(
+//        @Body userCreds : UserExistData
+//    ) : Response<UserExistResponse>
+
 //complete proile- final step for signup using mobile
     @POST("signup/mobile/complete-profile")
     suspend fun signpMobileFinal(
@@ -38,8 +41,13 @@ BuildUpAPI {
     @POST("login/mobile")
     suspend fun login(
         @Body userCreds: LoginData
-    ):Response<LoginResponse>
+    ):Response<SuccessMessageResponse>
 
+    //sending mobile number and otp for login
+    @POST("verify-otp/login")
+    suspend fun verifyOTPFuncLogin(
+        @Body userCredsOTP: SendOTPMobile
+    ):Response<LoginResponse>
 
 //    @POST("login/mobile")
 //    fun login(@Body userCreds: LoginData):Call<LoginResponse>
@@ -56,9 +64,29 @@ BuildUpAPI {
         @Body userCreds: SignupGoogleMobileData
     ):Response<SuccessMessageResponse>
 
+
+    //sending mobile number and otp for signup
+    @POST("verify-otp/signup")
+    suspend fun verifyOTPFuncSignupGoogle(
+        @Body userCredsOTP: SendOTPMobile
+    ):Response<LoginGoogleResponse>
+
 // compleete profile for google signup -last step for googe signup
     @POST("signup/google/complete-profile")
     suspend fun completeProfileGoogle(
         @Body userCreds: CompleteProfileGoogleData
     ):Response<SignupMobileResponse>
+
+// forget password
+    @POST("signup/mobile/forgot-password")
+    suspend fun forgetPassword(
+        @Body userCreds: SignupMobileData
+    ):Response<SuccessMessageResponse>
+
+//set new password
+    @POST("signup/mobile/forgot-password/set-password")
+    suspend fun setNewPassword(
+        @Body userCreds:SetNewPasswordData
+    ):Response<SuccessMessageResponse>
+
 }

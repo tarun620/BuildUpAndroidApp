@@ -58,7 +58,7 @@ class LoginSignupActivity : AppCompatActivity() {
 
 
         _binding!!.forgetPasswordTextview.setOnClickListener {
-            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+            startActivity(Intent(this, ForgetPasswordActivity::class.java))
         }
         //AUTO LOGIN USING SAVED INSTANCE OF LOGIN CREDENTIALS IN SHARED PREFERENCES
 
@@ -100,8 +100,7 @@ class LoginSignupActivity : AppCompatActivity() {
                 if (isLOGIN) { // Login request ( we are in login toggle button)
                     if (validationSignIn()) {
                         authViewModel.login(
-                            emailEditText.text.toString(),
-                            passwordEditText.text.toString()
+                            emailEditText.text.toString()
                         )
 
                         authViewModel.respNewImage.observe({ lifecycle }) {
@@ -136,7 +135,7 @@ class LoginSignupActivity : AppCompatActivity() {
 
                 } else { // Signup Request using Mobile Number (we are in Signup Toggle Button)
                     if (validationSignUp()) {
-                        authViewModel.isUserExist(emailEditText.text.toString())
+//                        authViewModel.isUserExist(emailEditText.text.toString())
 
                         authViewModel.respIsUserExist.observe({lifecycle}){
                             if(it.success && it.userExists){
@@ -277,8 +276,8 @@ class LoginSignupActivity : AppCompatActivity() {
                 passwordTextInputLayout.error = "Please input password of atleast 8 characters"
                 passwordTextInputLayout.requestFocus()
                 return false
-            } else if (passwordConfirmEditText.text.toString()
-                    .isNullOrBlank() || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()
+            } else if (confirmPasswordEditText.text.toString()
+                    .isNullOrBlank() || confirmPasswordEditText.text.toString() != passwordEditText.text.toString()
             ) {
                 confirmPasswordTextInputLayout.error = "Password doesn't match"
                 confirmPasswordTextInputLayout.requestFocus()
@@ -324,7 +323,7 @@ class LoginSignupActivity : AppCompatActivity() {
             emailEditText.filters = arrayOf(InputFilter.LengthFilter(10))  //setting max length as 10
             emailEditText.inputType=InputType.TYPE_CLASS_NUMBER   //making input type as numeric value only
             emailTextInputLayout.error = null
-            emailTextInputLayout.isErrorEnabled=false
+                emailTextInputLayout.isErrorEnabled=false
             passwordTextInputLayout.error = null
             passwordTextInputLayout.isErrorEnabled=false
             confirmPasswordTextInputLayout.visibility = View.GONE
@@ -371,7 +370,7 @@ class LoginSignupActivity : AppCompatActivity() {
             emailTextInputLayout.hint = "Email"
             emailEditText.text?.clear()
             passwordEditText.text!!.clear()
-            passwordConfirmEditText.text!!.clear()
+            confirmPasswordEditText.text!!.clear()
         }
 
     }

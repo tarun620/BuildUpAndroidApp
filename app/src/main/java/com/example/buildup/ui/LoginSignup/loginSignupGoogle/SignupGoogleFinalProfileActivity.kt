@@ -73,7 +73,7 @@ class SignupGoogleFinalProfileActivity : AppCompatActivity() {
                 passwordTextInputLayout.requestFocus()
                 return false
             }
-            else if (passwordConfirmEditText.text.toString().isNullOrBlank() || passwordConfirmEditText.text.toString() != passwordEditText.text.toString()) {
+            else if (confirmPasswordEditText.text.toString().isNullOrBlank() || confirmPasswordEditText.text.toString() != passwordEditText.text.toString()) {
                 confirmPasswordTextInputLayout.error = "Password doesn't match"
                 confirmPasswordTextInputLayout.requestFocus()
                 return false
