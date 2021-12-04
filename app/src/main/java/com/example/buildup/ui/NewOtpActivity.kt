@@ -52,9 +52,13 @@ class NewOtpActivity : AppCompatActivity() {
                 finish()
             }
             verifyOTP.setOnClickListener {
+                Log.d("verifyOTP","clicked1")
                 val otp=getFullOtpFromBlockLetters()
-                if(isOtpValid(otp!!)){
+                Log.d("verifyOTP","clicked2")
+                if(isOtpValid(otp)){
+                    Log.d("verifyOTP","clicked3")
                     verifyMobileNumberWithOTP(otp)
+                    Log.d("verifyOTP","clicked4")
                 }
             }
 
@@ -123,7 +127,7 @@ class NewOtpActivity : AppCompatActivity() {
         }
     }
 
-    private fun getFullOtpFromBlockLetters() :String?{
+    private fun getFullOtpFromBlockLetters() :String{
         _binding.apply {
             val otp=etOtp1.text.toString() + etOtp2.text.toString() + etOtp3.text.toString() + etOtp4.text.toString()
             return otp
@@ -170,39 +174,37 @@ class NewOtpActivity : AppCompatActivity() {
     }
 
     private fun verifyMobileNumberWithOTP(otp:String){
+        Log.d("verifyOTP","clicked5")
         _binding?.apply {
-            verifyOTP.setOnClickListener {
-                if(isLogin){
-                    authViewModel.verifyOTPLogin(mobileNoEditText!!,otp)
+            if(isLogin){
+                authViewModel.verifyOTPLogin(mobileNoEditText!!,otp)
 
-                    authViewModel.respNewImage.observe({lifecycle}){
-                        if(it?.success!! && it.token!=null && it.user!=null){
-                            Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
-                            val intent=Intent(this@NewOtpActivity,PropertiesActivity::class.java)
-                            startActivity(intent)
-                        }
-                        else{
-                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
-                        }
+                authViewModel.respNewImage.observe({lifecycle}){
+                    if(it?.success!! && it.token!=null && it.user!=null){
+                        Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                        val intent=Intent(this@NewOtpActivity,PropertiesActivity::class.java)
+                        startActivity(intent)
+                    }
+                    else{
+                        Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
                     }
                 }
-                else{
-                    authViewModel.verifyOtpSignup(mobileNoEditText!!,otp)
+            }
+            else{
+                authViewModel.verifyOtpSignup(mobileNoEditText!!,otp)
 
-                    authViewModel.resp.observe({lifecycle}){
-                        if(it?.success!!){
-                            Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
-                            val intent=Intent(this@NewOtpActivity,NewSignupActivity::class.java)
-                            intent.putExtra("mobileNo",mobileNoEditText)
-                            startActivity(intent)
-                        }
-                        else{
-                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
-                            Log.d("errorOtp",it.error.toString())
-                        }
+                authViewModel.resp.observe({lifecycle}){
+                    if(it?.success!!){
+                        Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                        val intent=Intent(this@NewOtpActivity,NewSignupActivity::class.java)
+                        intent.putExtra("mobileNo",mobileNoEditText)
+                        startActivity(intent)
+                    }
+                    else{
+                        Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
+                        Log.d("errorOtp",it.error.toString())
                     }
                 }
-
             }
         }
     }

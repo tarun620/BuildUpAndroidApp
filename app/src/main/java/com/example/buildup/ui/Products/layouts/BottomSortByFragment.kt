@@ -10,7 +10,7 @@ import com.example.buildup.databinding.FragmentBottomSortByBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class BottomSortByFragment : BottomSheetDialogFragment() {
+class   BottomSortByFragment : BottomSheetDialogFragment() {
 
 
 

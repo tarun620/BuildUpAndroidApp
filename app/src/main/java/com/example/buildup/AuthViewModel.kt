@@ -15,12 +15,11 @@ import com.example.api.models.responsesAndData.expenditure.expenditureResponses.
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
 import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
 import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductsResponse
+import com.example.api.models.responsesAndData.products.productsResponses.*
+import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.search.GetAutoCompleteQueriesResponse
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
 import com.example.buildup.data.UserRepo
@@ -56,6 +55,12 @@ class AuthViewModel:ViewModel() {
     private val _respGetOrderById=MutableLiveData<GetOrderByIdResponse?>()
     private val _respGetAddresses=MutableLiveData<GetAddressesResponse?>()
     private val _respGetAddressById=MutableLiveData<GetAddressbyByIdResponse?>()
+//    private val _respGetProductsBySearchQueryData = MutableLiveData<GetProductsBySearchQueryData?>()
+    private val _respEditPropertyAddress = MutableLiveData<SuccessMessageResponse?>()
+    private val _respDeletePropertyAddress = MutableLiveData<SuccessMessageResponse?>()
+    private val _respGetRecentlyViewedProducts = MutableLiveData<RecentlyViewedProductsResponse?>()
+    private val _respDeleteWishlist = MutableLiveData<SuccessMessageResponse?>()
+    private val _respGetAutocompleteQueries = MutableLiveData<GetAutoCompleteQueriesResponse?>()
 
     val resp:LiveData<SuccessMessageResponse?> = _resp
     val respNew:LiveData<SignupMobileResponse?> = _respNew
@@ -85,6 +90,12 @@ class AuthViewModel:ViewModel() {
     val respGetOrderById : LiveData<GetOrderByIdResponse?> = _respGetOrderById
     val respGetAddresses : LiveData<GetAddressesResponse?> = _respGetAddresses
     val respGetAddressById : LiveData<GetAddressbyByIdResponse?> = _respGetAddressById
+//    val respGetProductsBySearchQueryData : LiveData<GetProductsBySearchQueryData>
+    val respEditPropertyAddress : LiveData<SuccessMessageResponse?> = _respEditPropertyAddress
+    val respDeletePropertyAddress : LiveData<SuccessMessageResponse?> =_respDeletePropertyAddress
+    val respGetRecentlyViewedProducts : LiveData<RecentlyViewedProductsResponse?> = _respGetRecentlyViewedProducts
+    val respDeleteWishlist : LiveData<SuccessMessageResponse?> = _respDeleteWishlist
+    val respGetAutocompleteQueries : LiveData<GetAutoCompleteQueriesResponse?> = _respGetAutocompleteQueries
 
 
     fun signup(mobileNo : String)=viewModelScope.launch {
@@ -294,6 +305,44 @@ class AuthViewModel:ViewModel() {
     fun getAddressById(propertyId: String)=viewModelScope.launch {
         UserRepo.getAddressById(propertyId).let {
             _respGetAddressById.postValue(it)
+        }
+    }
+    fun getProductsBySearchQuery(getProductsBySearchQueryData: GetProductsBySearchQueryData)=viewModelScope.launch {
+        UserRepo.getProductsBySearchQuery(getProductsBySearchQueryData).let {
+            _respProducts.postValue(it)
+        }
+    }
+    fun getProductsBySearchQuery2(searchQuery:String,getProductsBySearchQueryData: GetProductsBySearchQueryData)=viewModelScope.launch {
+        UserRepo.getProductsBySearchQuery2(searchQuery,getProductsBySearchQueryData).let {
+            _respProducts.postValue(it)
+        }
+    }
+    fun editPropertyAddress(propertyId: String,addPropertyData: AddPropertyData)=viewModelScope.launch {
+        UserRepo.editPropertyAddress(propertyId, addPropertyData).let {
+            _respEditPropertyAddress.postValue(it)
+        }
+    }
+    fun deletePropertyAddress(propertyId: String)=viewModelScope.launch {
+        UserRepo.deletePropertyAddress(propertyId).let {
+            _respDeletePropertyAddress.postValue(it)
+        }
+    }
+
+    fun getRecentlyViewedProducts()=viewModelScope.launch {
+        UserRepo.getRecentlyViewedProducts().let {
+            _respGetRecentlyViewedProducts.postValue(it)
+        }
+    }
+
+    fun deleteWishlist()=viewModelScope.launch {
+        UserRepo.deleteWishlist().let {
+            _respDeleteWishlist.postValue(it)
+        }
+    }
+
+    fun getAutocompleteQueries(searchQuery: String)=viewModelScope.launch {
+        UserRepo.getAutocompleteQueries(searchQuery).let {
+            _respGetAutocompleteQueries.postValue(it)
         }
     }
 }

@@ -39,8 +39,9 @@ class AddressAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit, val
         var bind=ItemAddressBinding.bind(holder.itemView).apply {
             val addresss=getItem(position)
 
+
             if(addresss.type=="work"){
-                homeIcon.setImageResource(R.drawable.ic_icon_work_type)
+                homeIcon.setImageResource(R.drawable.ic_icon_work_type_new)
                 homeText.setImageResource(R.drawable.ic_work_type_new)
             }
             if(addresss.isUnderConstruction){
@@ -48,7 +49,7 @@ class AddressAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit, val
                 btnEditAddress.visibility=View.GONE
             }
             tvClientName.text= addresss.propertyName
-            tvShippingAddress.text=addresss.address.houseNo + "," + addresss.address.colony + "," + addresss.address.city + "," + addresss.address.state + " - " + addresss.address.pincode
+            tvShippingAddress.text=addresss.address.houseNo + ", " + addresss.address.colony + ", " + addresss.address.city + ", " + addresss.address.state + " - " + addresss.address.pincode
             tvClientMobileNumber.text=addresss.mobileNo.toString()
 
             btnEditAddress.setOnClickListener{ onEditAddressBtnClicked(addresss.id)}

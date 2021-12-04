@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.api.models.responsesAndData.products.productsEntities.ProductCategoryIdData
+import com.example.api.models.responsesAndData.products.productsEntities.ProductSubCategoryIdData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityProductCategoryBinding
@@ -81,6 +83,7 @@ class ProductCategoryActivity : AppCompatActivity() {
                     .show()
                 productCategoryAdapter.submitList(it.productCategories)
                 productCategoryAdapter.notifyDataSetChanged()
+                _binding.productCategoryText.text=it.productCategories?.get(0)?.name
                 getProductSubCategories(it.productCategories?.get(0)?.id!!)
             } else {
                 Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
@@ -102,9 +105,11 @@ class ProductCategoryActivity : AppCompatActivity() {
 //                Toast.makeText(this,"product sub categories fetching failed.", Toast.LENGTH_SHORT).show()
 //        }
 //    }
-    fun openProductCategory(productCategoryId: String?) {
+    fun openProductCategory(productCategoryIdData: ProductCategoryIdData) {
+//        Log.d("productCategoryId",productCategoryId.toString())
 
-        getProductSubCategories(productCategoryId.toString())
+        _binding.productCategoryText.text=productCategoryIdData.productCategoryName
+        getProductSubCategories(productCategoryIdData.productCategoryId.toString())
 
 //        getProductSubCategories(productCategoryId!!)
     }
@@ -127,12 +132,13 @@ class ProductCategoryActivity : AppCompatActivity() {
         }
     }
 
-    fun onProductSubCategoryClicked(productSubCategoryId: String?) {
+    fun onProductSubCategoryClicked(productSubCategoryIdData: ProductSubCategoryIdData) {
         val intent = Intent(this, ProductsActivity::class.java)
-        intent.putExtra("productSubCategoryId", productSubCategoryId)
+        intent.putExtra("productSubCategoryId", productSubCategoryIdData.productSubCategoryId)
+        intent.putExtra("productSubCategoryName", productSubCategoryIdData.productSubCategoryName)
         startActivity(intent)
-        Toast.makeText(this, "productSubCategoryId:${productSubCategoryId}", Toast.LENGTH_SHORT)
-            .show()
+//        Toast.makeText(this, "productSubCategoryId:${productSubCategoryId}", Toast.LENGTH_SHORT)
+//            .show()
     }
 
 //    fun onProductSubCategoryClicked(productSubCategoryId:String?){

@@ -13,12 +13,10 @@ import com.example.api.models.responsesAndData.expenditure.expenditureResponses.
 import com.example.api.models.responsesAndData.order.CreateOrderData
 import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
 import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductsResponse
+import com.example.api.models.responsesAndData.products.productsResponses.*
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.search.GetAutoCompleteQueriesResponse
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
 import com.example.api.models.responsesAndData.wishlist.ProductIdForWishlistData
@@ -97,9 +95,9 @@ interface BuildUpAuthAPI {
 //        @Body productIdForCartData: ProductIdForCartData
 //    ):Response<SuccessMessageResponse>
 
-    @PUT("api/product/wishlist")
+    @PUT("api/product/{id}/wishlist")
     suspend fun addProductToWishlist(
-        @Body productIdForWishlistData: ProductIdForWishlistData
+        @Path("id") productId:String
     ):Response<SuccessMessageResponse>
 
     @HTTP(method = "DELETE", path= "api/product/wishlist",hasBody = true)
@@ -135,4 +133,39 @@ interface BuildUpAuthAPI {
     suspend fun getAddressById(
         @Path("id") propertyId:String
     ) : Response<GetAddressbyByIdResponse>
+
+    @POST("api/search/products")
+    suspend fun getProductsBySearchQuery(
+        @Body getProductsBySearchQueryData: GetProductsBySearchQueryData
+    ):Response<ProductsResponse>
+
+    @POST("api/search/products")
+    suspend fun getProductsBySearchQuery2(
+        @Query("q") searchQuery:String?,
+        @Body getProductsBySearchQueryData: GetProductsBySearchQueryData
+    ):Response<ProductsResponse>
+
+    @PUT("api/property/{id}")
+    suspend fun editPropertyAddress(
+        @Body addPropertyData: AddPropertyData,
+        @Path("id") propertyId: String
+    ):Response<SuccessMessageResponse>
+
+    @HTTP(method = "DELETE", path= "api/property/{id}",hasBody = false)
+    suspend fun deletePropertyAddress(
+        @Path("id") propertyId:String
+    ):Response<SuccessMessageResponse>
+
+    @GET("api/search/product-history")
+    suspend fun getRecentlyViewedProducts():Response<RecentlyViewedProductsResponse>
+
+    @HTTP(method = "DELETE", path= "api/product/wishlist",hasBody = false)
+    suspend fun deleteWishlist():Response<SuccessMessageResponse>
+
+    @GET("api/search/auto-complete")
+    suspend fun getAutocompleteQueries(
+        @Query("q") searchQuery:String
+    ):Response<GetAutoCompleteQueriesResponse>
+
+
 }

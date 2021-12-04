@@ -90,6 +90,7 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:focusable="true"
                 android:textStyle="bold"
                 android:textSize="24sp"
@@ -119,6 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
+                android:textAlignment="center"
                 android:focusable="true"
                 android:textStyle="bold"
                 android:textSize="24sp"
@@ -147,6 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
+                android:textAlignment="center"
                 android:focusable="true"
                 android:textStyle="bold"
                 android:textSize="24sp"
@@ -174,6 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
+                android:textAlignment="center"
                 android:focusable="true"
                 android:textStyle="bold"
                 android:textSize="24sp"
@@ -212,7 +216,7 @@
 
         app:layout_goneMarginTop="12dp" />
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/verifyOTP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

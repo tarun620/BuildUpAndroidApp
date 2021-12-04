@@ -343,7 +343,7 @@
             android:elevation="30dp"
             android:shadowColor="@color/black"
             android:backgroundTint="@color/orange_theme_main"
-            android:text="Add"
+            android:text="Submit"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="30sp"

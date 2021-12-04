@@ -1,5 +1,7 @@
 package com.example.buildup.ui.Updates
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,8 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buildup.AuthViewModel
-import com.example.buildup.R
 import com.example.buildup.databinding.FragmentUpdatesBottomSheet2Binding
+import com.example.buildup.ui.Property.layouts.PropertyActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,10 +25,12 @@ import com.example.buildup.databinding.FragmentUpdatesBottomSheet2Binding
  * create an instance of this fragment.
  */
 class UpdatesBottomSheetFragment : Fragment() {
+
     private lateinit var _binding: FragmentUpdatesBottomSheet2Binding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var updatesAdapter: UpdatesAdapter
-    private lateinit var propertyId:String
+    private lateinit var sharedPrefrences: SharedPreferences
+    private var propertyId:String?=null
 
     // TODO: Rename and change types of parameters
     private val ARG_PARAM1 = "param1"
@@ -40,12 +44,13 @@ class UpdatesBottomSheetFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -53,13 +58,21 @@ class UpdatesBottomSheetFragment : Fragment() {
         _binding= FragmentUpdatesBottomSheet2Binding.inflate(inflater,container,false)
         _binding.updatesRecyclerView.layoutManager= LinearLayoutManager(context)
         _binding.updatesRecyclerView.adapter=updatesAdapter
+//        sharedPrefrences = getSharedPreferences(PropertyActivity.PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+        val sharedPrefrences = this.requireActivity().getSharedPreferences(PropertyActivity.PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+
+//        propertyId= sharedPrefrences.getString("propertyId",null)
+//        Log.d("updatepropertyId",propertyId.toString())
+
+
 
 //        Log.d("propertyIdFragment",arguments?.getString("propertyId")!!)
 //        propertyId = arguments?.getString("propertyId")!!
+        propertyId="619dec716015175a85d17a97" // TODO : hardcoded yet
 //        val bundle = arguments
 //        propertyId = bundle?.getString("propertyId").toString()
-//        Log.d("propertyId in fragment",propertyId)
-        propertyId="6153282604447a0fec5b2938"
+//        Log.d("propertyId in fragment",propertyId.toString())
+//        propertyId="6153282604447a0fec5b2938"
 
 
         return _binding.root
@@ -67,7 +80,8 @@ class UpdatesBottomSheetFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getUpdates(propertyId)
+        if(!propertyId.isNullOrBlank())
+            getUpdates(propertyId!!)
     }
 
     fun getUpdates(propertyId:String){

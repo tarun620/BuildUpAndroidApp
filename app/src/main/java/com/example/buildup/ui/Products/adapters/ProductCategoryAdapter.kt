@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.products.productsEntities.ProductCategory
+import com.example.api.models.responsesAndData.products.productsEntities.ProductCategoryIdData
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemProductCategoryBinding
 import com.example.buildup.extensions.loadImage
 
-class ProductCategoryAdapter(val onProductCategoryClicked:(productCategoryId:String?)->Unit): ListAdapter<ProductCategory, ProductCategoryAdapter.ProductCategoryViewHolder>(
+class ProductCategoryAdapter(val onProductCategoryClicked:(productCategoryIdData:ProductCategoryIdData)->Unit): ListAdapter<ProductCategory, ProductCategoryAdapter.ProductCategoryViewHolder>(
         object : DiffUtil.ItemCallback<ProductCategory>(){
             override fun areItemsTheSame(oldItem: ProductCategory, newItem: ProductCategory): Boolean {
                 return oldItem == newItem
@@ -43,7 +44,7 @@ class ProductCategoryAdapter(val onProductCategoryClicked:(productCategoryId:Str
             ivProductCategoryImage.loadImage(productCategory.image)
             tvProductCategoryName.text=productCategory.name
 
-            root.setOnClickListener { onProductCategoryClicked(productCategory.id)
+            root.setOnClickListener { onProductCategoryClicked(ProductCategoryIdData(productCategory.id,productCategory.name))
 //                itemLayout.setBackgroundColor(Color.WHITE)
             }
         }

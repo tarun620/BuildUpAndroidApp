@@ -27,6 +27,7 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit) : ListAdapter<Ord
     }
 ) {
     inner class OrderViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    val map = mapOf(1 to "Ordered", 2 to "Shipped" , 3 to "Out For Delivery" , 4 to "Delivered")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         return OrderViewHolder(
@@ -42,7 +43,7 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit) : ListAdapter<Ord
         var bind= ItemOrderBinding.bind(holder.itemView).apply {
             val order=getItem(position)
 
-            tvOrderStatus.text=order.shipping.tracking.status
+            tvOrderStatus.text= map[order.shipping.tracking.status.toInt()]
             tvOrderETA.timeStamp2=order.shipping.tracking.estimatedDelivery
             tvOrderETA.text="On" + " " + tvOrderETA.text.toString()
             ivProductImage.newLoadImage(order.product.id.image[0])

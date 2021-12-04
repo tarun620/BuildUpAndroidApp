@@ -16,13 +16,11 @@ import com.example.api.models.responsesAndData.order.CreateOrderData
 import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
 import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
 import com.example.api.models.responsesAndData.order.PaymentData
-import com.example.api.models.responsesAndData.products.productsResponses.ProductCategoriesResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductSubCategoriesResponse
-import com.example.api.models.responsesAndData.products.productsResponses.ProductsResponse
+import com.example.api.models.responsesAndData.products.productsResponses.*
 import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.search.GetAutoCompleteQueriesResponse
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
 import com.example.api.models.responsesAndData.wishlist.ProductIdForWishlistData
@@ -508,7 +506,7 @@ object UserRepo {
 
     suspend fun addProductToWishlist(productId: String):SuccessMessageResponse?{
         try{
-            val response= authApi.addProductToWishlist(ProductIdForWishlistData(productId))
+            val response= authApi.addProductToWishlist(productId)
             if(response.isSuccessful){
                 return response.body()
             }
@@ -625,6 +623,109 @@ object UserRepo {
             }
         }catch (e:IOException){
             return GetAddressbyByIdResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getProductsBySearchQuery(getProductsBySearchQueryData:GetProductsBySearchQueryData): ProductsResponse?{
+        try{
+            val response= authApi.getProductsBySearchQuery(getProductsBySearchQueryData)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return ProductsResponse(false,null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return ProductsResponse(false,null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getProductsBySearchQuery2(searchQuery:String,getProductsBySearchQueryData:GetProductsBySearchQueryData): ProductsResponse?{
+        try{
+            val response= authApi.getProductsBySearchQuery2(searchQuery,getProductsBySearchQueryData)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return ProductsResponse(false,null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return ProductsResponse(false,null,false,"Network Failure")
+        }
+    }
+    suspend fun editPropertyAddress(propertyId: String,addPropertyData: AddPropertyData):SuccessMessageResponse?{
+        try{
+            val response= authApi.editPropertyAddress(addPropertyData, propertyId)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun deletePropertyAddress(propertyId: String):SuccessMessageResponse?{
+        try{
+            val response= authApi.deletePropertyAddress(propertyId)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+        suspend fun getRecentlyViewedProducts():RecentlyViewedProductsResponse?{
+        try{
+            val response= authApi.getRecentlyViewedProducts()
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return RecentlyViewedProductsResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return RecentlyViewedProductsResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun deleteWishlist():SuccessMessageResponse?{
+        try{
+            val response= authApi.deleteWishlist()
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getAutocompleteQueries(searchQuery: String):GetAutoCompleteQueriesResponse?{
+        try{
+            val response= authApi.getAutocompleteQueries(searchQuery)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetAutoCompleteQueriesResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetAutoCompleteQueriesResponse(null,false,"Network Failure")
         }
     }
 }

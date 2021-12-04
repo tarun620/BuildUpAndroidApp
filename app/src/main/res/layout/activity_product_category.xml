@@ -106,7 +106,7 @@
                 android:fontFamily="@font/overpass"
                 android:text="Sanitary"
                 android:gravity="center"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView6"

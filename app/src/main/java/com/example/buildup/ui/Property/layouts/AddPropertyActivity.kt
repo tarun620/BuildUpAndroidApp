@@ -18,6 +18,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityAddPropertyBinding
@@ -37,7 +38,7 @@ class AddPropertyActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityAddPropertyBinding
     private lateinit var _bindingDialog: AssetSuccesDialogBinding
     private lateinit var authViewModel: AuthViewModel
-
+    private var propertyId:String?=null
     //    private  var addressType: String?=null
     private lateinit var dialogProgress: Dialog
     private lateinit var dialogSuccess: Dialog
@@ -63,6 +64,9 @@ class AddPropertyActivity : AppCompatActivity() {
         _binding = ActivityAddPropertyBinding.inflate(layoutInflater)
         _bindingDialog= AssetSuccesDialogBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+
+        propertyId=intent.getStringExtra("propertyId")
+
         coordinates=ArrayList()
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
@@ -73,6 +77,10 @@ class AddPropertyActivity : AppCompatActivity() {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar()?.hide();
+        }
+
+        if(!propertyId.isNullOrBlank()){
+            getPropertyAddressById(propertyId!!)
         }
 
         _binding.backBtn.setOnClickListener {
@@ -102,47 +110,65 @@ class AddPropertyActivity : AppCompatActivity() {
 //            }
 
 
+            var landmark:String?=null
+            if(!etLandmark.text.isNullOrBlank())
+                landmark=etLandmark.text.toString()
             submitButton.setOnClickListener {
-                if (validation()) {
-                    if(etLandmark.text.isNullOrBlank()){
-                        authViewModel.addProperty(
-                            etName.text.toString(),
-                            etMobile.text.toString(),
-                            addressType!!,
-                            etHouseNo.text.toString(),
-                            etColony.text.toString(),
-                            etCity.text.toString(),
-                            etState.text.toString(),
-                            etPincode.text.toString().toInt(),
-                            coordinates,
-                            null)
-                    }
-                    else{
-                        authViewModel.addProperty(
-                            etName.text.toString(),
-                            etMobile.text.toString(),
-                            addressType!!,
-                            etHouseNo.text.toString(),
-                            etColony.text.toString(),
-                            etCity.text.toString(),
-                            etState.text.toString(),
-                            etPincode.text.toString().toInt(),
-                            coordinates,
-                            etLandmark.text.toString())
-                    }
+                    if (validation()) {
+                        if(!propertyId.isNullOrBlank()){
+                            authViewModel.editPropertyAddress(
+                                propertyId!!,
+                            AddPropertyData(
+                                etName.text.toString(),
+                                etMobile.text.toString(),
+                                addressType!!,
+                                etHouseNo.text.toString(),
+                                etColony.text.toString(),
+                                etCity.text.toString(),
+                                etState.text.toString(),
+                                etPincode.text.toString().toInt(),
+                                coordinates,
+                                landmark
+                            ))
 
-                    authViewModel.resp.observe({ lifecycle }) {
-                        if (it?.success!!) {
-//                            Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
-                            showSuccessDialog()
-                        } else {
-                            Toast.makeText(this@AddPropertyActivity, it?.error, Toast.LENGTH_SHORT).show()
-                            Log.d("errorAddProperty", it?.error.toString())
+                            authViewModel.respEditPropertyAddress.observe({ lifecycle }) {
+                                if (it?.success!!) {
+                                    Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
+                                    showSuccessDialog()
+                                } else {
+                                    Toast.makeText(this@AddPropertyActivity, it.error, Toast.LENGTH_SHORT).show()
+                                    Log.d("errorAddProperty", it?.error.toString())
+                                }
+                            }
+                        }
+                        else{
+                            authViewModel.addProperty(
+                                etName.text.toString(),
+                                etMobile.text.toString(),
+                                addressType!!,
+                                etHouseNo.text.toString(),
+                                etColony.text.toString(),
+                                etCity.text.toString(),
+                                etState.text.toString(),
+                                etPincode.text.toString().toInt(),
+                                coordinates,
+                                landmark
+                            )
+
+                            authViewModel.resp.observe({ lifecycle }) {
+                                if (it?.success!!) {
+                                    Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
+                                    showSuccessDialog()
+                                } else {
+                                    Toast.makeText(this@AddPropertyActivity, it?.error, Toast.LENGTH_SHORT).show()
+                                    Log.d("errorAddProperty", it.error.toString())
+                                }
+                            }
                         }
                     }
-                }
-                else
-                    Toast.makeText(this@AddPropertyActivity,"Enter All Required Details",Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(this@AddPropertyActivity,"Enter All Required Details",Toast.LENGTH_SHORT).show()
+
             }
         }
     }
@@ -497,6 +523,29 @@ class AddPropertyActivity : AppCompatActivity() {
 
     private fun hideSuccessDialog(){
         dialogSuccess.dismiss()
+    }
+
+    private fun getPropertyAddressById(propertyId:String){
+        authViewModel.getAddressById(propertyId)
+        authViewModel.respGetAddressById.observe({lifecycle}){
+            if(it?.success!!){
+                _binding.apply {
+                    etName.setText(it.property?.propertyName)
+                    etMobile.setText(it.property?.mobileNo.toString())
+                    etPincode.setText(it.property?.address?.pincode!!.toString())
+                    etState.setText(it.property?.address?.state)
+                    etCity.setText(it.property?.address?.city)
+                    etHouseNo.setText(it.property?.address?.houseNo)
+                    etColony.setText(it.property?.address?.colony)
+                    if(!it.property?.address?.landmark.isNullOrBlank())
+                        etLandmark.setText(it.property?.address?.landmark)
+
+                }
+            }
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 

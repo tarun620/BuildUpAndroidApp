@@ -93,32 +93,15 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_product_name">
 
-                <!--            emplement timeline here-->
-
-                <com.shuhart.stepview.StepView
+                <com.anton46.stepsview.StepsView
                     android:id="@+id/step_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="48dp"
-                    android:padding="16dp"
-                    app:sv_selectedCircleColor="@color/selected_green_timeline"
-                    app:sv_selectedTextColor="@color/selected_green_timeline"
-                    app:sv_stepLineWidth="1dp"
-                    app:sv_stepPadding="4dp"
-                    app:sv_nextTextColor="@color/timeline_grey"
-                    app:sv_nextStepLineColor="@color/timeline_grey"
-                    app:sv_doneCircleColor="@color/selected_green_timeline"
-                    app:sv_doneStepLineColor="@color/selected_green_timeline"
-                    app:sv_doneCircleRadius="10dp"
-                    app:sv_selectedCircleRadius="10dp"
-                    app:sv_selectedStepNumberColor="@color/selected_green_timeline"
-                    app:sv_stepViewStyle="@style/StepView"
-                    app:sv_doneStepMarkColor="@color/selected_green_timeline"
-                    app:sv_stepNumberTextSize="12sp"
-                    app:sv_animationType="None" />
+                    android:layout_marginTop="24dp"
+                    android:padding="12dp"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"

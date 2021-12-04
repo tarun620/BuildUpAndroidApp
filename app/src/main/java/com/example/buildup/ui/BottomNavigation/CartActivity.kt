@@ -75,28 +75,13 @@ class CartActivity : AppCompatActivity() {
             }
 
             btnCheckout.setOnClickListener {
-                if(propertyId==null){
-                    Toast.makeText(this@CartActivity,"property Id is null",Toast.LENGTH_SHORT).show()
-
-                }
-                else{
-                    authViewModel.createOrder(propertyId!!,"cod","null",true)
-                    authViewModel.respCreateOrder.observe({lifecycle}){
-                        if(it?.success!!){
-                            Toast.makeText(this@CartActivity,"Order Placed Successfully",Toast.LENGTH_SHORT).show()
-                            val intent=Intent(this@CartActivity, OrdersActivity::class.java)
-                            startActivity(intent)
-                        }
-                        else{
-                            Toast.makeText(this@CartActivity,it.error,Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+                placeOrder(propertyId)
             }
         }
 
 
         getProductsFromCart()
+        changeDeliveryAddress(propertyId)
 //        setTotalCartValue()
 
     }
@@ -214,5 +199,49 @@ class CartActivity : AppCompatActivity() {
     }
 
 
+    private fun placeOrder(propertyId:String?){
+        if(propertyId==null){
+            Toast.makeText(this@CartActivity,"property Id is null",Toast.LENGTH_SHORT).show()
+
+        }
+        else{
+            authViewModel.createOrder(propertyId,"cod","null",true)
+            authViewModel.respCreateOrder.observe({lifecycle}){
+                if(it?.success!!){
+                    Toast.makeText(this@CartActivity,"Order Placed Successfully",Toast.LENGTH_SHORT).show()
+                    val intent=Intent(this@CartActivity, OrdersActivity::class.java)
+                    startActivity(intent)
+                }
+                else{
+                    Toast.makeText(this@CartActivity,it.error,Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+    }
+
+    private fun changeDeliveryAddress(propertyId: String?){
+        if(propertyId==null){
+            Toast.makeText(this@CartActivity,"property Id is null",Toast.LENGTH_SHORT).show()
+        }
+        else{
+            authViewModel.getAddressById(propertyId)
+            authViewModel.respGetAddressById.observe({lifecycle}){
+                if(it?.success!!){
+                    _binding.tvAddress.text=it.property?.address?.houseNo + ", " + it.property?.address?.colony + ", " + it.property?.address?.city + ", " + it.property?.address?.state + " - " + it.property?.address?.pincode
+                }
+                else{
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        propertyId= sharedPrefrences.getString("propertyId",null)
+        Log.d("propertyId",propertyId.toString())
+        changeDeliveryAddress(propertyId)
+    }
 
 }

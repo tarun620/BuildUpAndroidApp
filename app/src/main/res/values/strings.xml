@@ -6,4 +6,16 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="googleAccountWebClientID">378803296504-nt98bu1mnmg853bvkugn210u84tlc2ul.apps.googleusercontent.com</string>
+
+    <string-array name="Languages">
+        <item>Java</item>
+        <item>Kotlin</item>
+        <item>Swift</item>
+        <item>Python</item>
+        <item>Scala</item>
+        <item>Perl</item>
+        <item>Javascript</item>
+        <item>Jquery</item>
+    </string-array>
+
 </resources>

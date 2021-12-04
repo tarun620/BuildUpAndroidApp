@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.products.productsEntities.ProductSubCategory
+import com.example.api.models.responsesAndData.products.productsEntities.ProductSubCategoryIdData
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemProductCategoryBinding
 import com.example.buildup.databinding.ListItemProductSubCategoryBinding
 import com.example.buildup.extensions.loadImage
 import com.example.buildup.extensions.newLoadImage
 
-class ProductSubCategoryAdapter(val onProductSubCategoryClicked:(productSubCategoryId:String?)->Unit): ListAdapter<ProductSubCategory, ProductSubCategoryAdapter.ProductSubCategoryViewHolder>(
+class ProductSubCategoryAdapter(val onProductSubCategoryClicked:(productSubCategoryIdData: ProductSubCategoryIdData)->Unit): ListAdapter<ProductSubCategory, ProductSubCategoryAdapter.ProductSubCategoryViewHolder>(
     object : DiffUtil.ItemCallback<ProductSubCategory>(){
         override fun areItemsTheSame(oldItem: ProductSubCategory, newItem: ProductSubCategory): Boolean {
             return oldItem == newItem
@@ -45,7 +46,7 @@ class ProductSubCategoryAdapter(val onProductSubCategoryClicked:(productSubCateg
 //            ivProductCategoryImage.loadImage(productSubCategory.image)
 //            tvProductCategoryName.text=productSubCategory.name
 
-            root.setOnClickListener { onProductSubCategoryClicked(productSubCategory.id) }
+            root.setOnClickListener { onProductSubCategoryClicked(ProductSubCategoryIdData(productSubCategory.id,productSubCategory.name))}
         }
     }
 }

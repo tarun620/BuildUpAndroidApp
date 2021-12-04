@@ -87,7 +87,8 @@ class PropertyActivity : AppCompatActivity() {
                     }
                 }
                 _binding.propertyName.text = it.property?.name
-                timeLineHandling(it.property?.completed)
+                if(it.property?.completed!=null)
+                    timeLineHandling(it.property?.completed)
 //                _binding.completedStatus.text="Completed Stage : ${it.property.completed.toString()}"
             } else {
                 Toast.makeText(this, it?.error, Toast.LENGTH_SHORT).show()

@@ -89,7 +89,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 android:maxWidth="200dp"
-                android:text="2, Multan Nagar Paschim Vihar, Delhi - 110088"
+                android:text="2, Multan Nagar Paschim Vihar, Delhi - 110088 "
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/iv_addressImage"
@@ -99,7 +99,7 @@
                 android:id="@+id/btn_change_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="18dp"
                 android:padding="5dp"
                 android:src="@drawable/ic_forward_btn"
                 app:layout_constraintBottom_toBottomOf="@id/tv_address"
@@ -166,7 +166,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_addressImage" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_address" />
 
             <TextView
                 android:id="@+id/textView8"
@@ -210,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="18dp"
                 android:fontFamily="@font/overpass"
                 android:text="0"
                 android:textColor="@color/black"
@@ -225,7 +225,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="18dp"
                 android:fontFamily="@font/overpass"
                 android:text="0"
                 android:textColor="@color/black"
@@ -239,7 +239,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12sp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginEnd="18dp"
                 android:fontFamily="@font/overpass"
                 android:text="0"
                 android:textColor="@color/black"

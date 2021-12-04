@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.products.productsEntities.Products
+import com.example.api.models.responsesAndData.wishlist.IsWishlistedData
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemProductBinding
 import com.example.buildup.extensions.newLoadImage
 
 
-class ProductAdapter(val onProductClicked:(productId:String?)->Unit): ListAdapter<Products, ProductAdapter.ProductViewHolder>(
+class ProductAdapter(val onProductClicked:(productId:String?)->Unit, val onWishlistClicked:(isWishlistedData : IsWishlistedData)->Unit): ListAdapter<Products, ProductAdapter.ProductViewHolder>(
         object : DiffUtil.ItemCallback<Products>(){
             override fun areItemsTheSame(oldItem: Products, newItem: Products): Boolean {
                 return oldItem == newItem
@@ -45,13 +46,20 @@ class ProductAdapter(val onProductClicked:(productId:String?)->Unit): ListAdapte
             tvProductName.text=product.name
             tvProductPrice.text="₹" + " " + product.amount.toString()
             tvProductMRP.text="₹" + " " + product.mrp.toString()
-//            if()
-//            btnWishlist.setOnClickListener {
-//
-//            }
-//            if(product.isWishlisted){
-//                btnWishlist.setImageResource(R.)
-//            }
+            var isWishlisted=product.isWishlisted!!
+            if(isWishlisted){
+                btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new)
+            }
+            btnWishlist.setOnClickListener {
+                if(isWishlisted){
+                    btnWishlist.setImageResource(R.drawable.ic_save_wishlist)
+                }
+                else{
+                    btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new)
+                }
+                onWishlistClicked(IsWishlistedData(isWishlisted,product.id))
+                isWishlisted=!isWishlisted
+            }
 
             root.setOnClickListener { onProductClicked(product.id) }
         }
