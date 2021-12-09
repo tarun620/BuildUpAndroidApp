@@ -5,11 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
@@ -18,7 +18,6 @@ import com.example.buildup.R
 import com.example.buildup.databinding.ActivityPropertyBinding
 import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.Expenditure.ExpenditureActivity
-import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Updates.UpdatesBottomSheetFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -47,19 +46,9 @@ class PropertyActivity : AppCompatActivity() {
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
 
-        setContentView(_binding?.root)
-
-
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
-        }
+        setContentView(_binding.root)
 
         val propertyId: String? = intent.getStringExtra("propertyId")
-
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-        val myFragment = UpdatesBottomSheetFragment()
 
         //PERSISTENT BOTTOM SHEET
         BottomSheetBehavior.from(_binding.updateBottomFrame).apply {
@@ -70,10 +59,13 @@ class PropertyActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putString("propertyId", propertyId)
         Log.d("propertyId",bundle.getString("propertyId")!!)
-        myFragment.arguments = bundle
 
+        val myFragment = UpdatesBottomSheetFragment()
+        myFragment.arguments = bundle
+        val fragmentManager: FragmentManager = supportFragmentManager
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.add(R.id.updateBottomFrame,
-            UpdatesBottomSheetFragment()
+            myFragment
         ).commit()
 
 
@@ -164,10 +156,6 @@ class PropertyActivity : AppCompatActivity() {
 
     fun completedEqualsOne(face:Typeface){
         _binding.apply {
-            var face = Typeface.createFromAsset(
-                assets,
-                "fonts/overpass_bold.ttf"
-            )
             ellipse1.setImageResource(R.drawable.ic_colored_ellipse)
             timelineText1.setTextColor(getColor(R.color.white))
             timeLineDesc1.typeface=face

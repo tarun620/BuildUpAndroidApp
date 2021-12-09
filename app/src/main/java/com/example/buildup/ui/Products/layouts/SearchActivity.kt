@@ -7,19 +7,24 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.api.models.responsesAndData.products.productsEntities.Products
 import com.example.api.models.responsesAndData.products.productsEntities.RecentySearchedQueryData
 import com.example.buildup.AuthViewModel
+import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivitySearchBinding
 import com.example.buildup.ui.MyApplication
 import com.example.buildup.ui.Products.adapters.RecentSearchedAdapter
 import com.example.buildup.ui.Products.adapters.RecentViewedProductsAdapter
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SearchActivity : AppCompatActivity() {
@@ -27,11 +32,14 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var recentViewedProductsAdapter: RecentViewedProductsAdapter
     private lateinit var recentSearchedAdapter : RecentSearchedAdapter
+    private var searchQueryList=ArrayList<String>()
+    private lateinit var tinyDB :TinyDB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding= ActivitySearchBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
 
+        tinyDB = TinyDB(this)
         recentViewedProductsAdapter=RecentViewedProductsAdapter { onProductClicked(it) }
         recentSearchedAdapter=RecentSearchedAdapter{onItemClicked(it)}
 
@@ -58,7 +66,17 @@ class SearchActivity : AppCompatActivity() {
                 if(etSearch.text.isNullOrBlank())
                     Toast.makeText(this@SearchActivity,"please enter keyword to search",Toast.LENGTH_SHORT).show()
                 else{
-                    (application as MyApplication).addElement(etSearch.text.toString())
+//                    (application as MyApplication).addElement(etSearch.text.toString())
+                    if(searchQueryList.contains(etSearch.text.toString()))
+                        searchQueryList.remove(etSearch.text.toString())
+
+                    if(searchQueryList.size>=5)
+                        searchQueryList.removeAt(searchQueryList.size-1)
+
+                    searchQueryList.add(0,etSearch.text.toString())
+                    Log.d("array",searchQueryList.toString())
+                    tinyDB.putListString("searchQueryList",searchQueryList)
+
 //                    getRecentSearchedQuery()
 
                     val intent= Intent(this@SearchActivity,ProductsActivity::class.java)
@@ -77,7 +95,9 @@ class SearchActivity : AppCompatActivity() {
 
                 //performing positive action
                 builder.setPositiveButton("Yes"){dialogInterface, which ->
-                    (application as MyApplication).clearQueue()
+//                    (application as MyApplication).clearQueue()
+                    searchQueryList.clear()
+                    tinyDB.putListString("searchQueryList",searchQueryList)
                     getRecentSearchedQuery()
                 }
                 //performing cancel action
@@ -116,7 +136,9 @@ class SearchActivity : AppCompatActivity() {
         startActivity(intent)
     }
     private fun onItemClicked(searchQuery:String?){
-
+        val intent= Intent(this@SearchActivity,ProductsActivity::class.java)
+        intent.putExtra("searchQuery",_binding.etSearch.text.toString())
+        startActivity(intent)
     }
     private fun getRecentlyViewedProducts(){
         authViewModel.getRecentlyViewedProducts()
@@ -129,15 +151,25 @@ class SearchActivity : AppCompatActivity() {
             }
         }
     }
-    private fun getRecentSearchedQuery(){
-        var searchQueryList=mutableListOf<RecentySearchedQueryData>()
-        (application as MyApplication).getQueue().let {
+    private fun getRecentSearchedQuery(){ //called in OnResume()
+        var searchQueryListMutable=mutableListOf<RecentySearchedQueryData>()
+        tinyDB.getListString("searchQueryList").let {
             for(i in it){
-                searchQueryList.add(RecentySearchedQueryData(i))
+                searchQueryListMutable.add(RecentySearchedQueryData(i))
             }
         }
-        searchQueryList.reverse()
-        recentSearchedAdapter.submitList(searchQueryList)
+//        (application as MyApplication).getQueue().let {
+//            for(i in it){
+//                searchQueryList.add(RecentySearchedQueryData(i))
+//            }
+//        }
+        if(searchQueryListMutable.isEmpty())
+            _binding.recentlySearchedLayout.visibility=GONE
+        else
+            _binding.recentlySearchedLayout.visibility= VISIBLE
+
+//        searchQueryListMutable.reverse()
+        recentSearchedAdapter.submitList(searchQueryListMutable)
     }
 
     private fun getAutoCompleteQueries(){
@@ -147,12 +179,22 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if(!etSearch.text.toString().isNullOrBlank()){
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    if(etSearch.text.toString().isNotBlank()){
                         authViewModel.getAutocompleteQueries(etSearch.text.toString())
                         authViewModel.respGetAutocompleteQueries.observe({lifecycle}){
                             if(it?.success!! && it.queries!=null){
+//                                val suggestionList= mutableListOf<String>()
+//                                for(i in it.queries!!){
+//                                    if(i!=null)
+//                                        suggestionList.add(i)
+//                                }
+//                                Log.d("arraySize",suggestionList.size.toString())
                                 val adapter = ArrayAdapter(this@SearchActivity,
-                                    android.R.layout.simple_list_item_1, it.queries!!.toMutableList())
+                                    android.R.layout.simple_list_item_1, it.queries!!)
                                 etSearch.threshold=0
                                 etSearch.setAdapter(adapter)
                             }
@@ -161,10 +203,6 @@ class SearchActivity : AppCompatActivity() {
                             }
                         }
                     }
-
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
                 }
 
             })

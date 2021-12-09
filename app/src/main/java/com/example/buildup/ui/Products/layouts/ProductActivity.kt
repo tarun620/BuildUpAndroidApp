@@ -37,10 +37,6 @@ class ProductActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_product)
         setContentView(_binding.root)
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
-        }
-
         productId= intent.getStringExtra("productId")!!
 
         _binding.backBtn.setOnClickListener {

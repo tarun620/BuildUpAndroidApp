@@ -10,7 +10,7 @@ data class ProductsResponse(
     @Json(name = "hasNext")
     val hasNext: Boolean?,
     @Json(name = "products")
-    val products: List<Products>?,
+    val products: List<Products?>?,
     @Json(name = "success")
     val success: Boolean?,
     @Json(name = "error")

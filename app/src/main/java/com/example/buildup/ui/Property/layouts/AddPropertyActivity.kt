@@ -40,7 +40,7 @@ class AddPropertyActivity : AppCompatActivity() {
     private lateinit var authViewModel: AuthViewModel
     private var propertyId:String?=null
     //    private  var addressType: String?=null
-    private lateinit var dialogProgress: Dialog
+//    private lateinit var dialogProgress: Dialog
     private lateinit var dialogSuccess: Dialog
 
 
@@ -96,7 +96,7 @@ class AddPropertyActivity : AppCompatActivity() {
             }
 
             locationButton.setOnClickListener {
-                showProgressDialog()
+//                showProgressDialog()
                 turnOnGPS()
         }
 //            _binding.apply {
@@ -134,7 +134,7 @@ class AddPropertyActivity : AppCompatActivity() {
                             authViewModel.respEditPropertyAddress.observe({ lifecycle }) {
                                 if (it?.success!!) {
                                     Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
-                                    showSuccessDialog()
+                                    finish()
                                 } else {
                                     Toast.makeText(this@AddPropertyActivity, it.error, Toast.LENGTH_SHORT).show()
                                     Log.d("errorAddProperty", it?.error.toString())
@@ -158,7 +158,7 @@ class AddPropertyActivity : AppCompatActivity() {
                             authViewModel.resp.observe({ lifecycle }) {
                                 if (it?.success!!) {
                                     Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
-                                    showSuccessDialog()
+                                    finish()
                                 } else {
                                     Toast.makeText(this@AddPropertyActivity, it?.error, Toast.LENGTH_SHORT).show()
                                     Log.d("errorAddProperty", it.error.toString())
@@ -239,9 +239,9 @@ class AddPropertyActivity : AppCompatActivity() {
     fun turnOnGPS() {
 //        Log.d("coordinates","In turnOnGPS")
         locationRequest = LocationRequest.create()
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-        locationRequest.setInterval(300)
-        locationRequest.setFastestInterval(300)
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 300
+        locationRequest.fastestInterval = 300
 
         val builder: LocationSettingsRequest.Builder =
             LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
@@ -255,14 +255,18 @@ class AddPropertyActivity : AppCompatActivity() {
 
         result.addOnCompleteListener { task ->
             try {
+//                Log.d("location","reached in try block")
                 val response: LocationSettingsResponse = task.getResult(ApiException::class.java)
-
-                hideProgressDialog()
+                if(response.locationSettingsStates.isLocationPresent){
+                    Log.d("location","reached in try block")
+//                    hideProgressDialog()
+                }
                 getLocation() //user device location is already turned on and hence didn't entre the catch block
             } catch (ex: ApiException) {
+                Log.d("location","reached in catch block")
                 when (ex.statusCode) {
-
                     LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> try {  //user device location is turned off
+                        Log.d("location","inside try of catch block")
                         val resolvableApiException = ex as ResolvableApiException
                         resolvableApiException
                             .startResolutionForResult(
@@ -327,7 +331,7 @@ class AddPropertyActivity : AppCompatActivity() {
                 ),
                 44
             )
-            hideProgressDialog()
+//            hideProgressDialog()
         } else {
 
 
@@ -380,7 +384,7 @@ class AddPropertyActivity : AppCompatActivity() {
 //                            etCity.isEnabled = false
                         }
 
-                        hideProgressDialog()
+//                        hideProgressDialog()
 
 
 //                        startAddPostActivity(currentAddress)
@@ -455,7 +459,7 @@ class AddPropertyActivity : AppCompatActivity() {
                                 }
 
 
-                                hideProgressDialog()
+//                                hideProgressDialog()
 
 //                                startAddPostActivity(currentAddress)
                             }
@@ -466,7 +470,7 @@ class AddPropertyActivity : AppCompatActivity() {
                             locationCallback,
                             Looper.myLooper()
                         )
-                        hideProgressDialog()
+//                        hideProgressDialog()
                     }
                 }
             })
@@ -477,53 +481,48 @@ class AddPropertyActivity : AppCompatActivity() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback)
     }
 
-    private fun showProgressDialog() {
-        dialogProgress = Dialog(this)
-        dialogProgress.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+//    private fun showProgressDialog() {
+//        dialogProgress = Dialog(this)
+//        dialogProgress.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+//
+//        dialogProgress.setContentView(R.layout.asset_progress_bar)
+//        dialogProgress.setCancelable(false)
+//        dialogProgress.window?.setBackgroundDrawableResource(
+//            android.R.color.transparent
+//        )
+//        val lp = WindowManager.LayoutParams()
+//        lp.copyFrom(dialogProgress.window!!.attributes)
+//        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+//        dialogProgress.show()
+//    }
+//    private fun hideProgressDialog() {
+//        Log.d("location","reached iin hideProgressBar()")
+//        dialogProgress.dismiss()
+//    }
 
-        dialogProgress.setContentView(R.layout.asset_progress_bar)
-        dialogProgress.setCancelable(false)
-        dialogProgress.window?.setBackgroundDrawableResource(
-            android.R.color.transparent
-        )
-        val lp = WindowManager.LayoutParams()
-        lp.copyFrom(dialogProgress.window!!.attributes)
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        dialogProgress.show()
-    }
+//    private fun showSuccessDialog(){
+//        dialogSuccess = Dialog(this)
+//        dialogSuccess.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+//        dialogSuccess.setContentView(_bindingDialog.root)
+//        _bindingDialog.titleText.text ="Property\nAdded\nSuccessfully"
+//
+//        dialogSuccess.setCancelable(false)
+//
+//        val lp = WindowManager.LayoutParams()
+//        lp.copyFrom(dialogSuccess.window!!.attributes)
+//        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+//        dialogSuccess.show()
+//
+//
+//        Handler().postDelayed({
+//            dialogSuccess.dismiss()
+//            finish()  // closes the current acitivity and goes back to PropertiesActivity
+//        }, 3000)
+//
+//    }
 
-    private fun showSuccessDialog(){
-        dialogSuccess = Dialog(this)
-        dialogSuccess.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
-        dialogSuccess.setContentView(_bindingDialog.root)
-        _bindingDialog.titleText.text ="Property\nAdded\nSuccessfully"
-
-        dialogSuccess.setCancelable(false)
-
-        val lp = WindowManager.LayoutParams()
-        lp.copyFrom(dialogSuccess.window!!.attributes)
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        dialogSuccess.show()
-
-
-        Handler().postDelayed({
-            dialogSuccess.dismiss()
-            finish()  // closes the current acitivity and goes back to PropertiesActivity
-        }, 3000)
-
-    }
-
-
-
-    private fun hideProgressDialog() {
-        dialogProgress.dismiss()
-    }
-
-    private fun hideSuccessDialog(){
-        dialogSuccess.dismiss()
-    }
 
     private fun getPropertyAddressById(propertyId:String){
         authViewModel.getAddressById(propertyId)

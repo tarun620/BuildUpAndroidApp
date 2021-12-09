@@ -61,7 +61,7 @@ class  WishlistActivity : AppCompatActivity() {
 
                 //performing positive action
                 builder.setPositiveButton("Yes"){dialogInterface, which ->
-                    (application as MyApplication).clearQueue()
+//                    (application as MyApplication).clearQueue()
                     deleteWishlist()
                 }
                 //performing cancel action

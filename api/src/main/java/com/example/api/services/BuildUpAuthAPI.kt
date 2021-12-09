@@ -136,6 +136,7 @@ interface BuildUpAuthAPI {
 
     @POST("api/search/products")
     suspend fun getProductsBySearchQuery(
+        @Query("page") pageNum:Int,
         @Body getProductsBySearchQueryData: GetProductsBySearchQueryData
     ):Response<ProductsResponse>
 

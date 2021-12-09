@@ -626,9 +626,9 @@ object UserRepo {
         }
     }
 
-    suspend fun getProductsBySearchQuery(getProductsBySearchQueryData:GetProductsBySearchQueryData): ProductsResponse?{
+    suspend fun getProductsBySearchQuery(pageNum:Int,getProductsBySearchQueryData:GetProductsBySearchQueryData): ProductsResponse?{
         try{
-            val response= authApi.getProductsBySearchQuery(getProductsBySearchQueryData)
+            val response= authApi.getProductsBySearchQuery(pageNum,getProductsBySearchQueryData)
             if(response.isSuccessful){
                 return response.body()
             }
@@ -641,7 +641,7 @@ object UserRepo {
         }
     }
 
-    suspend fun getProductsBySearchQuery2(searchQuery:String,getProductsBySearchQueryData:GetProductsBySearchQueryData): ProductsResponse?{
+    suspend fun getProductsBySearchQuery2(searchQuery:String?,getProductsBySearchQueryData:GetProductsBySearchQueryData): ProductsResponse?{
         try{
             val response= authApi.getProductsBySearchQuery2(searchQuery,getProductsBySearchQueryData)
             if(response.isSuccessful){

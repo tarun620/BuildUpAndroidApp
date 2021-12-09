@@ -29,7 +29,6 @@ class UpdatesBottomSheetFragment : Fragment() {
     private lateinit var _binding: FragmentUpdatesBottomSheet2Binding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var updatesAdapter: UpdatesAdapter
-    private lateinit var sharedPrefrences: SharedPreferences
     private var propertyId:String?=null
 
     // TODO: Rename and change types of parameters
@@ -58,22 +57,9 @@ class UpdatesBottomSheetFragment : Fragment() {
         _binding= FragmentUpdatesBottomSheet2Binding.inflate(inflater,container,false)
         _binding.updatesRecyclerView.layoutManager= LinearLayoutManager(context)
         _binding.updatesRecyclerView.adapter=updatesAdapter
-//        sharedPrefrences = getSharedPreferences(PropertyActivity.PREFS_FILE_AUTH, Context.MODE_PRIVATE)
-        val sharedPrefrences = this.requireActivity().getSharedPreferences(PropertyActivity.PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
-//        propertyId= sharedPrefrences.getString("propertyId",null)
-//        Log.d("updatepropertyId",propertyId.toString())
-
-
-
-//        Log.d("propertyIdFragment",arguments?.getString("propertyId")!!)
-//        propertyId = arguments?.getString("propertyId")!!
-        propertyId="619dec716015175a85d17a97" // TODO : hardcoded yet
-//        val bundle = arguments
-//        propertyId = bundle?.getString("propertyId").toString()
-//        Log.d("propertyId in fragment",propertyId.toString())
-//        propertyId="6153282604447a0fec5b2938"
-
+        propertyId = arguments?.getString("propertyId")
+        Log.d("propertyId in fragment",propertyId.toString())
 
         return _binding.root
     }

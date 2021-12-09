@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.HomeActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_homepage_bg">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="0dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@null"
+            app:elevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                app:layout_collapseMode="pin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <ImageView
+                        android:id="@+id/buttonDashboard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_dashboard"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appBar">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/nested_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/bg_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/bg_homepage_banner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+                <TextView
+                    android:id="@+id/tv_title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Construction\nMaterial"
+                    android:gravity="center"
+                    android:textSize="30sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/overpass_bold"
+                    app:layout_constraintStart_toStartOf="@id/bg_banner"
+                    app:layout_constraintEnd_toEndOf="@id/bg_banner"
+                    app:layout_constraintTop_toTopOf="@id/bg_banner"
+                    app:layout_constraintBottom_toBottomOf="@id/bg_banner"/>
+
+                <TextView
+                    android:id="@+id/tv_discount_percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Min 50% Off"
+                    android:gravity="center"
+                    android:textSize="30sp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/overpass"
+                    app:layout_constraintStart_toStartOf="@id/bg_banner"
+                    app:layout_constraintEnd_toEndOf="@id/bg_banner"
+                    app:layout_constraintTop_toBottomOf="@id/tv_title_text"
+                    android:layout_marginTop="24dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/brandsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bg_banner"
+                    tools:listitem="@layout/item_brand"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:itemCount="6"/>
+
+                <TextView
+                    android:id="@+id/categories_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categories"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/brandsRecyclerView"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/overpass_semibold"
+                    android:textFontWeight="600"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginTop="24dp"/>
+
+                
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

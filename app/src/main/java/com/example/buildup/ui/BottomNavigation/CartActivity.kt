@@ -16,6 +16,7 @@ import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.BottomNavigation.CartActivity.PropertyActivity.Companion.PREFS_FILE_AUTH
 import com.example.buildup.ui.Cart.adapters.CartAdapter
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
+import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.example.buildup.ui.Property.layouts.PropertyActivity
@@ -205,17 +206,9 @@ class CartActivity : AppCompatActivity() {
 
         }
         else{
-            authViewModel.createOrder(propertyId,"cod","null",true)
-            authViewModel.respCreateOrder.observe({lifecycle}){
-                if(it?.success!!){
-                    Toast.makeText(this@CartActivity,"Order Placed Successfully",Toast.LENGTH_SHORT).show()
-                    val intent=Intent(this@CartActivity, OrdersActivity::class.java)
-                    startActivity(intent)
-                }
-                else{
-                    Toast.makeText(this@CartActivity,it.error,Toast.LENGTH_SHORT).show()
-                }
-            }
+            var intent=Intent(this,CodPaymentActivity::class.java)
+            intent.putExtra("propertyId",propertyId)
+            startActivity(intent)
         }
 
     }

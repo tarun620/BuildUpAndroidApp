@@ -80,10 +80,12 @@
             android:textColor="@color/black_text"
             android:textSize="15sp"
             android:fontFamily="@font/overpass"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_client_name"
             app:layout_constraintTop_toBottomOf="@id/tv_client_name"
-            android:layout_marginTop="11dp"
-            android:layout_marginStart="17dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingEnd="24dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="11dp"/>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/phone_icon"

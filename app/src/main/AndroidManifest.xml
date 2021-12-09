@@ -18,6 +18,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuildUp"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ui.HomeActivity"></activity>
+        <activity android:name=".ui.Products.layouts.CodPaymentActivity" />
         <activity android:name=".ui.Address.layouts.AddressesActivity" />
         <activity android:name=".ui.Orders.layouts.OrderActivity" />
         <activity android:name=".ui.Orders.layouts.OrdersActivity" />

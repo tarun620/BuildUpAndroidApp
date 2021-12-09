@@ -1,5 +1,6 @@
 package com.example.buildup.ui.Products.adapters
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,28 +41,31 @@ class ProductAdapter(val onProductClicked:(productId:String?)->Unit, val onWishl
         var bind=ListItemProductBinding.bind(holder.itemView).apply {
             val product=getItem(position)
 
-            ivProductImage.newLoadImage(product.image[0])
+            if(product!=null){
+                ivProductImage.newLoadImage(product.image[0])
 //            ivProductImage.setImageResource(R.drawable.basin_mixer_1x)
-            tvBrandName.text=product.brand.name
-            tvProductName.text=product.name
-            tvProductPrice.text="₹" + " " + product.amount.toString()
-            tvProductMRP.text="₹" + " " + product.mrp.toString()
-            var isWishlisted=product.isWishlisted!!
-            if(isWishlisted){
-                btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new)
-            }
-            btnWishlist.setOnClickListener {
+                tvBrandName.text=product.brand.name
+                tvProductName.text=product.name
+                tvProductPrice.text="₹" + " " + product.amount.toString()
+                tvProductMRP.text="₹" + " " + product.mrp.toString()
+                tvProductMRP.paintFlags = tvProductMRP.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                var isWishlisted=product.isWishlisted!!
                 if(isWishlisted){
-                    btnWishlist.setImageResource(R.drawable.ic_save_wishlist)
-                }
-                else{
                     btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new)
                 }
-                onWishlistClicked(IsWishlistedData(isWishlisted,product.id))
-                isWishlisted=!isWishlisted
-            }
+                btnWishlist.setOnClickListener {
+                    if(isWishlisted){
+                        btnWishlist.setImageResource(R.drawable.ic_save_wishlist)
+                    }
+                    else{
+                        btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new)
+                    }
+                    onWishlistClicked(IsWishlistedData(isWishlisted,product.id))
+                    isWishlisted=!isWishlisted
+                }
 
-            root.setOnClickListener { onProductClicked(product.id) }
+                root.setOnClickListener { onProductClicked(product.id) }
+            }
         }
     }
 

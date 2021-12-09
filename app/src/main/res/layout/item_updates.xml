@@ -23,12 +23,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:fontFamily="@font/overpass"
-        android:textFontWeight="600"
         android:textColor="@color/black"
+        android:textFontWeight="600"
         android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@id/updatesDate"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/updatesImage"
         app:layout_constraintTop_toTopOf="@+id/updatesImage"
-        tools:text="Carpenter" />
+        tools:text="Carpenter " />
 
     <TextView
         android:id="@+id/updatesDesc"
@@ -40,6 +42,8 @@
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/updatesImage"
         app:layout_constraintTop_toBottomOf="@+id/updatesTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         tools:text="Some update about work" />
 
     <TextView

@@ -307,12 +307,12 @@ class AuthViewModel:ViewModel() {
             _respGetAddressById.postValue(it)
         }
     }
-    fun getProductsBySearchQuery(getProductsBySearchQueryData: GetProductsBySearchQueryData)=viewModelScope.launch {
-        UserRepo.getProductsBySearchQuery(getProductsBySearchQueryData).let {
+    fun getProductsBySearchQuery(pageNum:Int,getProductsBySearchQueryData: GetProductsBySearchQueryData)=viewModelScope.launch {
+        UserRepo.getProductsBySearchQuery(pageNum,getProductsBySearchQueryData).let {
             _respProducts.postValue(it)
         }
     }
-    fun getProductsBySearchQuery2(searchQuery:String,getProductsBySearchQueryData: GetProductsBySearchQueryData)=viewModelScope.launch {
+    fun getProductsBySearchQuery2(searchQuery:String?,getProductsBySearchQueryData: GetProductsBySearchQueryData)=viewModelScope.launch {
         UserRepo.getProductsBySearchQuery2(searchQuery,getProductsBySearchQueryData).let {
             _respProducts.postValue(it)
         }

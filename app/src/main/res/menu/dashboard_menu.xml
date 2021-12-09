@@ -6,7 +6,7 @@
         <item
 
             android:id="@+id/nav_build_up_plus"
-            android:icon="@drawable/home_icon"
+            android:icon="@drawable/ic_icon_buildup_plus"
             android:title="BuildUp Plus Zone"/>
 
         <item
@@ -18,32 +18,26 @@
         <item
 
             android:id="@+id/nav_my_order"
-            android:icon="@drawable/home_icon"
+            android:icon="@drawable/ic_icon_my_orders"
             android:title="My Order" />
 
         <item
 
             android:id="@+id/nav_my_cart"
-            android:icon="@drawable/home_icon"
+            android:icon="@drawable/ic_icon_my_cart"
             android:title="My Cart" />
 
         <item
 
             android:id="@+id/nav_my_wishlist"
-            android:icon="@drawable/home_icon"
+            android:icon="@drawable/ic_icon_wishlist_nav"
             android:title="My Wishlist" />
 
         <item
 
             android:id="@+id/nav_my_account"
-            android:icon="@drawable/home_icon"
+            android:icon="@drawable/ic_icon_my_account"
             android:title="My Account" />
-
-        <item
-
-            android:id="@+id/nav_about_buildUp"
-            android:icon="@drawable/home_icon"
-            android:title="About Build Up" />
 
 
 
@@ -53,10 +47,12 @@
     <group android:id="@+id/dummy">
 
         <item
-            android:id="@+id/nav_help_center"
-            android:title="Help Center"
+            android:id="@+id/nav_about_buildUp"
+            android:title="About Build Up" />
 
-            />
+        <item
+            android:id="@+id/nav_help_center"
+            android:title="Help Center" />
 
 
         <item

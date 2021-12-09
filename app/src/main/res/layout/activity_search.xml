@@ -37,6 +37,7 @@
             app:hintEnabled="false"
             app:layout_constraintEnd_toStartOf="@id/btn_search"
             app:layout_constraintStart_toEndOf="@id/back_btn"
+            app:endIconMode="clear_text"
             app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
@@ -90,9 +91,9 @@
             android:id="@+id/recentlyViewedLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_recently_viewed2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/grey_bg_2"
             app:layout_constraintTop_toBottomOf="@id/recentlyViewedText">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -108,7 +109,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/nested_linear_layout"
+            android:id="@+id/recently_searched_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/grey_bg_2"
@@ -147,7 +148,7 @@
             android:id="@+id/recentlySearchRecyclerView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nested_linear_layout"
+            app:layout_constraintTop_toBottomOf="@id/recently_searched_layout"
             android:layout_marginTop="12dp"
             tools:itemCount="6"
             tools:listitem="@layout/item_recent_searched_products"

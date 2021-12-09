@@ -1,5 +1,6 @@
 package com.example.buildup.ui.Products.adapters
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.products.productsResponses.RecentProduct
-import com.example.api.models.responsesAndData.wishlist.IsWishlistedData
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemRecentViewedProductsBinding
 import com.example.buildup.extensions.newLoadImage
@@ -51,6 +51,7 @@ class RecentViewedProductsAdapter(val onProductClicked:(productId:String?)->Unit
                 tvProductName.text=product.name
                 tvProductPrice.text="₹" + " " + product.amount.toString()
                 tvProductMRP.text="₹" + " " + product.mrp.toString()
+                tvProductMRP.paintFlags = tvProductMRP.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
                 root.setOnClickListener { onProductClicked(product.id) }
             }

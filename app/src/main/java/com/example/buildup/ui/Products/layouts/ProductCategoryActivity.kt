@@ -108,8 +108,9 @@ class ProductCategoryActivity : AppCompatActivity() {
     fun openProductCategory(productCategoryIdData: ProductCategoryIdData) {
 //        Log.d("productCategoryId",productCategoryId.toString())
 
+        _binding.productsCategoryRecyclerView.setBackgroundColor(getColor(R.color.grey_bg_poducts))
         _binding.productCategoryText.text=productCategoryIdData.productCategoryName
-        getProductSubCategories(productCategoryIdData.productCategoryId.toString())
+        getProductSubCategories(productCategoryIdData.productCategoryId)
 
 //        getProductSubCategories(productCategoryId!!)
     }

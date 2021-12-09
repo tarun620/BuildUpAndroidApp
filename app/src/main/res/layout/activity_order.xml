@@ -29,11 +29,21 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="24dp"
             android:fontFamily="@font/overpass_bold"
-            android:text="ORDERS"
+            android:text="Order Details"
             android:textColor="@color/black"
             android:textSize="30sp"
             app:layout_constraintStart_toEndOf="@id/back_btn"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/textGrey"
+            app:layout_constraintEnd_toEndOf="@+id/titleText"
+            app:layout_constraintStart_toStartOf="@+id/titleText"
+            app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/nested_layout"
@@ -223,19 +233,6 @@
                     android:layout_marginStart="17dp"
                     android:layout_marginTop="10dp"/>
 
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/btn_change_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_group236_new"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@color/white"
-                    android:layout_marginEnd="6dp"
-                    android:layout_marginTop="6dp"/>
-
                 <TextView
                     android:id="@+id/tv_shipping_address"
                     android:layout_width="wrap_content"
@@ -244,10 +241,12 @@
                     android:textColor="@color/black_text"
                     android:textSize="15sp"
                     android:fontFamily="@font/overpass"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_client_name"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_client_name"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="17dp" />
+                    android:layout_marginStart="17dp"
+                    android:paddingEnd="24dp"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/phone_icon"
