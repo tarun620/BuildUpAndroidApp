@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_profileImage" />
 
     <TextView
-        android:id="@+id/tv_phoneNO"
+        android:id="@+id/tv_phoneNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -55,7 +55,7 @@
         android:src="@drawable/home_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_phoneNO"
+        app:layout_constraintTop_toTopOf="@+id/tv_phoneNo"
         app:tint="@color/white" />
 
 

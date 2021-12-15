@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.example.api.models.responsesAndData.products.productsEntities.ProductCategory
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
+import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityPropertiesBinding
 import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.BottomNavigation.CartActivity
@@ -44,6 +47,8 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private var doubleBackToExitPressedOnce = false
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private lateinit var tinyDB : TinyDB
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +57,9 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
         _binding = ActivityPropertiesBinding.inflate(layoutInflater)
         setContentView(_binding.root)
+
+        tinyDB = TinyDB(this)
+
 
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         propertyAdapter = PropertyAdapter { openProperty(it) }
@@ -71,10 +79,6 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
         _binding.bottomNavigationView.background = null
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
-        }
-
 //        swipeRefreshLayout=findViewById(R.id.swipeRefreshLayout)
 
 
@@ -83,10 +87,10 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             startActivity(intent)
         }
 
-        _binding.buttonProfile.setOnClickListener {
-            val intent=Intent(this,ProfileActivity::class.java)
-            startActivity(intent)
-        }
+//        _binding.buttonProfile.setOnClickListener {
+//            val intent=Intent(this,ProfileActivity::class.java)
+//            startActivity(intent)
+//        }
 
         getProperties()
         setupBottomNavigationBar()
@@ -194,6 +198,25 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
             }
 
         })
+
+        _binding.apply {
+            var headerView=navView.getHeaderView(0)
+            val profileImage=headerView.findViewById<ImageView>(R.id.iv_profileImage)
+            val userName=headerView.findViewById<TextView>(R.id.tv_fullname)
+            val userMobile=headerView.findViewById<TextView>(R.id.tv_phoneNo)
+
+            if(!tinyDB.getString("userProfileImage").isNullOrBlank())
+                Glide.with(this@PropertiesActivity)
+                    .load(tinyDB.getString("userProfileImage"))
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_profile)
+                    .into(profileImage)
+            userName.text=tinyDB.getString("userName")
+            userMobile.text="+91 " + tinyDB.getString("userMobile")
+        }
+
+
+
 
 
         _binding.navView.setNavigationItemSelectedListener(this)

@@ -34,6 +34,7 @@ class CartActivity : AppCompatActivity() {
     private var propertyId:String?=null
     private lateinit var sharedPrefrences: SharedPreferences
     private var cartValue:Int=0
+    private var isEmpty=true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityCartBinding.inflate(layoutInflater)
@@ -76,7 +77,10 @@ class CartActivity : AppCompatActivity() {
             }
 
             btnCheckout.setOnClickListener {
-                placeOrder(propertyId)
+                if(isEmpty)
+                    Toast.makeText(this@CartActivity,"Cart is Empty.",Toast.LENGTH_SHORT).show()
+                else
+                    placeOrder(propertyId)
             }
         }
 
@@ -93,6 +97,7 @@ class CartActivity : AppCompatActivity() {
         authViewModel.respGetProductsFromCart.observe({lifecycle}){
             if(it?.success!!){
                 Toast.makeText(this,"cart items fetched successfully.", Toast.LENGTH_SHORT).show()
+                isEmpty =it.items!!.isEmpty()
                 cartAdapter.submitList(it.items)
                 cartValue=0
                 for(i in it.items!!){
@@ -100,9 +105,9 @@ class CartActivity : AppCompatActivity() {
                     Log.d("cartValue",cartValue.toString())
                 }
                 _binding.apply {
-                    tvSubtotal.text=cartValue.toString()
-                    tvShipping.text="50" //hardcoded
-                    tvTotal.text=(cartValue+50).toString()
+                    tvSubtotal.text="₹ " + cartValue.toString()
+                    tvShipping.text="₹ " + "50" //hardcoded
+                    tvTotal.text="₹ " + (cartValue+50).toString()
                 }
             }
             else{
@@ -161,6 +166,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun removeProductFromCart(productId:String?){
+        isEmpty=true
         authViewModel.removeProductFromCart(productId!!)
         authViewModel.respRemoveProductFromCart.observe({lifecycle}){
             if(it?.success!!)
@@ -235,6 +241,7 @@ class CartActivity : AppCompatActivity() {
         propertyId= sharedPrefrences.getString("propertyId",null)
         Log.d("propertyId",propertyId.toString())
         changeDeliveryAddress(propertyId)
+        getProductsFromCart()
     }
 
 }

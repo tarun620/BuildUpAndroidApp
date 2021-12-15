@@ -9,7 +9,7 @@ data class ProductCategory(
     @Json(name = "_id")
     val id: String,
     @Json(name = "image")
-    val image: String,
+    val image: String?  ,
     @Json(name = "name")
     val name: String
 )

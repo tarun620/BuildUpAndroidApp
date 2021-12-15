@@ -185,7 +185,7 @@ class SearchActivity : AppCompatActivity() {
                 override fun afterTextChanged(p0: Editable?) {
                     if(etSearch.text.toString().isNotBlank()){
                         authViewModel.getAutocompleteQueries(etSearch.text.toString())
-                        authViewModel.respGetAutocompleteQueries.observe({lifecycle}){
+                        authViewModel.respGetAutocompleteQueries.observe({lifecycle}){ it ->
                             if(it?.success!! && it.queries!=null){
 //                                val suggestionList= mutableListOf<String>()
 //                                for(i in it.queries!!){
@@ -194,7 +194,14 @@ class SearchActivity : AppCompatActivity() {
 //                                }
 //                                Log.d("arraySize",suggestionList.size.toString())
                                 val adapter = ArrayAdapter(this@SearchActivity,
-                                    android.R.layout.simple_list_item_1, it.queries!!)
+                                    android.R.layout.simple_list_item_2,it.queries!!)
+//                                var searchQueryListMutable=mutableListOf<RecentySearchedQueryData>()
+//                               it.queries!!.let {
+//                                    for(i in it){
+//                                        searchQueryListMutable.add(RecentySearchedQueryData(i!!))
+//                                    }
+//                                }
+//                                recentSearchedAdapter.submitList(searchQueryListMutable)
                                 etSearch.threshold=0
                                 etSearch.setAdapter(adapter)
                             }

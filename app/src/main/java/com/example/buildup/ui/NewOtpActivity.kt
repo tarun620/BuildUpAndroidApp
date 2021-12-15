@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
+import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityNewOtpBinding
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.google.android.material.snackbar.Snackbar
@@ -26,6 +27,8 @@ class NewOtpActivity : AppCompatActivity() {
     var time_in_milli_seconds = 0L
     var mobileNoEditText: String?=null
     private var isLogin=false
+    private lateinit var tinyDB : TinyDB
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +37,8 @@ class NewOtpActivity : AppCompatActivity() {
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide()
-        }
+        tinyDB = TinyDB(this)
+
 
         mobileNoEditText= intent.getStringExtra("mobileNo")
         isLogin=intent.getBooleanExtra("isLogin",false)
@@ -182,6 +184,10 @@ class NewOtpActivity : AppCompatActivity() {
                 authViewModel.respNewImage.observe({lifecycle}){
                     if(it?.success!! && it.token!=null && it.user!=null){
                         Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                        if(!it.user!!.profileImage.isNullOrBlank())
+                            tinyDB.putString("userProfileImage",it.user!!.profileImage)
+                        tinyDB.putString("userName",it.user!!.name)
+                        tinyDB.putString("userMobile",it.user!!.mobileNo)
                         val intent=Intent(this@NewOtpActivity,PropertiesActivity::class.java)
                         startActivity(intent)
                     }

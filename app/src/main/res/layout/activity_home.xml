@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey_homepage_bg">
+        android:background="@color/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
@@ -124,8 +124,59 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/overpass_semibold"
                     android:textFontWeight="600"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="18dp"
                     android:layout_marginTop="24dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoriesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="9dp"
+                    android:layout_marginEnd="9dp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/categories_text"
+                    tools:listitem="@layout/item_product_category"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    tools:itemCount="6"/>
+
+                <TextView
+                    android:id="@+id/recentlyViewedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/overpass"
+                    android:text="RECENTLY VIEWED"
+                    android:textColor="@color/grey_searchActivity"
+                    android:textSize="15sp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="18dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/categoriesRecyclerView"/>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/recentlyViewedLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_recently_viewed2"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_marginEnd="18dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recentlyViewedText">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recentlyViewedRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:listitem="@layout/item_recent_viewed_products"
+                        tools:itemCount="1"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 
 

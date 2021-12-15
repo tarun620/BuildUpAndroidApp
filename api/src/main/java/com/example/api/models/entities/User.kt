@@ -13,5 +13,9 @@ data class User(
     @Json(name = "name")
     val name: String,
     @Json(name = "role")
-    val role: String
+    val role: String,
+    @Json(name = "mobileNo")
+    val mobileNo:String,
+    @Json(name = "profileImage")
+    val profileImage: String?
 )

@@ -3,6 +3,7 @@ package com.example.buildup.ui.Products.layouts
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
@@ -21,6 +22,8 @@ class CodPaymentActivity : AppCompatActivity() {
         setContentView(_binding.root)
 
         propertyId=intent.getStringExtra("propertyId")
+
+        getProductsFromCart()
 
         _binding.submitButton.setOnClickListener {
             placeOrder(propertyId)
@@ -47,5 +50,37 @@ class CodPaymentActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun getProductsFromCart(){
+        authViewModel.getProductsFromCart()
+
+        authViewModel.respGetProductsFromCart.observe({lifecycle}){
+            if(it?.success!!){
+                var totalMrp=0
+                var discountedPrice=0
+                var productQuantity=0
+
+                for(i in it.items!!){
+                    totalMrp+=i.product.mrp
+                    discountedPrice+=i.product.amount
+                    productQuantity+=i.quantity
+
+                }
+                _binding.apply {
+                    tvOrderProductDetail.text= productQuantity.toString() + " x " + "Total Items"
+                    tvTotalMrp.text="₹ " + totalMrp.toString()
+                    tvDiscountedPrice.text="₹ " + discountedPrice.toString()
+                    tvTotalDiscount.text="₹ " + (totalMrp-discountedPrice).toString()
+                    // TODO : Shipping charges are hard coded yet
+                    tvDeliveryCharge.text="₹ 50"
+                    tvTotalCartValue.text="₹ " + (discountedPrice+100).toString()
+                }
+
+            }
+            else{
+                Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

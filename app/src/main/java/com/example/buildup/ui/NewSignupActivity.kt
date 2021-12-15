@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
+import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityNewLoginBinding
 import com.example.buildup.databinding.ActivityNewSignupBinding
 import com.example.buildup.ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity
@@ -26,6 +27,7 @@ class NewSignupActivity : AppCompatActivity() {
     lateinit var authViewModel: AuthViewModel
     var mobileNoEditText: String?=null
     private var RC_SIGN_IN = 123
+    private lateinit var tinyDB : TinyDB
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,9 +38,8 @@ class NewSignupActivity : AppCompatActivity() {
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding?.root)
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide()
-        }
+        tinyDB = TinyDB(this)
+
 
         // GOOGLE LOGIN/SIGNUP
 
@@ -138,6 +139,10 @@ class NewSignupActivity : AppCompatActivity() {
         authViewModel.respNew.observe({lifecycle}){
             if(it?.token!=null && it.success!!){
                 Toast.makeText(this,it.message, Toast.LENGTH_SHORT).show()
+                if(!it.user!!.profileImage.isNullOrBlank())
+                    tinyDB.putString("userProfileImage",it.user!!.profileImage)
+                tinyDB.putString("userName",it.user!!.name)
+                tinyDB.putString("userMobile",it.user!!.mobileNo)
                 val intent= Intent(this, PropertiesActivity::class.java)
                 startActivity(intent)
             }

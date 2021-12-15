@@ -15,5 +15,7 @@ data class UserWithImage(
     @Json(name = "profileImage")
     val profileImage: String? ,
     @Json(name = "role")
-    val role: String
+    val role: String,
+    @Json(name = "mobileNo")
+    val mobileNo:String
 )

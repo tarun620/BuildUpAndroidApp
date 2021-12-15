@@ -1,5 +1,6 @@
 package com.example.buildup.ui.Cart.adapters
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +65,7 @@ class CartAdapter(val onProductFromCartClicked:(productId:String?)->Unit
             tvProductName.text=cartItem.product.name
             tvProductPrice.text="₹ " + cartItem.product.amount.toString()
             tvProductMRP.text="₹ " + cartItem.product.mrp.toString()
+            tvProductMRP.paintFlags = tvProductMRP.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             tvQuantity.text=cartItem.quantity.toString()
 
 //            increaseQuantityBtn.setOnClickListener {

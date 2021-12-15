@@ -54,7 +54,7 @@ class ProductCategoryAdapter(val onProductCategoryClicked:(productCategoryIdData
             }
             val productCategory=getItem(position)
 
-            ivProductCategoryImage.loadImage(productCategory.image)
+//            ivProductCategoryImage.loadImage(productCategory.image)
             tvProductCategoryName.text=productCategory.name
 
             root.setOnClickListener {
