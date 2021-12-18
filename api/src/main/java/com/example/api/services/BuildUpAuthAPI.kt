@@ -2,6 +2,7 @@ package com.example.api.services
 
 import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
 import com.example.api.models.responsesAndData.address.GetAddressesResponse
+import com.example.api.models.responsesAndData.brand.GetBrandsResponse
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartData
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartFromWishlistData
 import com.example.api.models.responsesAndData.cart.cartEntities.UpdateProductQuantityCartData
@@ -20,6 +21,7 @@ import com.example.api.models.responsesAndData.search.GetAutoCompleteQueriesResp
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
 import com.example.api.models.responsesAndData.wishlist.ProductIdForWishlistData
+import okhttp3.internal.connection.RealConnectionPool
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -55,7 +57,10 @@ interface BuildUpAuthAPI {
     ):Response<ExpendituresResponse>
 
     @GET("api/productCategory")
-    suspend fun getProductCategories():Response<ProductCategoriesResponse>
+    suspend fun getProductCategories(
+        @Query("image") isImage: Boolean?,
+        @Query("limit") limit: Int?
+    ):Response<ProductCategoriesResponse>
 
     @GET("api/productCategory/{id}/subCategory")
     suspend fun getProductSubCategories(
@@ -65,6 +70,11 @@ interface BuildUpAuthAPI {
     @GET("api/product/productSubCategory/{id}")
     suspend fun getProducts(
             @Path("id") productSubCategoryId:String
+    ):Response<ProductsResponse>
+
+    @GET("api/product/productCategory")
+    suspend fun getProductsByProductCategoryId(
+        @Path("id") productCategoryId : String
     ):Response<ProductsResponse>
 
     @GET("api/product/{id}")
@@ -167,6 +177,12 @@ interface BuildUpAuthAPI {
     suspend fun getAutocompleteQueries(
         @Query("q") searchQuery:String
     ):Response<GetAutoCompleteQueriesResponse>
+
+    @GET("api/brand")
+    suspend fun getBrands(
+        @Query("image") isImage:Boolean?,
+        @Query("limit") limit:Int?
+    ):Response<GetBrandsResponse>
 
 
 }

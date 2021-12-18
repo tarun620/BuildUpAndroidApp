@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityProfileBinding
+import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
@@ -80,7 +81,7 @@ class ProfileActivity : AppCompatActivity() {
             when (it.itemId) {
 
                 R.id.nav_home -> {
-                    startActivity(Intent(this, PropertiesActivity::class.java))
+                    startActivity(Intent(this, HomeActivity::class.java))
 
 
                 }

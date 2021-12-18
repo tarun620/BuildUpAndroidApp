@@ -15,6 +15,7 @@ import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.BottomNavigation.CartActivity.PropertyActivity.Companion.PREFS_FILE_AUTH
 import com.example.buildup.ui.Cart.adapters.CartAdapter
+import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
@@ -181,7 +182,7 @@ class CartActivity : AppCompatActivity() {
             when (it.itemId) {
 
                 R.id.nav_home -> {
-                    startActivity(Intent(this, PropertiesActivity::class.java))
+                    startActivity(Intent(this, HomeActivity::class.java))
 
 
                 }

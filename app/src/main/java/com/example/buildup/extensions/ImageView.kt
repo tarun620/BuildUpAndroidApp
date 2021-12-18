@@ -17,3 +17,18 @@ fun ImageView.newLoadImage(uri:String){
         .placeholder(R.drawable.tap)
         .into(this)
 }
+
+fun ImageView.loadBrandImage(uri:String){
+    Glide.with(this)
+        .load(uri)
+        .placeholder(R.drawable.jaquar_logo)
+        .into(this)
+}
+
+fun ImageView.loadCategoryImage(uri:String?){
+    Glide.with(this)
+        .load(uri)
+        .placeholder(R.drawable.icon_jaquar_logo)
+        .into(this)
+}
+

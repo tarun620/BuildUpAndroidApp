@@ -23,7 +23,6 @@ class ProductCategoryActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityProductCategoryBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var productCategoryAdapter: ProductCategoryAdapter
-    private lateinit var subProductCategoryAdapter: ProductSubCategoryAdapter
     private lateinit var productSubCategoryAdapter: ProductSubCategoryAdapter
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private var propertyCategoryId: String? = null
@@ -33,9 +32,7 @@ class ProductCategoryActivity : AppCompatActivity() {
 
         _binding = ActivityProductCategoryBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-        productCategoryAdapter = ProductCategoryAdapter {
-            openProductCategory(it)
-        }
+        productCategoryAdapter = ProductCategoryAdapter { openProductCategory(it) }
 
         productSubCategoryAdapter = ProductSubCategoryAdapter { onProductSubCategoryClicked(it) }
 
@@ -46,10 +43,6 @@ class ProductCategoryActivity : AppCompatActivity() {
         _binding.productsSubCategoryRecyclerView.adapter = productSubCategoryAdapter
 
         setContentView(_binding?.root)
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
-        }
 
         _binding.backBtn.setOnClickListener {
             finish()
@@ -76,7 +69,7 @@ class ProductCategoryActivity : AppCompatActivity() {
     }
 
     fun getProductCategories() {
-        authViewModel.getProductCategories()
+        authViewModel.getProductCategories(true,null)
         authViewModel.respProductCategoryArray.observe({ lifecycle }) {
             if (it?.success!!) {
                 Toast.makeText(this, "product categories fetching successful", Toast.LENGTH_SHORT)

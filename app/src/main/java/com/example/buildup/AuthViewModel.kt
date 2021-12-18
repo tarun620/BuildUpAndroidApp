@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.api.models.entities.User
 import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
 import com.example.api.models.responsesAndData.address.GetAddressesResponse
+import com.example.api.models.responsesAndData.brand.GetBrandsResponse
 import com.example.api.models.responsesAndData.cart.cartResponses.GetProductsFromCartResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
@@ -61,6 +62,7 @@ class AuthViewModel:ViewModel() {
     private val _respGetRecentlyViewedProducts = MutableLiveData<RecentlyViewedProductsResponse?>()
     private val _respDeleteWishlist = MutableLiveData<SuccessMessageResponse?>()
     private val _respGetAutocompleteQueries = MutableLiveData<GetAutoCompleteQueriesResponse?>()
+    private val _respGetBrands = MutableLiveData<GetBrandsResponse?>()
 
     val resp:LiveData<SuccessMessageResponse?> = _resp
     val respNew:LiveData<SignupMobileResponse?> = _respNew
@@ -96,6 +98,7 @@ class AuthViewModel:ViewModel() {
     val respGetRecentlyViewedProducts : LiveData<RecentlyViewedProductsResponse?> = _respGetRecentlyViewedProducts
     val respDeleteWishlist : LiveData<SuccessMessageResponse?> = _respDeleteWishlist
     val respGetAutocompleteQueries : LiveData<GetAutoCompleteQueriesResponse?> = _respGetAutocompleteQueries
+    val respGetBrands : LiveData<GetBrandsResponse?> = _respGetBrands
 
 
     fun signup(mobileNo : String)=viewModelScope.launch {
@@ -198,8 +201,8 @@ class AuthViewModel:ViewModel() {
         }
     }
 
-    fun getProductCategories()=viewModelScope.launch {
-        UserRepo.getProductCategories().let {
+    fun getProductCategories(isImage:Boolean,limit:Int?)=viewModelScope.launch {
+        UserRepo.getProductCategories(isImage,limit).let {
             _respProductCategoryArray.postValue(it)
         }
     }
@@ -212,6 +215,11 @@ class AuthViewModel:ViewModel() {
 
     fun getProducts(productSubCategoryId:String)=viewModelScope.launch {
         UserRepo.getProducts(productSubCategoryId).let {
+            _respProducts.postValue(it)
+        }
+    }
+    fun getProductsByProductCategoryId(productCategoryId:String)=viewModelScope.launch {
+        UserRepo.getProductsByProductCategoryId(productCategoryId).let {
             _respProducts.postValue(it)
         }
     }
@@ -343,6 +351,12 @@ class AuthViewModel:ViewModel() {
     fun getAutocompleteQueries(searchQuery: String)=viewModelScope.launch {
         UserRepo.getAutocompleteQueries(searchQuery).let {
             _respGetAutocompleteQueries.postValue(it)
+        }
+    }
+
+    fun getBrands(isImage:Boolean,limit:Int?)=viewModelScope.launch {
+        UserRepo.getBrands(isImage, limit).let {
+            _respGetBrands.postValue(it)
         }
     }
 }

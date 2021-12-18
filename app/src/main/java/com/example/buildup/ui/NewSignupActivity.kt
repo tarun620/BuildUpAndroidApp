@@ -114,7 +114,7 @@ class NewSignupActivity : AppCompatActivity() {
                         Toast.makeText(this@NewSignupActivity, it.message, Toast.LENGTH_SHORT)
                             .show()
                         val intent =
-                            Intent(this@NewSignupActivity, PropertiesActivity::class.java)
+                            Intent(this@NewSignupActivity, HomeActivity::class.java)
                         startActivity(intent)
                     } else if (it?.token == null && it?.user == null && it?.success!!) {
                         Toast.makeText(this@NewSignupActivity, it.message, Toast.LENGTH_SHORT)

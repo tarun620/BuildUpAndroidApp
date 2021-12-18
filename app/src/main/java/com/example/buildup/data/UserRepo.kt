@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.api.BuildUpClient
 import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
 import com.example.api.models.responsesAndData.address.GetAddressesResponse
+import com.example.api.models.responsesAndData.brand.GetBrandsResponse
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartData
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartFromWishlistData
 import com.example.api.models.responsesAndData.cart.cartEntities.UpdateProductQuantityCartData
@@ -328,10 +329,10 @@ object UserRepo {
         }
     }
 
-    suspend fun getProductCategories(): ProductCategoriesResponse?{
+    suspend fun getProductCategories(isImage:Boolean,limit:Int?): ProductCategoriesResponse?{
 
         try{
-            val response= authApi.getProductCategories()
+            val response= authApi.getProductCategories(isImage, limit)
 
             if(response.isSuccessful){
                 return response.body()
@@ -377,6 +378,22 @@ object UserRepo {
             }
         }catch (e:IOException){
             Log.d("TagUserRepo","Network failure")
+            return ProductsResponse(null,null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getProductsByProductCategoryId(productCategoryId:String):ProductsResponse?{
+        try{
+            val response= authApi.getProductsByProductCategoryId(productCategoryId)
+
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew= ErrorUtilsNew.parseError(response)
+                return ProductsResponse(null,null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
             return ProductsResponse(null,null,false,"Network Failure")
         }
     }
@@ -726,6 +743,21 @@ object UserRepo {
             }
         }catch (e:IOException){
             return GetAutoCompleteQueriesResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getBrands(isImage:Boolean,limit:Int?):GetBrandsResponse?{
+        try{
+            val response= authApi.getBrands(isImage, limit)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetBrandsResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetBrandsResponse(null,false,"Network Failure")
         }
     }
 }

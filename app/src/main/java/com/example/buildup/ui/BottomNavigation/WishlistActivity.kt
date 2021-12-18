@@ -11,6 +11,7 @@ import com.example.api.models.responsesAndData.wishlist.WishlistData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityWishlistBinding
+import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.MyApplication
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
@@ -143,7 +144,7 @@ class  WishlistActivity : AppCompatActivity() {
             when (it.itemId) {
 
                 R.id.nav_home -> {
-                    startActivity(Intent(this, PropertiesActivity::class.java))
+                    startActivity(Intent(this, HomeActivity::class.java))
 
 
                 }

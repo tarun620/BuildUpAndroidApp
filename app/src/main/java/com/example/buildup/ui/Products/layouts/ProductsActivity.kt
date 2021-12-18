@@ -29,7 +29,10 @@ class ProductsActivity : AppCompatActivity() {
     private lateinit var productAdapter: ProductAdapter
     private var productSubCategoryId:String?=null
     private var productSubCategoryName:String?=null
+    private var productCategoryName:String?=null
+    private var productCategoryId:String?=null
     private var searchQuery:String?=null
+//    private var brandArray:ArrayList<String>?=null
     private var layoutManager:GridLayoutManager=GridLayoutManager(this,2)
     private var page=0
     private var isLoading=false
@@ -44,7 +47,10 @@ class ProductsActivity : AppCompatActivity() {
 
         productSubCategoryId=intent.getStringExtra("productSubCategoryId")
         productSubCategoryName=intent.getStringExtra("productSubCategoryName")
+        productCategoryName=intent.getStringExtra("productCategoryName")
+        productCategoryId=intent.getStringExtra("productCategoryId")
         searchQuery=intent.getStringExtra("searchQuery")
+//        brandArray=intent.getStringArrayListExtra("brandArray")
 
         _binding=ActivityProductsBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -135,11 +141,20 @@ class ProductsActivity : AppCompatActivity() {
         }
     }
     private fun getProductsBySearchQuery(){
-        if(searchQuery.isNullOrBlank() && !productSubCategoryId.isNullOrBlank()){
-            if(productSubCategoryName?.length!!>23)
-                _binding.tvProductSubCategoryName.text= productSubCategoryName!!.take(23) + ".."
-            else
-                _binding.tvProductSubCategoryName.text=productSubCategoryName
+        if(searchQuery.isNullOrBlank()){
+            if(!productSubCategoryId.isNullOrBlank()){
+                if(productSubCategoryName?.length!!>23)
+                    _binding.tvProductSubCategoryName.text= productSubCategoryName!!.take(23) + ".."
+                else
+                    _binding.tvProductSubCategoryName.text=productSubCategoryName
+            }
+            else if(!productCategoryId.isNullOrBlank()){
+                if(productCategoryName?.length!!>23)
+                    _binding.tvProductSubCategoryName.text= productCategoryName!!.take(23) + ".."
+                else
+                    _binding.tvProductSubCategoryName.text=productCategoryName
+            }
+
 
         }
         else if(!searchQuery.isNullOrBlank()){
@@ -149,7 +164,7 @@ class ProductsActivity : AppCompatActivity() {
                 _binding.tvProductSubCategoryName.text=searchQuery
         }
 
-        authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(null,null,null,productSubCategoryId),sort))
+        authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(null,null,productCategoryId,productSubCategoryId),sort))
         authViewModel.respProducts.observe({lifecycle}){
             if(it.success!!){
                 if(it.products?.size==0)

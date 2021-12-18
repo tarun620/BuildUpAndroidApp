@@ -188,7 +188,7 @@ class NewOtpActivity : AppCompatActivity() {
                             tinyDB.putString("userProfileImage",it.user!!.profileImage)
                         tinyDB.putString("userName",it.user!!.name)
                         tinyDB.putString("userMobile",it.user!!.mobileNo)
-                        val intent=Intent(this@NewOtpActivity,PropertiesActivity::class.java)
+                        val intent=Intent(this@NewOtpActivity,HomeActivity::class.java)
                         startActivity(intent)
                     }
                     else{
