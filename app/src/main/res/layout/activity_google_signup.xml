@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".ui.GoogleSignupActivity">
 
     <ImageView
         android:id="@+id/imageView10"
@@ -13,17 +15,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--<LinearLayout-->
-<!--    android:id="@+id/linearLayout"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    app:layout_constraintStart_toStartOf="parent"-->
-<!--    app:layout_constraintEnd_toEndOf="parent"-->
-<!--    app:layout_constraintTop_toBottomOf="@+id/imageView10"-->
-<!--    android:layout_marginStart="48dp"-->
-<!--    android:layout_marginEnd="48dp"-->
-<!--    android:background="@drawable/bg_button"-->
-<!--    android:orientation="horizontal">-->
+    <!--<LinearLayout-->
+    <!--    android:id="@+id/linearLayout"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    app:layout_constraintStart_toStartOf="parent"-->
+    <!--    app:layout_constraintEnd_toEndOf="parent"-->
+    <!--    app:layout_constraintTop_toBottomOf="@+id/imageView10"-->
+    <!--    android:layout_marginStart="48dp"-->
+    <!--    android:layout_marginEnd="48dp"-->
+    <!--    android:background="@drawable/bg_button"-->
+    <!--    android:orientation="horizontal">-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/mobileTextInputLayout"
@@ -64,7 +66,7 @@
             android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
-<!--</LinearLayout>-->
+    <!--</LinearLayout>-->
 
 
 
@@ -94,64 +96,5 @@
         android:theme="@style/Theme.MaterialComponents"
         app:layout_constraintStart_toStartOf="@id/mobileTextInputLayout"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginEnd="12dp"
-        android:background="#8B8B8B"
-        app:layout_constraintBottom_toBottomOf="@id/orText"
-        app:layout_constraintEnd_toStartOf="@id/orText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/orText" />
-
-    <TextView
-        android:id="@+id/orText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/overpass"
-        android:text="or"
-        android:textColor="@color/textGrey"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/googleBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="45dp"
-        android:background="#8B8B8B"
-        app:layout_constraintBottom_toBottomOf="@id/orText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/orText"
-        app:layout_constraintTop_toTopOf="@id/orText" />
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/googleBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login With Google"
-        android:textSize="13sp"
-        android:textColor="@color/black"
-        android:textAllCaps="false"
-        app:icon="@drawable/ic_icon_google"
-        app:iconTintMode="multiply"
-        app:backgroundTint="@color/white"
-        android:outlineAmbientShadowColor="@color/black"
-        app:iconPadding="5dp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:strokeColor="@color/black"
-        app:iconTint="@color/white"
-        android:clickable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="12dp"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

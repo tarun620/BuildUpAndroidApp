@@ -17,4 +17,7 @@
         <item>Javascript</item>
         <item>Jquery</item>
     </string-array>
+
+    <string name="view_all"><u>View All</u></string>
+
 </resources>

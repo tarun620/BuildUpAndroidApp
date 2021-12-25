@@ -8,10 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.brand.Brand
 import com.example.buildup.R
-import com.example.buildup.databinding.ItemBrandBinding
-import com.example.buildup.extensions.loadBrandImage
+import com.example.buildup.databinding.ItemFilterBrandBinding
 
-class BrandAdapter(val onBrandClicked:(brandId:String?)->Unit) : ListAdapter<Brand,BrandAdapter.BrandViewHolder>(
+class FilterBrandAdapter(val onBrandClicked:(brandId:String?)->Unit) : ListAdapter<Brand, FilterBrandAdapter.BrandViewHolder>(
     object : DiffUtil.ItemCallback<Brand>(){
         override fun areItemsTheSame(oldItem: Brand, newItem: Brand): Boolean {
             return oldItem == newItem
@@ -29,7 +28,7 @@ class BrandAdapter(val onBrandClicked:(brandId:String?)->Unit) : ListAdapter<Bra
         return BrandViewHolder(
             parent.context.getSystemService(LayoutInflater::class.java).inflate(
 //                R.layout.list_item_property,
-                R.layout.item_brand,
+                R.layout.item_filter_brand,
                 parent,
                 false
             )
@@ -37,12 +36,17 @@ class BrandAdapter(val onBrandClicked:(brandId:String?)->Unit) : ListAdapter<Bra
     }
 
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int) {
-        var bind=ItemBrandBinding.bind(holder.itemView).apply {
+        var bind=ItemFilterBrandBinding.bind(holder.itemView).apply {
             val brand=getItem(position)
-            ivBrandImage.loadBrandImage(brand.image!!)
 
-            root.setOnClickListener { onBrandClicked(brand.id) }
+            checkbox.text=brand.name
+
+            checkbox.setOnClickListener {
+                checkbox.isChecked=!checkbox.isChecked
+                onBrandClicked(brand.id)
+            }
         }
     }
+
 
 }

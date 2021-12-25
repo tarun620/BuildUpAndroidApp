@@ -1,12 +1,9 @@
 package com.example.buildup.ui.Property.layouts
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.WorkSource
 import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
@@ -18,12 +15,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
-import com.example.api.models.responsesAndData.products.productsEntities.ProductCategory
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.TinyDB
@@ -33,6 +28,7 @@ import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.Property.adapters.PropertyAdapter
 import com.example.buildup.ui.BottomNavigation.WishlistActivity
+import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.WorkInProgressActivity
@@ -64,8 +60,8 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         propertyAdapter = PropertyAdapter { openProperty(it) }
         setupNavigationDrawer()
-        _binding.bottomNavigationView.menu.getItem(0).isEnabled = false
-        _binding.bottomNavigationView.menu.getItem(0).isChecked = true
+        _binding.bottomNavigationView.menu.getItem(2).isEnabled = false
+        _binding.bottomNavigationView.menu.getItem(2).isChecked = true
 
 
         _binding.propertyRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -148,6 +144,7 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
                 R.id.nav_home -> {
 
+                    startActivity(Intent(this, HomeActivity::class.java))
 
                 }
                 R.id.nav_cart -> {
@@ -156,9 +153,7 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
                 }
 
-                R.id.nav_wishlist -> {
-
-                    startActivity(Intent(this, WishlistActivity::class.java))
+                R.id.nav_property -> {
 
 
                 }

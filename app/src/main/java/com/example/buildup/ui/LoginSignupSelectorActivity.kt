@@ -1,13 +1,18 @@
 package com.example.buildup.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.api.BuildUpClient
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityLoginSignupSelectorBinding
+import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity
 
 class LoginSignupSelectorActivity : AppCompatActivity() {
 
@@ -23,10 +28,6 @@ class LoginSignupSelectorActivity : AppCompatActivity() {
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
 
         setContentView(_binding?.root)
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
-        }
 
         _binding?.apply {
             LoginButton.setOnClickListener {

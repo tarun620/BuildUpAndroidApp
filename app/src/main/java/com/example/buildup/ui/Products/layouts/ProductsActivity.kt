@@ -32,7 +32,7 @@ class ProductsActivity : AppCompatActivity() {
     private var productCategoryName:String?=null
     private var productCategoryId:String?=null
     private var searchQuery:String?=null
-//    private var brandArray:ArrayList<String>?=null
+    private var brandArray:ArrayList<String>?=null
     private var layoutManager:GridLayoutManager=GridLayoutManager(this,2)
     private var page=0
     private var isLoading=false
@@ -50,7 +50,7 @@ class ProductsActivity : AppCompatActivity() {
         productCategoryName=intent.getStringExtra("productCategoryName")
         productCategoryId=intent.getStringExtra("productCategoryId")
         searchQuery=intent.getStringExtra("searchQuery")
-//        brandArray=intent.getStringArrayListExtra("brandArray")
+        brandArray=intent.getStringArrayListExtra("brandArray")
 
         _binding=ActivityProductsBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -164,7 +164,7 @@ class ProductsActivity : AppCompatActivity() {
                 _binding.tvProductSubCategoryName.text=searchQuery
         }
 
-        authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(null,null,productCategoryId,productSubCategoryId),sort))
+        authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(brandArray,null,productCategoryId,productSubCategoryId),sort))
         authViewModel.respProducts.observe({lifecycle}){
             if(it.success!!){
                 if(it.products?.size==0)

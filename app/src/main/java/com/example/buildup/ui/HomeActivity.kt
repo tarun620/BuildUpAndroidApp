@@ -1,10 +1,11 @@
 package com.example.buildup.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -19,29 +21,30 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.api.BuildUpClient
 import com.example.api.models.responsesAndData.products.productsEntities.ProductCategoryIdData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.TinyDB
-import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.databinding.ActivityHomeBinding
 import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.BottomNavigation.WishlistActivity
-import com.example.buildup.ui.Cart.adapters.CartAdapter
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
-import com.example.buildup.ui.Products.adapters.ProductCategoryAdapter
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapterNew
-import com.example.buildup.ui.Products.adapters.ProductSubCategoryAdapter
 import com.example.buildup.ui.Products.adapters.RecentViewedProductsAdapter
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Products.layouts.ProductsActivity
-import com.example.buildup.ui.Property.adapters.PropertyAdapter
+import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    companion object {
+        var PREFS_FILE_AUTH = "prefs_auth"
+        var PREFS_KEY_TOKEN = "token"
+    }
     private lateinit var _binding: ActivityHomeBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var brandAdapter: BrandAdapter
@@ -49,6 +52,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var recentViewedProductsAdapter: RecentViewedProductsAdapter
     private var doubleBackToExitPressedOnce = false
     private lateinit var tinyDB : TinyDB
+    private lateinit var sharedPrefrences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +61,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         _binding = ActivityHomeBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
+
+        sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+
 
         brandAdapter = BrandAdapter { openBrand(it) }
         _binding.brandsRecyclerView.layoutManager = GridLayoutManager(this,3)
@@ -77,6 +85,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             this._binding.drawer.openDrawer(Gravity.LEFT)
         }
         _binding.bottomNavigationView.background = null
+
+        _binding.bottomNavigationView.menu.getItem(0).isEnabled = false
+        _binding.bottomNavigationView.menu.getItem(0).isChecked = true
+
+        _binding.viewAllCategories.setOnClickListener {
+            startActivity(Intent(this,ProductCategoryActivity::class.java))
+        }
 
         setupNavigationDrawer()
         setupBottomNavigationBar()
@@ -101,12 +116,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
     }
-    private fun openBrand(brandName:String?){
-//        val brandArray=ArrayList<String?>()
-//        brandArray.add(brandName)
-//        val intent=Intent(this,ProductsActivity::class.java)
-//        intent.putExtra("brandArray",brandArray)
-//        startActivity(intent)
+    private fun openBrand(brandId:String?){
+        val brandArray=ArrayList<String?>()
+        brandArray.add(brandId)
+        val intent=Intent(this,ProductsActivity::class.java)
+        intent.putExtra("brandArray",brandArray)
+        startActivity(intent)
     }
 
     fun getProductCategories() {
@@ -177,9 +192,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 }
 
-                R.id.nav_wishlist -> {
+                R.id.nav_property -> {
 
-                    startActivity(Intent(this, WishlistActivity::class.java))
+                    startActivity(Intent(this, PropertiesActivity::class.java))
 
 
                 }
@@ -265,7 +280,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(Intent(this,ProfileActivity::class.java))
             }
             R.id.nav_about_buildUp -> {
-                startActivity(Intent(this,AddressesActivity::class.java))
+                startActivity(Intent(this,WorkInProgressActivity::class.java))
             }
             R.id.nav_help_center -> {
                 startActivity(Intent(this,WorkInProgressActivity::class.java))
@@ -280,7 +295,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.nav_sign_out -> {
-                startActivity(Intent(this,WorkInProgressActivity::class.java))
+                BuildUpClient.authToken=null
+                sharedPrefrences.edit {
+                    putString("token", null)
+                }
+//                sharedPrefrences.edit {
+//                    remove("token")
+//                }
+                startActivity(Intent(this,LoginSignupSelectorActivity::class.java))
             }
 
         }

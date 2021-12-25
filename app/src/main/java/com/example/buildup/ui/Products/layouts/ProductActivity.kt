@@ -47,6 +47,7 @@ class ProductActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        //TODO : implement this
 //        adapter = ProductViewPagerAdapter(productImageList,this)
 //        _binding.productVewPager.adapter = adapter
 //        _binding.productVewPager.orientation =ViewPager2.ORIENTATION_HORIZONTAL
@@ -81,6 +82,7 @@ class ProductActivity : AppCompatActivity() {
                     }
                 }
                 else{
+//                    Toast.makeText(this@ProductActivity,"button clicked",Toast.LENGTH_SHORT).show()
                     val intent=Intent(this@ProductActivity,CartActivity::class.java)
                     startActivity(intent)
                 }
@@ -118,8 +120,15 @@ class ProductActivity : AppCompatActivity() {
                 tvProductPrice.text="Rs. " + it.product?.amount.toString()
                 tvProductMRP.text="Rs. " + it.product?.mrp.toString()
                 setViewPagerAdapter(it.product?.image!!)
-                if(it.product?.inCart!!)
+                if(it.product?.inCart!!){
+                    Log.d("inCartFunc","true")
                     inCart=true
+                    _binding.addToCartButton.text="Go To Cart"
+                }
+                if(!it.product?.inCart!!){
+                    inCart=false
+                    _binding.addToCartButton.text="Add To Cart"
+                }
                 if(it.product?.isWishlisted!!)
                     isWishlisted=true
             }
@@ -132,6 +141,20 @@ class ProductActivity : AppCompatActivity() {
             productVewPager.adapter = adapter
             productVewPager.orientation =ViewPager2.ORIENTATION_HORIZONTAL
             circleIndicator.setViewPager(_binding.productVewPager)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setPageContent()
+        if(inCart) {
+//            Log.d("inCart","true")
+            _binding.addToCartButton.text="Go To Cart"
+        }
+        else{
+//            Log.d("inCart","false")
+            _binding.addToCartButton.text="Add to Cart"
+
         }
     }
 }

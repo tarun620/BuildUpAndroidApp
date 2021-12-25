@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.address.Property
 import com.example.buildup.R
+import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ItemAddressBinding
 import com.example.buildup.databinding.ItemAddressRadioBinding
 
@@ -24,6 +25,7 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
         }
     }
 ){
+
     var lastSelectedPosition=-1
     inner class AddressRadioViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
@@ -44,6 +46,13 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
     override fun onBindViewHolder(holder: AddressRadioAdapter.AddressRadioViewHolder, position: Int) {
         var bind= ItemAddressRadioBinding.bind(holder.itemView).apply {
             val addresss=getItem(position)
+
+//            var tinyDB=TinyDB(holder.itemView.context)
+//            var propertyId=tinyDB.getString("propertyIdForCart")
+//            Log.d("adapterDB",propertyId)
+//            Log.d("adapterAPI",addresss.id)
+//            if(propertyId==addresss.id)
+//                btnRadio.isChecked=true
 
             btnRadio.isChecked=lastSelectedPosition == position
             Log.d("selected_property","test log")

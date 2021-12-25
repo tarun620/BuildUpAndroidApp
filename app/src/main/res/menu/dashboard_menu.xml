@@ -6,6 +6,7 @@
         <item
 
             android:id="@+id/nav_build_up_plus"
+
             android:icon="@drawable/ic_icon_buildup_plus"
             android:title="BuildUp Plus Zone"/>
 

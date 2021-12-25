@@ -145,6 +145,20 @@
                     tools:itemCount="6"/>
 
                 <TextView
+                    android:id="@+id/view_all_categories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view_all"
+                     android:fontFamily="@font/overpass_bold"
+                    android:textColor="@color/textGrey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/productsCategoriesRecyclerView"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginTop="6dp"
+                    android:padding="4dp"/>
+
+
+                <TextView
                     android:id="@+id/recentlyViewedText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,9 +166,11 @@
                     android:text="RECENTLY VIEWED"
                     android:textColor="@color/grey_searchActivity"
                     android:textSize="15sp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="36dp"
                     android:layout_marginStart="18dp"
                     android:textStyle="bold"
+                    android:focusable="true"
+                    android:clickable="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/productsCategoriesRecyclerView"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -173,11 +189,14 @@
                         android:id="@+id/recentlyViewedRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginTop="6dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         tools:listitem="@layout/item_recent_viewed_products"
-                        android:paddingBottom="?attr/actionBarSize"
+                        android:layout_marginBottom="117dp"
                         tools:itemCount="1"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -229,10 +248,9 @@
         android:background="@android:color/white"
         app:headerLayout="@layout/menu_header"
         app:itemHorizontalPadding="18dp"
-
         app:itemIconTint="@color/orange_main"
         app:itemTextAppearance="@font/rancho"
-        app:itemTextColor="@color/orange_main"
+        app:itemTextColor="@color/drawer_item_color"
         app:menu="@menu/dashboard_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

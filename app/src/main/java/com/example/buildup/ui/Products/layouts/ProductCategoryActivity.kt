@@ -25,7 +25,8 @@ class ProductCategoryActivity : AppCompatActivity() {
     private lateinit var productCategoryAdapter: ProductCategoryAdapter
     private lateinit var productSubCategoryAdapter: ProductSubCategoryAdapter
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private var propertyCategoryId: String? = null
+//    private var productCategoryId: String? = null
+//    private var productCategoryName:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_product_category)
@@ -43,6 +44,9 @@ class ProductCategoryActivity : AppCompatActivity() {
         _binding.productsSubCategoryRecyclerView.adapter = productSubCategoryAdapter
 
         setContentView(_binding?.root)
+
+//        productCategoryId=intent.getStringExtra("productCategoryId")
+//        productCategoryName=intent.getStringExtra("productCategoryName")
 
         _binding.backBtn.setOnClickListener {
             finish()
@@ -78,6 +82,10 @@ class ProductCategoryActivity : AppCompatActivity() {
                 productCategoryAdapter.notifyDataSetChanged()
                 _binding.productCategoryText.text=it.productCategories?.get(0)?.name
                 getProductSubCategories(it.productCategories?.get(0)?.id!!)
+//                else{
+//                    openProductCategory(ProductCategoryIdData(productCategoryId!!,productCategoryName!!))
+//                }
+
             } else {
                 Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
                 Log.d("errorProductCategory", it.error.toString())

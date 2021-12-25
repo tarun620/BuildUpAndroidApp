@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.products.productsEntities.Products
 import com.example.api.models.responsesAndData.products.productsEntities.RecentySearchedQueryData
 import com.example.buildup.AuthViewModel
+import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivitySearchBinding
 import com.example.buildup.ui.MyApplication
@@ -194,7 +195,7 @@ class SearchActivity : AppCompatActivity() {
 //                                }
 //                                Log.d("arraySize",suggestionList.size.toString())
                                 val adapter = ArrayAdapter(this@SearchActivity,
-                                    android.R.layout.simple_list_item_2,it.queries!!)
+                                    R.layout.item_recent_searched_products,it.queries!!)
 //                                var searchQueryListMutable=mutableListOf<RecentySearchedQueryData>()
 //                               it.queries!!.let {
 //                                    for(i in it){

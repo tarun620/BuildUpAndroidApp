@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="work_in_progress.json"
+        app:lottie_fileName="coming_soon.json"
         app:lottie_loop="true" />
 
 

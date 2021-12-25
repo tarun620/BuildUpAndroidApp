@@ -51,11 +51,6 @@ class NewLoginActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide()
-        }
-
         // GOOGLE LOGIN/SIGNUP
 
         val gso =
@@ -77,7 +72,7 @@ class NewLoginActivity : AppCompatActivity() {
                     )
 
                     authViewModel.respNewImage.observe({ lifecycle }) {
-                        if (it?.token != null && it.success!!) {
+                        if(it?.token != null && it.success!!) {
                             it.token?.let { t ->
                                 sharedPrefrences.edit {
                                     putString("token", t)

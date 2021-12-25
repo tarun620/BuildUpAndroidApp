@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
+import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityAddressesBinding
 import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.ui.Address.adapters.AddressAdapter
@@ -29,6 +30,7 @@ class AddressesActivity : AppCompatActivity() {
 //    private lateinit var addressAdapter: AddressAdapter
     private lateinit var addressRadioAdapter: AddressRadioAdapter
     private lateinit var sharedPrefrences: SharedPreferences
+    private lateinit var tinyDB: TinyDB
 
 
     private lateinit var authViewModel: AuthViewModel
@@ -39,6 +41,7 @@ class AddressesActivity : AppCompatActivity() {
         _binding = ActivityAddressesBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+        tinyDB= TinyDB(this)
 
 //        addressAdapter= AddressAdapter({onEditAddrressBtnClicked(it!!)},{onDeleteAddressBtnClicked(it!!)})
         addressRadioAdapter= AddressRadioAdapter({onEditAddrressBtnClicked(it!!)},{onDeleteAddressBtnClicked(it!!)},{onRadioBtnClicked(it!!)})
@@ -50,9 +53,6 @@ class AddressesActivity : AppCompatActivity() {
 
         setContentView(_binding.root)
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
-        }
 
         getAddresses()
 
@@ -94,9 +94,10 @@ class AddressesActivity : AppCompatActivity() {
 
     private fun onRadioBtnClicked(propertyId: String){
         sharedPrefrences.edit {
-            putString("propertyId",propertyId)
-            finish()
+            putString("propertyIdForCart",propertyId)
         }
+        tinyDB.putString("propertyIdForCart",propertyId)
+        finish()
     }
 
     override fun onResume() {

@@ -1,6 +1,8 @@
 package com.example.buildup.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -11,22 +13,31 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityNewOtpBinding
+import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.google.android.material.snackbar.Snackbar
 
 class NewOtpActivity : AppCompatActivity() {
+    companion object {
+        var PREFS_FILE_AUTH = "prefs_auth"
+        var PREFS_KEY_TOKEN = "token"
+    }
 
+    private lateinit var sharedPrefrences: SharedPreferences
     private lateinit var _binding: ActivityNewOtpBinding
     lateinit var authViewModel: AuthViewModel
     var START_MILLI_SECONDS = 60000L
     lateinit var countdown_timer: CountDownTimer
     var time_in_milli_seconds = 0L
     var mobileNoEditText: String?=null
+    var mobileNoGoogleEditText:String?=null
     private var isLogin=false
+    private var isGoogleSignup=false
     private lateinit var tinyDB : TinyDB
 
 
@@ -35,13 +46,17 @@ class NewOtpActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_new_otp)
         _binding = ActivityNewOtpBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
+        sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+
         setContentView(_binding.root)
 
         tinyDB = TinyDB(this)
 
 
         mobileNoEditText= intent.getStringExtra("mobileNo")
+        mobileNoGoogleEditText=intent.getStringExtra("mobileGoogle")
         isLogin=intent.getBooleanExtra("isLogin",false)
+        isGoogleSignup=intent.getBooleanExtra("isGoogleSignup",false)
 
         _binding.apply {
             etOtp1.requestFocus()
@@ -177,13 +192,20 @@ class NewOtpActivity : AppCompatActivity() {
 
     private fun verifyMobileNumberWithOTP(otp:String){
         Log.d("verifyOTP","clicked5")
-        _binding?.apply {
-            if(isLogin){
-                authViewModel.verifyOTPLogin(mobileNoEditText!!,otp)
-
-                authViewModel.respNewImage.observe({lifecycle}){
+        _binding.apply {
+            if(isGoogleSignup){
+                authViewModel.verifyOTPFuncSignupGoogle(mobileNoGoogleEditText!!,otp)
+                authViewModel.respNewImageGoogle.observe({lifecycle}){
                     if(it?.success!! && it.token!=null && it.user!=null){
-                        Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                        it.token?.let { t ->
+                            sharedPrefrences.edit {
+                                putString("token", t)
+                            }
+                        } ?: run {                       //     ?: IS CALLED ELVIS OPERATOR
+                            sharedPrefrences.edit {
+                                remove("token")
+                            }
+                        }
                         if(!it.user!!.profileImage.isNullOrBlank())
                             tinyDB.putString("userProfileImage",it.user!!.profileImage)
                         tinyDB.putString("userName",it.user!!.name)
@@ -197,18 +219,46 @@ class NewOtpActivity : AppCompatActivity() {
                 }
             }
             else{
-                authViewModel.verifyOtpSignup(mobileNoEditText!!,otp)
+                if(isLogin){
+                    authViewModel.verifyOTPLogin(mobileNoEditText!!,otp)
 
-                authViewModel.resp.observe({lifecycle}){
-                    if(it?.success!!){
-                        Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
-                        val intent=Intent(this@NewOtpActivity,NewSignupActivity::class.java)
-                        intent.putExtra("mobileNo",mobileNoEditText)
-                        startActivity(intent)
+                    authViewModel.respNewImage.observe({lifecycle}){
+                        if(it?.success!! && it.token!=null && it.user!=null){
+                            it.token?.let { t ->
+                                sharedPrefrences.edit {
+                                    putString("token", t)
+                                }
+                            } ?: run {                       //     ?: IS CALLED ELVIS OPERATOR
+                                sharedPrefrences.edit {
+                                    remove("token")
+                                }
+                            }
+                            if(!it.user!!.profileImage.isNullOrBlank())
+                                tinyDB.putString("userProfileImage",it.user!!.profileImage)
+                            tinyDB.putString("userName",it.user!!.name)
+                            tinyDB.putString("userMobile",it.user!!.mobileNo)
+                            val intent=Intent(this@NewOtpActivity,HomeActivity::class.java)
+                            startActivity(intent)
+                        }
+                        else{
+                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
+                        }
                     }
-                    else{
-                        Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
-                        Log.d("errorOtp",it.error.toString())
+                }
+                else{
+                    authViewModel.verifyOtpSignup(mobileNoEditText!!,otp)
+
+                    authViewModel.resp.observe({lifecycle}){
+                        if(it?.success!!){
+                            Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
+                            val intent=Intent(this@NewOtpActivity,NewSignupActivity::class.java)
+                            intent.putExtra("mobileNo",mobileNoEditText)
+                            startActivity(intent)
+                        }
+                        else{
+                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
+                            Log.d("errorOtp",it.error.toString())
+                        }
                     }
                 }
             }

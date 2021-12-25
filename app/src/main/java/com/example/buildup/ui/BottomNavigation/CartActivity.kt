@@ -7,56 +7,63 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
+import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.ui.Address.layouts.AddressesActivity
-import com.example.buildup.ui.BottomNavigation.CartActivity.PropertyActivity.Companion.PREFS_FILE_AUTH
 import com.example.buildup.ui.Cart.adapters.CartAdapter
 import com.example.buildup.ui.HomeActivity
-import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
-import com.example.buildup.ui.Property.layouts.PropertyActivity
 
 class CartActivity : AppCompatActivity() {
-    class PropertyActivity : AppCompatActivity() {
-        companion object {
-            var PREFS_FILE_AUTH = "prefs_property"
-            var PREFS_KEY_TOKEN = "propertyId"
-        }
+    companion object {
+        var PREFS_FILE_AUTH = "prefs_property"
+        var PREFS_KEY_TOKEN = "propertyId"
     }
+
     private lateinit var _binding: ActivityCartBinding
     private lateinit var cartAdapter: CartAdapter
     private lateinit var authViewModel: AuthViewModel
-    private var propertyId:String?=null
+    private var propertyId: String? = null
     private lateinit var sharedPrefrences: SharedPreferences
-    private var cartValue:Int=0
-    private var isEmpty=true
+    private var cartValue: Int = 0
+    private var isEmpty = true
+    private lateinit var tinyDB: TinyDB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityCartBinding.inflate(layoutInflater)
-        authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
+        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
+        tinyDB= TinyDB(this)
 
-        cartAdapter= CartAdapter({openProductActivity(it)},{increaseProductQuantity(it)},{decreaseProductQuantity(it)},{removeProductFromCart(it)})
-        _binding.cartItemRecyclerView.layoutManager= LinearLayoutManager(this)
-        _binding.cartItemRecyclerView.adapter=cartAdapter
+        cartAdapter = CartAdapter({ openProductActivity(it) },
+            { increaseProductQuantity(it) },
+            { decreaseProductQuantity(it) },
+            { removeProductFromCart(it) })
+        _binding.cartItemRecyclerView.layoutManager = LinearLayoutManager(this)
+        _binding.cartItemRecyclerView.adapter = cartAdapter
 
         setContentView(_binding.root)
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
+        sharedPrefrences.edit {
+            remove("propertyIdForCart")
         }
+//        tinyDB.remove("propertyIdForCart")
+        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
+//        if(tinyDB.getString("propertyIdForCart")==null)
+//            propertyId=null
+//        else
+//            propertyId=tinyDB.getString("propertyIdForCart")
 
-        propertyId= sharedPrefrences.getString("propertyId",null)
-        Log.d("propertyId ",propertyId!!)
 //        if(propertyId!=null){
-//            val intent=Intent(this,PropertiesActivity::class.java)
-//            startActivity(intent)
+////            val intent=Intent(this,PropertiesActivity::class.java)
+////            startActivity(intent)
 //        }
 
         _binding.apply {
@@ -65,8 +72,8 @@ class CartActivity : AppCompatActivity() {
 //        _binding.bottomNavigationView.selectedItemId(R.id.nav_cart)
             bottomNavigationView.menu.getItem(1).isEnabled = false
             bottomNavigationView.menu.getItem(1).isChecked = true
-
-
+//
+//
             backBtn.setOnClickListener {
 //            startActivity(Intent(this,PropertiesActivity::class.java))
                 finish()
@@ -83,13 +90,10 @@ class CartActivity : AppCompatActivity() {
                 else
                     placeOrder(propertyId)
             }
-        }
-
-
-        getProductsFromCart()
+            getProductsFromCart()
         changeDeliveryAddress(propertyId)
 //        setTotalCartValue()
-
+        }
     }
 
     private fun getProductsFromCart(){
@@ -116,7 +120,7 @@ class CartActivity : AppCompatActivity() {
             }
         }
     }
-
+//
     private fun openProductActivity(productId:String?){
         val intent= Intent(this, ProductActivity::class.java)
         intent.putExtra("productId",productId)
@@ -191,9 +195,9 @@ class CartActivity : AppCompatActivity() {
 
                 }
 
-                R.id.nav_wishlist -> {
+                R.id.nav_property -> {
 
-                    startActivity(Intent(this, WishlistActivity::class.java))
+                    startActivity(Intent(this, PropertiesActivity::class.java))
 
                 }
 
@@ -209,7 +213,7 @@ class CartActivity : AppCompatActivity() {
 
     private fun placeOrder(propertyId:String?){
         if(propertyId==null){
-            Toast.makeText(this@CartActivity,"property Id is null",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@CartActivity,"Please Select Delivery Address",Toast.LENGTH_SHORT).show()
 
         }
         else{
@@ -221,8 +225,12 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun changeDeliveryAddress(propertyId: String?){
+
+        Log.d("propertyId",propertyId.toString())
+
+
         if(propertyId==null){
-            Toast.makeText(this@CartActivity,"property Id is null",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@CartActivity,"Please Select Delivery Address",Toast.LENGTH_SHORT).show()
         }
         else{
             authViewModel.getAddressById(propertyId)
@@ -239,10 +247,10 @@ class CartActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        propertyId= sharedPrefrences.getString("propertyId",null)
-        Log.d("propertyId",propertyId.toString())
+        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
+//        propertyId=tinyDB.getString("propertyIdForCart")
         changeDeliveryAddress(propertyId)
         getProductsFromCart()
     }
-
 }
+

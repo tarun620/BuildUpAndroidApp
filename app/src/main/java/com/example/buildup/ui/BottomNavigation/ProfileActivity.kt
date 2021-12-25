@@ -3,8 +3,6 @@ package com.example.buildup.ui.BottomNavigation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.buildup.R
 import com.example.buildup.TinyDB
@@ -91,9 +89,9 @@ class ProfileActivity : AppCompatActivity() {
 
                 }
 
-                R.id.nav_wishlist -> {
+                R.id.nav_property -> {
 
-                    startActivity(Intent(this, WishlistActivity::class.java))
+                    startActivity(Intent(this, PropertiesActivity::class.java))
 
                 }
 

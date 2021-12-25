@@ -32,4 +32,5 @@
     <color name="grey_btn_bg">#F4F4F4</color>
     <color name="grey_searchActivity">#696666</color>
     <color name="grey_homepage_bg">#E5E5E5</color>
+    <color name="black_menu_item">#404040</color>
 </resources>
