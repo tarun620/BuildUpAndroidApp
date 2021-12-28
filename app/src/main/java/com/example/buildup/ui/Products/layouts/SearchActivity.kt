@@ -22,6 +22,8 @@ import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivitySearchBinding
 import com.example.buildup.ui.MyApplication
+import com.example.buildup.ui.Products.adapters.AutoCompleteQueryAdapter
+import com.example.buildup.ui.Products.adapters.AutoCompleteQueryAdapterJava
 import com.example.buildup.ui.Products.adapters.RecentSearchedAdapter
 import com.example.buildup.ui.Products.adapters.RecentViewedProductsAdapter
 import java.util.*
@@ -33,6 +35,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var recentViewedProductsAdapter: RecentViewedProductsAdapter
     private lateinit var recentSearchedAdapter : RecentSearchedAdapter
+    private lateinit var autoCompleteQueryAdapter : AutoCompleteQueryAdapter
+    private lateinit var autoCompleteQueryAdapterJava: AutoCompleteQueryAdapterJava
     private var searchQueryList=ArrayList<String>()
     private lateinit var tinyDB :TinyDB
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -159,7 +163,7 @@ class SearchActivity : AppCompatActivity() {
                 searchQueryListMutable.add(RecentySearchedQueryData(i))
             }
         }
-//        (application as MyApplication).getQueue().let {
+    //        (application as MyApplication).getQueue().let {
 //            for(i in it){
 //                searchQueryList.add(RecentySearchedQueryData(i))
 //            }
@@ -188,14 +192,19 @@ class SearchActivity : AppCompatActivity() {
                         authViewModel.getAutocompleteQueries(etSearch.text.toString())
                         authViewModel.respGetAutocompleteQueries.observe({lifecycle}){ it ->
                             if(it?.success!! && it.queries!=null){
-//                                val suggestionList= mutableListOf<String>()
-//                                for(i in it.queries!!){
-//                                    if(i!=null)
-//                                        suggestionList.add(i)
-//                                }
+                                val suggestionList= ArrayList<String>()
+                                for(i in it.queries!!){
+                                    if(i!=null)
+                                        suggestionList.add(i)
+                                }
 //                                Log.d("arraySize",suggestionList.size.toString())
-                                val adapter = ArrayAdapter(this@SearchActivity,
-                                    R.layout.item_recent_searched_products,it.queries!!)
+//                                autoCompleteQueryAdapter=AutoCompleteQueryAdapter(this@SearchActivity,R.layout.item_recent_searched_products,R.id.title,suggestionList)
+                                autoCompleteQueryAdapterJava= AutoCompleteQueryAdapterJava(this@SearchActivity,suggestionList)
+
+
+//                                val adapter = ArrayAdapter(this@SearchActivity,
+//                                    android.R.layout.simple_list_item_1,it.queries!!)
+
 //                                var searchQueryListMutable=mutableListOf<RecentySearchedQueryData>()
 //                               it.queries!!.let {
 //                                    for(i in it){
@@ -204,7 +213,8 @@ class SearchActivity : AppCompatActivity() {
 //                                }
 //                                recentSearchedAdapter.submitList(searchQueryListMutable)
                                 etSearch.threshold=0
-                                etSearch.setAdapter(adapter)
+//                                etSearch.adapter=CustomArrayAdapter(context, android.R.layout.simple_spinner_item, values = listOfValues)
+                                etSearch.setAdapter(autoCompleteQueryAdapterJava)
                             }
                             else if(!it.success!!){
                                 Toast.makeText(this@SearchActivity,it.error,Toast.LENGTH_SHORT).show()

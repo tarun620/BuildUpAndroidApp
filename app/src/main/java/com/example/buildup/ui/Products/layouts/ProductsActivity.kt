@@ -4,12 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.api.models.responsesAndData.products.productsEntities.Products
 import com.example.api.models.responsesAndData.products.productsResponses.Filters
 import com.example.api.models.responsesAndData.products.productsResponses.GetProductsBySearchQueryData
@@ -18,9 +15,9 @@ import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityProductsBinding
 import com.example.buildup.ui.BottomNavigation.CartActivity
+import com.example.buildup.ui.MyApplication
 import com.example.buildup.ui.Products.adapters.ProductAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.textview.MaterialTextView
 
 class ProductsActivity : AppCompatActivity() {
@@ -32,7 +29,8 @@ class ProductsActivity : AppCompatActivity() {
     private var productCategoryName:String?=null
     private var productCategoryId:String?=null
     private var searchQuery:String?=null
-    private var brandArray:ArrayList<String>?=null
+    private var singleBrandArray:ArrayList<String>?=null
+    private var brandList:ArrayList<String>?=null
     private var layoutManager:GridLayoutManager=GridLayoutManager(this,2)
     private var page=0
     private var isLoading=false
@@ -50,7 +48,9 @@ class ProductsActivity : AppCompatActivity() {
         productCategoryName=intent.getStringExtra("productCategoryName")
         productCategoryId=intent.getStringExtra("productCategoryId")
         searchQuery=intent.getStringExtra("searchQuery")
-        brandArray=intent.getStringArrayListExtra("brandArray")
+        singleBrandArray=intent.getStringArrayListExtra("singleBrandArray")
+        brandList=(application as MyApplication).getList()
+        Log.d("brandList",brandList.toString())
 
         _binding=ActivityProductsBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -94,6 +94,10 @@ class ProductsActivity : AppCompatActivity() {
 
             dialog.setContentView(view)
             dialog.show()
+        }
+
+        _binding.btnFilter.setOnClickListener {
+            startActivity(Intent(this,FilterActivity::class.java))
         }
 
 //        if(searchQuery.isNullOrBlank() && !productSubCategoryId.isNullOrBlank())
@@ -164,7 +168,11 @@ class ProductsActivity : AppCompatActivity() {
                 _binding.tvProductSubCategoryName.text=searchQuery
         }
 
-        authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(brandArray,null,productCategoryId,productSubCategoryId),sort))
+        if(!brandList.isNullOrEmpty())
+            authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(brandList,null,productCategoryId,productSubCategoryId),sort))
+        else
+            authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(singleBrandArray,null,productCategoryId,productSubCategoryId),sort))
+
         authViewModel.respProducts.observe({lifecycle}){
             if(it.success!!){
                 if(it.products?.size==0)

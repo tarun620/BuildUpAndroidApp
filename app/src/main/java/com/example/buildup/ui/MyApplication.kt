@@ -1,27 +1,24 @@
 package com.example.buildup.ui
 
 import android.app.Application
-import android.util.Log
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MyApplication: Application() {
-    private var queue = LinkedList<String>()
+    private var brandList = ArrayList<String>()
 
-    fun getQueue():LinkedList<String>{
-        return queue
+    fun getList():ArrayList<String>{
+        return brandList
     }
 
-    fun addElement(searchQuery:String){
-        if(queue.size<5) {
-            queue.add(searchQuery)
-        }
-
-        else{
-            queue.poll()
-            queue.add(searchQuery)
-        }
+    fun addElement(brandId:String){
+        brandList.add(brandId)
     }
-    fun clearQueue(){
-        queue.clear()
+    fun removeElement(brandId: String){
+        if(brandList.contains(brandId))
+            brandList.remove(brandId)
+    }
+    fun clearList(){
+        brandList.clear()
     }
 }

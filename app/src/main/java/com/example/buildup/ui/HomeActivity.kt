@@ -27,16 +27,13 @@ import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityHomeBinding
-import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapterNew
 import com.example.buildup.ui.Products.adapters.RecentViewedProductsAdapter
-import com.example.buildup.ui.Products.layouts.ProductActivity
-import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
-import com.example.buildup.ui.Products.layouts.ProductsActivity
+import com.example.buildup.ui.Products.layouts.*
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.google.android.material.navigation.NavigationView
 
@@ -117,10 +114,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
     private fun openBrand(brandId:String?){
-        val brandArray=ArrayList<String?>()
-        brandArray.add(brandId)
+        val singleBrandArray=ArrayList<String?>()
+        singleBrandArray.add(brandId)
         val intent=Intent(this,ProductsActivity::class.java)
-        intent.putExtra("brandArray",brandArray)
+        intent.putExtra("singleBrandArray",singleBrandArray)
         startActivity(intent)
     }
 
@@ -291,7 +288,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.nav_legal -> {
-                startActivity(Intent(this,WorkInProgressActivity::class.java))
+                startActivity(Intent(this,FilterActivity::class.java))
             }
 
             R.id.nav_sign_out -> {

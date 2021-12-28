@@ -19,5 +19,6 @@
     </string-array>
 
     <string name="view_all"><u>View All</u></string>
+    <string name="slider_desc">this is content description</string>
 
 </resources>
