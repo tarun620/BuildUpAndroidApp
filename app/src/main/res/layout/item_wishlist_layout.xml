@@ -10,62 +10,84 @@
 
     <ImageView
         android:id="@+id/iv_productImage"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/basin_mixer_15x"
+        android:layout_width="84dp"
+        android:layout_height="114dp"
+        android:src="@drawable/tap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_productBrand"
+    <LinearLayout
+        android:id="@+id/nested_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/overpass"
-        android:text="Jaguar"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/iv_productImage"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/iv_productImage"
+        app:layout_constraintTop_toTopOf="@id/iv_productImage"
+        app:layout_constraintBottom_toBottomOf="@id/iv_productImage">
 
-    <TextView
-        android:id="@+id/tv_productName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/overpass"
-        android:text="Vigenette Mixture"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_productBrand"
-        app:layout_constraintTop_toBottomOf="@+id/tv_productBrand" />
 
-    <TextView
-        android:id="@+id/tv_productPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/overpass"
-        android:text="₹ 2200"
-        android:textColor="@color/orange_theme_main" android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tv_productName"
-        app:layout_constraintTop_toBottomOf="@+id/tv_productName" />
+        <TextView
+            android:id="@+id/tv_productBrand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/overpass"
+            android:text="Jaguar"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/tv_productMRP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/tv_productPrice"
-        app:layout_constraintTop_toTopOf="@id/tv_productPrice"
-        app:layout_constraintBottom_toBottomOf="@id/tv_productPrice"
-        android:layout_marginStart="6dp"
-        android:fontFamily="@font/overpass"
-        android:text="₹ 2600"
-        android:textColor="@color/grey_product_mrp"
-        android:textSize="10sp" />
+        <TextView
+            android:id="@+id/tv_productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/overpass"
+            android:text="Vigenette Mixture"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+        <LinearLayout
+                android:id="@+id/price_linear_layout"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹ 2200"
+                    android:fontFamily="@font/overpass_semibold"
+                    android:textSize="20sp"
+                    android:textColor="@color/orange_theme_main"/>
+                <TextView
+                    android:id="@+id/tv_product_mrp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="₹ 2600"
+                    android:textSize="10sp"
+                    android:textColor="@color/grey_product_mrp"/>
+        </LinearLayout>
 
+<!--        <TextView-->
+<!--            android:id="@+id/tv_productPrice"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/overpass"-->
+<!--            android:text="₹ 2200"-->
+<!--            android:textColor="@color/orange_theme_main" -->
+<!--            android:textStyle="bold" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/tv_productMRP"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="6dp"-->
+<!--            android:fontFamily="@font/overpass"-->
+<!--            android:text="₹ 2600"-->
+<!--            android:textColor="@color/grey_product_mrp"-->
+<!--            android:textSize="10sp" />-->
+    </LinearLayout>
 
 
     <com.google.android.material.button.MaterialButton

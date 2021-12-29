@@ -25,9 +25,6 @@ class OrderActivity : AppCompatActivity() {
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
-        }
 
 //        array.add("Ordered")
 //        array.add("Shipped")

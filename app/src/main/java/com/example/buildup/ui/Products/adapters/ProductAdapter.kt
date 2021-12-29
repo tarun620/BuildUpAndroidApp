@@ -51,14 +51,14 @@ class ProductAdapter(val onProductClicked:(productId:String?)->Unit, val onWishl
                 tvProductMRP.paintFlags = tvProductMRP.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 var isWishlisted=product.isWishlisted!!
                 if(isWishlisted){
-                    btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new)
+                    btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new2)
                 }
                 btnWishlist.setOnClickListener {
                     if(isWishlisted){
                         btnWishlist.setImageResource(R.drawable.ic_save_wishlist)
                     }
                     else{
-                        btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new)
+                        btnWishlist.setImageResource(R.drawable.ic_icon_wishlisted_new2)
                     }
                     onWishlistClicked(IsWishlistedData(isWishlisted,product.id))
                     isWishlisted=!isWishlisted

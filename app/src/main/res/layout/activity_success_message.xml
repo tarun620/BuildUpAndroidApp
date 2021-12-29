@@ -4,22 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.WorkInProgressActivity">
-
-
+    tools:context=".ui.SuccessMessageActivity">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         app:tint="@color/orange_main"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="coming_soon.json"
+        app:lottie_fileName="success_new.json"
         app:lottie_loop="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Success !\nRequest for return successfully done!"
+        android:textSize="20sp"
+        android:textColor="#8B8B8B"
+        android:fontFamily="@font/overpass_semibold"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animationView"
+        android:layout_marginTop="18dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

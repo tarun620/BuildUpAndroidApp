@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.brand.Brand
+import com.example.api.models.responsesAndData.brand.BrandNameId
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemBrandBinding
 import com.example.buildup.extensions.loadBrandImage
 
-class BrandAdapter(val onBrandClicked:(brandId:String?)->Unit) : ListAdapter<Brand,BrandAdapter.BrandViewHolder>(
+class BrandAdapter(val onBrandClicked:(brandNameId:BrandNameId)->Unit) : ListAdapter<Brand,BrandAdapter.BrandViewHolder>(
     object : DiffUtil.ItemCallback<Brand>(){
         override fun areItemsTheSame(oldItem: Brand, newItem: Brand): Boolean {
             return oldItem == newItem
@@ -41,7 +42,7 @@ class BrandAdapter(val onBrandClicked:(brandId:String?)->Unit) : ListAdapter<Bra
             val brand=getItem(position)
             ivBrandImage.loadBrandImage(brand.image!!)
 
-            root.setOnClickListener { onBrandClicked(brand.id) }
+            root.setOnClickListener { onBrandClicked(BrandNameId(brand.id,brand.name)) }
         }
     }
 

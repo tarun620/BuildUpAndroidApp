@@ -398,10 +398,10 @@ object UserRepo {
         }
     }
 
-    suspend fun getProduct(productId:String): ProductResponse?{
+    suspend fun getProduct(productId:String,isBrand:Boolean,inCart:Boolean,isWishlisted:Boolean): ProductResponse?{
 
         try{
-            val response= authApi.getProduct(productId)
+            val response= authApi.getProduct(productId,isBrand, inCart, isWishlisted)
 
             if(response.isSuccessful){
                 return response.body()

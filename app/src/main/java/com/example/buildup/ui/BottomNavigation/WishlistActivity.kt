@@ -35,7 +35,7 @@ class  WishlistActivity : AppCompatActivity() {
 
 //        _binding.bottomNavigationView.background = null
 //        setupBottomNavigationBar()
-
+//
 //        _binding.bottomNavigationView.menu.getItem(2).isEnabled = false
 //        _binding.bottomNavigationView.menu.getItem(2).isChecked = true
 

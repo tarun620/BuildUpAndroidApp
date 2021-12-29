@@ -47,13 +47,12 @@ class ProductActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        //TODO : implement this
 //        adapter = ProductViewPagerAdapter(productImageList,this)
 //        _binding.productVewPager.adapter = adapter
 //        _binding.productVewPager.orientation =ViewPager2.ORIENTATION_HORIZONTAL
 //        _binding.circleIndicator.setViewPager(_binding.productVewPager)
 
-        authViewModel.getProduct(productId)
+        authViewModel.getProduct(productId,isBrand = true,inCart = true,isWishlisted = true)
         authViewModel.respProduct.observe({lifecycle}){
             if(it.product?.inCart!!) {
                 _binding.addToCartButton.text="Go To Cart"
@@ -110,7 +109,7 @@ class ProductActivity : AppCompatActivity() {
 
     }
     private fun setPageContent(){
-        authViewModel.getProduct(productId)
+        authViewModel.getProduct(productId,isBrand = true,inCart = true,isWishlisted = true)
         authViewModel.respProduct.observe({lifecycle}){
             _binding.apply {
                 //TODO :  Brand name is not included yet

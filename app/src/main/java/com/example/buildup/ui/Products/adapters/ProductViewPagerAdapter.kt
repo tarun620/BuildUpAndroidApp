@@ -17,7 +17,7 @@ class ProductViewPagerAdapter(private val images: ArrayList<String>, val context
     RecyclerView.Adapter<ProductViewPagerAdapter.ViewPagerHolder>() {
 
     inner class ViewPagerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView = itemView.findViewById<ImageView>(R.id.productImage)
+        val imageView: ImageView = itemView.findViewById<ImageView>(R.id.productImage)
 
         fun bindView(image: String) {
 

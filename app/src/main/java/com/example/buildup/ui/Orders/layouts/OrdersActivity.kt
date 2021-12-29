@@ -11,6 +11,7 @@ import com.example.buildup.databinding.ActivityOrdersBinding
 import com.example.buildup.databinding.ActivityProductBinding
 import com.example.buildup.ui.Orders.adapters.OrderAdapter
 import com.example.buildup.ui.Products.adapters.ProductAdapter
+import com.example.buildup.ui.Return.ReturnActivity
 
 class OrdersActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityOrdersBinding
@@ -20,15 +21,12 @@ class OrdersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding= ActivityOrdersBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
-        orderAdapter= OrderAdapter{onOrderClicked(it)}
+        orderAdapter= OrderAdapter({onOrderClicked(it)},{onReturnOrderClicked(it)})
         _binding.ordersRecyclerView.layoutManager=LinearLayoutManager(this)
         _binding.ordersRecyclerView.adapter=orderAdapter
 
         setContentView(_binding.root)
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide()
-        }
 
         getOrders()
 
@@ -49,6 +47,11 @@ class OrdersActivity : AppCompatActivity() {
 
     private fun onOrderClicked(orderId:String?){
         val intent=Intent(this,OrderActivity::class.java)
+        intent.putExtra("orderId",orderId)
+        startActivity(intent)
+    }
+    private fun onReturnOrderClicked(orderId: String?){
+        val intent=Intent(this,ReturnActivity::class.java)
         intent.putExtra("orderId",orderId)
         startActivity(intent)
     }

@@ -79,7 +79,10 @@ interface BuildUpAuthAPI {
 
     @GET("api/product/{id}")
     suspend fun getProduct(
-        @Path("id") productId:String
+        @Path("id") productId:String,
+        @Query("brand") isBrand:Boolean,
+        @Query("inCart") inCart:Boolean,
+        @Query("isWishlisted") isWishlisted:Boolean
     ):Response<ProductResponse>
 
     @POST("api/cart")

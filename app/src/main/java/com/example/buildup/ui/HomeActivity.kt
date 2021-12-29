@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.api.BuildUpClient
+import com.example.api.models.responsesAndData.brand.BrandNameId
 import com.example.api.models.responsesAndData.products.productsEntities.ProductCategoryIdData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
@@ -113,11 +114,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
     }
-    private fun openBrand(brandId:String?){
+    private fun openBrand(brandNameId: BrandNameId?){
         val singleBrandArray=ArrayList<String?>()
-        singleBrandArray.add(brandId)
+        val brandName=brandNameId?.name
+        singleBrandArray.add(brandNameId?.id)
         val intent=Intent(this,ProductsActivity::class.java)
         intent.putExtra("singleBrandArray",singleBrandArray)
+        intent.putExtra("brandName",brandName)
         startActivity(intent)
     }
 
@@ -288,7 +291,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.nav_legal -> {
-                startActivity(Intent(this,FilterActivity::class.java))
+                startActivity(Intent(this,ProductActivity::class.java))
             }
 
             R.id.nav_sign_out -> {

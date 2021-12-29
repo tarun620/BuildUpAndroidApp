@@ -224,8 +224,8 @@ class AuthViewModel:ViewModel() {
         }
     }
 
-    fun getProduct(productId:String)=viewModelScope.launch {
-        UserRepo.getProduct(productId).let {
+    fun getProduct(productId:String,isBrand:Boolean,inCart:Boolean,isWishlisted:Boolean)=viewModelScope.launch {
+        UserRepo.getProduct(productId,isBrand, inCart, isWishlisted).let {
             _respProduct.postValue(it)
         }
     }

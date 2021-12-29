@@ -1,5 +1,6 @@
 package com.example.buildup.ui.Wishlist.adapters
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,8 @@ class WishlistAdapter(val onProductFromWishlistClicked:(productId:String?)->Unit
             tvProductBrand.text=wishlistedItem.brand.name
             tvProductName.text=wishlistedItem.name
             tvProductPrice.text="₹ " + wishlistedItem.amount.toString()
-            tvProductMRP.text="₹ " + wishlistedItem.mrp.toString()
+            tvProductMrp.text="₹ " + wishlistedItem.mrp.toString()
+            tvProductMrp.paintFlags = tvProductMrp.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             if(wishlistedItem.inCart)
                 btnAddToCart.text= "Go to Cart"
 

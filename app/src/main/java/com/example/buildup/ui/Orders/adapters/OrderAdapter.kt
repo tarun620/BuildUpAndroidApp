@@ -14,7 +14,7 @@ import com.example.buildup.databinding.ItemOrderBinding
 import com.example.buildup.extensions.newLoadImage
 import com.example.buildup.extensions.timeStamp2
 
-class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit) : ListAdapter<Order, OrderAdapter.OrderViewHolder>(
+class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrderClicked:(orderId:String?)->Unit) : ListAdapter<Order, OrderAdapter.OrderViewHolder>(
     object : DiffUtil.ItemCallback<Order>(){
         override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
             return oldItem == newItem
@@ -56,6 +56,11 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit) : ListAdapter<Ord
                 Log.d("orderId ",order.id)
                 onOrderClicked(order.id)
             }
+
+            btnReturn.setOnClickListener {
+                onReturnOrderClicked(order.id)
+            }
+
         }
     }
 }

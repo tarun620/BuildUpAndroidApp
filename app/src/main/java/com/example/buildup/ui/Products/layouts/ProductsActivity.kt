@@ -31,6 +31,7 @@ class ProductsActivity : AppCompatActivity() {
     private var searchQuery:String?=null
     private var singleBrandArray:ArrayList<String>?=null
     private var brandList:ArrayList<String>?=null
+    private var brandName:String?=null
     private var layoutManager:GridLayoutManager=GridLayoutManager(this,2)
     private var page=0
     private var isLoading=false
@@ -49,6 +50,7 @@ class ProductsActivity : AppCompatActivity() {
         productCategoryId=intent.getStringExtra("productCategoryId")
         searchQuery=intent.getStringExtra("searchQuery")
         singleBrandArray=intent.getStringArrayListExtra("singleBrandArray")
+        brandName=intent.getStringExtra("brandName")
         brandList=(application as MyApplication).getList()
         Log.d("brandList",brandList.toString())
 
@@ -121,6 +123,7 @@ class ProductsActivity : AppCompatActivity() {
     fun onProductClicked(productId:String?){
         val intent=Intent(this, ProductActivity::class.java)
         intent.putExtra("productId",productId)
+        Log.d("productId",productId.toString())
         startActivity(intent)
     }
 
@@ -170,8 +173,10 @@ class ProductsActivity : AppCompatActivity() {
 
         if(!brandList.isNullOrEmpty())
             authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(brandList,null,productCategoryId,productSubCategoryId),sort))
-        else
+        else{
+            _binding.tvProductSubCategoryName.text=brandName
             authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(singleBrandArray,null,productCategoryId,productSubCategoryId),sort))
+        }
 
         authViewModel.respProducts.observe({lifecycle}){
             if(it.success!!){
