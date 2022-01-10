@@ -70,7 +70,6 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:paddingBottom="20dp"
                 android:layout_height="match_parent">
 
 
@@ -143,7 +142,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/tv_reviews"
+                        android:id="@+id/tv_total_reviews"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
@@ -185,7 +184,7 @@
                     app:layout_constraintTop_toBottomOf="@id/textView" />
 
                 <View
-                    android:id="@+id/view"
+                    android:id="@+id/view1"
                     android:layout_width="0dp"
                     android:layout_height="10dp"
                     android:layout_marginTop="24dp"
@@ -198,20 +197,20 @@
                     android:id="@id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="60dp"
                     android:layout_marginTop="18dp"
                     android:fontFamily="@font/overpass"
-                    android:text="RATINGS AND REVIEWS"
+                    android:text="RATING"
                     android:textColor="@color/black"
-                    android:textSize="22sp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/view" />
+                    app:layout_constraintTop_toBottomOf="@id/view1" />
 
                 <TextView
                     android:id="@+id/tv_ratings_reviews"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="60dp"
                     android:layout_marginTop="12dp"
                     android:text="4.5"
                     android:textColor="@color/black"
@@ -229,16 +228,48 @@
                     app:layout_constraintTop_toTopOf="@id/tv_ratings_reviews" />
 
                 <TextView
-                    android:id="@+id/tv_verified_buyers"
-                    android:text="1372 Verified Buyers"
+                    android:id="@+id/tv_total_reviews_bottom"
+                    android:text="2 reviews"
                     android:textSize="14sp"
                     android:textColor="@color/textGrey"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_ratings_reviews"
-                    android:layout_marginStart="24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="18dp"
+                    android:layout_marginStart="60dp"
                     android:layout_marginTop="4dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/view1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="#E4E9FB" />
+
+
+                <com.taufiqrahman.reviewratings.RatingReviews
+                    xmlns:bar="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/rating_reviews_graph"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    bar:layout_constraintTop_toTopOf="@+id/view1"
+                    bar:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    bar:layout_constraintStart_toEndOf="@+id/view2"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginEnd="36dp"
+                    bar:animation="true"
+                    bar:show_label="true"
+                    bar:show_raters="true"
+                    bar:spaces="8dp"
+                    bar:text_color="#333333"
+                    bar:text_size="10sp"
+                    bar:width="12dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -278,7 +309,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Add to Cart"
+                android:text="Add To Cart"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:paddingStart="36dp"

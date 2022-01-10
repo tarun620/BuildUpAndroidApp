@@ -10,7 +10,7 @@ import com.example.api.models.responsesAndData.updates.Update
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemUpdatesBinding
 import com.example.buildup.extensions.loadImage
-import com.example.buildup.extensions.timeStamp
+import com.example.buildup.extensions.getReturnValidyDate
 
 class UpdatesAdapter: ListAdapter<Update, UpdatesAdapter.UpdateViewHolder>(
 
@@ -45,7 +45,7 @@ class UpdatesAdapter: ListAdapter<Update, UpdatesAdapter.UpdateViewHolder>(
             updatesImage.loadImage(update.workCategoryId?.image!!)
             updatesTitle.text=update.workCategoryId?.name
             updatesDesc.text=update.description
-            updatesDate.timeStamp=update.createdAt
+            updatesDate.getReturnValidyDate=update.createdAt
 
         }
     }

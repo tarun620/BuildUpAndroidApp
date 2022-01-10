@@ -20,6 +20,11 @@ import com.example.api.models.responsesAndData.products.productsResponses.*
 import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.rating.AddProductRatingDataCount
+import com.example.api.models.responsesAndData.rating.GetProductRatingResponse
+import com.example.api.models.responsesAndData.rating.GetUserProductRatingResponse
+import com.example.api.models.responsesAndData.returnOrder.GetOrderReturnDetailsResponse
+import com.example.api.models.responsesAndData.returnOrder.PlaceOrderReturnRequestData
 import com.example.api.models.responsesAndData.search.GetAutoCompleteQueriesResponse
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
@@ -63,6 +68,12 @@ class AuthViewModel:ViewModel() {
     private val _respDeleteWishlist = MutableLiveData<SuccessMessageResponse?>()
     private val _respGetAutocompleteQueries = MutableLiveData<GetAutoCompleteQueriesResponse?>()
     private val _respGetBrands = MutableLiveData<GetBrandsResponse?>()
+    private val _respAddProductRating = MutableLiveData<SuccessMessageResponse?>()
+    private val _respGetProductRating = MutableLiveData<GetProductRatingResponse?>()
+    private val _respGetUserProductrating = MutableLiveData<GetUserProductRatingResponse?>()
+    private val _respGetOrderReturnDetails = MutableLiveData<GetOrderReturnDetailsResponse?>()
+    private val _respPlaceOrderReturnRequest = MutableLiveData<SuccessMessageResponse?>()
+    private val _respCancelOrder = MutableLiveData<SuccessMessageResponse?>()
 
     val resp:LiveData<SuccessMessageResponse?> = _resp
     val respNew:LiveData<SignupMobileResponse?> = _respNew
@@ -99,6 +110,12 @@ class AuthViewModel:ViewModel() {
     val respDeleteWishlist : LiveData<SuccessMessageResponse?> = _respDeleteWishlist
     val respGetAutocompleteQueries : LiveData<GetAutoCompleteQueriesResponse?> = _respGetAutocompleteQueries
     val respGetBrands : LiveData<GetBrandsResponse?> = _respGetBrands
+    val respAddProductRating : LiveData<SuccessMessageResponse?> = _respAddProductRating
+    val respGetProductRating : LiveData<GetProductRatingResponse?> = _respGetProductRating
+    val respGetUserProductrating : LiveData<GetUserProductRatingResponse?> = _respGetUserProductrating
+    val respGetOrderReturnDetails : LiveData<GetOrderReturnDetailsResponse?> = _respGetOrderReturnDetails
+    val respPlaceOrderReturnRequest : LiveData<SuccessMessageResponse?>  = _respPlaceOrderReturnRequest
+    val respCancelOrder : LiveData<SuccessMessageResponse?> = _respCancelOrder
 
 
     fun signup(mobileNo : String)=viewModelScope.launch {
@@ -357,6 +374,39 @@ class AuthViewModel:ViewModel() {
     fun getBrands(isImage:Boolean,limit:Int?)=viewModelScope.launch {
         UserRepo.getBrands(isImage, limit).let {
             _respGetBrands.postValue(it)
+        }
+    }
+
+    fun addProductRating(productId: String,count:Int)=viewModelScope.launch {
+        UserRepo.addProductRating(productId, count).let {
+            _respAddProductRating.postValue(it)
+        }
+    }
+
+    fun getProductRating(productId: String)=viewModelScope.launch {
+        UserRepo.getProductRating(productId).let {
+            _respGetProductRating.postValue(it)
+        }
+    }
+
+    fun getUserProductRating(productId: String)=viewModelScope.launch {
+        UserRepo.getUserProductRating(productId).let {
+            _respGetUserProductrating.postValue(it)
+        }
+    }
+    fun getOrderReturnDetails(orderId: String)=viewModelScope.launch {
+        UserRepo.getOrderReturnDetails(orderId).let {
+            _respGetOrderReturnDetails.postValue(it)
+        }
+    }
+    fun placeOrderReturnRequest(orderId: String,placeOrderReturnRequestData:PlaceOrderReturnRequestData)=viewModelScope.launch {
+        UserRepo.placeOrderReturnRequest(orderId, placeOrderReturnRequestData).let {
+            _respPlaceOrderReturnRequest.postValue(it)
+        }
+    }
+    fun cancelOrder(orderId: String)=viewModelScope.launch {
+        UserRepo.cancelOrder(orderId).let {
+            _respCancelOrder.postValue(it)
         }
     }
 }

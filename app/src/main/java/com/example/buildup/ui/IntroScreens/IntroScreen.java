@@ -32,9 +32,9 @@ public class IntroScreen extends AppCompatActivity {
     private WormDotsIndicator dotsIndicator;
     private Boolean doubleBackToExitPressedOnce = false;
 
-
+//protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState)
     @Override
-    protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         prefManager = new PrefManager(this);

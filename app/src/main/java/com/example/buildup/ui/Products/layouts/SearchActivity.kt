@@ -1,27 +1,25 @@
 package com.example.buildup.ui.Products.layouts
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.widget.ArrayAdapter
+import android.view.MotionEvent
+import android.view.View.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.api.models.responsesAndData.products.productsEntities.Products
 import com.example.api.models.responsesAndData.products.productsEntities.RecentySearchedQueryData
 import com.example.buildup.AuthViewModel
-import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivitySearchBinding
-import com.example.buildup.ui.MyApplication
+import com.example.buildup.databinding.BlurLayoutBinding
 import com.example.buildup.ui.Products.adapters.AutoCompleteQueryAdapter
 import com.example.buildup.ui.Products.adapters.AutoCompleteQueryAdapterJava
 import com.example.buildup.ui.Products.adapters.RecentSearchedAdapter
@@ -32,6 +30,7 @@ import kotlin.collections.ArrayList
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var _binding: ActivitySearchBinding
+    private lateinit var _bindingDialog : BlurLayoutBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var recentViewedProductsAdapter: RecentViewedProductsAdapter
     private lateinit var recentSearchedAdapter : RecentSearchedAdapter
@@ -39,9 +38,13 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var autoCompleteQueryAdapterJava: AutoCompleteQueryAdapterJava
     private var searchQueryList=ArrayList<String>()
     private lateinit var tinyDB :TinyDB
+    private lateinit var dialog: Dialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding= ActivitySearchBinding.inflate(layoutInflater)
+        _bindingDialog= BlurLayoutBinding.inflate(layoutInflater)
+
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
 
         tinyDB = TinyDB(this)
@@ -63,11 +66,7 @@ class SearchActivity : AppCompatActivity() {
 
 
         _binding.apply {
-            backBtn.setOnClickListener {
-                finish()
-            }
-
-            btnSearch.setOnClickListener {
+            textInputLayout.setEndIconOnClickListener {
                 if(etSearch.text.isNullOrBlank())
                     Toast.makeText(this@SearchActivity,"please enter keyword to search",Toast.LENGTH_SHORT).show()
                 else{
@@ -90,6 +89,9 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
 
+            textInputLayout.setStartIconOnClickListener {
+                finish()
+            }
             removeBtn.setOnClickListener {
                 val builder = AlertDialog.Builder(this@SearchActivity)
                 //set title for alert dialog
@@ -226,6 +228,30 @@ class SearchActivity : AppCompatActivity() {
             })
         }
     }
+
+//    private fun showDialog() {
+//        dialog = Dialog(this)
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) // before
+//        dialog.setContentView(_bindingDialog.root)
+//        dialog.setCancelable(false)
+//
+//        val lp = WindowManager.LayoutParams()
+//        lp.copyFrom(dialog.window!!.attributes)
+//        lp.width = WindowManager.LayoutParams.MATCH_PARENT
+//        lp.height = WindowManager.LayoutParams.MATCH_PARENT
+//
+//
+//        if(_binding.etSearch.isFocused)
+//            dialog.show()
+//        else
+//            dialog.hide()
+////        Handler().postDelayed({
+////            dialog.dismiss()
+////            val intent=Intent(this, OrdersActivity::class.java)
+////            startActivity(intent)
+////        }, 4000)
+//
+//    }
 
     override fun onResume() {
         super.onResume()

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.databinding.ActivitySplashBinding
+import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.IntroScreens.IntroScreen
 import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity
 import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity.Companion.PREFS_FILE_AUTH

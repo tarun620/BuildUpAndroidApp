@@ -13,6 +13,7 @@ import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ItemAddressBinding
 import com.example.buildup.databinding.ItemAddressRadioBinding
+import com.example.buildup.ui.MyApplication
 
 class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit, val onDeleteAddressBtnClicked:(propertyId:String?)->Unit, val onRadioBtnClicked:(propertyId:String?)->Unit): ListAdapter<Property, AddressRadioAdapter.AddressRadioViewHolder> (
     object : DiffUtil.ItemCallback<Property>(){
@@ -47,6 +48,13 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
         var bind= ItemAddressRadioBinding.bind(holder.itemView).apply {
             val addresss=getItem(position)
 
+            val propertyId=MyApplication.getInstance().getPropertyId()
+            if(!propertyId.isNullOrEmpty()){
+                Log.d("adapterDB",propertyId)
+                Log.d("adapterAPI",addresss.id)
+                if(propertyId==addresss.id)
+                    btnRadio.isChecked=true
+            }
 //            var tinyDB=TinyDB(holder.itemView.context)
 //            var propertyId=tinyDB.getString("propertyIdForCart")
 //            Log.d("adapterDB",propertyId)
@@ -54,7 +62,7 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
 //            if(propertyId==addresss.id)
 //                btnRadio.isChecked=true
 
-            btnRadio.isChecked=lastSelectedPosition == position
+//            btnRadio.isChecked=lastSelectedPosition == position
             Log.d("selected_property","test log")
             btnRadio.setOnClickListener {
                 lastSelectedPosition = position

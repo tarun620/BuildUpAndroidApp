@@ -57,8 +57,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_product_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="152dp"
+                android:layout_height="206dp"
                 android:src="@drawable/tap"
                 android:layout_marginTop="40dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -92,28 +92,45 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/timeline_layout"
                 android:layout_width="match_parent"
-                android:layout_height="174dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:layout_marginTop="63dp"
-                android:layout_marginStart="21dp"
-                android:layout_marginEnd="21dp"
-                android:layout_marginBottom="18dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_product_name">
 
-                <com.anton46.stepsview.StepsView
+                <com.shuhart.stepview.StepView
                     android:id="@+id/step_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:layout_marginTop="24dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="24dp"
-                    android:padding="12dp"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:sv_textSize="11sp"
+                    app:sv_selectedCircleColor="#14FF00"
+                    app:sv_selectedTextColor="#14FF00"
+                    app:sv_stepLineWidth="1dp"
+                    app:sv_stepPadding="0dp"
+                    app:sv_nextTextColor="#929292"
+                    app:sv_nextStepLineColor="#929292"
+                    app:sv_doneCircleColor="#14FF00"
+                    app:sv_doneStepLineColor="#14FF00"
+                    app:sv_doneTextColor="#14FF00"
+                    app:sv_doneStepMarkColor="#14FF00"
+                    app:sv_doneCircleRadius="7dp"
+                    app:sv_selectedCircleRadius="7dp"
+                    app:sv_selectedStepNumberColor="#14FF00"
+                    app:sv_stepViewStyle="@style/StepView"
+                    app:sv_nextStepCircleEnabled="true"
+                    app:sv_animationType="All"
+                    app:sv_nextStepCircleColor="#929292"/>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancel_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:backgroundTint="@color/grey_bg_orrder_screen"
@@ -126,11 +143,81 @@
                     android:shadowColor="@color/black"
                     android:includeFontPadding="true"
                     android:fontFamily="@font/overpass_bold"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="12dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="17dp"/>
+                    app:layout_constraintTop_toBottomOf="@id/step_view"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/timeline_layout"
+                android:background="@color/white"
+                android:layout_margin="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/rating_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rate"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="17dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:fontFamily="@font/overpass_bold"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@+id/rating_text"
+                    app:layout_constraintTop_toTopOf="@id/rating_text"
+                    app:layout_constraintBottom_toBottomOf="@id/rating_text"
+                    android:layout_marginStart="12dp"
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/star1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="2dp"
+                        android:src="@drawable/ic_rating_star_new"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/star2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="2dp"
+                        android:src="@drawable/ic_rating_star_new"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/star3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="2dp"
+                        android:src="@drawable/ic_rating_star_new"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/star4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="2dp"
+                        android:src="@drawable/ic_rating_star_new"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/star5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_rating_star_new"/>
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -151,7 +238,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="11dp"/>
             <TextView
                 android:id="@+id/deliveryAddress"
@@ -244,7 +331,7 @@
 
                 <TextView
                     android:id="@+id/tv_shipping_address"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="50 C ED Block, Madhuban Chowk, PitamPura, Delhi - 110034"
                     android:textColor="@color/black_text"
@@ -254,8 +341,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_client_name"
                     android:layout_marginTop="5dp"
-                    android:layout_marginStart="17dp"
-                    android:paddingEnd="24dp"/>
+                    />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/phone_icon"
@@ -342,9 +428,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="29dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"/>
             <TextView
                 android:id="@+id/payment_info_text_new"
                 android:layout_width="wrap_content"
@@ -352,11 +438,11 @@
                 android:text="Payment Information"
                 android:textSize="20sp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/overpass_bold"
+                android:fontFamily="@font/overpass_semibold"
                 app:layout_constraintStart_toEndOf="@+id/payment_info_icon_new"
                 app:layout_constraintTop_toTopOf="@+id/payment_info_icon_new"
                 app:layout_constraintBottom_toBottomOf="@id/payment_info_icon_new"
-                android:layout_marginStart="15dp"/>
+                android:layout_marginStart="17dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -376,6 +462,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:paddingBottom="12dp"
                 android:layout_margin="8dp">
 
                 <TextView
@@ -524,7 +611,7 @@
                     android:id="@+id/total_cart_value_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total Cart Value"
+                    android:text="Total Order Value"
                     android:textSize="15sp"
                     android:fontFamily="@font/overpass_semibold"
                     android:textColor="@color/black"
@@ -544,46 +631,6 @@
                     app:layout_constraintTop_toTopOf="@id/total_cart_value_text"
                     app:layout_constraintBottom_toBottomOf="@id/total_cart_value_text"
                     android:layout_marginEnd="6dp"/>
-
-                <LinearLayout
-                    android:id="@+id/payment_card_linear_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="17dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/total_cart_value_text"
-                    app:layout_constraintBottom_toBottomOf="parent">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/iv_card_gateway"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:src="@drawable/ic_frame70" />
-                        <TextView
-                            android:id="@+id/tv_card_info"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Paid by card endeing in XXXX 3989"
-                            android:textSize="10sp"
-                            app:layout_constraintStart_toEndOf="@id/iv_card_gateway"
-                            app:layout_constraintTop_toTopOf="@id/iv_card_gateway"
-                            app:layout_constraintBottom_toBottomOf="@id/iv_card_gateway"
-                            android:layout_marginStart="12dp"
-                            android:textColor="@color/grey_order"
-                            android:fontFamily="@font/overpass" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

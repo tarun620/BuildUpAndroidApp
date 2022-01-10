@@ -17,6 +17,7 @@ import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.Cart.adapters.CartAdapter
 import com.example.buildup.ui.HomeActivity
+import com.example.buildup.ui.MyApplication
 import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
@@ -51,11 +52,14 @@ class CartActivity : AppCompatActivity() {
 
         setContentView(_binding.root)
 
-        sharedPrefrences.edit {
-            remove("propertyIdForCart")
-        }
+//        sharedPrefrences.edit {
+//            remove("propertyIdForCart")
+//        }
+
+        (application as MyApplication).clearPropertyId()
 //        tinyDB.remove("propertyIdForCart")
-        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
+//        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
+        propertyId=(application as MyApplication).getPropertyId()
 //        if(tinyDB.getString("propertyIdForCart")==null)
 //            propertyId=null
 //        else
@@ -247,7 +251,10 @@ class CartActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
+//        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
+        propertyId=(application as MyApplication).getPropertyId()
+
+
 //        propertyId=tinyDB.getString("propertyIdForCart")
         changeDeliveryAddress(propertyId)
         getProductsFromCart()

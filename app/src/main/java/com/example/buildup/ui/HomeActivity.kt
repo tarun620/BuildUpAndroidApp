@@ -91,6 +91,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this,ProductCategoryActivity::class.java))
         }
 
+        _binding.searchBtn.setOnClickListener {
+            startActivity(Intent(this,SearchActivity::class.java))
+        }
+
         setupNavigationDrawer()
         setupBottomNavigationBar()
         getBrands()

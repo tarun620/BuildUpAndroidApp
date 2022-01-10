@@ -20,7 +20,7 @@
 
             android:id="@+id/nav_my_order"
             android:icon="@drawable/ic_icon_my_orders"
-            android:title="My Order" />
+            android:title="My Orders" />
 
         <item
 

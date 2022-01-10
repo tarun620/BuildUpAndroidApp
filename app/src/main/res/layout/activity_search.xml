@@ -9,36 +9,22 @@
         android:layout_height="wrap_content"
         xmlns:tools="http://schemas.android.com/tools">
 
-        <ImageView
-            android:id="@+id/back_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="18dp"
-            android:padding="5dp"
-            android:src="@drawable/ic_back_up_btn"
-            app:layout_constraintBottom_toBottomOf="@+id/textInputLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textInputLayout"
-            app:tint="@color/black" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="5dp"
-            app:boxCornerRadiusBottomEnd="24dp"
-            app:boxCornerRadiusBottomStart="24dp"
-            app:boxCornerRadiusTopEnd="24dp"
-            app:boxCornerRadiusTopStart="24dp"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:hintEnabled="false"
-            app:layout_constraintEnd_toStartOf="@id/btn_search"
-            app:layout_constraintStart_toEndOf="@id/back_btn"
-            app:endIconMode="clear_text"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:endIconDrawable="@drawable/ic_icon_view_search"
+            app:endIconMode="custom"
+            app:endIconTintMode="screen"
+            app:startIconDrawable="@drawable/ic_back_up_btn"
+            android:background="@color/grey_bg_2">
 
             <AutoCompleteTextView
                 android:id="@+id/etSearch"
@@ -52,19 +38,20 @@
                 android:textSize="15sp"
                 android:hint="Search Your products.." />
 
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_search"
-            app:layout_constraintStart_toEndOf="@id/textInputLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textInputLayout"
-            app:layout_constraintBottom_toBottomOf="@id/textInputLayout"
-            android:padding="12dp"
-            android:layout_marginEnd="12dp"/>
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:id="@+id/btn_search"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/ic_search"-->
+<!--            app:layout_constraintStart_toEndOf="@id/textInputLayout"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="@id/textInputLayout"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/textInputLayout"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginEnd="12dp"/>-->
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"

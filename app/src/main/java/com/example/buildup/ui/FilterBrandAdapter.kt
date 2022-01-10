@@ -42,12 +42,20 @@ class FilterBrandAdapter(val onBrandClicked:(isBrandSelectedData:IsBrandSelected
     }
 
     override fun onBindViewHolder(holder: BrandViewHolder, position: Int) {
+        var checkedBrandList=MyApplication.getInstance().getList()
         var bind=ItemFilterBrandBinding.bind(holder.itemView).apply {
             val brand=getItem(position)
 
             tvBrandName.text=brand.name
 
             var isBrandSelected=false
+            if(checkedBrandList.contains(brand.id)){
+                isBrandSelected=!isBrandSelected
+                tvBrandName.setTextColor(Color.parseColor("#000000"))
+                tvBrandName.setTypeface(null,Typeface.BOLD)
+                ivCheckbox.setImageResource(R.drawable.ic_check)
+
+            }
             root.setOnClickListener {
                 if(isBrandSelected){
                     tvBrandName.setTextColor(Color.parseColor("#9D9C9C"))

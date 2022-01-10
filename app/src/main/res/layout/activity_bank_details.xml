@@ -52,32 +52,13 @@
         android:paddingBottom="12dp"
         android:background="@color/grey_bg_orrder_screen">
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/checkbox_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="12dp"
-            android:background="@color/white">
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:checked="true"
-                android:buttonTint="@color/orange_main"
-                android:text="Return back to the source"
-                android:textColor="@color/black"
-                android:textSize="10sp"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkbox_layout"
             android:layout_margin="12dp"
             android:paddingBottom="12dp"
             android:background="@color/white">
@@ -193,6 +174,8 @@
                 app:hintTextColor="@color/black"
                 app:passwordToggleEnabled="false"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:counterEnabled="true"
+                app:counterMaxLength="11"
                 app:boxStrokeWidth="1dp"
                 app:boxCornerRadiusTopStart="7dp"
                 app:boxCornerRadiusTopEnd="7dp"
@@ -206,7 +189,8 @@
                     android:backgroundTint="@color/white"
                     android:fontFamily="@font/overpass"
                     android:gravity="start"
-                    android:inputType="text"
+                    android:inputType="textCapSentences"
+                    android:textAllCaps="true"
                     android:maxLength="11"
                     android:textColor="@color/black"
                     android:textSize="15sp" />

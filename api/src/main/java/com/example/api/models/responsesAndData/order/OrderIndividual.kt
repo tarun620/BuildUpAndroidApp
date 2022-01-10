@@ -11,7 +11,7 @@ data class OrderIndividual(
     @Json(name = "_id")
     var id: String,
     @Json(name = "payment")
-    var payment: Payment,
+    var payment: Payment?,
     @Json(name = "product")
     var product: Product,
     @Json(name = "propertyId")
@@ -19,5 +19,9 @@ data class OrderIndividual(
     @Json(name = "shipping")
     var shipping: ShippingIndividual,
     @Json(name = "userId")
-    var userId: String
+    var userId: String,
+    @Json(name = "isReturnAvailed")
+    val isReturnAvailed:Boolean?,
+    @Json(name = "isReturn")
+    val isReturn:Boolean?
 )

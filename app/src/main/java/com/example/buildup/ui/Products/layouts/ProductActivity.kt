@@ -1,10 +1,11 @@
 package com.example.buildup.ui.Products.layouts
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.buildup.AuthViewModel
@@ -13,6 +14,7 @@ import com.example.buildup.databinding.ActivityProductBinding
 import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.example.buildup.ui.Products.adapters.ProductViewPagerAdapter
+import com.taufiqrahman.reviewratings.BarLabels
 import java.util.*
 
 class ProductActivity : AppCompatActivity() {
@@ -23,6 +25,13 @@ class ProductActivity : AppCompatActivity() {
     private lateinit var productId:String
     private var inCart=false
     private var isWishlisted=false
+    private val colors = intArrayOf(
+        Color.parseColor("#43D5A2"),
+        Color.parseColor("#43D5A2"),
+        Color.parseColor("#43D5A2"),
+        Color.parseColor("#FFD56A"),
+        Color.parseColor("#FF0000")
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +74,7 @@ class ProductActivity : AppCompatActivity() {
         }
 
         setPageContent()
+        getRating()
 
         _binding.apply {
             addToCartButton.setOnClickListener {
@@ -108,6 +118,7 @@ class ProductActivity : AppCompatActivity() {
         }
 
     }
+
     private fun setPageContent(){
         authViewModel.getProduct(productId,isBrand = true,inCart = true,isWishlisted = true)
         authViewModel.respProduct.observe({lifecycle}){
@@ -132,7 +143,33 @@ class ProductActivity : AppCompatActivity() {
                     isWishlisted=true
             }
         }
+    }
 
+    private fun getRating(){
+        authViewModel.getProductRating(productId)
+        authViewModel.respGetProductRating.observe({lifecycle }){
+            if(it?.success!!){
+                _binding.apply {
+                    ratingReviewsGraph.createRatingBars(it.ratings?.total!!, BarLabels.STYPE1, colors, it.ratings!!.count.reversed().toIntArray())
+
+                    tvRating.text=it.ratings?.avg.toString()
+                    val totalReviews=it.ratings?.total
+                    if(totalReviews==1){
+                        tvTotalReviews.text=totalReviews.toString() + " rating"
+                        tvTotalReviewsBottom.text=totalReviews.toString() + " rating"
+                    }
+                    else{
+                        tvTotalReviews.text=totalReviews.toString() + " ratings"
+                        tvTotalReviewsBottom.text=totalReviews.toString() + " ratings"
+                    }
+
+                    tvRatingsReviews.text=it.ratings?.avg.toString()
+
+                }
+            }
+            else
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+        }
     }
     private fun setViewPagerAdapter(images:List<String>){
         adapter = ProductViewPagerAdapter(images as ArrayList<String>,this@ProductActivity)

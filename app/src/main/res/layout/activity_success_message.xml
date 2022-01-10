@@ -16,20 +16,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="success_new.json"
-        app:lottie_loop="true"/>
+        app:lottie_fileName="success_new.json" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Success !\nRequest for return successfully done!"
-        android:textSize="20sp"
+        android:text="Success !\nRequest for return successfully taken!"
+        android:textSize="17sp"
+        android:padding="12dp"
         android:textColor="#8B8B8B"
         android:fontFamily="@font/overpass_semibold"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/animationView"
-        android:layout_marginTop="18dp"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="150dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

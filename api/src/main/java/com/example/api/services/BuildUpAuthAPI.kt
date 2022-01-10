@@ -17,6 +17,11 @@ import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
 import com.example.api.models.responsesAndData.products.productsResponses.*
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.rating.AddProductRatingDataCount
+import com.example.api.models.responsesAndData.rating.GetProductRatingResponse
+import com.example.api.models.responsesAndData.rating.GetUserProductRatingResponse
+import com.example.api.models.responsesAndData.returnOrder.GetOrderReturnDetailsResponse
+import com.example.api.models.responsesAndData.returnOrder.PlaceOrderReturnRequestData
 import com.example.api.models.responsesAndData.search.GetAutoCompleteQueriesResponse
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
@@ -187,5 +192,35 @@ interface BuildUpAuthAPI {
         @Query("limit") limit:Int?
     ):Response<GetBrandsResponse>
 
+    @PUT("api/product/{id}/rating")
+    suspend fun addProductRating(
+        @Path("id") productId: String,
+        @Body addProductRatingDataCount: AddProductRatingDataCount
+    ):Response<SuccessMessageResponse>
 
+    @GET("api/product/{id}/rating")
+    suspend fun getProductRating(
+        @Path("id") productId: String
+    ):Response<GetProductRatingResponse>
+
+    @GET("api/product/{id}/user-rating")
+    suspend fun getUserProductRating(
+        @Path("id") productId: String
+    ):Response<GetUserProductRatingResponse>
+
+    @GET("api/order/{id}/return")
+    suspend fun getOrderReturnDetails(
+        @Path("id") orderId:String
+    ):Response<GetOrderReturnDetailsResponse>
+
+    @POST("api/order/{id}/return")
+    suspend fun placeOrderReturnRequest(
+        @Path("id") orderId: String,
+        @Body placeOrderReturnRequestData: PlaceOrderReturnRequestData
+    ):Response<SuccessMessageResponse>
+
+    @PUT("api/order/{id}/cancel")
+    suspend fun cancelOrder(
+        @Path("id") orderId: String
+    ):Response<SuccessMessageResponse>
 }

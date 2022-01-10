@@ -21,7 +21,9 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.SuccessMessageActivity"></activity>
         <activity android:name=".ui.Return.BankDetailsActivity" />
-        <activity android:name=".ui.Return.ReturnActivity" />
+        <activity android:name=".ui.Return.ReturnActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
         <activity android:name=".ui.Products.layouts.FilterActivity" />
         <activity android:name=".ui.GoogleSignupActivity" />
         <activity android:name=".ui.HomeActivity" />

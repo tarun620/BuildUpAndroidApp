@@ -11,5 +11,5 @@ data class Tracking(
     @Json(name = "estimatedDelivery")
     var estimatedDelivery: String,
     @Json(name = "status")
-    var status: String
+    var status: List<Status>
 )

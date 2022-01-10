@@ -10,8 +10,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_order_status_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/ic_frame65"
@@ -37,7 +37,7 @@
             android:textColor="@color/green_order"/>
 
         <TextView
-            android:id="@+id/tv_orderETA"
+            android:id="@+id/tv_order_status_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/overpass"
@@ -104,21 +104,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:id="@+id/tv_product_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="₹ 2200"
+                    android:text="Quantity : "
                     android:fontFamily="@font/overpass_semibold"
-                    android:textSize="20sp"
-                    android:textColor="@color/orange_theme_main"/>
+                    android:textSize="12sp"
+                    android:textColor="#777777"/>
                 <TextView
-                    android:id="@+id/tv_product_mrp"
+                    android:id="@+id/tv_product_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="₹ 2600"
-                    android:textSize="10sp"
-                    android:textColor="@color/grey_product_mrp"/>
+                    android:layout_marginStart="2dp"
+                    android:text="2"
+                    android:fontFamily="@font/overpass_semibold"
+                    android:textSize="12sp"
+                    android:textColor="#777777"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -133,27 +133,42 @@
             app:layout_constraintTop_toTopOf="@id/nested_linear_layout"
             app:layout_constraintBottom_toBottomOf="@id/nested_linear_layout"/>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_return_icon"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:id="@+id/return_text_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="26dp"
-            android:src="@drawable/ic_resource_return"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toStartOf="@id/btn_return"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_product_image"/>
-        <TextView
-            android:id="@+id/tv_return_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Exchange / Return availaible till 5 nov"
-            android:fontFamily="@font/overpass"
-            android:textColor="@color/black"
-            android:layout_marginStart="8dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/iv_return_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_return_icon"
-            app:layout_constraintBottom_toBottomOf="@id/iv_return_icon"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_product_image">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_return_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/ic_resource_return" />
+            <TextView
+                android:id="@+id/tv_return_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Return available till"
+                android:fontFamily="@font/overpass"
+                android:textColor="@color/black"
+                android:layout_marginStart="8dp"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_return_validity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 nov"
+                android:fontFamily="@font/overpass"
+                android:textColor="@color/black"
+                android:layout_marginStart="3dp"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_return"
@@ -166,8 +181,8 @@
             android:includeFontPadding="true"
             android:fontFamily="@font/overpass_bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_return_text"
-            app:layout_constraintBottom_toBottomOf="@id/tv_return_text"
+            app:layout_constraintTop_toTopOf="@id/return_text_layout"
+            app:layout_constraintBottom_toBottomOf="@id/return_text_layout"
             android:layout_marginEnd="12dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

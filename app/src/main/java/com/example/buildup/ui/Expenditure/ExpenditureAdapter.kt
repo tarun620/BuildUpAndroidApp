@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.expenditure.expenditureEntities.Expenditure
 import com.example.buildup.R
 import com.example.buildup.databinding.ListItemExpenditureBinding
-import com.example.buildup.extensions.timeStamp
+import com.example.buildup.extensions.getReturnValidyDate
 
 class ExpenditureAdapter(val onExpenditureItemClicked:(productCategoryId:String?)->Unit) : ListAdapter<Expenditure, ExpenditureAdapter.ExpenditureViewHolder>(
         object : DiffUtil.ItemCallback<Expenditure>(){
@@ -50,7 +50,7 @@ class ExpenditureAdapter(val onExpenditureItemClicked:(productCategoryId:String?
             }
 
             tvExpenditureAmount.text=expenditure.amount.toString()
-            tvExpenditureDate.timeStamp=expenditure.createdAt
+            tvExpenditureDate.getReturnValidyDate=expenditure.createdAt
 
             root.setOnClickListener { onExpenditureItemClicked(expenditure.id) }
         }

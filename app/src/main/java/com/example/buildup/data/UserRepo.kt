@@ -21,6 +21,11 @@ import com.example.api.models.responsesAndData.products.productsResponses.*
 import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
+import com.example.api.models.responsesAndData.rating.AddProductRatingDataCount
+import com.example.api.models.responsesAndData.rating.GetProductRatingResponse
+import com.example.api.models.responsesAndData.rating.GetUserProductRatingResponse
+import com.example.api.models.responsesAndData.returnOrder.GetOrderReturnDetailsResponse
+import com.example.api.models.responsesAndData.returnOrder.PlaceOrderReturnRequestData
 import com.example.api.models.responsesAndData.search.GetAutoCompleteQueriesResponse
 import com.example.api.models.responsesAndData.updates.UpdatesResponse
 import com.example.api.models.responsesAndData.wishlist.GetWishlistResponse
@@ -758,6 +763,91 @@ object UserRepo {
             }
         }catch (e:IOException){
             return GetBrandsResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun addProductRating(productId:String,count:Int):SuccessMessageResponse?{
+        try{
+            val response= authApi.addProductRating(productId, AddProductRatingDataCount(count))
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getProductRating(productId:String):GetProductRatingResponse?{
+        try{
+            val response= authApi.getProductRating(productId)
+            if(response.isSuccessful){
+                return response.body()
+            }
+            else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                return GetProductRatingResponse(null,false,null,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            return GetProductRatingResponse(null,false,null,"Network Failure")
+        }
+    }
+
+    suspend fun getUserProductRating(productId: String):GetUserProductRatingResponse?{
+        return try{
+            val response= authApi.getUserProductRating(productId)
+            if(response.isSuccessful){
+                response.body()
+            } else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                GetUserProductRatingResponse(false,null,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            GetUserProductRatingResponse(false,null,"Network Failure")
+        }
+    }
+
+    suspend fun getOrderReturnDetails(orderId: String):GetOrderReturnDetailsResponse?{
+        return try{
+            val response= authApi.getOrderReturnDetails(orderId)
+            if(response.isSuccessful){
+                response.body()
+            } else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                GetOrderReturnDetailsResponse(null,null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            GetOrderReturnDetailsResponse(null,null,false,"Network Failure")
+        }
+    }
+
+    suspend fun placeOrderReturnRequest(orderId: String,placeOrderReturnRequestData:PlaceOrderReturnRequestData):SuccessMessageResponse?{
+        return try{
+            val response= authApi.placeOrderReturnRequest(orderId, placeOrderReturnRequestData)
+            if(response.isSuccessful){
+                response.body()
+            } else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            SuccessMessageResponse(null,false,"Network Failure")
+        }
+    }
+    suspend fun cancelOrder(orderId: String):SuccessMessageResponse?{
+        return try{
+            val response= authApi.cancelOrder(orderId)
+            if(response.isSuccessful){
+                response.body()
+            } else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                SuccessMessageResponse(null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            SuccessMessageResponse(null,false,"Network Failure")
         }
     }
 }

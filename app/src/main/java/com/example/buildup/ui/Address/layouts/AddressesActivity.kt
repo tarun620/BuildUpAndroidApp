@@ -17,6 +17,7 @@ import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.ui.Address.adapters.AddressAdapter
 import com.example.buildup.ui.Address.adapters.AddressRadioAdapter
 import com.example.buildup.ui.Cart.adapters.CartAdapter
+import com.example.buildup.ui.MyApplication
 import com.example.buildup.ui.Property.layouts.AddPropertyActivity
 import com.example.buildup.ui.Property.layouts.PropertyActivity
 
@@ -93,10 +94,13 @@ class AddressesActivity : AppCompatActivity() {
     }
 
     private fun onRadioBtnClicked(propertyId: String){
-        sharedPrefrences.edit {
-            putString("propertyIdForCart",propertyId)
-        }
-        tinyDB.putString("propertyIdForCart",propertyId)
+//        sharedPrefrences.edit {
+//            putString("propertyIdForCart",propertyId)
+//        }
+//        tinyDB.putString("propertyIdForCart",propertyId)
+
+        (application as MyApplication).addPropertyId(propertyId)
+
         finish()
     }
 

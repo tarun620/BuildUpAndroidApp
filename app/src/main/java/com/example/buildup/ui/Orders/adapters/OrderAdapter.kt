@@ -1,5 +1,7 @@
 package com.example.buildup.ui.Orders.adapters
 
+import android.annotation.SuppressLint
+import android.icu.text.SimpleDateFormat
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +10,30 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.order.Order
-import com.example.api.models.responsesAndData.products.productsEntities.Products
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemOrderBinding
 import com.example.buildup.extensions.newLoadImage
-import com.example.buildup.extensions.timeStamp2
+import com.example.buildup.extensions.getReturnValidyDate
+import com.example.buildup.extensions.timeStamp
+import java.text.ParseException
+import java.util.*
+
+@SuppressLint("ConstantLocale")
+val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+
+@SuppressLint("ConstantLocale")
+val appDateFormatOnlyDate = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
+
+val weekMap = mapOf<Int,String>(1 to "Mon", 2 to "Tues", 3 to "Wed", 4 to "Thurs", 5 to "Fri", 6 to "Sat", 7 to "Sun")
+val statusIcon = mapOf<String,Int>("ordered" to R.drawable.icon_ordered,
+                                    "shipped" to R.drawable.icon_shipped ,
+                                    "outForDelivery" to R.drawable.icon_out_for_delivery,
+                                    "delivered" to R.drawable.icon_delivered,
+                                    "cancelled" to R.drawable.icon_cancelled,
+                                    "returned" to R.drawable.icon_returned,
+                                    "outForPickup" to R.drawable.icon_out_for_delivery,
+                                    "pickedUp" to R.drawable.icon_shipped,
+                                    "refund" to R.drawable.icon_refund_initiated)
 
 class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrderClicked:(orderId:String?)->Unit) : ListAdapter<Order, OrderAdapter.OrderViewHolder>(
     object : DiffUtil.ItemCallback<Order>(){
@@ -43,17 +64,57 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
         var bind= ItemOrderBinding.bind(holder.itemView).apply {
             val order=getItem(position)
 
-            tvOrderStatus.text= map[order.shipping.tracking.status.toInt()]
-            tvOrderETA.timeStamp2=order.shipping.tracking.estimatedDelivery
-            tvOrderETA.text="On" + " " + tvOrderETA.text.toString()
+            val currentState=order.shipping.tracking.status[0].name
+//            val currentState="outForDelivery"
+            var counter=0
+            var transformed = ""
+            currentState.forEach{
+                if (counter == 0) {
+                    transformed += it.toUpperCase();
+                }
+                //everything else
+                if (counter != 0 && it == it.toUpperCase()) {
+                    transformed+= " ";
+                    transformed+=it;
+                }
+                else if(counter != 0 && it == it.toLowerCase()){
+                    transformed+=it;
+                }
+                //increment counter
+                counter++;
+            }
+
+//            tvOrderStatus.text= currentState
+            tvOrderStatus.text= transformed
+
+            if(currentState != "delivered"){
+
+                btnReturn.visibility=View.GONE
+                ivReturnIcon.visibility=View.GONE
+                tvReturnText.visibility=View.GONE
+                tvReturnValidity.visibility=View.GONE
+            }
+
+//            tvOrderStatus.text= map[order.shipping.tracking.status.toInt()]
+            tvOrderStatusDate.timeStamp=order.shipping.tracking.status[0].time
+            val week= weekMap[getWeekFromDate(order.shipping.tracking.status[0].time)]
+            if(!isReturnWindowLeft(order.shipping.tracking.status[0].time)){
+                btnReturn.visibility=View.GONE
+                ivReturnIcon.visibility=View.GONE
+                tvReturnText.visibility=View.GONE
+                tvReturnValidity.visibility=View.GONE
+            }
+            tvOrderStatusDate.text="On " + week + ", " + tvOrderStatusDate.text.toString()
+            ivOrderStatusIcon.setImageResource(statusIcon[order.shipping.tracking.status[0].name]!!)
             ivProductImage.newLoadImage(order.product.id.image[0])
             tvBrandName.text=order.product.id.brand.name
             tvProductName.text=order.product.id.name
-            tvProductPrice.text="₹" + " " + ((order.product.unitCost) * (order.product.quantity)).toString()
-            tvProductMrp.text="₹" + " " + ((order.product.unitMrp) * (order.product.quantity)).toString()
+//            tvProductPrice.text="₹" + " " + (order.product.unitCost)
+//            tvProductMrp.text="₹" + " " + ((order.product.unitMrp) * (order.product.quantity)).toString()
+            tvProductQuantity.text=order.product.quantity.toString()
+            tvReturnValidity.getReturnValidyDate=order.shipping.tracking.status[0].time
 
             root.setOnClickListener {
-                Log.d("orderId ",order.id)
                 onOrderClicked(order.id)
             }
 
@@ -62,5 +123,32 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
             }
 
         }
+    }
+    private fun getWeekFromDate(orderStatusDate:String):Int{
+        val c = Calendar.getInstance()
+        try {
+            c.time = isoDateFormat.parse(orderStatusDate)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        Log.d("week",c.get(Calendar.DAY_OF_WEEK).toString())
+        return c.get(Calendar.DAY_OF_WEEK)
+
+    }
+
+    private fun isReturnWindowLeft(orderStatusDate:String):Boolean{
+        val orderReturnLastDate = Calendar.getInstance()
+        val presentDate = Calendar.getInstance()
+
+        orderReturnLastDate.time = isoDateFormat.parse(orderStatusDate)
+        orderReturnLastDate.add(Calendar.DAY_OF_MONTH, 7) //date of delivery + return window
+        orderReturnLastDate.set(Calendar.HOUR_OF_DAY,24)
+        orderReturnLastDate.set(Calendar.MINUTE,59)
+        orderReturnLastDate.set(Calendar.SECOND,59)
+
+        if(presentDate.time.after(orderReturnLastDate.time))
+            return false
+        return true
+
     }
 }

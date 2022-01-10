@@ -36,7 +36,7 @@ class FilterActivity : AppCompatActivity() {
 
         filterBrandAdapter= FilterBrandAdapter{ onBrandClicked(it) }
 
-        _binding.listRecyclerView.layoutManager= LinearLayoutManager(this,)
+        _binding.listRecyclerView.layoutManager= LinearLayoutManager(this)
         _binding.listRecyclerView.adapter=filterBrandAdapter
 
 
@@ -76,8 +76,25 @@ class FilterActivity : AppCompatActivity() {
                 //performing positive action
                 builder.setPositiveButton("Yes"){dialogInterface, which ->
                     (application as MyApplication).clearList()
-                    filterBrandAdapter.notifyDataSetChanged()
+
+//                    filterBrandAdapter= FilterBrandAdapter{ onBrandClicked(it) }
+//
+//                    _binding.listRecyclerView.layoutManager= LinearLayoutManager(this@FilterActivity)
+//                    _binding.listRecyclerView.adapter=filterBrandAdapter
 //                    getBrands()
+                    filterBrandAdapter.notifyDataSetChanged()
+                    
+
+
+
+                    (application as MyApplication).clearFromRange()
+                    (application as MyApplication).clearToRange()
+                    tvPriceRangeFrom.text="₹ 100" + " - "
+                    tvPriceRangeTo.text="₹ 5000"
+
+                    rangeSlider.setValues(100F,5000F)
+
+
                 }
                 //performing cancel action
                 builder.setNeutralButton("Cancel"){dialogInterface , which ->
@@ -94,7 +111,8 @@ class FilterActivity : AppCompatActivity() {
             }
 
             applyBtn.setOnClickListener {
-                startActivity(Intent(this@FilterActivity,ProductsActivity::class.java))
+//                startActivity(Intent(this@FilterActivity,ProductsActivity::class.java))
+                finish()
 
             }
             closeBtn.setOnClickListener {
@@ -125,22 +143,52 @@ class FilterActivity : AppCompatActivity() {
                 }
             })
 
+//            rangeSlider.stepSize=100F
+            if((application as MyApplication).getFromRange()!=null){
+//                rangeSlider.values[0]=(application as MyApplication).getFromRange()?.toFloat()
+                rangeSlider.setValues((application as MyApplication).getFromRange()?.toFloat(),(application as MyApplication).getToRange()?.toFloat())
+//                rangeSlider.valueFrom=(application as MyApplication).getFromRange().toFloat()
+                tvPriceRangeFrom.text="₹ " + (application as MyApplication).getFromRange()?.toFloat()?.toInt() + " - "
+            }
+//            else{
+//                rangeSlider.valueFrom= 100F
+//            }
+
+            if((application as MyApplication).getToRange()!=null){
+                rangeSlider.setValues((application as MyApplication).getFromRange()?.toFloat(),(application as MyApplication).getToRange()?.toFloat())
+//                rangeSlider.values[1]=(application as MyApplication).getToRange()?.toFloat()
+//                rangeSlider.valueTo=(application as MyApplication).getToRange().toFloat()
+                tvPriceRangeTo.text="₹ " + (application as MyApplication).getToRange()?.toFloat()?.toInt()
+            }
+//            else{
+//                rangeSlider.valueTo=10000F
+//            }
 
             rangeSlider.labelBehavior= LabelFormatter.LABEL_GONE
             rangeSlider.addOnSliderTouchListener(object:RangeSlider.OnSliderTouchListener{
                 override fun onStartTrackingTouch(slider: RangeSlider) {
-                    tvPriceRange.text="₹ " + slider.values.get(0).toInt().toString() + " - ₹ " + slider.values.get(1).toInt().toString()
+                    tvPriceRangeFrom.text="₹ " + slider.values.get(0).toInt().toString() + " - "
+                    tvPriceRangeTo.text="₹ " + slider.values.get(1).toInt().toString()
+                    (application as MyApplication).setFromRange(slider.values[0].toInt())
+                    (application as MyApplication).setToRange(slider.values[1].toInt())
+
                 }
 
                 override fun onStopTrackingTouch(slider: RangeSlider) {
-                    tvPriceRange.text="₹ " + slider.values.get(0).toInt().toString() + " - ₹ " + slider.values.get(1).toInt().toString()
+                    tvPriceRangeFrom.text="₹ " + slider.values.get(0).toInt().toString() + " - "
+                    tvPriceRangeTo.text="₹ " + slider.values.get(1).toInt().toString()
+                    (application as MyApplication).setFromRange(slider.values[0].toInt())
+                    (application as MyApplication).setToRange(slider.values[1].toInt())
                 }
 
             })
 
             rangeSlider.addOnChangeListener(object :RangeSlider.OnChangeListener{
                 override fun onValueChange(slider: RangeSlider, value: Float, fromUser: Boolean) {
-                    tvPriceRange.text="₹ " + slider.values.get(0).toInt().toString() + " - ₹ " + slider.values.get(1).toInt().toString()
+                    tvPriceRangeFrom.text="₹ " + slider.values.get(0).toInt().toString() + " - "
+                    tvPriceRangeTo.text="₹ " + slider.values.get(1).toInt().toString()
+                    (application as MyApplication).setFromRange(slider.values[0].toInt())
+                    (application as MyApplication).setToRange(slider.values[1].toInt())
                 }
 
             })
