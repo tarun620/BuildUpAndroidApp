@@ -33,6 +33,7 @@ import com.example.api.models.responsesAndData.wishlist.ProductIdForWishlistData
 //import com.example.buildup.helpers.ErrorUtils.parseError
 import com.example.buildup.helpers.ErrorUtilsNew
 import retrofit2.Response
+import retrofit2.http.Query
 import java.io.IOException
 
 //import org.junit.Assert.*
@@ -544,7 +545,7 @@ object UserRepo {
 
     suspend fun removeProductFromWishlist(productId: String):SuccessMessageResponse?{
         try{
-            val response= authApi.removeProductFromWishlist(ProductIdForWishlistData(productId))
+            val response= authApi.removeProductFromWishlist(productId)
             if(response.isSuccessful){
                 return response.body()
             }
@@ -558,9 +559,9 @@ object UserRepo {
         }
     }
 
-    suspend fun getWishlist(): GetWishlistResponse?{
+    suspend fun getWishlist(pageNum:Int): GetWishlistResponse?{
         try{
-            val response= authApi.getWishlist()
+            val response= authApi.getWishlist(pageNum)
             if(response.isSuccessful){
                 return response.body()
             }
@@ -588,9 +589,9 @@ object UserRepo {
         }
     }
 
-    suspend fun getAllOrders():GetAllOrdersResponse?{
+    suspend fun getAllOrders(pageNum:Int):GetAllOrdersResponse?{
         try {
-            val response= authApi.getAllOrders()
+            val response= authApi.getAllOrders(pageNum)
             if(response.isSuccessful){
                 return response.body()
             }
@@ -663,9 +664,9 @@ object UserRepo {
         }
     }
 
-    suspend fun getProductsBySearchQuery2(searchQuery:String?,getProductsBySearchQueryData:GetProductsBySearchQueryData): ProductsResponse?{
+    suspend fun getProductsBySearchQuery2(searchQuery:String?,pageNum:Int?,getProductsBySearchQueryData:GetProductsBySearchQueryData): ProductsResponse?{
         try{
-            val response= authApi.getProductsBySearchQuery2(searchQuery,getProductsBySearchQueryData)
+            val response= authApi.getProductsBySearchQuery2(searchQuery,pageNum,getProductsBySearchQueryData)
             if(response.isSuccessful){
                 return response.body()
             }

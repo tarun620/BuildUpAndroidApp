@@ -25,15 +25,15 @@ val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getD
 val appDateFormatOnlyDate = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
 
 val weekMap = mapOf<Int,String>(1 to "Mon", 2 to "Tues", 3 to "Wed", 4 to "Thurs", 5 to "Fri", 6 to "Sat", 7 to "Sun")
-val statusIcon = mapOf<String,Int>("ordered" to R.drawable.icon_ordered,
-                                    "shipped" to R.drawable.icon_shipped ,
-                                    "outForDelivery" to R.drawable.icon_out_for_delivery,
-                                    "delivered" to R.drawable.icon_delivered,
-                                    "cancelled" to R.drawable.icon_cancelled,
-                                    "returned" to R.drawable.icon_returned,
-                                    "outForPickup" to R.drawable.icon_out_for_delivery,
-                                    "pickedUp" to R.drawable.icon_shipped,
-                                    "refund" to R.drawable.icon_refund_initiated)
+val statusIcon = mapOf<String,Int>("ordered" to R.drawable.ic_icon_ordered,
+                                    "shipped" to R.drawable.ic_icon_shipped ,
+                                    "outForDelivery" to R.drawable.ic_icon_out_for_delivery,
+                                    "delivered" to R.drawable.ic_icon_delivered,
+                                    "cancelled" to R.drawable.ic_icon_cancelled,
+                                    "returned" to R.drawable.ic_icon_returned,
+                                    "outForPickup" to R.drawable.ic_icon_out_for_delivery,
+                                    "pickedUp" to R.drawable.ic_icon_shipped,
+                                    "refund" to R.drawable.ic_icon_refund_initiated)
 
 class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrderClicked:(orderId:String?)->Unit) : ListAdapter<Order, OrderAdapter.OrderViewHolder>(
     object : DiffUtil.ItemCallback<Order>(){
@@ -94,6 +94,12 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
                 tvReturnText.visibility=View.GONE
                 tvReturnValidity.visibility=View.GONE
             }
+            else{
+                btnReturn.visibility=View.VISIBLE
+                ivReturnIcon.visibility=View.VISIBLE
+                tvReturnText.visibility=View.VISIBLE
+                tvReturnValidity.visibility=View.VISIBLE
+            }
 
 //            tvOrderStatus.text= map[order.shipping.tracking.status.toInt()]
             tvOrderStatusDate.timeStamp=order.shipping.tracking.status[0].time
@@ -128,6 +134,9 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
         val c = Calendar.getInstance()
         try {
             c.time = isoDateFormat.parse(orderStatusDate)
+//            c.timeZone= TimeZone.getTimeZone("GMT+05:30")c.add(Calendar.HOUR,5)
+            c.add(Calendar.HOUR,5)
+            c.add(Calendar.MINUTE,30)
         } catch (e: ParseException) {
             e.printStackTrace()
         }
@@ -137,10 +146,19 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
     }
 
     private fun isReturnWindowLeft(orderStatusDate:String):Boolean{
+
         val orderReturnLastDate = Calendar.getInstance()
+        orderReturnLastDate.add(Calendar.HOUR,5)
+        orderReturnLastDate.add(Calendar.MINUTE,30)
+
         val presentDate = Calendar.getInstance()
+        presentDate.add(Calendar.HOUR,5)
+        presentDate.add(Calendar.MINUTE,30)
+//        presentDate.timeZone=TimeZone.getTimeZone("GMT+05:30")
 
         orderReturnLastDate.time = isoDateFormat.parse(orderStatusDate)
+//        orderReturnLastDate.timeZone= TimeZone.getTimeZone("GMT+05:30")
+
         orderReturnLastDate.add(Calendar.DAY_OF_MONTH, 7) //date of delivery + return window
         orderReturnLastDate.set(Calendar.HOUR_OF_DAY,24)
         orderReturnLastDate.set(Calendar.MINUTE,59)

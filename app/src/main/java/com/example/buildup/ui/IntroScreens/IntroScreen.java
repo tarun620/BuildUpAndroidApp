@@ -12,13 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.buildup.R;
-import com.example.buildup.ui.LoginSignupSelectorActivity;
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
 
 public class IntroScreen extends AppCompatActivity {

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
@@ -57,6 +58,8 @@ class CodPaymentActivity : AppCompatActivity() {
 
         authViewModel.respGetProductsFromCart.observe({lifecycle}){
             if(it?.success!!){
+                _binding.paymentLayout.visibility= View.VISIBLE
+                _binding.idPBLoading.visibility= View.GONE
                 var totalMrp=0
                 var discountedPrice=0
                 var productQuantity=0

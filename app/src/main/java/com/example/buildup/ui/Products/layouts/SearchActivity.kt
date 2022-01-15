@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.View.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -151,6 +152,8 @@ class SearchActivity : AppCompatActivity() {
         authViewModel.getRecentlyViewedProducts()
         authViewModel.respGetRecentlyViewedProducts.observe({lifecycle}){
             if(it?.success!!){
+                _binding.recentlyViewedLayout.visibility= VISIBLE
+                _binding.idPBLoading.visibility= GONE
                 recentViewedProductsAdapter.submitList(it.products)
             }
             else{

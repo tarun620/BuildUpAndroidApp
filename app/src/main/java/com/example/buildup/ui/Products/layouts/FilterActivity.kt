@@ -1,11 +1,11 @@
 package com.example.buildup.ui.Products.layouts
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
@@ -15,8 +15,8 @@ import com.example.api.models.responsesAndData.brand.Brand
 import com.example.api.models.responsesAndData.brand.IsBrandSelectedData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityFilterBinding
-import com.example.buildup.ui.FilterBrandAdapter
-import com.example.buildup.ui.MyApplication
+import com.example.buildup.ui.filter.FilterBrandAdapter
+import com.example.buildup.MyApplication
 import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.RangeSlider
 import java.util.*
@@ -24,7 +24,7 @@ import java.util.*
 class FilterActivity : AppCompatActivity() {
     private lateinit var _binding:ActivityFilterBinding
     private lateinit var  authViewModel:AuthViewModel
-    private lateinit var filterBrandAdapter:FilterBrandAdapter
+    private lateinit var filterBrandAdapter: FilterBrandAdapter
     private var brandList= mutableListOf<Brand>()
     private var tempBrandList=mutableListOf<Brand>()
 
@@ -76,16 +76,7 @@ class FilterActivity : AppCompatActivity() {
                 //performing positive action
                 builder.setPositiveButton("Yes"){dialogInterface, which ->
                     (application as MyApplication).clearList()
-
-//                    filterBrandAdapter= FilterBrandAdapter{ onBrandClicked(it) }
-//
-//                    _binding.listRecyclerView.layoutManager= LinearLayoutManager(this@FilterActivity)
-//                    _binding.listRecyclerView.adapter=filterBrandAdapter
-//                    getBrands()
                     filterBrandAdapter.notifyDataSetChanged()
-                    
-
-
 
                     (application as MyApplication).clearFromRange()
                     (application as MyApplication).clearToRange()
@@ -201,8 +192,11 @@ class FilterActivity : AppCompatActivity() {
         authViewModel.getBrands(false,null)
         authViewModel.respGetBrands.observe({lifecycle}){
             if(it?.success!!){
+                _binding.mainLayout.visibility=View.VISIBLE
+                _binding.idPBLoading.visibility=View.GONE
 //                filterBrandAdapter.submitList(it.brands)
                 brandList= it.brands as MutableList<Brand>
+                tempBrandList.clear()
                 tempBrandList.addAll(brandList)
                 filterBrandAdapter.submitList(tempBrandList)
             }

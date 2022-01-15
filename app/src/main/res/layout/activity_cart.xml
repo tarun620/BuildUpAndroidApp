@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -43,230 +41,303 @@
         app:layout_constraintStart_toStartOf="@+id/titleText"
         app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="7dp"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_checkout"
         app:layout_constraintTop_toBottomOf="@id/titleText">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/containerLayout"
+        <ScrollView
+            android:id="@+id/main_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_marginTop="7dp"
+            android:visibility="visible">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cartItemRecyclerView"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="1"
-                tools:listitem="@layout/cart_item_layout" />
+                android:layout_height="wrap_content">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cartItemRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/cart_item_layout" />
 
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/overpass"
-                android:text="Delivery Location"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cartItemRecyclerView" />
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/overpass"
+                    android:text="Delivery Location"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cartItemRecyclerView" />
 
-            <ImageView
-                android:id="@+id/iv_addressImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:src="@drawable/ic_map"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-            <TextView
-                android:id="@+id/tv_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:maxWidth="200dp"
-                android:text="Select Delivery Address "
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/iv_addressImage"
-                app:layout_constraintTop_toTopOf="@id/iv_addressImage"
-                app:layout_constraintBottom_toBottomOf="@id/iv_addressImage"/>
-
-            <ImageView
-                android:id="@+id/btn_change_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="18dp"
-                android:padding="5dp"
-                android:src="@drawable/ic_forward_btn"
-                app:layout_constraintBottom_toBottomOf="@id/tv_address"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_address" />
-
-            <!--    <TextView-->
-            <!--        android:id="@+id/textView6"-->
-            <!--        android:layout_width="wrap_content"-->
-            <!--        android:layout_height="wrap_content"-->
-            <!--        android:layout_marginStart="12dp"-->
-            <!--        android:layout_marginTop="12dp"-->
-            <!--        android:fontFamily="@font/overpass"-->
-            <!--        android:text="Payment Method"-->
-            <!--        android:textColor="@color/black"-->
-            <!--        android:textSize="20sp"-->
-            <!--        android:textStyle="bold"-->
-            <!--        app:layout_constraintStart_toStartOf="parent"-->
-            <!--        app:layout_constraintTop_toBottomOf="@+id/iv_addressImage" />-->
+                <ImageView
+                    android:id="@+id/iv_addressImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:src="@drawable/ic_map"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 
-            <!--    <ImageView-->
-            <!--        android:id="@+id/imageVisa"-->
-            <!--        android:layout_width="wrap_content"-->
-            <!--        android:layout_height="wrap_content"-->
-            <!--        android:layout_marginStart="12dp"-->
-            <!--        android:layout_marginTop="12dp"-->
-            <!--        android:src="@drawable/visa"-->
-            <!--        app:layout_constraintStart_toStartOf="parent"-->
-            <!--        app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
+                <ImageView
+                    android:id="@+id/btn_change_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="18dp"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_forward_btn"
+                    app:layout_constraintBottom_toBottomOf="@id/linearLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/linearLayout" />
 
-            <!--    <TextView-->
-            <!--        android:id="@+id/tv_paymentMethod"-->
-            <!--        android:layout_width="wrap_content"-->
-            <!--        android:layout_height="wrap_content"-->
-            <!--        android:layout_marginStart="12dp"-->
-            <!--        android:layout_marginTop="12dp"-->
-            <!--        android:maxWidth="200dp"-->
-            <!--        android:text="VISA Classic 3984 **** 8245"-->
-            <!--        android:textColor="@color/black"-->
-            <!--        android:textSize="16sp"-->
-            <!--        app:layout_constraintStart_toEndOf="@+id/imageVisa"-->
-            <!--        app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="15dp"
+                    app:layout_constraintEnd_toStartOf="@id/btn_change_address"
+                    app:layout_constraintStart_toEndOf="@+id/iv_addressImage"
+                    app:layout_constraintTop_toTopOf="@+id/iv_addressImage"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_addressImage">
 
-            <!--    <ImageView-->
-            <!--        android:id="@+id/btn_change_payment"-->
-            <!--        android:layout_width="wrap_content"-->
-            <!--        android:layout_height="wrap_content"-->
-            <!--        android:layout_marginEnd="12dp"-->
-            <!--        android:src="@drawable/ic_forward_btn"-->
-            <!--        app:layout_constraintBottom_toBottomOf="@id/tv_paymentMethod"-->
-            <!--        app:layout_constraintEnd_toEndOf="parent"-->
-            <!--        app:layout_constraintTop_toTopOf="@id/tv_paymentMethod" />-->
+                    <TextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Select Delivery Address "
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toEndOf="@+id/iv_addressImage"
+                        app:layout_constraintTop_toTopOf="@id/iv_addressImage"
+                        app:layout_constraintBottom_toBottomOf="@id/iv_addressImage"/>
 
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="50dp"
-                android:fontFamily="@font/overpass"
-                android:text="Order Info"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="9dp">
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12sp"
-                android:fontFamily="@font/overpass"
-                android:text="Subtotal"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView7" />
+                        <ImageView
+                            android:id="@+id/estimated_delivery_date_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_icon_delivery_date"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/overpass"
-                android:text="Shipping"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView8" />
+                        <TextView
+                            android:id="@+id/delivery_by_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toEndOf="@+id/estimated_delivery_date_image"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginStart="9dp"
+                            android:text="Delivery by "
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/overpass"/>
 
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="24dp"
-                android:fontFamily="@font/overpass"
-                android:text="Total"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView9" />
-
-            <TextView
-                android:id="@+id/tv_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="18dp"
-                android:fontFamily="@font/overpass"
-                android:text="0"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView9" />
+                        <TextView
+                            android:id="@+id/tv_estimated_delivery_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="18 Jan"
+                            app:layout_constraintStart_toEndOf="@+id/delivery_by_text"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/overpass"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <TextView
-                android:id="@+id/tv_shipping"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="18dp"
-                android:fontFamily="@font/overpass"
-                android:text="0"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView8" />
+                </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tv_subtotal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12sp"
-                android:layout_marginEnd="18dp"
-                android:fontFamily="@font/overpass"
-                android:text="0"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textView7" />
+                <!--    <TextView-->
+                <!--        android:id="@+id/textView6"-->
+                <!--        android:layout_width="wrap_content"-->
+                <!--        android:layout_height="wrap_content"-->
+                <!--        android:layout_marginStart="12dp"-->
+                <!--        android:layout_marginTop="12dp"-->
+                <!--        android:fontFamily="@font/overpass"-->
+                <!--        android:text="Payment Method"-->
+                <!--        android:textColor="@color/black"-->
+                <!--        android:textSize="20sp"-->
+                <!--        android:textStyle="bold"-->
+                <!--        app:layout_constraintStart_toStartOf="parent"-->
+                <!--        app:layout_constraintTop_toBottomOf="@+id/iv_addressImage" />-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--    <ImageView-->
+                <!--        android:id="@+id/imageVisa"-->
+                <!--        android:layout_width="wrap_content"-->
+                <!--        android:layout_height="wrap_content"-->
+                <!--        android:layout_marginStart="12dp"-->
+                <!--        android:layout_marginTop="12dp"-->
+                <!--        android:src="@drawable/visa"-->
+                <!--        app:layout_constraintStart_toStartOf="parent"-->
+                <!--        app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
+
+                <!--    <TextView-->
+                <!--        android:id="@+id/tv_paymentMethod"-->
+                <!--        android:layout_width="wrap_content"-->
+                <!--        android:layout_height="wrap_content"-->
+                <!--        android:layout_marginStart="12dp"-->
+                <!--        android:layout_marginTop="12dp"-->
+                <!--        android:maxWidth="200dp"-->
+                <!--        android:text="VISA Classic 3984 **** 8245"-->
+                <!--        android:textColor="@color/black"-->
+                <!--        android:textSize="16sp"-->
+                <!--        app:layout_constraintStart_toEndOf="@+id/imageVisa"-->
+                <!--        app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
+
+                <!--    <ImageView-->
+                <!--        android:id="@+id/btn_change_payment"-->
+                <!--        android:layout_width="wrap_content"-->
+                <!--        android:layout_height="wrap_content"-->
+                <!--        android:layout_marginEnd="12dp"-->
+                <!--        android:src="@drawable/ic_forward_btn"-->
+                <!--        app:layout_constraintBottom_toBottomOf="@id/tv_paymentMethod"-->
+                <!--        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--        app:layout_constraintTop_toTopOf="@id/tv_paymentMethod" />-->
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="50dp"
+                    android:fontFamily="@font/overpass"
+                    android:text="Order Info"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12sp"
+                    android:fontFamily="@font/overpass"
+                    android:text="Subtotal"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView7" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/overpass"
+                    android:text="Shipping"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView8" />
 
 
-    </ScrollView>
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="24dp"
+                    android:fontFamily="@font/overpass"
+                    android:text="Total"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView9" />
+
+                <TextView
+                    android:id="@+id/tv_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/overpass"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView9" />
+
+
+                <TextView
+                    android:id="@+id/tv_shipping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/overpass"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView8" />
+
+
+                <TextView
+                    android:id="@+id/tv_subtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12sp"
+                    android:layout_marginEnd="18dp"
+                    android:fontFamily="@font/overpass"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textView7" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/idPBLoading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:layout_marginTop="48dp"
+            />
+
+    </LinearLayout>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_checkout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:text="Checkout"
@@ -275,6 +346,7 @@
         app:cornerRadius="16dp"
         android:textSize="24sp"
         android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

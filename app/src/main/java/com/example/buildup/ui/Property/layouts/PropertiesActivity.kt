@@ -31,7 +31,7 @@ import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
-import com.example.buildup.ui.WorkInProgressActivity
+import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigation.NavigationView
 
@@ -223,7 +223,7 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         when (item.itemId) {
 
             R.id.nav_build_up_plus -> {
-                startActivity(Intent(this@PropertiesActivity,WorkInProgressActivity::class.java))
+                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
             }
 
             R.id.nav_all_categories -> {
@@ -249,19 +249,19 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 startActivity(Intent(this@PropertiesActivity,AddressesActivity::class.java))
             }
             R.id.nav_help_center -> {
-                startActivity(Intent(this@PropertiesActivity,WorkInProgressActivity::class.java))
+                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
             }
 
             R.id.nav_privacy_policy -> {
-                startActivity(Intent(this@PropertiesActivity,WorkInProgressActivity::class.java))
+                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
             }
 
             R.id.nav_legal -> {
-                startActivity(Intent(this@PropertiesActivity,WorkInProgressActivity::class.java))
+                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
             }
 
             R.id.nav_sign_out -> {
-                startActivity(Intent(this@PropertiesActivity,WorkInProgressActivity::class.java))
+                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
             }
 
         }

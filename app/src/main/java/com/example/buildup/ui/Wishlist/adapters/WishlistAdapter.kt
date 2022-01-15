@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.wishlist.Product
 import com.example.api.models.responsesAndData.wishlist.WishlistData
+import com.example.api.models.responsesAndData.wishlist.WishlistPositionData
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemWishlistLayoutBinding
 import com.example.buildup.extensions.newLoadImage
 
-class WishlistAdapter(val onProductFromWishlistClicked:(productId:String?)->Unit, val removeProductFromWishlist:(productId:String?)->Unit, val addProductToCartFromWishlist: (wishlistData:WishlistData) -> Unit): ListAdapter<Product, WishlistAdapter.WishlistViewHolder>(
+class WishlistAdapter(val onProductFromWishlistClicked:(productId:String?)->Unit, val removeProductFromWishlist:(wishlistPositionData:WishlistPositionData?)->Unit, val addProductToCartFromWishlist: (wishlistData:WishlistData) -> Unit): ListAdapter<Product, WishlistAdapter.WishlistViewHolder>(
     object : DiffUtil.ItemCallback<Product>(){
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
             return oldItem==newItem
@@ -41,6 +42,7 @@ class WishlistAdapter(val onProductFromWishlistClicked:(productId:String?)->Unit
 
     override fun onBindViewHolder(holder: WishlistViewHolder, position: Int) {
         var bind=ItemWishlistLayoutBinding.bind(holder.itemView).apply {
+
             val wishlistedItem=getItem(position)
 
             ivProductImage.newLoadImage(wishlistedItem.image[0])
@@ -55,7 +57,7 @@ class WishlistAdapter(val onProductFromWishlistClicked:(productId:String?)->Unit
 //            btnAddToCart.setOnClickListener {
 //                if(wishlistedItem.)
 //            }
-            removeItemBtn.setOnClickListener { removeProductFromWishlist(wishlistedItem.id) }
+            removeItemBtn.setOnClickListener { removeProductFromWishlist(WishlistPositionData(position,wishlistedItem.id)) }
             btnAddToCart.setOnClickListener { addProductToCartFromWishlist(WishlistData(wishlistedItem.inCart,wishlistedItem.id)) }
             root.setOnClickListener{onProductFromWishlistClicked(wishlistedItem.id)}
 

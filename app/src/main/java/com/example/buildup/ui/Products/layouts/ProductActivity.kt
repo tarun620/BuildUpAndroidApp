@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -63,14 +64,21 @@ class ProductActivity : AppCompatActivity() {
 
         authViewModel.getProduct(productId,isBrand = true,inCart = true,isWishlisted = true)
         authViewModel.respProduct.observe({lifecycle}){
-            if(it.product?.inCart!!) {
-                _binding.addToCartButton.text="Go To Cart"
-                inCart = true
+            if(it?.success!!){
+                _binding.mainLayout.visibility=View.VISIBLE
+                _binding.idPBLoading.visibility= View.GONE
+                if(it.product?.inCart!!) {
+                    _binding.addToCartButton.text="Go To Cart"
+                    inCart = true
+                }
+                if(it?.product?.isWishlisted!!) {
+                    Log.d("iswishlisted", "true")
+                    _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlisted_new3)
+                }
             }
-            if(it?.product?.isWishlisted!!) {
-                Log.d("iswishlisted", "true")
-                _binding.wishlistBtn.setImageResource(R.drawable.ic_frame_28)
-            }
+            else
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+
         }
 
         setPageContent()
@@ -97,7 +105,7 @@ class ProductActivity : AppCompatActivity() {
                 }
             }
 
-            wishlistBtn.setOnClickListener {
+            btnWishlist.setOnClickListener {
                 if(!isWishlisted){
                     Log.d("wishlist1","reached here")
                     authViewModel.addProductToWishlist(productId)
@@ -105,7 +113,7 @@ class ProductActivity : AppCompatActivity() {
                         Log.d("wishlist2","reached here")
                         if(it?.success!!){
                             Log.d("wishlist3","reached here")
-                            _binding.wishlistBtn.setImageResource(R.drawable.ic_frame_28)
+                            _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlisted_new3)
                             isWishlisted=true
                         }
                     }
@@ -189,7 +197,7 @@ class ProductActivity : AppCompatActivity() {
         }
         else{
 //            Log.d("inCart","false")
-            _binding.addToCartButton.text="Add to Cart"
+            _binding.addToCartButton.text="Add To Cart"
 
         }
     }

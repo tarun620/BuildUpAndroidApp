@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -74,11 +75,13 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
         setContentView(_binding?.root)
+        _binding.idPBLoading.visibility= View.GONE
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar()?.hide();
+
+        if(propertyId.isNullOrEmpty() || propertyId.isNullOrBlank()){
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
         }
-
         if(!propertyId.isNullOrBlank()){
             getPropertyAddressById(propertyId!!)
         }
@@ -528,6 +531,8 @@ class AddPropertyActivity : AppCompatActivity() {
         authViewModel.getAddressById(propertyId)
         authViewModel.respGetAddressById.observe({lifecycle}){
             if(it?.success!!){
+                _binding.mainLayout.visibility=View.VISIBLE
+                _binding.idPBLoading.visibility=View.GONE
                 _binding.apply {
                     etName.setText(it.property?.propertyName)
                     etMobile.setText(it.property?.mobileNo.toString())

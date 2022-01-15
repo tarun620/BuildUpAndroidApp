@@ -6,8 +6,8 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
-import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buildup.AuthViewModel
@@ -17,7 +17,7 @@ import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.Cart.adapters.CartAdapter
 import com.example.buildup.ui.HomeActivity
-import com.example.buildup.ui.MyApplication
+import com.example.buildup.MyApplication
 import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
@@ -105,6 +105,8 @@ class CartActivity : AppCompatActivity() {
 
         authViewModel.respGetProductsFromCart.observe({lifecycle}){
             if(it?.success!!){
+                _binding.mainLayout.visibility= View.VISIBLE
+                _binding.idPBLoading.visibility= View.GONE
                 Toast.makeText(this,"cart items fetched successfully.", Toast.LENGTH_SHORT).show()
                 isEmpty =it.items!!.isEmpty()
                 cartAdapter.submitList(it.items)

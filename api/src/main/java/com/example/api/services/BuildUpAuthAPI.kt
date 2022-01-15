@@ -118,18 +118,23 @@ interface BuildUpAuthAPI {
         @Path("id") productId:String
     ):Response<SuccessMessageResponse>
 
-    @HTTP(method = "DELETE", path= "api/product/wishlist",hasBody = true)
-    suspend fun removeProductFromWishlist(
-        @Body productIdForWishlistData: ProductIdForWishlistData
-    ):Response<SuccessMessageResponse>
+    @HTTP(method = "DELETE", path= "api/product/wishlist",hasBody = false)
+    suspend fun deleteWishlist():Response<SuccessMessageResponse>
 
 //    @DELETE("api/product/wishlist")
 //    suspend fun removeProductFromWishlist(
 //        @Body productId: String
 //    ):Response<SuccessMessageResponse>
 
+    @HTTP(method = "DELETE", path= "api/product/{id}/wishlist",hasBody = true)
+    suspend fun removeProductFromWishlist(
+        @Path("id") productId:String
+    ):Response<SuccessMessageResponse>
+
     @GET("api/product/wishlist")
-    suspend fun getWishlist():Response<GetWishlistResponse>
+    suspend fun getWishlist(
+        @Query("page") pageNum:Int
+    ):Response<GetWishlistResponse>
 
     @POST("api/order")
     suspend fun createOrder(
@@ -137,7 +142,9 @@ interface BuildUpAuthAPI {
     ):Response<SuccessMessageResponse>
 
     @GET("api/order")
-    suspend fun getAllOrders():Response<GetAllOrdersResponse>
+    suspend fun getAllOrders(
+        @Query("page") pageNum:Int
+    ):Response<GetAllOrdersResponse>
 
     @GET("api/order/{id}")
     suspend fun getOrderById(
@@ -161,6 +168,7 @@ interface BuildUpAuthAPI {
     @POST("api/search/products")
     suspend fun getProductsBySearchQuery2(
         @Query("q") searchQuery:String?,
+        @Query("page") pageNum:Int?,
         @Body getProductsBySearchQueryData: GetProductsBySearchQueryData
     ):Response<ProductsResponse>
 
@@ -178,8 +186,6 @@ interface BuildUpAuthAPI {
     @GET("api/search/product-history")
     suspend fun getRecentlyViewedProducts():Response<RecentlyViewedProductsResponse>
 
-    @HTTP(method = "DELETE", path= "api/product/wishlist",hasBody = false)
-    suspend fun deleteWishlist():Response<SuccessMessageResponse>
 
     @GET("api/search/auto-complete")
     suspend fun getAutocompleteQueries(

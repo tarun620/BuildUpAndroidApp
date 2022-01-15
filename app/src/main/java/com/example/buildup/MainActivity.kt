@@ -10,21 +10,15 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.databinding.ActivitySplashBinding
-import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.IntroScreens.IntroScreen
-import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity
-import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity.Companion.PREFS_FILE_AUTH
-import com.example.buildup.ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity.Companion.PREFS_KEY_TOKEN
-import com.example.buildup.ui.LoginSignup.signupMobile.SignupActivity
-import com.example.buildup.ui.LoginSignupSelectorActivity
-import com.example.buildup.ui.Property.layouts.PropertiesActivity
+
 
 class MainActivity : AppCompatActivity() {
 
-    //    companion object{
-//        const val PREFS_FILE_AUTH="prefs_auth"
-//        const val PREFS_KEY_TOKEN="token"
-//    }
+        companion object{
+        const val PREFS_FILE_AUTH="prefs_auth"
+        const val PREFS_KEY_TOKEN="token"
+    }
     private var _binding: ActivitySplashBinding? = null
     private lateinit var authViewModel: AuthViewModel
 

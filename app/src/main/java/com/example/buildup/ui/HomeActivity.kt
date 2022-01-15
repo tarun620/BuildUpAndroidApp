@@ -31,6 +31,9 @@ import com.example.buildup.databinding.ActivityHomeBinding
 import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.BottomNavigation.WishlistActivity
+import com.example.buildup.ui.Brand.BrandAdapter
+import com.example.buildup.ui.LoginSignup.LoginSignupSelectorActivity
+import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapterNew
 import com.example.buildup.ui.Products.adapters.RecentViewedProductsAdapter
@@ -110,6 +113,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         authViewModel.getBrands(true,6)
         authViewModel.respGetBrands.observe({lifecycle}){
             if(it?.success!!){
+                _binding.mainLayout.visibility=View.VISIBLE
+                _binding.idPBLoading.visibility=View.GONE
                 Toast.makeText(this,"Brands fetched Successfully",Toast.LENGTH_SHORT).show()
                 brandAdapter.submitList(it.brands)
             }
@@ -198,7 +203,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 R.id.nav_property -> {
 
-                    startActivity(Intent(this, PropertiesActivity::class.java))
+                    startActivity(Intent(this, WorkInProgressActivity::class.java))
 
 
                 }
@@ -261,7 +266,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
 
             R.id.nav_build_up_plus -> {
-                startActivity(Intent(this,WorkInProgressActivity::class.java))
+                startActivity(Intent(this, WorkInProgressActivity::class.java))
             }
 
             R.id.nav_all_categories -> {
@@ -284,14 +289,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(Intent(this,ProfileActivity::class.java))
             }
             R.id.nav_about_buildUp -> {
-                startActivity(Intent(this,WorkInProgressActivity::class.java))
+                startActivity(Intent(this, WorkInProgressActivity::class.java))
             }
             R.id.nav_help_center -> {
-                startActivity(Intent(this,WorkInProgressActivity::class.java))
+                startActivity(Intent(this, WorkInProgressActivity::class.java))
             }
 
             R.id.nav_privacy_policy -> {
-                startActivity(Intent(this,WorkInProgressActivity::class.java))
+                startActivity(Intent(this, WorkInProgressActivity::class.java))
             }
 
             R.id.nav_legal -> {
@@ -306,7 +311,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //                sharedPrefrences.edit {
 //                    remove("token")
 //                }
-                startActivity(Intent(this,LoginSignupSelectorActivity::class.java))
+                startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
             }
 
         }

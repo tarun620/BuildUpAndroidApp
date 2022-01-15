@@ -1,23 +1,14 @@
 package com.example.buildup.ui.Products.layouts
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.api.models.responsesAndData.brand.Brand
-import com.example.api.models.responsesAndData.brand.IsBrandSelectedData
 import com.example.api.models.responsesAndData.products.productsEntities.Products
 import com.example.api.models.responsesAndData.products.productsResponses.Filters
 import com.example.api.models.responsesAndData.products.productsResponses.GetProductsBySearchQueryData
@@ -25,18 +16,12 @@ import com.example.api.models.responsesAndData.products.productsResponses.PriceR
 import com.example.api.models.responsesAndData.wishlist.IsWishlistedData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
-import com.example.buildup.databinding.ActivityFilterBinding
 import com.example.buildup.databinding.ActivityProductsBinding
 import com.example.buildup.ui.BottomNavigation.CartActivity
-import com.example.buildup.ui.FilterBrandAdapter
-import com.example.buildup.ui.MyApplication
+import com.example.buildup.MyApplication
 import com.example.buildup.ui.Products.adapters.ProductAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.slider.LabelFormatter
-import com.google.android.material.slider.RangeSlider
 import com.google.android.material.textview.MaterialTextView
-import org.w3c.dom.Text
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ProductsActivity : AppCompatActivity() {
@@ -53,11 +38,11 @@ class ProductsActivity : AppCompatActivity() {
     private var brandName:String?=null
     private var fromRange:Int?=null
     private var toRange:Int?=null
-    private var page=0
-    private var isLoading=false
     private var hasNext=true
-
+    private var pageNum=0
     private var sort:String?=null
+    private val productList= mutableListOf<Products>()
+
 
 
 
@@ -90,8 +75,6 @@ class ProductsActivity : AppCompatActivity() {
 
         _binding.productsRecyclerView.layoutManager= GridLayoutManager(this,2)
         _binding.productsRecyclerView.adapter=productAdapter
-
-
 
         setContentView(_binding.root)
 
@@ -137,22 +120,44 @@ class ProductsActivity : AppCompatActivity() {
 //        else if(!searchQuery.isNullOrBlank())
 //            getProductsBySearchQuery(searchQuery!!)
 
-        getProductsBySearchQuery()
+//        getProductsBySearchQuery(pageNum,hasNext,true)
+
+        _binding.apply {
+            Log.d("scroll","scroll")
+            idNestedSV.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
+                override fun onScrollChange(
+                    v: NestedScrollView?,
+                    scrollX: Int,
+                    scrollY: Int,
+                    oldScrollX: Int,
+                    oldScrollY: Int
+                ) {
+                    if (scrollY == v!!.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                        // in this method we are incrementing page number,
+                        // making progress bar visible and calling get data method.
+                        pageNum++;
+                        _binding.idPBLoading.visibility = View.VISIBLE;
+                        getProductsBySearchQuery(pageNum,hasNext);
+                    }
+                }
+
+            })
+        }
     }
 
 
 
     private fun sortAsec() {
         sort="price_asc"
-        getProductsBySearchQuery()
+        getProductsBySearchQuery(pageNum,hasNext)
     }
 
     private fun sortDesc() {
         sort="price_desc"
-        getProductsBySearchQuery()
+        getProductsBySearchQuery(pageNum,hasNext)
     }
 
-    fun onProductClicked(productId:String?){
+    private fun onProductClicked(productId:String?){
         val intent=Intent(this, ProductActivity::class.java)
         intent.putExtra("productId",productId)
         Log.d("productId",productId.toString())
@@ -179,7 +184,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
     }
-    private fun getProductsBySearchQuery(){
+    private fun getProductsBySearchQuery(page:Int,hasNextBool:Boolean){
         if(searchQuery.isNullOrBlank()){
             Log.d("inside","inside if(searchQuery.isNullOrBlank())")
 
@@ -211,28 +216,42 @@ class ProductsActivity : AppCompatActivity() {
                 _binding.tvProductSubCategoryName.text=searchQuery
         }
 
+        if (!hasNextBool) {
+            // checking if the page number is greater than limit.
+            // displaying toast message in this case when page>limit.
+            Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show();
+
+            // hiding our progress bar.
+            _binding.idPBLoading.visibility=View.GONE
+            return;
+        }
+//        if(isNewListRequired)
+//            productList.clear()
+
         if(!brandList.isNullOrEmpty()){
             Log.d("inside","inside if(!brandList.isNullOrEmpty())")
-            authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(brandList, PriceRange(fromRange,toRange),productCategoryId,productSubCategoryId),sort))
+            authViewModel.getProductsBySearchQuery2(searchQuery,page,GetProductsBySearchQueryData(Filters(brandList, PriceRange(fromRange,toRange),productCategoryId,productSubCategoryId),sort))
         }
         else{
             Log.d("inside","inside else(!brandList.isNullOrEmpty())")
-            authViewModel.getProductsBySearchQuery2(searchQuery,GetProductsBySearchQueryData(Filters(singleBrandArray,PriceRange(fromRange,toRange),productCategoryId,productSubCategoryId),sort))
+            authViewModel.getProductsBySearchQuery2(searchQuery,page,GetProductsBySearchQueryData(Filters(singleBrandArray,PriceRange(fromRange,toRange),productCategoryId,productSubCategoryId),sort))
         }
 
 
         authViewModel.respProducts.observe({lifecycle}){
             if(it.success!!){
+                _binding.idPBLoading.visibility=View.GONE
+                hasNext=it?.hasNext!!
                 if(it.products?.size==0)
                     Toast.makeText(this,"List is empty",Toast.LENGTH_SHORT).show()
                 else {
                     Toast.makeText(this, "products fetching successful", Toast.LENGTH_SHORT).show()
-                    val productList= mutableListOf<Products>()
                     for(i in it.products!!){
-                        if(i!=null)
+                        if(i!=null && !productList.contains(i))
                             productList.add(i)
                     }
                     productAdapter.submitList(productList)
+                    productAdapter.notifyDataSetChanged()
                 }
             }
             else{
@@ -274,7 +293,7 @@ class ProductsActivity : AppCompatActivity() {
             fromRange=(application as MyApplication).getFromRange()
         if((application as MyApplication).getToRange()!=-1)
             toRange=(application as MyApplication).getToRange()
-        getProductsBySearchQuery()
+        getProductsBySearchQuery(pageNum,hasNext)
         productAdapter= ProductAdapter({onProductClicked(it)},{onWishlistClicked(it)})
 
         _binding.productsRecyclerView.layoutManager= GridLayoutManager(this,2)

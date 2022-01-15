@@ -5,21 +5,16 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buildup.AuthViewModel
-import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityAddressesBinding
-import com.example.buildup.databinding.ActivityCartBinding
-import com.example.buildup.ui.Address.adapters.AddressAdapter
 import com.example.buildup.ui.Address.adapters.AddressRadioAdapter
-import com.example.buildup.ui.Cart.adapters.CartAdapter
-import com.example.buildup.ui.MyApplication
+import com.example.buildup.MyApplication
 import com.example.buildup.ui.Property.layouts.AddPropertyActivity
-import com.example.buildup.ui.Property.layouts.PropertyActivity
 
 class AddressesActivity : AppCompatActivity() {
     companion object {

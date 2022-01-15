@@ -4,14 +4,17 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.api.models.responsesAndData.wishlist.Product
 import com.example.api.models.responsesAndData.wishlist.WishlistData
+import com.example.api.models.responsesAndData.wishlist.WishlistPositionData
 import com.example.buildup.AuthViewModel
-import com.example.buildup.R
 import com.example.buildup.databinding.ActivityWishlistBinding
-import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Wishlist.adapters.WishlistAdapter
 
@@ -22,6 +25,10 @@ class  WishlistActivity : AppCompatActivity() {
     private lateinit var wishlistAdapter: WishlistAdapter
     private var propertyId:String=""
     private var inCart:Boolean=false
+    private var hasNext=true
+    private var pageNum=0
+    private var productsList= mutableListOf<Product>()
+    private var productIdList=mutableListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityWishlistBinding.inflate(layoutInflater)
@@ -78,20 +85,78 @@ class  WishlistActivity : AppCompatActivity() {
             }
         }
 
-        getWishlist()
+
+        _binding.apply {
+            Log.d("scroll","scroll")
+            idNestedSV.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
+                override fun onScrollChange(
+                    v: NestedScrollView?,
+                    scrollX: Int,
+                    scrollY: Int,
+                    oldScrollX: Int,
+                    oldScrollY: Int
+                ) {
+                    if (scrollY == v!!.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                        // in this method we are incrementing page number,
+                        // making progress bar visible and calling get data method.
+                        pageNum++;
+                        _binding.idPBLoading.visibility = View.VISIBLE;
+                        getWishlistOnScrolled(pageNum,hasNext,false);
+                    }
+                }
+
+            })
+        }
+
+//        getWishlistOnScrolled(pageNum,true)
 
     }
 
-    private fun getWishlist(){
-        authViewModel.getWishlist()
+    private fun getWishlistOnScrolled(page:Int,hasNextBool:Boolean,isFirstLoading:Boolean){
+        Log.d("wishlist","getWishlistOnScrolled()")
+
+        if (!hasNextBool) {
+            // checking if the page number is greater than limit.
+            // displaying toast message in this case when page>limit.
+            Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show();
+
+            // hiding our progress bar.
+            _binding.idPBLoading.visibility=View.GONE
+            return;
+        }
+//        if(isFirstLoading){
+//            productsList.clear()
+//            Log.d("first",productsList.size.toString())
+//        }
+        authViewModel.getWishlist(page)
         authViewModel.respGetWishlist.observe({lifecycle}){
             if(it?.success!!){
+                _binding.idPBLoading.visibility=View.GONE
+                hasNext=it.hasNext!!
                 Toast.makeText(this,"wishlist items fetched successfully.", Toast.LENGTH_SHORT).show()
-                if(it.products?.size!! == 1)
-                    _binding.itemCount.text=it.products?.size.toString() + " " + "item"
+
+                Log.d("wishlistProductListbefore",productsList.size.toString())
+
+                for(i in it.products!!){
+                    Log.d("productListsize",it.products!!.size.toString())
+                    if(!productsList.contains(i)){
+                        productsList.add(i)
+                        productIdList.add(i.id)
+                    }
+                }
+                Log.d("productListsize",productsList.size.toString())
+                if(isFirstLoading)
+                    wishlistAdapter.submitList(it.products)
                 else
-                    _binding.itemCount.text=it.products?.size.toString() + " " + "items"
-                wishlistAdapter.submitList(it.products)
+                    wishlistAdapter.submitList(productsList)
+                wishlistAdapter.notifyDataSetChanged()
+                Log.d("wishlistProductListafter",productsList.size.toString())
+
+                if(it.products?.size!! == 1)
+                    _binding.itemCount.text=productsList.size.toString() + " " + "item"
+                else
+                    _binding.itemCount.text=productsList.size.toString() + " " + "items"
+
 
             }
             else{
@@ -108,11 +173,27 @@ class  WishlistActivity : AppCompatActivity() {
 
     }
 
-    private fun removeProductFromWishlist(productId: String?){
-        authViewModel.removeProductFromWishlist(productId!!)
+    private fun removeProductFromWishlist(wishlistPositionData: WishlistPositionData?){
+        authViewModel.removeProductFromWishlist(wishlistPositionData!!.productId)
         authViewModel.respRemoveProductFromWishlist.observe({lifecycle}){
-            if(it?.success!!)
-                getWishlist()
+            if(it?.success!!){
+                Toast.makeText(this,"Product removed from wishlist",Toast.LENGTH_SHORT).show()
+                var product: Product? =null
+                productsList.forEach {
+                    if(it.id==wishlistPositionData.productId)
+                        product=it
+                }
+                productsList.remove(product)
+                productIdList.remove(product!!.id)
+
+                if(productsList.size == 1)
+                    _binding.itemCount.text=productsList.size.toString() + " " + "item"
+                else
+                    _binding.itemCount.text=productsList.size.toString() + " " + "items"
+
+                wishlistAdapter .submitList(productsList)
+                wishlistAdapter.notifyDataSetChanged()
+            }
             else
                 Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
         }
@@ -127,7 +208,21 @@ class  WishlistActivity : AppCompatActivity() {
             authViewModel.respAddProductToCart.observe({lifecycle}){
                 if(it?.success!!){
                     Toast.makeText(this,"RecentProduct added to cart successsfully.",Toast.LENGTH_SHORT).show()
-                    getWishlist()
+                    var product: Product? =null
+                    productsList.forEach {
+                        if(it.id==wishlistData.productId)
+                            product=it
+                    }
+                    productsList.remove(product)
+                    productIdList.remove(product!!.id)
+
+                    if(productsList.size == 1)
+                        _binding.itemCount.text=productsList.size.toString() + " " + "item"
+                    else
+                        _binding.itemCount.text=productsList.size.toString() + " " + "items"
+
+                    wishlistAdapter .submitList(productsList)
+                    wishlistAdapter.notifyDataSetChanged()
                 }
                 else
                     Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
@@ -170,11 +265,18 @@ class  WishlistActivity : AppCompatActivity() {
         authViewModel.respDeleteWishlist.observe({lifecycle}){
             if(it?.success!!) {
                 _binding.itemCount.text="0 items"
-                wishlistAdapter.submitList(null)
+                productsList.clear()
+                productIdList.clear()
+                wishlistAdapter.submitList(productsList)
+                wishlistAdapter.notifyDataSetChanged()
             }
             else
                 Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        getWishlistOnScrolled(0,true,true)
+    }
 }

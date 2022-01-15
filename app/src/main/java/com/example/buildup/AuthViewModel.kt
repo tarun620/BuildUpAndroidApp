@@ -299,8 +299,8 @@ class AuthViewModel:ViewModel() {
             _respRemoveProductFromWishlist.postValue(it)
         }
     }
-    fun getWishlist()=viewModelScope.launch {
-        UserRepo.getWishlist().let {
+    fun getWishlist(pageNum:Int)=viewModelScope.launch {
+        UserRepo.getWishlist(pageNum).let {
             _respGetWishlist.postValue(it)
         }
     }
@@ -310,8 +310,8 @@ class AuthViewModel:ViewModel() {
         }
     }
 
-    fun getAllOrders()=viewModelScope.launch {
-        UserRepo.getAllOrders().let {
+    fun getAllOrders(pageNum:Int)=viewModelScope.launch {
+        UserRepo.getAllOrders(pageNum).let {
             _respGetAllOrders.postValue(it)
         }
     }
@@ -337,8 +337,8 @@ class AuthViewModel:ViewModel() {
             _respProducts.postValue(it)
         }
     }
-    fun getProductsBySearchQuery2(searchQuery:String?,getProductsBySearchQueryData: GetProductsBySearchQueryData)=viewModelScope.launch {
-        UserRepo.getProductsBySearchQuery2(searchQuery,getProductsBySearchQueryData).let {
+    fun getProductsBySearchQuery2(searchQuery:String?,pageNum:Int?,getProductsBySearchQueryData: GetProductsBySearchQueryData)=viewModelScope.launch {
+        UserRepo.getProductsBySearchQuery2(searchQuery,pageNum,getProductsBySearchQueryData).let {
             _respProducts.postValue(it)
         }
     }

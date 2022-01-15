@@ -14,7 +14,8 @@ import com.example.buildup.R
 import com.example.buildup.databinding.ActivityOrderBinding
 import com.example.buildup.extensions.newLoadImage
 import com.example.buildup.ui.Orders.adapters.isoDateFormat
-import com.example.buildup.ui.Return.ReturnActivity
+import com.example.buildup.ui.ReturnOrder.ReturnActivity
+import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -35,8 +36,9 @@ class OrderActivity : AppCompatActivity() {
     private var rating:Int=0
     private var userRating:Int=0
     private var productId:String?=null
-    private var isSuccess=false
     private var isDelivered=false
+    private var isSuccess=false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,48 +59,35 @@ class OrderActivity : AppCompatActivity() {
         _binding.apply {
             star1.setOnClickListener {
                 rating=1
-                if(addProductRating()){
-                    Star1()
-                    Log.d("rating","here")
-                }
-
+                addProductRating()
+                Star1()
             }
 
             star2.setOnClickListener {
                 rating=2
-                if(addProductRating())
-                    Star2()
+                addProductRating()
+                Star2()
 
             }
 
             star3.setOnClickListener {
                 rating=3
-                if(addProductRating())
-                    Star3()
+                addProductRating()
+                Star3()
 
             }
 
             star4.setOnClickListener {
                 rating=4
-                if(addProductRating())
-                    Star4()
+                addProductRating()
+                Star4()
 
             }
 
             star5.setOnClickListener {
                 rating=5
-                if(addProductRating())
-                    Star5()
-            }
-            cancelBtn.setOnClickListener {
-                if(isDelivered){
-                    val intent=Intent(this@OrderActivity,ReturnActivity::class.java)
-                    intent.putExtra("orderId",orderId)
-                    startActivity(intent)
-                }
-                else{
-                    //TODO : implement cancel order -- update timeline if ordered is cancelled
-                }
+                addProductRating()
+                Star5()
             }
 
         }
@@ -114,6 +103,9 @@ class OrderActivity : AppCompatActivity() {
             authViewModel.respGetOrderById.observe({lifecycle}){ it ->
                 if(it?.success!!){
                     _binding.apply {
+                        mainLayout.visibility=View.VISIBLE
+                        idPBLoading.visibility=View.GONE
+
                         var finalStepList=listOf<String>()
                         val apiStatusArray=it.order!!.shipping.tracking.status
                         val currentStatus:String=apiStatusArray.last().name
@@ -121,7 +113,6 @@ class OrderActivity : AppCompatActivity() {
                         if(currentStatus=="cancelled"){
                             if(apiStatusArray.size==3) { // ordered..shipped..cancelled
                                 finalStepList=cancelledArray2
-
                             }
                             else if(apiStatusArray.size==2){
                                 if(apiStatusArray[0].name=="ordered") // ordered..cancelled
@@ -136,10 +127,17 @@ class OrderActivity : AppCompatActivity() {
                             finalStepList=returnArray
 
                         if(currentStatus=="delivered"){
+                            ratingLayout.visibility=View.VISIBLE
                             cancelBtn.text="RETURN"
+                            cancelBtn.setIconResource(R.drawable.ic_icon_return_button)
                             if(!isReturnWindowLeft(apiStatusArray.last().time))
                                 cancelBtn.visibility=View.GONE
                             //TODO : change button icon
+                            cancelBtn.setOnClickListener {
+                                val intent=Intent(this@OrderActivity,ReturnActivity::class.java)
+                                intent.putExtra("orderId",orderId)
+                                startActivity(intent)
+                            }
                         }
 
 
@@ -147,9 +145,6 @@ class OrderActivity : AppCompatActivity() {
                             cancelBtn.visibility=View.GONE
 
                         if(currentStatus=="ordered" || currentStatus=="shipped" || currentStatus=="returned"){
-//                            it.order!!.shipping.tracking.status.forEach {
-//                                statusList.add(it.name)
-//                            }
                             _binding.apply {
                                 cancelBtn.visibility=View.VISIBLE
                                 cancelBtn.setOnClickListener {
@@ -193,38 +188,28 @@ class OrderActivity : AppCompatActivity() {
             }
         }
     }
-//    private fun stepViewHandling(){
-//        _binding.stepView.apply {
-//            labels = array
-//            completedPosition=2
-//            drawView()
-//            progressColorIndicator=R.color.stepView_green
-//        }
-////        _binding.apply {
-////            stepView.barColorIndicator= R.color.selected_green_timeline
-////            stepView.labelColorIndicator=R.color.selected_green_timeline
-////            stepView.progressColorIndicator=R.color.stepView_green
-//////            stepView.color
-////        }
-//    }
 
-    private fun addProductRating():Boolean{
+
+    private fun addProductRating(){
+        isSuccess=false
+        Log.d("isSuccessUnderFuncTop",isSuccess.toString())
         if(!productId.isNullOrEmpty()){
             authViewModel.addProductRating(productId!!, rating)
             authViewModel.respAddProductRating.observe({lifecycle}){
                 if(it?.success!!){
                     isSuccess=true
-                    Log.d("isSuccess1",isSuccess.toString())
+                    Log.d("isSuccessUnderFuncBw",isSuccess.toString())
                     Toast.makeText(this,"Product Rated Successfully.",Toast.LENGTH_SHORT).show()
+
                 }
                 else{
                     isSuccess=false
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+
                 }
             }
         }
-        Log.d("isSuccess2",isSuccess.toString())
-        return isSuccess
+        Log.d("isSuccessUnderFuncBottom",isSuccess.toString())
     }
 
     private fun getUserProductRating(){
@@ -264,38 +249,28 @@ class OrderActivity : AppCompatActivity() {
     }
     private fun Star2(){
         _binding.apply {
-            star1.setImageResource(R.drawable.ic_rating_star_new_selected)
+            Star1()
             star2.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star3.setImageResource(R.drawable.ic_rating_star_new)
-            star4.setImageResource(R.drawable.ic_rating_star_new)
-            star5.setImageResource(R.drawable.ic_rating_star_new)
+
         }
     }
     private fun Star3(){
         _binding.apply {
-            star1.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star2.setImageResource(R.drawable.ic_rating_star_new_selected)
+            Star2()
             star3.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star4.setImageResource(R.drawable.ic_rating_star_new)
-            star5.setImageResource(R.drawable.ic_rating_star_new)
+
         }
     }
     private fun Star4(){
         Log.d("star","star-4 is called")
         _binding.apply {
-            star1.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star2.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star3.setImageResource(R.drawable.ic_rating_star_new_selected)
+            Star3()
             star4.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star5.setImageResource(R.drawable.ic_rating_star_new)
         }
     }
     private fun Star5(){
         _binding.apply {
-            star1.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star2.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star3.setImageResource(R.drawable.ic_rating_star_new_selected)
-            star4.setImageResource(R.drawable.ic_rating_star_new_selected)
+            Star4()
             star5.setImageResource(R.drawable.ic_rating_star_new_selected)
         }
     }

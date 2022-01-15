@@ -74,26 +74,43 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view"/>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/recentlyViewedLayout"
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_recently_viewed2"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/recentlyViewedText">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/recentlyViewedLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_recently_viewed2"
+                android:visibility="gone">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recentlyViewedRecyclerView"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recentlyViewedRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_margin="6dp"
+                    tools:listitem="@layout/item_recent_viewed_products"
+                    tools:itemCount="1"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/idPBLoading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_margin="6dp"
-                tools:listitem="@layout/item_recent_viewed_products"
-                tools:itemCount="1"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:visibility="visible"
+                android:layout_marginTop="48dp"
+                android:layout_marginBottom="48dp"/>
+        </LinearLayout>
+
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -104,7 +121,7 @@
             android:layout_marginTop="48dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recentlyViewedLayout">
+            app:layout_constraintTop_toBottomOf="@id/linearLayout">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

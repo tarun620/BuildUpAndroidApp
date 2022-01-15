@@ -4,16 +4,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.address.Property
 import com.example.buildup.R
-import com.example.buildup.TinyDB
-import com.example.buildup.databinding.ItemAddressBinding
 import com.example.buildup.databinding.ItemAddressRadioBinding
-import com.example.buildup.ui.MyApplication
+import com.example.buildup.MyApplication
 
 class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit, val onDeleteAddressBtnClicked:(propertyId:String?)->Unit, val onRadioBtnClicked:(propertyId:String?)->Unit): ListAdapter<Property, AddressRadioAdapter.AddressRadioViewHolder> (
     object : DiffUtil.ItemCallback<Property>(){
@@ -48,7 +45,7 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
         var bind= ItemAddressRadioBinding.bind(holder.itemView).apply {
             val addresss=getItem(position)
 
-            val propertyId=MyApplication.getInstance().getPropertyId()
+            val propertyId= MyApplication.getInstance().getPropertyId()
             if(!propertyId.isNullOrEmpty()){
                 Log.d("adapterDB",propertyId)
                 Log.d("adapterAPI",addresss.id)

@@ -180,11 +180,11 @@
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="24dp"
         android:src="@drawable/sign_in_button_gradient"
         android:textAllCaps="false"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@id/orText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -201,52 +201,10 @@
         app:layout_constraintStart_toStartOf="@id/signUpButton"
         app:layout_constraintTop_toTopOf="@id/signUpButton" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginEnd="12dp"
-        android:background="#8B8B8B"
-        app:layout_constraintBottom_toBottomOf="@id/orText"
-        app:layout_constraintEnd_toStartOf="@id/orText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/orText" />
-
-    <TextView
-        android:id="@+id/orText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/overpass"
-        android:text="or"
-        android:textColor="@color/textGrey"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/googleSignupButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="45dp"
-        android:background="#8B8B8B"
-        app:layout_constraintBottom_toBottomOf="@id/orText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/orText"
-        app:layout_constraintTop_toTopOf="@id/orText" />
 
 
-    <ImageView
-        android:id="@+id/googleSignupButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
-        android:layout_marginEnd="90dp"
-        android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_google_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,11 +9,9 @@ import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import com.example.api.BuildUpClient
-import com.example.buildup.R
 import com.example.buildup.databinding.ActivityGetStartedBinding
-import com.example.buildup.databinding.ActivityLoginSignupSelectorBinding
 import com.example.buildup.ui.HomeActivity
-import com.example.buildup.ui.LoginSignupSelectorActivity
+import com.example.buildup.ui.LoginSignup.LoginSignupSelectorActivity
 
 class GetStartedActivity : AppCompatActivity() {
     companion object {
@@ -46,7 +44,7 @@ class GetStartedActivity : AppCompatActivity() {
         }
 
         _binding?.btnGetStarted?.setOnClickListener {
-            val intent= Intent(this,LoginSignupSelectorActivity::class.java)
+            val intent= Intent(this, LoginSignupSelectorActivity::class.java)
             startActivity(intent)
         }
 

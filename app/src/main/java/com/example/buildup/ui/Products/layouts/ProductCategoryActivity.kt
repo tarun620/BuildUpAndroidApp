@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -76,6 +77,8 @@ class ProductCategoryActivity : AppCompatActivity() {
         authViewModel.getProductCategories(true,null)
         authViewModel.respProductCategoryArray.observe({ lifecycle }) {
             if (it?.success!!) {
+                _binding.mainLayout.visibility= View.VISIBLE
+                _binding.idPBLoading.visibility= View.GONE
                 Toast.makeText(this, "product categories fetching successful", Toast.LENGTH_SHORT)
                     .show()
                 productCategoryAdapter.submitList(it.productCategories)

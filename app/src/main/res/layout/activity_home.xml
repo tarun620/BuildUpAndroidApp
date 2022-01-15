@@ -66,154 +66,168 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <ScrollView
-            android:id="@+id/scrollView"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appBar">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/nested_layout"
+
+            <ScrollView
+                android:id="@+id/main_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/bg_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/bg_homepage_banner"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-                <TextView
-                    android:id="@+id/tv_title_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Construction\nMaterial"
-                    android:gravity="center"
-                    android:textSize="30sp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/overpass_bold"
-                    app:layout_constraintStart_toStartOf="@id/bg_banner"
-                    app:layout_constraintEnd_toEndOf="@id/bg_banner"
-                    app:layout_constraintTop_toTopOf="@id/bg_banner"
-                    app:layout_constraintBottom_toBottomOf="@id/bg_banner"/>
-
-                <TextView
-                    android:id="@+id/tv_discount_percent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Min 50% Off"
-                    android:gravity="center"
-                    android:textSize="30sp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/overpass"
-                    app:layout_constraintStart_toStartOf="@id/bg_banner"
-                    app:layout_constraintEnd_toEndOf="@id/bg_banner"
-                    app:layout_constraintTop_toBottomOf="@id/tv_title_text"
-                    android:layout_marginTop="24dp"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/brandsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bg_banner"
-                    tools:listitem="@layout/item_brand"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="3"
-                    tools:itemCount="6"/>
-
-                <TextView
-                    android:id="@+id/categories_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Categories"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/brandsRecyclerView"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/overpass_semibold"
-                    android:textFontWeight="600"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="24dp"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/productsCategoriesRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="9dp"
-                    android:layout_marginEnd="9dp"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/categories_text"
-                    tools:listitem="@layout/item_product_category"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="2"
-                    tools:itemCount="6"/>
-
-                <TextView
-                    android:id="@+id/view_all_categories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/view_all"
-                     android:fontFamily="@font/overpass_bold"
-                    android:textColor="@color/textGrey"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/productsCategoriesRecyclerView"
-                    android:layout_marginEnd="18dp"
-                    android:layout_marginTop="6dp"
-                    android:padding="4dp"/>
-
-
-                <TextView
-                    android:id="@+id/recentlyViewedText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/overpass"
-                    android:text="RECENTLY VIEWED"
-                    android:textColor="@color/grey_searchActivity"
-                    android:textSize="15sp"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginStart="18dp"
-                    android:textStyle="bold"
-                    android:focusable="true"
-                    android:clickable="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/productsCategoriesRecyclerView"/>
+                android:layout_height="match_parent"
+                android:visibility="gone">
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/recentlyViewedLayout"
+                    android:id="@+id/nested_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_recently_viewed2"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginEnd="18dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/recentlyViewedText">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recentlyViewedRecyclerView"
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/bg_banner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginTop="6dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/bg_homepage_banner"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        tools:listitem="@layout/item_recent_viewed_products"
-                        android:layout_marginBottom="117dp"
-                        tools:itemCount="1"/>
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                    <TextView
+                        android:id="@+id/tv_title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Construction\nMaterial"
+                        android:gravity="center"
+                        android:textSize="30sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/overpass_bold"
+                        app:layout_constraintStart_toStartOf="@id/bg_banner"
+                        app:layout_constraintEnd_toEndOf="@id/bg_banner"
+                        app:layout_constraintTop_toTopOf="@id/bg_banner"
+                        app:layout_constraintBottom_toBottomOf="@id/bg_banner"/>
+
+                    <TextView
+                        android:id="@+id/tv_discount_percent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Min 50% Off"
+                        android:gravity="center"
+                        android:textSize="30sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/overpass"
+                        app:layout_constraintStart_toStartOf="@id/bg_banner"
+                        app:layout_constraintEnd_toEndOf="@id/bg_banner"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title_text"
+                        android:layout_marginTop="24dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/brandsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/bg_banner"
+                        app:spanCount="3"
+                        tools:itemCount="6"
+                        tools:listitem="@layout/item_brand" />
+
+                    <TextView
+                        android:id="@+id/categories_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Categories"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/brandsRecyclerView"
+                        android:textSize="20sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/overpass_semibold"
+                        android:textFontWeight="600"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="24dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/productsCategoriesRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="9dp"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/categories_text"
+                        tools:listitem="@layout/item_product_category"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2"
+                        tools:itemCount="6"/>
+
+                    <TextView
+                        android:id="@+id/view_all_categories"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view_all"
+                        android:fontFamily="@font/overpass_bold"
+                        android:textColor="@color/textGrey"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/productsCategoriesRecyclerView"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginTop="6dp"
+                        android:padding="4dp"/>
+
+
+                    <TextView
+                        android:id="@+id/recentlyViewedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/overpass"
+                        android:text="RECENTLY VIEWED"
+                        android:textColor="@color/grey_searchActivity"
+                        android:textSize="15sp"
+                        android:layout_marginTop="36dp"
+                        android:layout_marginStart="18dp"
+                        android:textStyle="bold"
+                        android:focusable="true"
+                        android:clickable="true"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/productsCategoriesRecyclerView"/>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/recentlyViewedLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_recently_viewed2"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginEnd="18dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/recentlyViewedText">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recentlyViewedRecyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
+                            android:layout_marginTop="6dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            tools:listitem="@layout/item_recent_viewed_products"
+                            android:layout_marginBottom="117dp"
+                            tools:itemCount="1"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
 
-        </ScrollView>
+            <ProgressBar
+                android:id="@+id/idPBLoading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_marginTop="48dp" />
+        </LinearLayout>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
