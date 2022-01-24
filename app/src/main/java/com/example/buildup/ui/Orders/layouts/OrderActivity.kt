@@ -1,14 +1,25 @@
 package com.example.buildup.ui.Orders.layouts
 
 import android.app.AlertDialog
+import android.app.DownloadManager
+import android.content.ActivityNotFoundException
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.api.BuildUpClient
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityOrderBinding
@@ -16,8 +27,13 @@ import com.example.buildup.extensions.newLoadImage
 import com.example.buildup.ui.Orders.adapters.isoDateFormat
 import com.example.buildup.ui.ReturnOrder.ReturnActivity
 import kotlinx.coroutines.*
+import okhttp3.ResponseBody
+import java.io.*
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 class OrderActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityOrderBinding
@@ -40,6 +56,7 @@ class OrderActivity : AppCompatActivity() {
     private var isSuccess=false
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_order)
@@ -90,11 +107,46 @@ class OrderActivity : AppCompatActivity() {
                 Star5()
             }
 
+            backBtn.setOnClickListener {
+                startActivity(Intent(this@OrderActivity, OrdersActivity::class.java))
+            }
+
+            ivDownloadImage.setOnClickListener {
+//                requestPermission()
+                downloadInvoice()
+            }
+
         }
 
         getOrderById(orderId)
     }
 
+    private fun downloadInvoice(){
+//        val url="http://192.168.0.103:5000/api/order/${orderId}/download-invoice"
+        val url="https://api.buildup.org.in/api/order/${orderId}/download-invoice"
+
+        val request=DownloadManager.Request(Uri.parse(url)).addRequestHeader("Authorization","Token " + BuildUpClient.authToken)
+        request.setTitle(orderId)
+        request.setMimeType("application/pdf")
+        request.allowScanningByMediaScanner()
+        request.setAllowedOverMetered(true)
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,orderId)
+        var dm:DownloadManager= getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+        dm.enqueue(request)
+
+        viewInvoice()
+    }
+    private fun viewInvoice(){
+        var file=File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"/${orderId}")
+        val uri=FileProvider.getUriForFile(this,"com.example.buildup"+".provider",file)
+        val intent=Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(uri,"application/pdf")
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.flags= Intent.FLAG_GRANT_READ_URI_PERMISSION
+        startActivity(intent)
+
+    }
     private fun getOrderById(orderId:String?){
         if(orderId.isNullOrBlank())
             Toast.makeText(this,"OrderId is Null",Toast.LENGTH_SHORT).show()
@@ -128,11 +180,11 @@ class OrderActivity : AppCompatActivity() {
 
                         if(currentStatus=="delivered"){
                             ratingLayout.visibility=View.VISIBLE
+                            invoiceLayout.visibility=View.VISIBLE
                             cancelBtn.text="RETURN"
                             cancelBtn.setIconResource(R.drawable.ic_icon_return_button)
                             if(!isReturnWindowLeft(apiStatusArray.last().time))
                                 cancelBtn.visibility=View.GONE
-                            //TODO : change button icon
                             cancelBtn.setOnClickListener {
                                 val intent=Intent(this@OrderActivity,ReturnActivity::class.java)
                                 intent.putExtra("orderId",orderId)
@@ -174,9 +226,8 @@ class OrderActivity : AppCompatActivity() {
                         tvTotalMrp.text="₹ " + totalMrp.toString()
                         tvDiscountedPrice.text="₹ " + discountedPrice.toString()
                         tvTotalDiscount.text="₹ " + (totalMrp-discountedPrice).toString()
-                        // TODO : Shipping charges are hard coded yet
-                        tvDeliveryCharge.text="₹ 100"
-                        tvTotalCartValue.text="₹ " + (discountedPrice+100).toString()
+                        tvDeliveryCharge.text=it.order!!.shipping.charge.toString()
+                        tvTotalCartValue.text="₹ " + (discountedPrice+it.order!!.shipping.charge).toString()
 
                         getUserProductRating()
                         drawStepView(it.order!!.isReturn,finalStepList)
@@ -403,6 +454,12 @@ class OrderActivity : AppCompatActivity() {
 //            renamedStepsList.add(transformed)
 //        }
 //    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, OrdersActivity::class.java))
+
+    }
 
 
 

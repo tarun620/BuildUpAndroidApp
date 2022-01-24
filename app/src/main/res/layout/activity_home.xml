@@ -68,11 +68,13 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBar">
+            app:layout_constraintTop_toBottomOf="@id/appBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="60dp">
 
             <ScrollView
                 android:id="@+id/main_layout"
@@ -88,37 +90,112 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scaleType="fitXY"
-                        android:src="@drawable/bg_homepage_banner"
+                        android:src="@drawable/image_home"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
                     <TextView
-                        android:id="@+id/tv_title_text"
+                        android:id="@+id/heading1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Construction\nMaterial"
+                        android:text="Lowest Prices"
                         android:gravity="center"
-                        android:textSize="30sp"
+                        android:textSize="40sp"
                         android:textColor="@color/white"
-                        android:fontFamily="@font/overpass_bold"
-                        app:layout_constraintStart_toStartOf="@id/bg_banner"
-                        app:layout_constraintEnd_toEndOf="@id/bg_banner"
-                        app:layout_constraintTop_toTopOf="@id/bg_banner"
-                        app:layout_constraintBottom_toBottomOf="@id/bg_banner"/>
+                        android:fontFamily="@font/overpass_extrabold"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginTop="41dp"
+                        app:layout_constraintStart_toStartOf="@+id/bg_banner"
+                        app:layout_constraintTop_toTopOf="@+id/bg_banner"/>
 
                     <TextView
-                        android:id="@+id/tv_discount_percent"
+                        android:id="@+id/heading2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Min 50% Off"
+                        android:text="Best Quality"
                         android:gravity="center"
-                        android:textSize="30sp"
+                        android:textSize="35sp"
                         android:textColor="@color/white"
-                        android:fontFamily="@font/overpass"
-                        app:layout_constraintStart_toStartOf="@id/bg_banner"
+                        android:fontFamily="@font/overpass_bold"
+                        android:layout_marginEnd="6dp"
                         app:layout_constraintEnd_toEndOf="@id/bg_banner"
-                        app:layout_constraintTop_toBottomOf="@id/tv_title_text"
+                        app:layout_constraintTop_toBottomOf="@id/heading1"
                         android:layout_marginTop="24dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_add_products"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:text="View All"
+                        android:textAllCaps="false"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        android:fontFamily="@font/overpass_semibold"
+                        android:backgroundTint="#F78E4D"
+                        app:cornerRadius="16dp"
+                        android:textSize="18sp"
+                        android:layout_marginBottom="24dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/bg_banner"
+                        app:layout_constraintEnd_toEndOf="@+id/bg_banner"
+                        app:layout_constraintStart_toStartOf="@+id/bg_banner" />
+
+                    <LinearLayout
+                        android:id="@+id/constraintLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/btn_add_products"
+                        android:layout_marginBottom="24dp">
+
+                        <TextView
+                            android:id="@+id/text1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50 lakh+ Products"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/overpass" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" | "
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/overpass" />
+
+                        <TextView
+                            android:id="@+id/text2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="650+ categories"
+                            android:gravity="center"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/overpass" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/subHeading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Biggest Marketplace"
+                        android:gravity="center"
+                        android:textSize="35sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/overpass_extrabold"
+                        app:layout_constraintStart_toStartOf="@+id/bg_banner"
+                        app:layout_constraintEnd_toEndOf="@id/bg_banner"
+                        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                        android:layout_marginBottom="9dp"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/brandsRecyclerView"
@@ -205,15 +282,12 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recentlyViewedRecyclerView"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginTop="6dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="6dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             tools:listitem="@layout/item_recent_viewed_products"
-                            android:layout_marginBottom="117dp"
                             tools:itemCount="1"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -251,7 +325,6 @@
                     android:id="@+id/bottomNavigationView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:layout_marginEnd="16dp"
                     android:background="@android:color/transparent"
                     app:itemIconTint="@drawable/navigation_view_colored"

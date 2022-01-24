@@ -1,11 +1,11 @@
 package com.example.buildup.ui.Products.layouts
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,14 +15,14 @@ import com.example.api.models.responsesAndData.products.productsResponses.GetPro
 import com.example.api.models.responsesAndData.products.productsResponses.PriceRange
 import com.example.api.models.responsesAndData.wishlist.IsWishlistedData
 import com.example.buildup.AuthViewModel
+import com.example.buildup.MyApplication
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityProductsBinding
 import com.example.buildup.ui.BottomNavigation.CartActivity
-import com.example.buildup.MyApplication
+import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.Products.adapters.ProductAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
-import kotlin.collections.ArrayList
 
 class ProductsActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityProductsBinding
@@ -42,6 +42,7 @@ class ProductsActivity : AppCompatActivity() {
     private var pageNum=0
     private var sort:String?=null
     private val productList= mutableListOf<Products>()
+    private var fromProductActivity:Boolean=false
 
 
 
@@ -56,6 +57,7 @@ class ProductsActivity : AppCompatActivity() {
         productCategoryId=intent.getStringExtra("productCategoryId")
         searchQuery=intent.getStringExtra("searchQuery")
         singleBrandArray=intent.getStringArrayListExtra("singleBrandArray")
+        fromProductActivity=intent.getBooleanExtra("fromProductActivity",false)
 
         if((application as MyApplication).getFromRange()!=null)
             fromRange=(application as MyApplication).getFromRange()
@@ -65,6 +67,7 @@ class ProductsActivity : AppCompatActivity() {
         (application as MyApplication).clearToRange()
 
         brandName=intent.getStringExtra("brandName")
+        sort=intent.getStringExtra("sort")
         brandList=(application as MyApplication).getList()
         (application as MyApplication).clearList()
         Log.d("brandList",brandList.toString())
@@ -79,7 +82,10 @@ class ProductsActivity : AppCompatActivity() {
         setContentView(_binding.root)
 
         _binding.backBtn.setOnClickListener {
-            finish()
+            if(fromProductActivity)
+                startActivity(Intent(this,HomeActivity::class.java))
+            else
+                finish()
         }
         _binding.searchBtn.setOnClickListener {
             val intent=Intent(this,SearchActivity::class.java)
@@ -148,13 +154,21 @@ class ProductsActivity : AppCompatActivity() {
 
 
     private fun sortAsec() {
-        sort="price_asc"
-        getProductsBySearchQuery(pageNum,hasNext)
+//        sort="price_asc"
+//        getProductsBySearchQuery(0,true)
+        val intent = intent
+        intent.putExtra("sort","price_asc")
+        finish()
+        startActivity(intent)
     }
 
     private fun sortDesc() {
-        sort="price_desc"
-        getProductsBySearchQuery(pageNum,hasNext)
+//        sort="price_desc"
+//        getProductsBySearchQuery(0,true)
+        val intent = intent
+        intent.putExtra("sort","price_desc")
+        finish()
+        startActivity(intent)
     }
 
     private fun onProductClicked(productId:String?){
@@ -185,6 +199,95 @@ class ProductsActivity : AppCompatActivity() {
         }
     }
     private fun getProductsBySearchQuery(page:Int,hasNextBool:Boolean){
+
+        var nullCount=0
+        setName()
+
+        if (!hasNextBool) {
+            // checking if the page number is greater than limit.
+            // displaying toast message in this case when page>limit.
+            Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show();
+
+            // hiding our progress bar.
+            _binding.idPBLoading.visibility=View.GONE
+            return;
+        }
+//        if(isNewListRequired)
+//            productList.clear()
+
+        if(!brandList.isNullOrEmpty()){
+            Log.d("inside","inside if(!brandList.isNullOrEmpty())")
+            authViewModel.getProductsBySearchQuery2(searchQuery,page,GetProductsBySearchQueryData(Filters(brandList, PriceRange(fromRange,toRange),productCategoryId,productSubCategoryId),sort))
+        }
+        else{
+            Log.d("inside","inside else(!brandList.isNullOrEmpty())")
+            authViewModel.getProductsBySearchQuery2(searchQuery,page,GetProductsBySearchQueryData(Filters(singleBrandArray,PriceRange(fromRange,toRange),productCategoryId,productSubCategoryId),sort))
+        }
+
+
+        authViewModel.respProducts.observe({lifecycle}){
+            if(it.success!!){
+                _binding.idPBLoading.visibility=View.GONE
+                hasNext=it?.hasNext!!
+                it.products!!.forEach {
+                    if(it==null)
+                        nullCount++
+                }
+                if(it.products?.size==0 || nullCount==it.products!!.size){
+                    _binding.productsRecyclerView.visibility=View.GONE
+                    _binding.noProductsLayout.visibility=View.VISIBLE
+                }
+                else {
+                    _binding.productsRecyclerView.visibility=View.VISIBLE
+                    _binding.noProductsLayout.visibility=View.GONE
+                    Toast.makeText(this, "products fetching successful", Toast.LENGTH_SHORT).show()
+
+//                    for(i in it.products!!){
+//                        if(i!=null)
+//                            producIdList.add(i.id)
+//                    }
+                    for(i in it.products!!){
+                        if(i!=null && !productList.contains(i))
+                            productList.add(i)
+                    }
+                    productAdapter.submitList(productList)
+                    productAdapter.notifyDataSetChanged()
+                }
+            }
+            else{
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+//    private fun paginationHandler(){
+//        _binding.apply {
+//            productsRecyclerView.addOnScrollListener(object :RecyclerView.OnScrollListener(){
+//
+//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                    if(hasNext){
+//                        page++
+//                        getProductsBySubCategoryId(productSubCategoryId,productSubCategoryName!!)
+//                    }
+//
+////                    if(dy>0){
+////                        val visibleItemCount=layoutManager.childCount
+////                        val pastVisibleItem=layoutManager.findFirstCompletelyVisibleItemPosition()
+////                        val total=productAdapter.itemCount
+////
+//////                        if(!isLoading){
+////                            if((visibleItemCount+pastVisibleItem)>=total && hasNext){
+////
+////                            }
+////                        }
+////                    }
+//                    super.onScrolled(recyclerView, dx, dy)
+//                }
+//            })
+//        }
+//    }
+
+    private fun setName(){
         if(searchQuery.isNullOrBlank()){
             Log.d("inside","inside if(searchQuery.isNullOrBlank())")
 
@@ -215,77 +318,7 @@ class ProductsActivity : AppCompatActivity() {
             else
                 _binding.tvProductSubCategoryName.text=searchQuery
         }
-
-        if (!hasNextBool) {
-            // checking if the page number is greater than limit.
-            // displaying toast message in this case when page>limit.
-            Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show();
-
-            // hiding our progress bar.
-            _binding.idPBLoading.visibility=View.GONE
-            return;
-        }
-//        if(isNewListRequired)
-//            productList.clear()
-
-        if(!brandList.isNullOrEmpty()){
-            Log.d("inside","inside if(!brandList.isNullOrEmpty())")
-            authViewModel.getProductsBySearchQuery2(searchQuery,page,GetProductsBySearchQueryData(Filters(brandList, PriceRange(fromRange,toRange),productCategoryId,productSubCategoryId),sort))
-        }
-        else{
-            Log.d("inside","inside else(!brandList.isNullOrEmpty())")
-            authViewModel.getProductsBySearchQuery2(searchQuery,page,GetProductsBySearchQueryData(Filters(singleBrandArray,PriceRange(fromRange,toRange),productCategoryId,productSubCategoryId),sort))
-        }
-
-
-        authViewModel.respProducts.observe({lifecycle}){
-            if(it.success!!){
-                _binding.idPBLoading.visibility=View.GONE
-                hasNext=it?.hasNext!!
-                if(it.products?.size==0)
-                    Toast.makeText(this,"List is empty",Toast.LENGTH_SHORT).show()
-                else {
-                    Toast.makeText(this, "products fetching successful", Toast.LENGTH_SHORT).show()
-                    for(i in it.products!!){
-                        if(i!=null && !productList.contains(i))
-                            productList.add(i)
-                    }
-                    productAdapter.submitList(productList)
-                    productAdapter.notifyDataSetChanged()
-                }
-            }
-            else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-            }
-        }
     }
-//    private fun paginationHandler(){
-//        _binding.apply {
-//            productsRecyclerView.addOnScrollListener(object :RecyclerView.OnScrollListener(){
-//
-//                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                    if(hasNext){
-//                        page++
-//                        getProductsBySubCategoryId(productSubCategoryId,productSubCategoryName!!)
-//                    }
-//
-////                    if(dy>0){
-////                        val visibleItemCount=layoutManager.childCount
-////                        val pastVisibleItem=layoutManager.findFirstCompletelyVisibleItemPosition()
-////                        val total=productAdapter.itemCount
-////
-//////                        if(!isLoading){
-////                            if((visibleItemCount+pastVisibleItem)>=total && hasNext){
-////
-////                            }
-////                        }
-////                    }
-//                    super.onScrolled(recyclerView, dx, dy)
-//                }
-//            })
-//        }
-//    }
-
     override fun onResume() {
         super.onResume()
         brandList=(application as MyApplication).getList()
@@ -293,11 +326,20 @@ class ProductsActivity : AppCompatActivity() {
             fromRange=(application as MyApplication).getFromRange()
         if((application as MyApplication).getToRange()!=-1)
             toRange=(application as MyApplication).getToRange()
-        getProductsBySearchQuery(pageNum,hasNext)
+
+        getProductsBySearchQuery(0,true)
         productAdapter= ProductAdapter({onProductClicked(it)},{onWishlistClicked(it)})
 
         _binding.productsRecyclerView.layoutManager= GridLayoutManager(this,2)
         _binding.productsRecyclerView.adapter=productAdapter
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(fromProductActivity)
+            startActivity(Intent(this,HomeActivity::class.java))
+        else
+            finish()
     }
 }

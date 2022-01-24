@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Patterns
 import android.widget.Toast
 import androidx.core.content.edit
@@ -106,6 +107,11 @@ class NewSignupActivity : AppCompatActivity() {
             }
         }
         return false
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this,LoginSignupSelectorActivity::class.java))
     }
 
 

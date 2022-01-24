@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -18,8 +19,11 @@ import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.Cart.adapters.CartAdapter
 import com.example.buildup.ui.HomeActivity
 import com.example.buildup.MyApplication
+import com.example.buildup.extensions.timeStamp
+import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
 import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
+import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
 class CartActivity : AppCompatActivity() {
@@ -36,6 +40,8 @@ class CartActivity : AppCompatActivity() {
     private var cartValue: Int = 0
     private var isEmpty = true
     private lateinit var tinyDB: TinyDB
+    private var shippingCost:Int=-1
+    private var intentFromWishlist:Boolean?=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityCartBinding.inflate(layoutInflater)
@@ -70,6 +76,7 @@ class CartActivity : AppCompatActivity() {
 ////            startActivity(intent)
 //        }
 
+        intentFromWishlist=intent.getBooleanExtra("intentFromWishlist",false)
         _binding.apply {
             bottomNavigationView.background = null
             setupBottomNavigationBar()
@@ -80,7 +87,10 @@ class CartActivity : AppCompatActivity() {
 //
             backBtn.setOnClickListener {
 //            startActivity(Intent(this,PropertiesActivity::class.java))
-                finish()
+                if(intentFromWishlist!!)
+                    startActivity(Intent(this@CartActivity,WishlistActivity::class.java))
+                else
+                    finish()
             }
 
             btnChangeAddress.setOnClickListener {
@@ -94,8 +104,12 @@ class CartActivity : AppCompatActivity() {
                 else
                     placeOrder(propertyId)
             }
-            getProductsFromCart()
-        changeDeliveryAddress(propertyId)
+
+            btnAddProducts.setOnClickListener {
+                startActivity(Intent(this@CartActivity,ProductCategoryActivity::class.java))
+            }
+//            getProductsFromCart()
+//        changeDeliveryAddress(propertyId)
 //        setTotalCartValue()
         }
     }
@@ -105,21 +119,30 @@ class CartActivity : AppCompatActivity() {
 
         authViewModel.respGetProductsFromCart.observe({lifecycle}){
             if(it?.success!!){
-                _binding.mainLayout.visibility= View.VISIBLE
-                _binding.idPBLoading.visibility= View.GONE
+                if(it.items!!.isEmpty())
+                {
+                    _binding.mainLayout.visibility= View.GONE
+                    _binding.idPBLoading.visibility= View.GONE
+                    _binding.emptyCartLayout.visibility=View.VISIBLE
+                }
+                else{
+                    _binding.mainLayout.visibility= View.VISIBLE
+                    _binding.idPBLoading.visibility= View.GONE
+                    _binding.emptyCartLayout.visibility=View.GONE
+                }
                 Toast.makeText(this,"cart items fetched successfully.", Toast.LENGTH_SHORT).show()
                 isEmpty =it.items!!.isEmpty()
                 cartAdapter.submitList(it.items)
-                cartValue=0
-                for(i in it.items!!){
-                    cartValue+=(i.product.amount) * i.quantity
-                    Log.d("cartValue",cartValue.toString())
-                }
-                _binding.apply {
-                    tvSubtotal.text="₹ " + cartValue.toString()
-                    tvShipping.text="₹ " + "50" //hardcoded
-                    tvTotal.text="₹ " + (cartValue+50).toString()
-                }
+//                cartValue=0
+//                for(i in it.items!!){
+//                    cartValue+=(i.product.amount) * i.quantity
+//                    Log.d("cartValue",cartValue.toString())
+//                }
+//                _binding.apply {
+//                    tvSubtotal.text="₹ " + cartValue.toString()
+//                    tvShipping.text="₹ " + "50" //hardcoded
+//                    tvTotal.text="₹ " + (cartValue+50).toString()
+//                }
             }
             else{
                 Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
@@ -182,6 +205,7 @@ class CartActivity : AppCompatActivity() {
         authViewModel.respRemoveProductFromCart.observe({lifecycle}){
             if(it?.success!!)
                 getProductsFromCart()
+
             else
                 Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
         }
@@ -203,7 +227,7 @@ class CartActivity : AppCompatActivity() {
 
                 R.id.nav_property -> {
 
-                    startActivity(Intent(this, PropertiesActivity::class.java))
+                    startActivity(Intent(this, WorkInProgressActivity::class.java))
 
                 }
 
@@ -225,6 +249,7 @@ class CartActivity : AppCompatActivity() {
         else{
             var intent=Intent(this,CodPaymentActivity::class.java)
             intent.putExtra("propertyId",propertyId)
+            intent.putExtra("shippingCost",shippingCost)
             startActivity(intent)
         }
 
@@ -251,6 +276,38 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
+    private fun getCostDeliveryDetails(){
+        authViewModel.getCostDeliveryDetails(propertyId)
+        authViewModel.respGetCostDeliveryDetails.observe({lifecycle}){
+            if(it?.success!!){
+                _binding.apply {
+                    tvSubtotal.text="₹ " + it.cost!!.subtotal
+                    tvTotal.text="₹ " + it.cost!!.total
+
+                    if(it.estimatedDelivery!=null && it.cost!!.shipping!=null){
+                        deliveryDateLayout.visibility=View.VISIBLE
+                        tvShipping.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F);
+                        tvEstimatedDeliveryDate.timeStamp=it.estimatedDelivery!!
+                        tvShipping.text="₹ " + it.cost!!.shipping
+                        shippingCost=it.cost!!.shipping!!
+                    }
+                    else{
+                        deliveryDateLayout.visibility=View.GONE
+                        tvShipping.text="Select delivery Address"
+                        tvShipping.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12F);
+
+
+                    }
+
+                }
+
+            }
+            else
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
     override fun onResume() {
         super.onResume()
 //        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
@@ -260,6 +317,16 @@ class CartActivity : AppCompatActivity() {
 //        propertyId=tinyDB.getString("propertyIdForCart")
         changeDeliveryAddress(propertyId)
         getProductsFromCart()
+        getCostDeliveryDetails()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Log.d("intentFromWishlist",intentFromWishlist.toString())
+        if(intentFromWishlist!!)
+            startActivity(Intent(this@CartActivity,WishlistActivity::class.java))
+        else
+            finish()
     }
 }
 

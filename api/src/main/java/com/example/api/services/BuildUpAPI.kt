@@ -2,11 +2,14 @@ package com.example.api.services
 
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
+import com.example.api.models.responsesAndData.appData.GetAppDataResponse
 import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.*
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface
 BuildUpAPI {
@@ -89,4 +92,8 @@ BuildUpAPI {
         @Body userCreds:SetNewPasswordData
     ):Response<SuccessMessageResponse>
 
+    @GET("api/appdata/{screen}")
+    suspend fun getAppData(
+        @Path("screen") screenType:String
+    ):Response<GetAppDataResponse>
 }

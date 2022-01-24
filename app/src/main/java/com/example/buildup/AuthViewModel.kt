@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.api.models.entities.User
 import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
 import com.example.api.models.responsesAndData.address.GetAddressesResponse
+import com.example.api.models.responsesAndData.appData.GetAppDataResponse
 import com.example.api.models.responsesAndData.brand.GetBrandsResponse
+import com.example.api.models.responsesAndData.cart.cartResponses.GetCostDeliveryDetailsResponse
 import com.example.api.models.responsesAndData.cart.cartResponses.GetProductsFromCartResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
@@ -74,6 +76,8 @@ class AuthViewModel:ViewModel() {
     private val _respGetOrderReturnDetails = MutableLiveData<GetOrderReturnDetailsResponse?>()
     private val _respPlaceOrderReturnRequest = MutableLiveData<SuccessMessageResponse?>()
     private val _respCancelOrder = MutableLiveData<SuccessMessageResponse?>()
+    private val _respGetCostDeliveryDetails = MutableLiveData<GetCostDeliveryDetailsResponse?>()
+    private val _respGetAppData = MutableLiveData<GetAppDataResponse?>()
 
     val resp:LiveData<SuccessMessageResponse?> = _resp
     val respNew:LiveData<SignupMobileResponse?> = _respNew
@@ -116,6 +120,8 @@ class AuthViewModel:ViewModel() {
     val respGetOrderReturnDetails : LiveData<GetOrderReturnDetailsResponse?> = _respGetOrderReturnDetails
     val respPlaceOrderReturnRequest : LiveData<SuccessMessageResponse?>  = _respPlaceOrderReturnRequest
     val respCancelOrder : LiveData<SuccessMessageResponse?> = _respCancelOrder
+    val respGetCostDeliveryDetails : LiveData<GetCostDeliveryDetailsResponse?> = _respGetCostDeliveryDetails
+    val respGetAppData : LiveData<GetAppDataResponse?> = _respGetAppData
 
 
     fun signup(mobileNo : String)=viewModelScope.launch {
@@ -407,6 +413,17 @@ class AuthViewModel:ViewModel() {
     fun cancelOrder(orderId: String)=viewModelScope.launch {
         UserRepo.cancelOrder(orderId).let {
             _respCancelOrder.postValue(it)
+        }
+    }
+
+    fun getCostDeliveryDetails(propertyId: String?)=viewModelScope.launch {
+        UserRepo.getCostDeliveryDetails(propertyId).let {
+            _respGetCostDeliveryDetails.postValue(it)
+        }
+    }
+    fun getAppData(screenType:String)=viewModelScope.launch {
+        UserRepo.getAppData(screenType).let {
+            _respGetAppData.postValue(it)
         }
     }
 }

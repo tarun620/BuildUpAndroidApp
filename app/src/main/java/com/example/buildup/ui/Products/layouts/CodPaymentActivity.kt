@@ -16,6 +16,7 @@ class CodPaymentActivity : AppCompatActivity() {
     private lateinit var _binding: ActivityCodPaymentBinding
     private lateinit var authViewModel: AuthViewModel
     private var propertyId: String?=null
+    private var shippingCost:Int?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding= ActivityCodPaymentBinding.inflate(layoutInflater)
@@ -23,11 +24,15 @@ class CodPaymentActivity : AppCompatActivity() {
         setContentView(_binding.root)
 
         propertyId=intent.getStringExtra("propertyId")
+        shippingCost=intent.getIntExtra("shippingCost",-1)
 
         getProductsFromCart()
 
         _binding.submitButton.setOnClickListener {
             placeOrder(propertyId)
+        }
+        _binding.backBtn.setOnClickListener {
+            finish()
         }
 
     }
@@ -75,9 +80,8 @@ class CodPaymentActivity : AppCompatActivity() {
                     tvTotalMrp.text="₹ " + totalMrp.toString()
                     tvDiscountedPrice.text="₹ " + discountedPrice.toString()
                     tvTotalDiscount.text="₹ " + (totalMrp-discountedPrice).toString()
-                    // TODO : Shipping charges are hard coded yet
-                    tvDeliveryCharge.text="₹ 50"
-                    tvTotalCartValue.text="₹ " + (discountedPrice+100).toString()
+                    tvDeliveryCharge.text="₹ " + shippingCost.toString()
+                    tvTotalCartValue.text="₹ " + (discountedPrice+shippingCost!!).toString()
                 }
 
             }

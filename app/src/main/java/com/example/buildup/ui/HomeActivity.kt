@@ -3,7 +3,7 @@ package com.example.buildup.ui
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.Gravity
@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -38,7 +39,6 @@ import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapterNew
 import com.example.buildup.ui.Products.adapters.RecentViewedProductsAdapter
 import com.example.buildup.ui.Products.layouts.*
-import com.example.buildup.ui.Property.layouts.PropertiesActivity
 import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -97,9 +97,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         _binding.searchBtn.setOnClickListener {
             startActivity(Intent(this,SearchActivity::class.java))
         }
+        _binding.btnAddProducts.setOnClickListener {
+            startActivity(Intent(this,ProductCategoryActivity::class.java))
+        }
 
         setupNavigationDrawer()
         setupBottomNavigationBar()
+        getAppData()
         getBrands()
         getRecentlyViewedProducts()
         getProductCategories()
@@ -109,6 +113,22 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    private fun getAppData(){
+        authViewModel.getAppData("home")
+        authViewModel.respGetAppData.observe({lifecycle}){
+            if(it?.success!!){
+                _binding.apply {
+                    heading1.text=it.homeData!!.heading1
+                    heading2.text=it.homeData!!.heading2
+                    subHeading.text=it.homeData!!.subHeading
+                    text1.text=it.homeData!!.text1
+                    text2.text=it.homeData!!.text2
+                }
+            }
+            else
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+        }
+    }
     private fun getBrands(){
         authViewModel.getBrands(true,6)
         authViewModel.respGetBrands.observe({lifecycle}){
@@ -161,6 +181,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         authViewModel.getRecentlyViewedProducts()
         authViewModel.respGetRecentlyViewedProducts.observe({lifecycle}){
             if(it?.success!!){
+                if(it.products!!.isEmpty()){
+                    _binding.recentlyViewedLayout.visibility= View.GONE
+                    _binding.recentlyViewedText.visibility= View.GONE
+                }
+                else{
+                    _binding.recentlyViewedLayout.visibility= View.VISIBLE
+                    _binding.recentlyViewedText.visibility= View.VISIBLE
+                }
                 recentViewedProductsAdapter.submitList(it.products)
             }
             else{
@@ -211,7 +239,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.nav_profile -> {
 
                     startActivity(Intent(this, ProfileActivity::class.java))
-                    finish()
 
                 }
             }
@@ -289,19 +316,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(Intent(this,ProfileActivity::class.java))
             }
             R.id.nav_about_buildUp -> {
-                startActivity(Intent(this, WorkInProgressActivity::class.java))
-            }
-            R.id.nav_help_center -> {
-                startActivity(Intent(this, WorkInProgressActivity::class.java))
-            }
-
-            R.id.nav_privacy_policy -> {
-                startActivity(Intent(this, WorkInProgressActivity::class.java))
+//                startActivity(Intent(this, WorkInProgressActivity::class.java))
+                val i = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.buildup.org.in/about")
+                )
+                startActivity(i)
             }
 
-            R.id.nav_legal -> {
-                startActivity(Intent(this,ProductActivity::class.java))
-            }
 
             R.id.nav_sign_out -> {
                 BuildUpClient.authToken=null
@@ -319,5 +341,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        _binding.bottomNavigationView.menu.getItem(0).isEnabled = false
+        _binding.bottomNavigationView.menu.getItem(0).isChecked = true
+    }
 }

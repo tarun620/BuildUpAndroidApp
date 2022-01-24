@@ -56,6 +56,10 @@ class AddressesActivity : AppCompatActivity() {
             startActivity(Intent(this,AddPropertyActivity::class.java))
         }
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
+
     }
     private fun getAddresses(){
         authViewModel.getAddresses()

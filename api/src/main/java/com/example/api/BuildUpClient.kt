@@ -24,10 +24,12 @@ object BuildUpClient {
 
     val okHttpBuilder = OkHttpClient.Builder()
             .readTimeout(5, TimeUnit.SECONDS)
-            .connectTimeout(2, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
 
     val retrofitBuilder=Retrofit.Builder()
-        .baseUrl(" http://192.168.0.103:5000/")
+        .baseUrl("https://api.buildup.org.in/")
+//        .baseUrl("https://random-data-api.com/api/cannabis/random_cannabis?size=2&is_xml=true/")
+//        .baseUrl(" http://192.168.0.103:5000/")
 //        .baseUrl("http://192.168.157.11:5000/")
         .addConverterFactory(MoshiConverterFactory.create())
 

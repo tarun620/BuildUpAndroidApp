@@ -6,12 +6,15 @@ import com.example.api.models.responsesAndData.brand.GetBrandsResponse
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartData
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartFromWishlistData
 import com.example.api.models.responsesAndData.cart.cartEntities.UpdateProductQuantityCartData
+import com.example.api.models.responsesAndData.cart.cartResponses.GetCostDeliveryDetailsResponse
 import com.example.api.models.responsesAndData.cart.cartResponses.GetProductsFromCartResponse
+import com.example.api.models.responsesAndData.cart.cartResponses.PropertyIdData
 import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.SuccessMessageResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
 import com.example.api.models.responsesAndData.order.CreateOrderData
+import com.example.api.models.responsesAndData.order.DownloadInvoiceResponse
 import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
 import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
 import com.example.api.models.responsesAndData.products.productsResponses.*
@@ -229,4 +232,14 @@ interface BuildUpAuthAPI {
     suspend fun cancelOrder(
         @Path("id") orderId: String
     ):Response<SuccessMessageResponse>
+
+    @POST("api/cart/cost-delivery-details")
+    suspend fun getCostDeliveryDetails(
+        @Body propertyIdData: PropertyIdData
+    ):Response<GetCostDeliveryDetailsResponse>
+
+    @GET("api/order/{id}/download-invoice")
+    suspend fun downloadInvoice(
+        @Path("id") orderId:String
+    ):Response<DownloadInvoiceResponse>
 }

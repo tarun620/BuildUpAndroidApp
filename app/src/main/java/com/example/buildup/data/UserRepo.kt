@@ -4,19 +4,19 @@ import android.util.Log
 import com.example.api.BuildUpClient
 import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
 import com.example.api.models.responsesAndData.address.GetAddressesResponse
+import com.example.api.models.responsesAndData.appData.GetAppDataResponse
 import com.example.api.models.responsesAndData.brand.GetBrandsResponse
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartData
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartFromWishlistData
 import com.example.api.models.responsesAndData.cart.cartEntities.UpdateProductQuantityCartData
+import com.example.api.models.responsesAndData.cart.cartResponses.GetCostDeliveryDetailsResponse
 import com.example.api.models.responsesAndData.cart.cartResponses.GetProductsFromCartResponse
+import com.example.api.models.responsesAndData.cart.cartResponses.PropertyIdData
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
 import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.*
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
-import com.example.api.models.responsesAndData.order.CreateOrderData
-import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
-import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
-import com.example.api.models.responsesAndData.order.PaymentData
+import com.example.api.models.responsesAndData.order.*
 import com.example.api.models.responsesAndData.products.productsResponses.*
 import com.example.api.models.responsesAndData.property.propertyEntities.AddPropertyData
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
@@ -342,8 +342,10 @@ object UserRepo {
 
             if(response.isSuccessful){
                 return response.body()
+                Log.d("reachedTry","reached here")
             }
             else{
+                Log.d("reachedCatch","reached here")
                 val apiErrorNew= ErrorUtilsNew.parseError(response)
                 return ProductCategoriesResponse(null,false,apiErrorNew.error)
             }
@@ -851,4 +853,47 @@ object UserRepo {
             SuccessMessageResponse(null,false,"Network Failure")
         }
     }
+
+    suspend fun getCostDeliveryDetails(propertyId: String?):GetCostDeliveryDetailsResponse?{
+        return try {
+            val response= authApi.getCostDeliveryDetails(PropertyIdData(propertyId))
+            if(response.isSuccessful){
+                response.body()
+            }else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                GetCostDeliveryDetailsResponse(null,null,false,apiErrorNew.error)
+            }
+        }
+        catch (e:IOException){
+            GetCostDeliveryDetailsResponse(null,null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getAppData(screenType:String):GetAppDataResponse?{
+        return try{
+            val response= api.getAppData(screenType)
+            if(response.isSuccessful){
+                response.body()
+            }else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                GetAppDataResponse(null,null,false,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            GetAppDataResponse(null,null,false,"Network Failure")
+        }
+    }
+//
+//    suspend fun downloadInvoice(orderId:String): DownloadInvoiceResponse?{
+//        return try{
+//            val response= authApi.downloadInvoice(orderId)
+//            if(response.isSuccessful){
+//                response.body()
+//            }else{
+//                val apiErrorNew=ErrorUtilsNew.parseError(response)
+//                DownloadInvoiceResponse(null,null,false,apiErrorNew.error)
+//            }
+//        }catch (e:IOException){
+//            DownloadInvoiceResponse(null,null,false,"Network Failure")
+//        }
+//    }
 }

@@ -13,7 +13,10 @@ import com.example.api.models.responsesAndData.order.Order
 import com.example.api.models.responsesAndData.products.productsEntities.Products
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityOrdersBinding
+import com.example.buildup.ui.HomeActivity
+import com.example.buildup.ui.LoginSignup.LoginSignupSelectorActivity
 import com.example.buildup.ui.Orders.adapters.OrderAdapter
+import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.ReturnOrder.ReturnActivity
 
 class OrdersActivity : AppCompatActivity() {
@@ -37,6 +40,14 @@ class OrdersActivity : AppCompatActivity() {
 
 //        getOrders(0,true)
 
+        _binding.backBtn.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+
+        _binding.btnAddProducts.setOnClickListener {
+            startActivity(Intent(this, ProductCategoryActivity::class.java))
+        }
+
         _binding.apply {
             Log.d("scroll","scroll")
             idNestedSV.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
@@ -52,7 +63,7 @@ class OrdersActivity : AppCompatActivity() {
                         // making progress bar visible and calling get data method.
                         pageNum++;
                         _binding.idPBLoading.visibility = View.VISIBLE;
-                        getOrders(pageNum,hasNext,false);
+                        getOrders(pageNum,hasNext);
                     }
                 }
 
@@ -61,7 +72,7 @@ class OrdersActivity : AppCompatActivity() {
 
     }
 
-    private fun getOrders(page:Int,hasNextBool:Boolean,isFirstLoading:Boolean){
+    private fun getOrders(page:Int,hasNextBool:Boolean){
         if (!hasNextBool) {
             // checking if the page number is greater than limit.
             // displaying toast message in this case when page>limit.
@@ -71,13 +82,20 @@ class OrdersActivity : AppCompatActivity() {
             _binding.idPBLoading.visibility=View.GONE
             return;
         }
-        if(isFirstLoading)
-            ordersList.clear()
         authViewModel.getAllOrders(page)
 //        authViewModel.respGetAllOrders.removeObservers { lifecycle }
         authViewModel.respGetAllOrders.observe({lifecycle}){
             if(it?.success!!){
-                _binding.idPBLoading.visibility=View.GONE
+                if(it.orders!!.isEmpty()){
+                    _binding.ordersRecyclerView.visibility= View.GONE
+                    _binding.idPBLoading.visibility= View.GONE
+                    _binding.noOrdersLayout.visibility=View.VISIBLE
+                }
+                else{
+                    _binding.ordersRecyclerView.visibility= View.VISIBLE
+                    _binding.idPBLoading.visibility= View.GONE
+                    _binding.noOrdersLayout.visibility=View.GONE
+                }
                 hasNext=it.hasNext!!
 
                 Toast.makeText(this,"Orders Fetched Successfully.",Toast.LENGTH_SHORT).show()
@@ -111,6 +129,10 @@ class OrdersActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        getOrders(0,true,true)
+        getOrders(0,true)
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, HomeActivity::class.java))
     }
 }

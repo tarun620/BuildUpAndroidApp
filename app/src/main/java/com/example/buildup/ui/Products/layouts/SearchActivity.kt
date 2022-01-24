@@ -152,8 +152,17 @@ class SearchActivity : AppCompatActivity() {
         authViewModel.getRecentlyViewedProducts()
         authViewModel.respGetRecentlyViewedProducts.observe({lifecycle}){
             if(it?.success!!){
-                _binding.recentlyViewedLayout.visibility= VISIBLE
                 _binding.idPBLoading.visibility= GONE
+
+                if(it.products!!.isEmpty()){
+                    _binding.recentlyViewedLayout.visibility= GONE
+                    _binding.recentlyViewedText.visibility= GONE
+                }
+                else{
+                    _binding.recentlyViewedLayout.visibility= VISIBLE
+                    _binding.recentlyViewedText.visibility= VISIBLE
+                }
+
                 recentViewedProductsAdapter.submitList(it.products)
             }
             else{

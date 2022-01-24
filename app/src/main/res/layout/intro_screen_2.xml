@@ -18,12 +18,12 @@
         android:scaleType="fitXY"
         android:src="@drawable/intro_screen2"/>
     <TextView
-        android:id="@+id/heading"
+        android:id="@+id/heading_screen_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/desc"
+        app:layout_constraintBottom_toTopOf="@id/text_screen_1"
         android:fontFamily="@font/overpass_bold"
         android:layout_marginBottom="12dp"
         android:text="Convenient Use"
@@ -32,7 +32,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/desc"
+        android:id="@+id/text_screen_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"

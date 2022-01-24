@@ -434,13 +434,64 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/invoice_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/grey_bg_orrder_screen"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/order_id_layout"
+                    android:layout_marginTop="6dp"
+                    android:visibility="visible">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_margin="15dp">
+
+                        <TextView
+                            android:id="@+id/download_invoice_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Download Invoice"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/overpass"
+                            android:textFontWeight="400"
+                            android:textColor="@color/grey_order"
+                            app:layout_constraintStart_toEndOf="@+id/iv_download_image"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginBottom="18dp"/>
+
+                        <ImageView
+                            android:id="@+id/iv_download_image"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_icon_download_invoice"
+                            android:padding="5dp"
+                            android:layout_marginStart="15dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/payment_info_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:background="@color/white"
-                    app:layout_constraintTop_toBottomOf="@id/order_id_layout">
+                    app:layout_constraintTop_toBottomOf="@id/invoice_layout">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/payment_info_icon_new"

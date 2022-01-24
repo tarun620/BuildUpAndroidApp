@@ -38,6 +38,9 @@ class ReturnActivity : AppCompatActivity() {
 
         orderId=intent.getStringExtra("orderId")
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
         getOrderDetails()
 
         _binding.apply {

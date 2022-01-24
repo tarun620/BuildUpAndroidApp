@@ -6,9 +6,12 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.example.api.models.responsesAndData.appData.IntroData
 import com.example.buildup.databinding.ActivitySplashBinding
 import com.example.buildup.ui.IntroScreens.IntroScreen
 
@@ -21,7 +24,8 @@ class MainActivity : AppCompatActivity() {
     }
     private var _binding: ActivitySplashBinding? = null
     private lateinit var authViewModel: AuthViewModel
-
+    private var introAppDataHeadingList=ArrayList<String>()
+    private var introAppDataTextList=ArrayList<String>()
     private lateinit var sharedPrefrences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(_binding?.root)
 
 
+
+        getAppData()
 
         val zoomOut = AnimationUtils.loadAnimation(applicationContext, R.anim.zoom_out)
 
@@ -52,14 +58,21 @@ class MainActivity : AppCompatActivity() {
                 _binding!!.homeIcon.startAnimation(zoomIn)
                 _binding!!.homeIcon.visibility = View.GONE
                 Handler().postDelayed({
-                    if (sharedPrefrences.getString(PREFS_KEY_TOKEN, null) != null) {
-                        val intent = Intent(this, IntroScreen::class.java)
+//                    if (sharedPrefrences.getString(PREFS_KEY_TOKEN, null) != null) {
+//                        val intent = Intent(this, IntroScreen::class.java)
+//                        startActivity(intent)
+//                    } else {
+//
+//                        startActivity(Intent(this, IntroScreen::class.java))
+//
+//                    }
+                        val intent=Intent(this,IntroScreen::class.java)
+//                        Log.d("appListHeading",introAppDataHeadingList.toString())
+//                    Log.d("appListText",introAppDataTextList.toString())
+
+                    intent.putExtra("introAppDataHeadingList",introAppDataHeadingList)
+                        intent.putExtra("introAppDataTextList",introAppDataTextList)
                         startActivity(intent)
-                    } else {
-
-                        startActivity(Intent(this, IntroScreen::class.java))
-
-                    }
                 }, 400)
 
             }, 500)
@@ -67,5 +80,18 @@ class MainActivity : AppCompatActivity() {
         }, 600)
 
 
+    }
+    private fun getAppData(){
+        authViewModel.getAppData("intro")
+        authViewModel.respGetAppData.observe({lifecycle}){
+            if(it?.success!!){
+                it.introData!!.forEach {
+                    introAppDataHeadingList.add(it.heading)
+                    introAppDataTextList.add(it.text)
+                }
+            }
+            else
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+        }
     }
 }

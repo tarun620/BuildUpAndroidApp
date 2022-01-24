@@ -8,6 +8,7 @@ import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityProfileBinding
 import com.example.buildup.ui.HomeActivity
+import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
@@ -47,7 +48,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun setButtonsFunctionalities() {
         _binding.apply {
             myPropertiesBtn.setOnClickListener {
-                startActivity(Intent(this@ProfileActivity,PropertiesActivity::class.java))
+                startActivity(Intent(this@ProfileActivity,WorkInProgressActivity::class.java))
             }
 
             myOrdersBtn.setOnClickListener {
@@ -91,7 +92,7 @@ class ProfileActivity : AppCompatActivity() {
 
                 R.id.nav_property -> {
 
-                    startActivity(Intent(this, PropertiesActivity::class.java))
+                    startActivity(Intent(this, WorkInProgressActivity::class.java))
 
                 }
 
@@ -105,18 +106,10 @@ class ProfileActivity : AppCompatActivity() {
     }
 
 
-//    override fun onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-//            super.onBackPressed()
-////            return  //closes the current activity only
-//            this.finishAffinity();   //closes the entire application
-//        }
-//
-//        this.doubleBackToExitPressedOnce = true
-//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
-//
-//        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
-//    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 
 
 }

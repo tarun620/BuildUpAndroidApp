@@ -2,11 +2,15 @@ package com.example.buildup.ui.Products.layouts
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.buildup.AuthViewModel
@@ -17,6 +21,7 @@ import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.example.buildup.ui.Products.adapters.ProductViewPagerAdapter
 import com.taufiqrahman.reviewratings.BarLabels
 import java.util.*
+
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var _binding:ActivityProductBinding
@@ -45,16 +50,29 @@ class ProductActivity : AppCompatActivity() {
 //        productImageList.add("")
 
 //        setContentView(R.layout.activity_product)
+
+        val window: Window = window
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+
         setContentView(_binding.root)
 
         productId= intent.getStringExtra("productId")!!
 
         _binding.backBtn.setOnClickListener {
-            finish()
+            val intent=Intent(this,ProductsActivity::class.java)
+            intent.putExtra("fromProductActivity",true)
+            startActivity(intent)
         }
         _binding.btnCart.setOnClickListener {
             val intent=Intent(this,CartActivity::class.java)
             startActivity(intent)
+        }
+
+        _binding.btnOpenWishlist.setOnClickListener {
+            startActivity(Intent(this,WishlistActivity::class.java))
         }
 
 //        adapter = ProductViewPagerAdapter(productImageList,this)
@@ -62,26 +80,25 @@ class ProductActivity : AppCompatActivity() {
 //        _binding.productVewPager.orientation =ViewPager2.ORIENTATION_HORIZONTAL
 //        _binding.circleIndicator.setViewPager(_binding.productVewPager)
 
-        authViewModel.getProduct(productId,isBrand = true,inCart = true,isWishlisted = true)
-        authViewModel.respProduct.observe({lifecycle}){
-            if(it?.success!!){
-                _binding.mainLayout.visibility=View.VISIBLE
-                _binding.idPBLoading.visibility= View.GONE
-                if(it.product?.inCart!!) {
-                    _binding.addToCartButton.text="Go To Cart"
-                    inCart = true
-                }
-                if(it?.product?.isWishlisted!!) {
-                    Log.d("iswishlisted", "true")
-                    _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlisted_new3)
-                }
-            }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+//        authViewModel.getProduct(productId,isBrand = true,inCart = true,isWishlisted = true)
+//        authViewModel.respProduct.observe({lifecycle}){
+//            if(it?.success!!){
+//                _binding.mainLayout.visibility=View.VISIBLE
+//                _binding.idPBLoading.visibility= View.GONE
+//                if(it.product?.inCart!!) {
+//                    _binding.addToCartButton.text="Go To Cart"
+//                    inCart = true
+//                }
+//                if(it.product?.isWishlisted!!) {
+//                    Log.d("iswishlisted", "true")
+//                    _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlisted_new6)
+//                }
+//            }
+//            else
+//                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+//
+//        }
 
-        }
-
-        setPageContent()
         getRating()
 
         _binding.apply {
@@ -106,21 +123,34 @@ class ProductActivity : AppCompatActivity() {
             }
 
             btnWishlist.setOnClickListener {
-                if(!isWishlisted){
+//                onWishlistClicked()
+                if(isWishlisted){
                     Log.d("wishlist1","reached here")
-                    authViewModel.addProductToWishlist(productId)
-                    authViewModel.respAddProductToWishlist.observe({lifecycle}){
-                        Log.d("wishlist2","reached here")
+
+                    authViewModel.removeProductFromWishlist(productId)
+                    authViewModel.respRemoveProductFromWishlist.observe({lifecycle}){
                         if(it?.success!!){
-                            Log.d("wishlist3","reached here")
-                            _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlisted_new3)
-                            isWishlisted=true
+                            _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlist_new)
+                            isWishlisted=false
                         }
+                        else
+                            Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()
                     }
                 }
                 else{
-                    val intent=Intent(this@ProductActivity,WishlistActivity::class.java)
-                    startActivity(intent)
+//                    val intent=Intent(this@ProductActivity,WishlistActivity::class.java)
+//                    startActivity(intent)
+
+                    authViewModel.addProductToWishlist(productId)
+                    authViewModel.respAddProductToWishlist.observe({lifecycle}){
+                        if(it?.success!!){
+                            _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlisted_new6)
+                            isWishlisted=true
+                        }
+                        else
+                            Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()
+
+                    }
                 }
             }
         }
@@ -130,26 +160,41 @@ class ProductActivity : AppCompatActivity() {
     private fun setPageContent(){
         authViewModel.getProduct(productId,isBrand = true,inCart = true,isWishlisted = true)
         authViewModel.respProduct.observe({lifecycle}){
-            _binding.apply {
-                //TODO :  Brand name is not included yet
-                //TODO : Description is not included yet
-                tvProductName.text=it.product?.brand?.name + " " + it.product?.name
-//                tvDescription.text=it.product?.description
-                tvProductPrice.text="Rs. " + it.product?.amount.toString()
-                tvProductMRP.text="Rs. " + it.product?.mrp.toString()
-                setViewPagerAdapter(it.product?.image!!)
-                if(it.product?.inCart!!){
-                    Log.d("inCartFunc","true")
-                    inCart=true
-                    _binding.addToCartButton.text="Go To Cart"
+            if(it.success!!){
+                _binding.apply {
+                    _binding.mainLayout.visibility=View.VISIBLE
+                    _binding.idPBLoading.visibility= View.GONE
+
+                    tvProductName.text=it.product?.brand?.name + " " + it.product?.name
+                    tvDescription.text=it.product?.description
+                    tvProductPrice.text="₹ " + it.product?.amount.toString()
+                    tvProductMRP.text="₹ " + it.product?.mrp.toString()
+                    tvProductMRP.paintFlags = tvProductMRP.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+                    setViewPagerAdapter(it.product?.image!!)
+                    if(it.product?.isWishlisted!!){
+                        isWishlisted=true
+                        _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlisted_new6)
+                    }
+                    else{
+                        isWishlisted=false
+                        _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlist_new)
+                    }
+
+                    if(it.product?.inCart!!){
+                        Log.d("inCartFunc","true")
+                        inCart=true
+                        _binding.addToCartButton.text="Go To Cart"
+                    }
+                    else{
+                        inCart=false
+                        _binding.addToCartButton.text="Add To Cart"
+                    }
                 }
-                if(!it.product?.inCart!!){
-                    inCart=false
-                    _binding.addToCartButton.text="Add To Cart"
-                }
-                if(it.product?.isWishlisted!!)
-                    isWishlisted=true
             }
+            else
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+
         }
     }
 
@@ -190,6 +235,7 @@ class ProductActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+//        recreate()
         setPageContent()
         if(inCart) {
 //            Log.d("inCart","true")
@@ -200,5 +246,13 @@ class ProductActivity : AppCompatActivity() {
             _binding.addToCartButton.text="Add To Cart"
 
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent=Intent(this,ProductsActivity::class.java)
+        intent.putExtra("fromProductActivity",true)
+        startActivity(intent)
+
     }
 }

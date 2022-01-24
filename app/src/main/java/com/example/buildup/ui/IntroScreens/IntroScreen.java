@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.api.models.responsesAndData.appData.IntroData;
+import com.example.buildup.AuthViewModel;
 import com.example.buildup.R;
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
+
+import java.util.ArrayList;
 
 public class IntroScreen extends AppCompatActivity {
 
@@ -25,12 +33,15 @@ public class IntroScreen extends AppCompatActivity {
     private MyViewPagerAdapter myViewPagerAdapter;
     private int[] layouts;
     private ImageView btnSkip, btnNext, btnPrev, backArrow;
-    private TextView textSkip;
+    private TextView textSkip,heading1,heading2,heading3,text1,text2,text3;
     private PrefManager prefManager;
     private WormDotsIndicator dotsIndicator;
     private Boolean doubleBackToExitPressedOnce = false;
+    private ArrayList<String> introAppDataHeadingList=new ArrayList<>();
+    private ArrayList<String> introAppDataTextList=new ArrayList<>();
 
-//protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState)
+
+    //protected void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +52,12 @@ public class IntroScreen extends AppCompatActivity {
             finish();
         }
 
+        introAppDataHeadingList=getIntent().getStringArrayListExtra("introAppDataHeadingList");
+        introAppDataTextList=getIntent().getStringArrayListExtra("introAppDataTextList");
+
+        Log.d("appListHeading1",introAppDataHeadingList.toString());
+        Log.d("appListText1",introAppDataTextList.toString());
+
         setContentView(R.layout.intro_screen);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -49,8 +66,11 @@ public class IntroScreen extends AppCompatActivity {
         btnPrev = (ImageView) findViewById(R.id.btn_prev);
         backArrow=(ImageView) findViewById(R.id.back_arrow);
         textSkip=(TextView) findViewById(R.id.text_skip);
-        dotsIndicator = (WormDotsIndicator) findViewById(R.id.dots_indicator);
+        heading1=(TextView) findViewById(R.id.heading_screen_1);
+        text1=(TextView) findViewById(R.id.text_screen_1);
 
+
+        dotsIndicator = (WormDotsIndicator) findViewById(R.id.dots_indicator);
 
         // layouts of all welcome sliders
         // add few more layouts if you want
@@ -100,6 +120,7 @@ public class IntroScreen extends AppCompatActivity {
         });
     }
 
+
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
     }
@@ -124,12 +145,14 @@ public class IntroScreen extends AppCompatActivity {
                 textSkip.setVisibility(View.GONE);
                 btnPrev.setVisibility(View.VISIBLE);
                 backArrow.setVisibility(View.VISIBLE);
+
             } else {
                 // still pages are left
                 btnSkip.setVisibility(View.VISIBLE);
                 textSkip.setVisibility(View.VISIBLE);
                 btnPrev.setVisibility(View.VISIBLE);
                 backArrow.setVisibility(View.VISIBLE);
+
             }
 
         }
@@ -155,6 +178,26 @@ public class IntroScreen extends AppCompatActivity {
             layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View view = layoutInflater.inflate(layouts[position], container, false);
+            TextView heading1 = (TextView) view.findViewById(R.id.heading_screen_1);
+            TextView text1 = (TextView) view.findViewById(R.id.text_screen_1);
+
+            switch (position){
+                case 0:
+                    heading1.setText(introAppDataHeadingList.get(0));
+                    text1.setText(introAppDataTextList.get(0));
+                    break;
+
+                case 1:
+                    heading1.setText(introAppDataHeadingList.get(1));
+                    text1.setText(introAppDataTextList.get(1));
+                    break;
+
+                case 2:
+                    heading1.setText(introAppDataHeadingList.get(2));
+                    text1.setText(introAppDataTextList.get(2));
+                    break;
+
+            }
             container.addView(view);
 
             return view;

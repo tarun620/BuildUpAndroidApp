@@ -16,6 +16,7 @@ import com.example.api.models.responsesAndData.wishlist.WishlistPositionData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityWishlistBinding
 import com.example.buildup.ui.Products.layouts.ProductActivity
+import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Wishlist.adapters.WishlistAdapter
 
 
@@ -28,7 +29,6 @@ class  WishlistActivity : AppCompatActivity() {
     private var hasNext=true
     private var pageNum=0
     private var productsList= mutableListOf<Product>()
-    private var productIdList=mutableListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityWishlistBinding.inflate(layoutInflater)
@@ -53,7 +53,12 @@ class  WishlistActivity : AppCompatActivity() {
         }
         _binding.cartBtn.setOnClickListener {
             val intent=Intent(this,CartActivity::class.java)
+            intent.putExtra("intentFromWishlist",true)
             startActivity(intent)
+        }
+
+        _binding.btnAddProducts.setOnClickListener {
+            startActivity(Intent(this, ProductCategoryActivity::class.java))
         }
 
         _binding.apply {
@@ -101,7 +106,7 @@ class  WishlistActivity : AppCompatActivity() {
                         // making progress bar visible and calling get data method.
                         pageNum++;
                         _binding.idPBLoading.visibility = View.VISIBLE;
-                        getWishlistOnScrolled(pageNum,hasNext,false);
+                        getWishlistOnScrolled(pageNum,hasNext);
                     }
                 }
 
@@ -112,7 +117,7 @@ class  WishlistActivity : AppCompatActivity() {
 
     }
 
-    private fun getWishlistOnScrolled(page:Int,hasNextBool:Boolean,isFirstLoading:Boolean){
+    private fun getWishlistOnScrolled(page:Int,hasNextBool:Boolean){
         Log.d("wishlist","getWishlistOnScrolled()")
 
         if (!hasNextBool) {
@@ -131,24 +136,29 @@ class  WishlistActivity : AppCompatActivity() {
         authViewModel.getWishlist(page)
         authViewModel.respGetWishlist.observe({lifecycle}){
             if(it?.success!!){
-                _binding.idPBLoading.visibility=View.GONE
+                if(it.products!!.isEmpty())
+                {
+                    _binding.wishListRecyclerView.visibility= View.GONE
+                    _binding.idPBLoading.visibility= View.GONE
+                    _binding.emptyWishlistLayout.visibility=View.VISIBLE
+                }
+                else{
+                    _binding.wishListRecyclerView.visibility= View.VISIBLE
+                    _binding.idPBLoading.visibility= View.GONE
+                    _binding.emptyWishlistLayout.visibility=View.GONE
+                }
                 hasNext=it.hasNext!!
                 Toast.makeText(this,"wishlist items fetched successfully.", Toast.LENGTH_SHORT).show()
 
                 Log.d("wishlistProductListbefore",productsList.size.toString())
 
                 for(i in it.products!!){
-                    Log.d("productListsize",it.products!!.size.toString())
                     if(!productsList.contains(i)){
                         productsList.add(i)
-                        productIdList.add(i.id)
                     }
                 }
-                Log.d("productListsize",productsList.size.toString())
-                if(isFirstLoading)
-                    wishlistAdapter.submitList(it.products)
-                else
-                    wishlistAdapter.submitList(productsList)
+
+                wishlistAdapter.submitList(productsList)
                 wishlistAdapter.notifyDataSetChanged()
                 Log.d("wishlistProductListafter",productsList.size.toString())
 
@@ -184,7 +194,6 @@ class  WishlistActivity : AppCompatActivity() {
                         product=it
                 }
                 productsList.remove(product)
-                productIdList.remove(product!!.id)
 
                 if(productsList.size == 1)
                     _binding.itemCount.text=productsList.size.toString() + " " + "item"
@@ -201,7 +210,9 @@ class  WishlistActivity : AppCompatActivity() {
 
     private fun addProductToCartFromWishlist(wishlistData: WishlistData){
         if(wishlistData.inCart){
-            startActivity(Intent(this,CartActivity::class.java))
+            var intent=Intent(this,CartActivity::class.java)
+            intent.putExtra("intentFromWishlist",true)
+            startActivity(intent)
         }
         else{
             authViewModel.addProductToCart(wishlistData.productId,true)
@@ -214,7 +225,6 @@ class  WishlistActivity : AppCompatActivity() {
                             product=it
                     }
                     productsList.remove(product)
-                    productIdList.remove(product!!.id)
 
                     if(productsList.size == 1)
                         _binding.itemCount.text=productsList.size.toString() + " " + "item"
@@ -266,7 +276,6 @@ class  WishlistActivity : AppCompatActivity() {
             if(it?.success!!) {
                 _binding.itemCount.text="0 items"
                 productsList.clear()
-                productIdList.clear()
                 wishlistAdapter.submitList(productsList)
                 wishlistAdapter.notifyDataSetChanged()
             }
@@ -277,6 +286,6 @@ class  WishlistActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        getWishlistOnScrolled(0,true,true)
+        getWishlistOnScrolled(0,true)
     }
 }

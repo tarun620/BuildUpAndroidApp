@@ -42,6 +42,9 @@ class BankDetailsActivity : AppCompatActivity() {
         orderReturnAdditionalReason=bundle.getString("orderReturnAdditionalReason")
         itemQuantity=bundle.getInt("itemQuantity")
 
+        _binding.backBtn.setOnClickListener {
+            finish()
+        }
 //        <your_edit_text>.filters += InputFilter.AllCaps()
         _binding.apply {
             ifscEditText.filters+=InputFilter.AllCaps()

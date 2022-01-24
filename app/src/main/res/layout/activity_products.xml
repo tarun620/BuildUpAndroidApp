@@ -94,10 +94,51 @@
 
             <!--we are adding progress bar
                 for the purpose of loading-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/no_products_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/image_no_products"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_image_no_products"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="24dp"/>
+                <TextView
+                    android:id="@+id/text_no_products"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Products Found"
+                    android:textColor="@color/black"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/overpass_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/image_no_products"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="We can’t find any product matching your search"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/overpass"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/text_no_products"
+                    android:layout_marginTop="6dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <ProgressBar
                 android:id="@+id/idPBLoading"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:visibility="visible"/>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

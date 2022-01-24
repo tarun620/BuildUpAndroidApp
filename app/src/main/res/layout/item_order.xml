@@ -176,6 +176,8 @@
             android:layout_height="wrap_content"
             android:text="RETURN"
             android:textSize="10sp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
             app:icon="@drawable/ic_icon_return_button"
             app:iconTint="#333333"
             app:backgroundTint="@color/grey_bg_orrder_screen"

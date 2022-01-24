@@ -9,6 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".MyApplication"
@@ -18,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BuildUp"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true">
         <activity android:name=".ui.LottieAnimation.SuccessMessageActivity"></activity>
         <activity android:name=".ui.ReturnOrder.BankDetailsActivity" />
         <activity android:name=".ui.ReturnOrder.ReturnActivity"
@@ -35,7 +39,6 @@
         <activity android:name=".ui.LoginSignup.NewSendOtpActivity" />
         <activity android:name=".ui.LoginSignup.NewOtpActivity" />
         <activity android:name=".ui.LoginSignup.NewSignupActivity" />
-        <activity android:name=".ui.NewLoginActivity" />
         <activity android:name=".ui.LoginSignup.LoginSignupSelectorActivity" />
         <activity android:name=".ui.Products.layouts.SearchActivity">
 
@@ -49,15 +52,6 @@
         <activity android:name=".ui.Expenditure.PaymentActivity" />
         <activity
             android:name=".ui.LottieAnimation.WorkInProgressActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ChangePasswordActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ForgetPasswordOtpActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.ForgetPasswordActivity"
             android:exported="true" />
         <activity
             android:name=".ui.BottomNavigation.CartActivity"
@@ -75,12 +69,7 @@
         <activity android:name=".ui.Expenditure.ExpenditureActivity" />
         <activity android:name=".ui.Property.layouts.PropertyActivity" />
         <activity android:name=".ui.Property.layouts.AddPropertyActivity" />
-        <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleFinalProfileActivity" />
-        <activity android:name=".ui.LoginSignup.loginSignupGoogle.SignupGoogleActivity" />
         <activity android:name=".ui.Property.layouts.PropertiesActivity" />
-        <activity android:name=".ui.LoginSignup.signupMobileGoogleBuffer.OtpActivity" />
-        <activity android:name=".ui.LoginSignup.signupMobile.SignupActivity" />
-        <activity android:name=".ui.LoginSignup.loginSignupMobileGoogleHomePage.LoginSignupActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -88,6 +77,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:authorities="com.example.buildup.provider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
 
         <meta-data
             android:name="preloaded_fonts"

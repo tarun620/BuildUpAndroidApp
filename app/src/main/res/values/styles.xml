@@ -20,5 +20,6 @@
         <item name="sv_animationDuration">200</item>
         <item name="sv_textSize">14sp</item>
         <item name="sv_animationType">Line</item>
+        <item name="android:statusBarColor">@color/white</item>
     </style>
 </resources>

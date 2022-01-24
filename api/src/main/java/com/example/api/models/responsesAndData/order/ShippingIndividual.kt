@@ -17,5 +17,7 @@ data class ShippingIndividual(
     @Json(name = "state")
     var state: String,
     @Json(name = "tracking")
-    var tracking: Tracking
+    var tracking: Tracking,
+    @Json(name = "charge")
+    var charge:Int
 )

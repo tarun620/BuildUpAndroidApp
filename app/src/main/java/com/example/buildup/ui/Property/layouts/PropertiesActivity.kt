@@ -1,6 +1,9 @@
 package com.example.buildup.ui.Property.layouts
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -13,12 +16,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.edit
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
+import com.example.api.BuildUpClient
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.TinyDB
@@ -29,6 +34,7 @@ import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.Property.adapters.PropertyAdapter
 import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.example.buildup.ui.HomeActivity
+import com.example.buildup.ui.LoginSignup.LoginSignupSelectorActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
@@ -36,6 +42,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.navigation.NavigationView
 
 class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener  {
+    companion object {
+        var PREFS_FILE_AUTH = "prefs_auth"
+        var PREFS_KEY_TOKEN = "token"
+    }
     //    private lateinit var _binding:ActivityPropertiesBinding
     private lateinit var _binding: ActivityPropertiesBinding
     private lateinit var authViewModel: AuthViewModel
@@ -44,6 +54,8 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
     private var doubleBackToExitPressedOnce = false
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private lateinit var tinyDB : TinyDB
+    private lateinit var sharedPrefrences: SharedPreferences
+
 
 
 
@@ -55,6 +67,7 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         setContentView(_binding.root)
 
         tinyDB = TinyDB(this)
+        sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
 
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
@@ -246,22 +259,24 @@ class PropertiesActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
                 startActivity(Intent(this@PropertiesActivity,ProfileActivity::class.java))
             }
             R.id.nav_about_buildUp -> {
-                startActivity(Intent(this@PropertiesActivity,AddressesActivity::class.java))
-            }
-            R.id.nav_help_center -> {
-                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
-            }
-
-            R.id.nav_privacy_policy -> {
-                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
-            }
-
-            R.id.nav_legal -> {
-                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
+//                startActivity(Intent(this@PropertiesActivity,AddressesActivity::class.java))
+                val i = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.buildup.org.in/about")
+                )
+                startActivity(i)
             }
 
             R.id.nav_sign_out -> {
-                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
+//                startActivity(Intent(this@PropertiesActivity, WorkInProgressActivity::class.java))
+                BuildUpClient.authToken=null
+                sharedPrefrences.edit {
+                    putString("token", null)
+                }
+//                sharedPrefrences.edit {
+//                    remove("token")
+//                }
+                startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
             }
 
         }
