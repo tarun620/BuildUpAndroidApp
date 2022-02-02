@@ -52,7 +52,9 @@ class ProfileActivity : AppCompatActivity() {
             }
 
             myOrdersBtn.setOnClickListener {
-                startActivity(Intent(this@ProfileActivity,OrdersActivity::class.java))
+                val intent=Intent(this@ProfileActivity,OrdersActivity::class.java)
+                intent.putExtra("fromProfileActivity",true)
+                startActivity(intent)
             }
 
             myWishlistBtn.setOnClickListener {
@@ -111,5 +113,9 @@ class ProfileActivity : AppCompatActivity() {
         finish()
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        _binding.bottomNavigationView.menu.getItem(3).isEnabled = false
+        _binding.bottomNavigationView.menu.getItem(3).isChecked = true
+    }
 }

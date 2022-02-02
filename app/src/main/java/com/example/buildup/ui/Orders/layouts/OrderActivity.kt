@@ -220,12 +220,13 @@ class OrderActivity : AppCompatActivity() {
                         tvProductName.text=productName
                         tvClientName.text=it.order!!.shipping.customer
 //                        tvShippingAddress.text=it.order!!.shipping.address
+                        tvClientMobileNumber.text=it.order!!.shipping.mobileNo
                         tvShippingAddress.text=it.order!!.shipping.address + ", "  + it.order!!.shipping.city + ", " + it.order!!.shipping.state + " - " + it.order!!.shipping.pincode
                         tvOrderId.text="Order Id - " + it.order!!.id
                         tvOrderProductDetail.text= tvProductQuantity.toString() + " x " + brandName + " " + productName
                         tvTotalMrp.text="₹ " + totalMrp.toString()
                         tvDiscountedPrice.text="₹ " + discountedPrice.toString()
-                        tvTotalDiscount.text="₹ " + (totalMrp-discountedPrice).toString()
+                        tvTotalDiscount.text="- ₹ " + (totalMrp-discountedPrice).toString()
                         tvDeliveryCharge.text=it.order!!.shipping.charge.toString()
                         tvTotalCartValue.text="₹ " + (discountedPrice+it.order!!.shipping.charge).toString()
 

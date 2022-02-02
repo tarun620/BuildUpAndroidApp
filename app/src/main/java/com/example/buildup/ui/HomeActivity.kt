@@ -1,5 +1,6 @@
 package com.example.buildup.ui
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -69,15 +70,17 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         brandAdapter = BrandAdapter { openBrand(it) }
         _binding.brandsRecyclerView.layoutManager = GridLayoutManager(this,3)
         _binding.brandsRecyclerView.adapter = brandAdapter
+        _binding.brandsRecyclerView.isNestedScrollingEnabled=false
 
         productCategoryAdapter = ProductCategoryAdapterNew { openProductCategory(it) }
         _binding.productsCategoriesRecyclerView.layoutManager = GridLayoutManager(this,2)
         _binding.productsCategoriesRecyclerView.adapter = productCategoryAdapter
+        _binding.productsCategoriesRecyclerView.isNestedScrollingEnabled=false
 
         recentViewedProductsAdapter=RecentViewedProductsAdapter { onProductClicked(it) }
-        _binding.recentlyViewedRecyclerView.layoutManager=LinearLayoutManager(this,
-            RecyclerView.HORIZONTAL,false)
+        _binding.recentlyViewedRecyclerView.layoutManager=LinearLayoutManager(this, RecyclerView.HORIZONTAL,false)
         _binding.recentlyViewedRecyclerView.adapter=recentViewedProductsAdapter
+        _binding.recentlyViewedRecyclerView.isNestedScrollingEnabled=false
 
         tinyDB = TinyDB(this)
 
@@ -326,14 +329,29 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
             R.id.nav_sign_out -> {
-                BuildUpClient.authToken=null
-                sharedPrefrences.edit {
-                    putString("token", null)
+                val builder = AlertDialog.Builder(this)
+                //set title for alert dialog
+                builder.setTitle("Sign Out")
+                //set message for alert dialog
+                builder.setMessage("Are you sure you want to sign out?")
+                builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+                //performing positive action
+                builder.setPositiveButton("Yes"){dialogInterface, which ->
+                    signout()
                 }
-//                sharedPrefrences.edit {
-//                    remove("token")
-//                }
-                startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                //performing cancel action
+                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+
+                }
+                //performing negative action
+                builder.setNegativeButton("No"){dialogInterface, which ->
+                }
+                // Create the AlertDialog
+                val alertDialog: AlertDialog = builder.create()
+                // Set other dialog properties
+                alertDialog.setCancelable(false)
+                alertDialog.show()
             }
 
         }
@@ -341,6 +359,16 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    private fun signout(){
+        BuildUpClient.authToken=null
+        sharedPrefrences.edit {
+            putString("token", null)
+        }
+//                sharedPrefrences.edit {
+//                    remove("token")
+//                }
+        startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+    }
     override fun onResume() {
         super.onResume()
         _binding.bottomNavigationView.menu.getItem(0).isEnabled = false

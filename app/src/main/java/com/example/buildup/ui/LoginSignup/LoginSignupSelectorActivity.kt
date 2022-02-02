@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityLoginSignupSelectorBinding
@@ -23,6 +24,8 @@ class LoginSignupSelectorActivity : AppCompatActivity() {
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
 
         setContentView(_binding?.root)
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         _binding?.apply {
             LoginButton.setOnClickListener {

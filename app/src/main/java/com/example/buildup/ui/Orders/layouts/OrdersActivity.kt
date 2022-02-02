@@ -26,6 +26,7 @@ class OrdersActivity : AppCompatActivity() {
     private var hasNext=true
     private var pageNum=0
     private val ordersList= mutableListOf<Order>()
+    private var fromProfileActivity:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,10 +39,14 @@ class OrdersActivity : AppCompatActivity() {
         setContentView(_binding.root)
 
 
+        fromProfileActivity=intent.getBooleanExtra("fromProfileActivity",false)
 //        getOrders(0,true)
 
         _binding.backBtn.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+            if(fromProfileActivity)
+                finish()
+            else
+                startActivity(Intent(this, HomeActivity::class.java))
         }
 
         _binding.btnAddProducts.setOnClickListener {
@@ -133,6 +138,9 @@ class OrdersActivity : AppCompatActivity() {
     }
     override fun onBackPressed() {
         super.onBackPressed()
-        startActivity(Intent(this, HomeActivity::class.java))
+        if(fromProfileActivity)
+            finish()
+        else
+            startActivity(Intent(this, HomeActivity::class.java))
     }
 }

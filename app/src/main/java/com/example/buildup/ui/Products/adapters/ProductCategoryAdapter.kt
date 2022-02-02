@@ -54,13 +54,13 @@ class ProductCategoryAdapter(val onProductCategoryClicked:(productCategoryIdData
             }
             val productCategory=getItem(position)
 
-//            ivProductCategoryImage.loadImage(productCategory.image)
+            ivProductCategoryImage.loadImage(productCategory.image!!)
             tvProductCategoryName.text=productCategory.name
 
             root.setOnClickListener {
                 row_index=position
                 notifyDataSetChanged()
-                onProductCategoryClicked(ProductCategoryIdData(productCategory.id,productCategory.name))
+                onProductCategoryClicked(ProductCategoryIdData(productCategory.id,productCategory.name,productCategory.image!!))
             }
         }
     }

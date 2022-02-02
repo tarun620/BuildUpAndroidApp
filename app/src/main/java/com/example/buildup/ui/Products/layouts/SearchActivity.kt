@@ -8,9 +8,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
 import android.view.View.*
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -68,27 +68,16 @@ class SearchActivity : AppCompatActivity() {
 
         _binding.apply {
             textInputLayout.setEndIconOnClickListener {
-                if(etSearch.text.isNullOrBlank())
-                    Toast.makeText(this@SearchActivity,"please enter keyword to search",Toast.LENGTH_SHORT).show()
-                else{
-//                    (application as MyApplication).addElement(etSearch.text.toString())
-                    if(searchQueryList.contains(etSearch.text.toString()))
-                        searchQueryList.remove(etSearch.text.toString())
-
-                    if(searchQueryList.size>=5)
-                        searchQueryList.removeAt(searchQueryList.size-1)
-
-                    searchQueryList.add(0,etSearch.text.toString())
-                    Log.d("array",searchQueryList.toString())
-                    tinyDB.putListString("searchQueryList",searchQueryList)
-
-//                    getRecentSearchedQuery()
-
-                    val intent= Intent(this@SearchActivity,ProductsActivity::class.java)
-                    intent.putExtra("searchQuery",etSearch.text.toString())
-                    startActivity(intent)
-                }
+                performSearch()
             }
+
+            etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch()
+                    return@OnEditorActionListener true
+                }
+                false
+            })
 
             textInputLayout.setStartIconOnClickListener {
                 finish()
@@ -126,6 +115,31 @@ class SearchActivity : AppCompatActivity() {
         getAutoCompleteQueries()
         getRecentlyViewedProducts()
 //        getRecentSearchedQuery()
+    }
+
+    private fun performSearch() {
+        _binding.apply {
+            if(etSearch.text.isNullOrBlank())
+                Toast.makeText(this@SearchActivity,"please enter keyword to search",Toast.LENGTH_SHORT).show()
+            else{
+//                    (application as MyApplication).addElement(etSearch.text.toString())
+                if(searchQueryList.contains(etSearch.text.toString()))
+                    searchQueryList.remove(etSearch.text.toString())
+
+                if(searchQueryList.size>=5)
+                    searchQueryList.removeAt(searchQueryList.size-1)
+
+                searchQueryList.add(0,etSearch.text.toString())
+                Log.d("array",searchQueryList.toString())
+                tinyDB.putListString("searchQueryList",searchQueryList)
+
+//                    getRecentSearchedQuery()
+
+                val intent= Intent(this@SearchActivity,ProductsActivity::class.java)
+                intent.putExtra("searchQuery",etSearch.text.toString())
+                startActivity(intent)
+            }
+        }
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -267,7 +281,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Toast.makeText(this,"onResume",Toast.LENGTH_SHORT).show()
+        searchQueryList=tinyDB.getListString("searchQueryList")
         _binding.recentlySearchRecyclerView.adapter=recentSearchedAdapter
         getRecentSearchedQuery()
     }

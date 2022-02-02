@@ -442,7 +442,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/order_id_layout"
                     android:layout_marginTop="6dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

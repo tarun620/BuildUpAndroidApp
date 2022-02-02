@@ -5,5 +5,6 @@ import com.squareup.moshi.JsonClass
 
 data class ProductCategoryIdData(
     val productCategoryId:String,
-    val productCategoryName:String
+    val productCategoryName:String,
+    val productCategoryImage:String
 )

@@ -80,7 +80,10 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
             tvClientMobileNumber.text=addresss.mobileNo.toString()
 
             btnEditAddress.setOnClickListener{ onEditAddressBtnClicked(addresss.id)}
-            btnDeleteAddress.setOnClickListener{ onDeleteAddressBtnClicked(addresss.id)}
+            btnDeleteAddress.setOnClickListener{
+                MyApplication.getInstance().clearPropertyId()
+                onDeleteAddressBtnClicked(addresss.id)
+            }
 
         }
     }

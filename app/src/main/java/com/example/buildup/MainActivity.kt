@@ -10,10 +10,12 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.example.api.models.responsesAndData.appData.IntroData
 import com.example.buildup.databinding.ActivitySplashBinding
 import com.example.buildup.ui.IntroScreens.IntroScreen
+import kotlinx.coroutines.delay
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,9 +38,9 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(_binding?.root)
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-
-        getAppData()
+//        getAppData()
 
         val zoomOut = AnimationUtils.loadAnimation(applicationContext, R.anim.zoom_out)
 
@@ -66,13 +68,23 @@ class MainActivity : AppCompatActivity() {
 //                        startActivity(Intent(this, IntroScreen::class.java))
 //
 //                    }
-                        val intent=Intent(this,IntroScreen::class.java)
-//                        Log.d("appListHeading",introAppDataHeadingList.toString())
-//                    Log.d("appListText",introAppDataTextList.toString())
+                    authViewModel.getAppData("intro")
+                    authViewModel.respGetAppData.observe({lifecycle}){
+                        if(it?.success!!){
+                            it.introData!!.forEach {
+                                introAppDataHeadingList.add(it.heading)
+                                introAppDataTextList.add(it.text)
+                            }
 
-                    intent.putExtra("introAppDataHeadingList",introAppDataHeadingList)
-                        intent.putExtra("introAppDataTextList",introAppDataTextList)
-                        startActivity(intent)
+                            val intent=Intent(this,IntroScreen::class.java)
+                            intent.putExtra("introAppDataHeadingList",introAppDataHeadingList)
+                            intent.putExtra("introAppDataTextList",introAppDataTextList)
+                            startActivity(intent)
+                        }
+                        else
+                            Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                    }
+
                 }, 400)
 
             }, 500)
@@ -89,6 +101,8 @@ class MainActivity : AppCompatActivity() {
                     introAppDataHeadingList.add(it.heading)
                     introAppDataTextList.add(it.text)
                 }
+                Log.d("appListHeadingAPI",introAppDataHeadingList.toString())
+                Log.d("appListTextAPI",introAppDataTextList.toString())
             }
             else
                 Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()

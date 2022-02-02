@@ -15,6 +15,7 @@ import com.example.api.models.responsesAndData.wishlist.WishlistData
 import com.example.api.models.responsesAndData.wishlist.WishlistPositionData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityWishlistBinding
+import com.example.buildup.ui.HomeActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Wishlist.adapters.WishlistAdapter
@@ -29,6 +30,8 @@ class  WishlistActivity : AppCompatActivity() {
     private var hasNext=true
     private var pageNum=0
     private var productsList= mutableListOf<Product>()
+    private var fromCartActivity:Boolean=false
+    private var fromProductActivity:Boolean=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityWishlistBinding.inflate(layoutInflater)
@@ -40,16 +43,17 @@ class  WishlistActivity : AppCompatActivity() {
         _binding.wishListRecyclerView.adapter=wishlistAdapter
         setContentView(_binding.root)
 
-//        _binding.bottomNavigationView.background = null
-//        setupBottomNavigationBar()
-//
-//        _binding.bottomNavigationView.menu.getItem(2).isEnabled = false
-//        _binding.bottomNavigationView.menu.getItem(2).isChecked = true
+        fromCartActivity=intent.getBooleanExtra("fromCartActivity",false)
+        fromProductActivity=intent.getBooleanExtra("fromProductActivity",false)
 
 
         _binding.backBtn.setOnClickListener {
-            finish()
-//            startActivity(Intent(this,WishlistActivity::class.java))
+//            if(fromProductActivity)
+//                startActivity(Intent(this,ProductActivity::class.java))
+            if(fromCartActivity)
+                startActivity(Intent(this,HomeActivity::class.java))
+            else
+                finish()
         }
         _binding.cartBtn.setOnClickListener {
             val intent=Intent(this,CartActivity::class.java)
@@ -141,11 +145,14 @@ class  WishlistActivity : AppCompatActivity() {
                     _binding.wishListRecyclerView.visibility= View.GONE
                     _binding.idPBLoading.visibility= View.GONE
                     _binding.emptyWishlistLayout.visibility=View.VISIBLE
+                    _binding.removeBtn.visibility=View.GONE
                 }
                 else{
                     _binding.wishListRecyclerView.visibility= View.VISIBLE
                     _binding.idPBLoading.visibility= View.GONE
                     _binding.emptyWishlistLayout.visibility=View.GONE
+                    _binding.removeBtn.visibility=View.VISIBLE
+
                 }
                 hasNext=it.hasNext!!
                 Toast.makeText(this,"wishlist items fetched successfully.", Toast.LENGTH_SHORT).show()
@@ -241,34 +248,6 @@ class  WishlistActivity : AppCompatActivity() {
         }
 
     }
-//    private fun setupBottomNavigationBar() {
-//
-//        _binding.bottomNavigationView.setOnNavigationItemSelectedListener {
-//            when (it.itemId) {
-//
-//                R.id.nav_home -> {
-//                    startActivity(Intent(this, HomeActivity::class.java))
-//
-//
-//                }
-//                R.id.nav_cart -> {
-//                    startActivity(Intent(this, CartActivity::class.java))
-//
-//                }
-//
-//                R.id.nav_property -> {
-//
-//
-//                }
-//
-//                R.id.nav_profile -> {
-//                    startActivity(Intent(this, ProfileActivity::class.java))
-//
-//                }
-//            }
-//            true
-//        }
-//    }
 
     private fun deleteWishlist(){
         authViewModel.deleteWishlist()
@@ -287,5 +266,15 @@ class  WishlistActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         getWishlistOnScrolled(0,true)
+    }
+
+    override fun onBackPressed() {
+//        if(fromProductActivity)
+//            startActivity(Intent(this,ProductActivity::class.java))
+        if(fromCartActivity)
+            startActivity(Intent(this,HomeActivity::class.java))
+        else
+            finish()
+
     }
 }

@@ -72,7 +72,9 @@ class ProductActivity : AppCompatActivity() {
         }
 
         _binding.btnOpenWishlist.setOnClickListener {
-            startActivity(Intent(this,WishlistActivity::class.java))
+            val intent=Intent(this,WishlistActivity::class.java)
+            intent.putExtra("fromProductActivity",true)
+            startActivity(intent)
         }
 
 //        adapter = ProductViewPagerAdapter(productImageList,this)

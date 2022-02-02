@@ -338,6 +338,14 @@ android:orientation="vertical">
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <View
+                    android:id="@+id/view_new"
+                    android:layout_width="0dp"
+                    android:layout_height="11dp"
+                    android:background="#E4E9FB"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/content_layout" />
 
                 <LinearLayout
                     android:id="@+id/bottom_layout"
@@ -346,7 +354,7 @@ android:orientation="vertical">
                     android:layout_marginTop="11dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/content_layout"
+                    app:layout_constraintTop_toBottomOf="@+id/view_new"
                     android:background="@color/white"
                     android:orientation="horizontal"
                     android:weightSum="100">
@@ -475,10 +483,11 @@ android:orientation="vertical">
                 android:id="@+id/btn_wishlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
+                android:drawableTintMode="multiply"
                 app:icon="@drawable/ic_icon_wishlist_new"
+                android:background="@color/white"
+                android:theme="@style/Theme.AppCompat.Light"
                 app:iconGravity="textStart"
-                app:iconTintMode="multiply"
                 android:paddingStart="36dp"
                 android:paddingEnd="36dp"
                 android:paddingTop="18dp"
@@ -506,6 +515,7 @@ android:orientation="vertical">
                 app:iconGravity="textStart"
                 app:cornerRadius="0dp"
                 app:layout_constraintStart_toEndOf="@id/btn_wishlist"
+                android:background="@color/black"
                 app:backgroundTint="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

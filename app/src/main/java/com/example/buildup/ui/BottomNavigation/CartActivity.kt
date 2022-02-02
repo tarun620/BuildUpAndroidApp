@@ -86,14 +86,17 @@ class CartActivity : AppCompatActivity() {
 //
 //
             backBtn.setOnClickListener {
-//            startActivity(Intent(this,PropertiesActivity::class.java))
-                if(intentFromWishlist!!)
-                    startActivity(Intent(this@CartActivity,WishlistActivity::class.java))
+                if(intentFromWishlist!!){
+                    val intent=Intent(this@CartActivity,WishlistActivity::class.java)
+                    intent.putExtra("fromCartActivity",true)
+                    startActivity(intent)
+
+                }
                 else
                     finish()
             }
 
-            btnChangeAddress.setOnClickListener {
+            deliveryLayout.setOnClickListener {
                 val intent=Intent(this@CartActivity, AddressesActivity::class.java)
                 startActivity(intent)
             }
@@ -124,25 +127,38 @@ class CartActivity : AppCompatActivity() {
                     _binding.mainLayout.visibility= View.GONE
                     _binding.idPBLoading.visibility= View.GONE
                     _binding.emptyCartLayout.visibility=View.VISIBLE
+                    _binding.btnCheckout.visibility=View.GONE
                 }
                 else{
                     _binding.mainLayout.visibility= View.VISIBLE
                     _binding.idPBLoading.visibility= View.GONE
                     _binding.emptyCartLayout.visibility=View.GONE
+                    _binding.btnCheckout.visibility=View.VISIBLE
                 }
                 Toast.makeText(this,"cart items fetched successfully.", Toast.LENGTH_SHORT).show()
                 isEmpty =it.items!!.isEmpty()
                 cartAdapter.submitList(it.items)
-//                cartValue=0
-//                for(i in it.items!!){
-//                    cartValue+=(i.product.amount) * i.quantity
-//                    Log.d("cartValue",cartValue.toString())
-//                }
-//                _binding.apply {
-//                    tvSubtotal.text="₹ " + cartValue.toString()
-//                    tvShipping.text="₹ " + "50" //hardcoded
-//                    tvTotal.text="₹ " + (cartValue+50).toString()
-//                }
+
+                var totalMrp=0
+                var discountedPrice=0
+                var productQuantity=0
+
+                for(i in it.items!!){
+                    totalMrp+=i.product.mrp
+                    discountedPrice+=i.product.amount
+                    productQuantity+=i.quantity
+
+                }
+                _binding.apply {
+                    tvOrderProductDetail.text= productQuantity.toString() + " x " + "Total Items"
+                    tvTotalMrp.text="₹ " + totalMrp.toString()
+                    tvDiscountedPrice.text="₹ " + discountedPrice.toString()
+                    tvTotalDiscount.text="- ₹ " + (totalMrp-discountedPrice).toString()
+                    if(shippingCost==-1)
+                        tvTotalCartValue.text="₹ " + (discountedPrice).toString()
+                    else
+                        tvTotalCartValue.text="₹ " + (discountedPrice+shippingCost!!).toString()
+                }
             }
             else{
                 Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
@@ -247,7 +263,7 @@ class CartActivity : AppCompatActivity() {
 
         }
         else{
-            var intent=Intent(this,CodPaymentActivity::class.java)
+            val intent=Intent(this,CodPaymentActivity::class.java)
             intent.putExtra("propertyId",propertyId)
             intent.putExtra("shippingCost",shippingCost)
             startActivity(intent)
@@ -255,16 +271,14 @@ class CartActivity : AppCompatActivity() {
 
     }
 
-    private fun changeDeliveryAddress(propertyId: String?){
+    private fun changeDeliveryAddress(propertyIdFunc: String?){
 
-        Log.d("propertyId",propertyId.toString())
-
-
-        if(propertyId==null){
+        if(propertyIdFunc==null){
+            _binding.tvAddress.text="Select Delivery Address"
             Toast.makeText(this@CartActivity,"Please Select Delivery Address",Toast.LENGTH_SHORT).show()
         }
         else{
-            authViewModel.getAddressById(propertyId)
+            authViewModel.getAddressById(propertyIdFunc)
             authViewModel.respGetAddressById.observe({lifecycle}){
                 if(it?.success!!){
                     _binding.tvAddress.text=it.property?.address?.houseNo + ", " + it.property?.address?.colony + ", " + it.property?.address?.city + ", " + it.property?.address?.state + " - " + it.property?.address?.pincode
@@ -281,20 +295,18 @@ class CartActivity : AppCompatActivity() {
         authViewModel.respGetCostDeliveryDetails.observe({lifecycle}){
             if(it?.success!!){
                 _binding.apply {
-                    tvSubtotal.text="₹ " + it.cost!!.subtotal
-                    tvTotal.text="₹ " + it.cost!!.total
 
                     if(it.estimatedDelivery!=null && it.cost!!.shipping!=null){
                         deliveryDateLayout.visibility=View.VISIBLE
-                        tvShipping.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F);
+                        tvDeliveryCharge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F);
                         tvEstimatedDeliveryDate.timeStamp=it.estimatedDelivery!!
-                        tvShipping.text="₹ " + it.cost!!.shipping
+                        tvDeliveryCharge.text="₹ " + it.cost!!.shipping
                         shippingCost=it.cost!!.shipping!!
                     }
                     else{
                         deliveryDateLayout.visibility=View.GONE
-                        tvShipping.text="Select delivery Address"
-                        tvShipping.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12F);
+                        tvDeliveryCharge.text="Select Delivery Address"
+                        tvDeliveryCharge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12F);
 
 
                     }
@@ -310,10 +322,13 @@ class CartActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        _binding.bottomNavigationView.menu.getItem(1).isEnabled = false
+        _binding.bottomNavigationView.menu.getItem(1).isChecked = true
+//
 //        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
         propertyId=(application as MyApplication).getPropertyId()
 
-
+        Log.d("propertyIdDelete",propertyId.toString())
 //        propertyId=tinyDB.getString("propertyIdForCart")
         changeDeliveryAddress(propertyId)
         getProductsFromCart()
@@ -322,9 +337,12 @@ class CartActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        Log.d("intentFromWishlist",intentFromWishlist.toString())
-        if(intentFromWishlist!!)
-            startActivity(Intent(this@CartActivity,WishlistActivity::class.java))
+        if(intentFromWishlist!!){
+            val intent=Intent(this@CartActivity,WishlistActivity::class.java)
+            intent.putExtra("fromCartActivity",true)
+            startActivity(intent)
+
+        }
         else
             finish()
     }

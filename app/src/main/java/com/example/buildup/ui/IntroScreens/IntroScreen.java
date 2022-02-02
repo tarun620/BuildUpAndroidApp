@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -52,8 +53,11 @@ public class IntroScreen extends AppCompatActivity {
             finish();
         }
 
-        introAppDataHeadingList=getIntent().getStringArrayListExtra("introAppDataHeadingList");
-        introAppDataTextList=getIntent().getStringArrayListExtra("introAppDataTextList");
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+        introAppDataHeadingList=(ArrayList<String>)getIntent().getSerializableExtra("introAppDataHeadingList");
+        introAppDataTextList=(ArrayList<String>)getIntent().getSerializableExtra("introAppDataTextList");
+        String hello=getIntent().getStringExtra("hello");
 
         Log.d("appListHeading1",introAppDataHeadingList.toString());
         Log.d("appListText1",introAppDataTextList.toString());

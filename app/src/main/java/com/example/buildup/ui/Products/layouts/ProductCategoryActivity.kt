@@ -15,19 +15,17 @@ import com.example.api.models.responsesAndData.products.productsEntities.Product
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityProductCategoryBinding
+import com.example.buildup.extensions.loadImage
 import com.example.buildup.ui.BottomNavigation.CartActivity
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapter
 import com.example.buildup.ui.Products.adapters.ProductSubCategoryAdapter
 
 class ProductCategoryActivity : AppCompatActivity() {
-    //    private lateinit var _binding:ActivityProductCategoryBinding
     private lateinit var _binding: ActivityProductCategoryBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var productCategoryAdapter: ProductCategoryAdapter
     private lateinit var productSubCategoryAdapter: ProductSubCategoryAdapter
-    lateinit var swipeRefreshLayout: SwipeRefreshLayout
-//    private var productCategoryId: String? = null
-//    private var productCategoryName:String?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_product_category)
@@ -84,7 +82,8 @@ class ProductCategoryActivity : AppCompatActivity() {
                 productCategoryAdapter.submitList(it.productCategories)
                 productCategoryAdapter.notifyDataSetChanged()
                 _binding.productCategoryText.text=it.productCategories?.get(0)?.name
-                getProductSubCategories(it.productCategories?.get(0)?.id!!)
+                _binding.imageView6.loadImage(it.productCategories!![0].image!!)
+                getProductSubCategories(it.productCategories!![0].id)
 //                else{
 //                    openProductCategory(ProductCategoryIdData(productCategoryId!!,productCategoryName!!))
 //                }
@@ -109,17 +108,18 @@ class ProductCategoryActivity : AppCompatActivity() {
 //                Toast.makeText(this,"product sub categories fetching failed.", Toast.LENGTH_SHORT).show()
 //        }
 //    }
-    fun openProductCategory(productCategoryIdData: ProductCategoryIdData) {
+    private fun openProductCategory(productCategoryIdData: ProductCategoryIdData) {
 //        Log.d("productCategoryId",productCategoryId.toString())
 
         _binding.productsCategoryRecyclerView.setBackgroundColor(getColor(R.color.grey_bg_poducts))
         _binding.productCategoryText.text=productCategoryIdData.productCategoryName
+        _binding.imageView6.loadImage(productCategoryIdData.productCategoryImage)
         getProductSubCategories(productCategoryIdData.productCategoryId)
 
 //        getProductSubCategories(productCategoryId!!)
     }
 
-    fun getProductSubCategories(productCategoryId: String) {
+    private fun getProductSubCategories(productCategoryId: String) {
         authViewModel.getProductSubCategories(productCategoryId)
         authViewModel.respProductSubCategoryArray.observe({ lifecycle }) {
             if (it.success!!) {
@@ -137,7 +137,7 @@ class ProductCategoryActivity : AppCompatActivity() {
         }
     }
 
-    fun onProductSubCategoryClicked(productSubCategoryIdData: ProductSubCategoryIdData) {
+    private fun onProductSubCategoryClicked(productSubCategoryIdData: ProductSubCategoryIdData) {
         val intent = Intent(this, ProductsActivity::class.java)
         intent.putExtra("productSubCategoryId", productSubCategoryIdData.productSubCategoryId)
         intent.putExtra("productSubCategoryName", productSubCategoryIdData.productSubCategoryName)

@@ -79,7 +79,7 @@ class CodPaymentActivity : AppCompatActivity() {
                     tvOrderProductDetail.text= productQuantity.toString() + " x " + "Total Items"
                     tvTotalMrp.text="₹ " + totalMrp.toString()
                     tvDiscountedPrice.text="₹ " + discountedPrice.toString()
-                    tvTotalDiscount.text="₹ " + (totalMrp-discountedPrice).toString()
+                    tvTotalDiscount.text="- ₹ " + (totalMrp-discountedPrice).toString()
                     tvDeliveryCharge.text="₹ " + shippingCost.toString()
                     tvTotalCartValue.text="₹ " + (discountedPrice+shippingCost!!).toString()
                 }

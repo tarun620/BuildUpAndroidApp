@@ -43,7 +43,7 @@ class ProductCategoryAdapterNew(val onProductCategoryClicked:(productCategoryIdD
             ivCategoryImage.loadCategoryImage(productCategory.image) //TODO : handle if image is null
             tvCategoryName.text=productCategory.name
 
-            root.setOnClickListener { onProductCategoryClicked(ProductCategoryIdData(productCategory.id,productCategory.name)) }
+            root.setOnClickListener { onProductCategoryClicked(ProductCategoryIdData(productCategory.id,productCategory.name,productCategory.image!!)) }
 
         }
     }
