@@ -70,7 +70,6 @@ class NewSignupActivity : AppCompatActivity() {
                         remove("token")
                     }
                 }
-                Toast.makeText(this,it.message, Toast.LENGTH_SHORT).show()
                 if(!it.user!!.profileImage.isNullOrBlank())
                     tinyDB.putString("userProfileImage",it.user!!.profileImage)
                 tinyDB.putString("userName",it.user!!.name)

@@ -182,18 +182,14 @@ class ProductsActivity : AppCompatActivity() {
         if(isWishlistedData.isWishlisted){
             authViewModel.removeProductFromWishlist(isWishlistedData.productId)
             authViewModel.respRemoveProductFromWishlist.observe({lifecycle}){
-                if(it?.success!!)
-                    Toast.makeText(this,"RecentProduct removed from wishlist",Toast.LENGTH_SHORT).show()
-                else
+                if(!it?.success!!)
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
         else{
             authViewModel.addProductToWishlist(isWishlistedData.productId)
             authViewModel.respAddProductToWishlist.observe({lifecycle}){
-                if(it?.success!!)
-                    Toast.makeText(this,"RecentProduct added to wishlist",Toast.LENGTH_SHORT).show()
-                else
+                if(!it?.success!!)
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
@@ -206,7 +202,6 @@ class ProductsActivity : AppCompatActivity() {
         if (!hasNextBool) {
             // checking if the page number is greater than limit.
             // displaying toast message in this case when page>limit.
-            Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show();
 
             // hiding our progress bar.
             _binding.idPBLoading.visibility=View.GONE
@@ -240,7 +235,6 @@ class ProductsActivity : AppCompatActivity() {
                 else {
                     _binding.productsRecyclerView.visibility=View.VISIBLE
                     _binding.noProductsLayout.visibility=View.GONE
-                    Toast.makeText(this, "products fetching successful", Toast.LENGTH_SHORT).show()
 
 //                    for(i in it.products!!){
 //                        if(i!=null)

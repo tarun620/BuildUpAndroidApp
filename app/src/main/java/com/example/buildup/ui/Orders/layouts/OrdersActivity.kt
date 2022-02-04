@@ -81,7 +81,6 @@ class OrdersActivity : AppCompatActivity() {
         if (!hasNextBool) {
             // checking if the page number is greater than limit.
             // displaying toast message in this case when page>limit.
-            Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show();
 
             // hiding our progress bar.
             _binding.idPBLoading.visibility=View.GONE
@@ -103,7 +102,6 @@ class OrdersActivity : AppCompatActivity() {
                 }
                 hasNext=it.hasNext!!
 
-                Toast.makeText(this,"Orders Fetched Successfully.",Toast.LENGTH_SHORT).show()
                 for(i in it.orders!!){
                     if(!ordersList.contains(i))
                         ordersList.add(i)

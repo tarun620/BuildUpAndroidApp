@@ -251,7 +251,6 @@ class OrderActivity : AppCompatActivity() {
                 if(it?.success!!){
                     isSuccess=true
                     Log.d("isSuccessUnderFuncBw",isSuccess.toString())
-                    Toast.makeText(this,"Product Rated Successfully.",Toast.LENGTH_SHORT).show()
 
                 }
                 else{
@@ -269,7 +268,6 @@ class OrderActivity : AppCompatActivity() {
             authViewModel.getUserProductRating(productId!!)
             authViewModel.respGetUserProductrating.observe({lifecycle}){
                 if(it?.success!!){
-                    Toast.makeText(this,"Product Rating fetched Successfully.",Toast.LENGTH_SHORT).show()
                     userRating=it.userRating!!
                     if(userRating>0)
                         setProductRating()
@@ -388,7 +386,6 @@ class OrderActivity : AppCompatActivity() {
         authViewModel.cancelOrder(orderId!!)
         authViewModel.respCancelOrder.observe({lifecycle}){
             if(it?.success!!){
-                Toast.makeText(this,"Order Cancelled Successfully.",Toast.LENGTH_SHORT).show()
 //                updateStepView()
                 getOrderById(orderId)
             }

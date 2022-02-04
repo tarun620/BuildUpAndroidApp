@@ -77,8 +77,6 @@ class ProductCategoryActivity : AppCompatActivity() {
             if (it?.success!!) {
                 _binding.mainLayout.visibility= View.VISIBLE
                 _binding.idPBLoading.visibility= View.GONE
-                Toast.makeText(this, "product categories fetching successful", Toast.LENGTH_SHORT)
-                    .show()
                 productCategoryAdapter.submitList(it.productCategories)
                 productCategoryAdapter.notifyDataSetChanged()
                 _binding.productCategoryText.text=it.productCategories?.get(0)?.name
@@ -124,11 +122,7 @@ class ProductCategoryActivity : AppCompatActivity() {
         authViewModel.respProductSubCategoryArray.observe({ lifecycle }) {
             if (it.success!!) {
 //                Log.d("testLog",it.productSubCategories)
-                Toast.makeText(
-                    this,
-                    "product sub categories fetching successful",
-                    Toast.LENGTH_SHORT
-                ).show()
+
                 productSubCategoryAdapter.submitList(it.productSubCategories)
             } else {
                 Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()

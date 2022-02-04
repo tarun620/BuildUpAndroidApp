@@ -174,7 +174,7 @@
             android:id="@+id/nested_recycler_view2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/price_range_text"

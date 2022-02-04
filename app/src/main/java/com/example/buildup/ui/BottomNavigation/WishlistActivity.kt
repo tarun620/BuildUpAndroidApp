@@ -127,7 +127,6 @@ class  WishlistActivity : AppCompatActivity() {
         if (!hasNextBool) {
             // checking if the page number is greater than limit.
             // displaying toast message in this case when page>limit.
-            Toast.makeText(this, "That's all the data..", Toast.LENGTH_SHORT).show();
 
             // hiding our progress bar.
             _binding.idPBLoading.visibility=View.GONE
@@ -155,7 +154,6 @@ class  WishlistActivity : AppCompatActivity() {
 
                 }
                 hasNext=it.hasNext!!
-                Toast.makeText(this,"wishlist items fetched successfully.", Toast.LENGTH_SHORT).show()
 
                 Log.d("wishlistProductListbefore",productsList.size.toString())
 
@@ -194,7 +192,6 @@ class  WishlistActivity : AppCompatActivity() {
         authViewModel.removeProductFromWishlist(wishlistPositionData!!.productId)
         authViewModel.respRemoveProductFromWishlist.observe({lifecycle}){
             if(it?.success!!){
-                Toast.makeText(this,"Product removed from wishlist",Toast.LENGTH_SHORT).show()
                 var product: Product? =null
                 productsList.forEach {
                     if(it.id==wishlistPositionData.productId)
@@ -225,7 +222,6 @@ class  WishlistActivity : AppCompatActivity() {
             authViewModel.addProductToCart(wishlistData.productId,true)
             authViewModel.respAddProductToCart.observe({lifecycle}){
                 if(it?.success!!){
-                    Toast.makeText(this,"RecentProduct added to cart successsfully.",Toast.LENGTH_SHORT).show()
                     var product: Product? =null
                     productsList.forEach {
                         if(it.id==wishlistData.productId)

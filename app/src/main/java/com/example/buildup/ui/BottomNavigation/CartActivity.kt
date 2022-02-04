@@ -135,7 +135,6 @@ class CartActivity : AppCompatActivity() {
                     _binding.emptyCartLayout.visibility=View.GONE
                     _binding.btnCheckout.visibility=View.VISIBLE
                 }
-                Toast.makeText(this,"cart items fetched successfully.", Toast.LENGTH_SHORT).show()
                 isEmpty =it.items!!.isEmpty()
                 cartAdapter.submitList(it.items)
 
@@ -144,8 +143,8 @@ class CartActivity : AppCompatActivity() {
                 var productQuantity=0
 
                 for(i in it.items!!){
-                    totalMrp+=i.product.mrp
-                    discountedPrice+=i.product.amount
+                    totalMrp+=i.product.mrp * i.quantity
+                    discountedPrice+=i.product.amount * i.quantity
                     productQuantity+=i.quantity
 
                 }
@@ -169,6 +168,7 @@ class CartActivity : AppCompatActivity() {
     private fun openProductActivity(productId:String?){
         val intent= Intent(this, ProductActivity::class.java)
         intent.putExtra("productId",productId)
+        intent.putExtra("productClickedFromCartIntent",true)
         startActivity(intent)
 
     }

@@ -26,7 +26,6 @@
         android:text="Products"
         android:textColor="@color/black"
         android:textSize="30sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/back_btn"
         app:layout_constraintTop_toTopOf="parent" />
 

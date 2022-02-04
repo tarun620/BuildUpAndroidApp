@@ -46,7 +46,6 @@ class CodPaymentActivity : AppCompatActivity() {
             authViewModel.createOrder(propertyId,"cod","null",true)
             authViewModel.respCreateOrder.observe({lifecycle}){
                 if(it?.success!!){
-                    Toast.makeText(this,"Order Placed Successfully", Toast.LENGTH_SHORT).show()
                     val intent= Intent(this, OrdersActivity::class.java)
                     startActivity(intent)
                 }

@@ -138,7 +138,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if(it?.success!!){
                 _binding.mainLayout.visibility=View.VISIBLE
                 _binding.idPBLoading.visibility=View.GONE
-                Toast.makeText(this,"Brands fetched Successfully",Toast.LENGTH_SHORT).show()
                 brandAdapter.submitList(it.brands)
             }
             else
@@ -160,8 +159,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         authViewModel.getProductCategories(true,6)
         authViewModel.respProductCategoryArray.observe({ lifecycle }) {
             if (it?.success!!) {
-                Toast.makeText(this, "product categories fetching successful", Toast.LENGTH_SHORT)
-                    .show()
                 productCategoryAdapter.submitList(it.productCategories)
                 productCategoryAdapter.notifyDataSetChanged()
 
@@ -203,6 +200,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun onProductClicked(productId:String?){
         val intent= Intent(this, ProductActivity::class.java)
         intent.putExtra("productId",productId)
+        intent.putExtra("productClickedFromHomeIntent",true)
         startActivity(intent)
     }
     override fun onBackPressed() {

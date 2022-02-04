@@ -249,7 +249,6 @@ class NewOtpActivity : AppCompatActivity() {
 
                     authViewModel.resp.observe({lifecycle}){
                         if(it?.success!!){
-                            Toast.makeText(this@NewOtpActivity,it.message,Toast.LENGTH_SHORT).show()
                             val intent=Intent(this@NewOtpActivity, NewSignupActivity::class.java)
                             intent.putExtra("mobileNo",mobileNoEditText)
                             startActivity(intent)

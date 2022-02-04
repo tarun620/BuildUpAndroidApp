@@ -20,7 +20,6 @@ import com.example.api.models.responsesAndData.products.productsEntities.Recenty
 import com.example.buildup.AuthViewModel
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivitySearchBinding
-import com.example.buildup.databinding.BlurLayoutBinding
 import com.example.buildup.ui.Products.adapters.AutoCompleteQueryAdapter
 import com.example.buildup.ui.Products.adapters.AutoCompleteQueryAdapterJava
 import com.example.buildup.ui.Products.adapters.RecentSearchedAdapter
@@ -31,7 +30,6 @@ import kotlin.collections.ArrayList
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var _binding: ActivitySearchBinding
-    private lateinit var _bindingDialog : BlurLayoutBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var recentViewedProductsAdapter: RecentViewedProductsAdapter
     private lateinit var recentSearchedAdapter : RecentSearchedAdapter
@@ -44,7 +42,6 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding= ActivitySearchBinding.inflate(layoutInflater)
-        _bindingDialog= BlurLayoutBinding.inflate(layoutInflater)
 
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
 
@@ -55,7 +52,6 @@ class SearchActivity : AppCompatActivity() {
         val intent=intent
         if(Intent.ACTION_SEARCH == intent.action){
             var query=intent.getStringExtra(SearchManager.QUERY)
-            Toast.makeText(this,query,Toast.LENGTH_SHORT).show()
         }
         _binding.recentlyViewedRecyclerView.layoutManager=LinearLayoutManager(this,RecyclerView.HORIZONTAL,false)
         _binding.recentlyViewedRecyclerView.adapter=recentViewedProductsAdapter
@@ -155,6 +151,7 @@ class SearchActivity : AppCompatActivity() {
     private fun onProductClicked(productId:String?){
         val intent=Intent(this, ProductActivity::class.java)
         intent.putExtra("productId",productId)
+        intent.putExtra("productClickedFromSearchIntent",true)
         startActivity(intent)
     }
     private fun onItemClicked(searchQuery:String?){

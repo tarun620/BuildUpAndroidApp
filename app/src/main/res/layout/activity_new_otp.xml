@@ -53,178 +53,192 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="4"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
 
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/verifyOTP">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="18dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="24dp"
-            android:layout_weight="1"
-            android:background="@drawable/otp_edit_bg"
-            android:layout_gravity="center"
-            android:focusable="true"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:boxCornerRadiusBottomEnd="5dp"
-            app:boxCornerRadiusBottomStart="5dp"
-            app:boxCornerRadiusTopEnd="5dp"
-            app:boxCornerRadiusTopStart="5dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_otp_1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="18dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/otp_edit_bg"
                 android:layout_gravity="center"
-                android:textAlignment="center"
                 android:focusable="true"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="@color/orange_main"
-                android:inputType="number"
-                android:maxLength="1" />
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_otp_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:focusable="true"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:textColor="@color/orange_main"
+                    android:inputType="number"
+                    android:maxLength="1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="18dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="24dp"
-            android:layout_weight="1"
-            android:background="@drawable/otp_edit_bg"
-            android:focusable="true"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:boxCornerRadiusBottomEnd="5dp"
-            app:boxCornerRadiusBottomStart="5dp"
-            app:boxCornerRadiusTopEnd="5dp"
-            app:boxCornerRadiusTopStart="5dp">
+            </com.google.android.material.textfield.TextInputLayout>
 
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_otp_2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:textAlignment="center"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="18dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/otp_edit_bg"
                 android:focusable="true"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="@color/orange_main"
-                android:inputType="number"
-                android:maxLength="1" />
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="18dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="24dp"
-            android:layout_weight="1"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            android:background="@drawable/otp_edit_bg"
-            android:focusable="true"
-            app:boxCornerRadiusBottomEnd="5dp"
-            app:boxCornerRadiusBottomStart="5dp"
-            app:boxCornerRadiusTopEnd="5dp"
-            app:boxCornerRadiusTopStart="5dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_otp_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:textAlignment="center"
+                    android:focusable="true"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:textColor="@color/orange_main"
+                    android:inputType="number"
+                    android:maxLength="1" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_otp_3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:textAlignment="center"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="18dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                android:background="@drawable/otp_edit_bg"
                 android:focusable="true"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="@color/orange_main"
-                android:inputType="number"
-                android:maxLength="1" />
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_otp_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:textAlignment="center"
+                    android:focusable="true"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:textColor="@color/orange_main"
+                    android:inputType="number"
+                    android:maxLength="1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="18dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            android:background="@drawable/otp_edit_bg"
-            android:focusable="true"
-            app:boxCornerRadiusBottomEnd="5dp"
-            app:boxCornerRadiusBottomStart="5dp"
-            app:boxCornerRadiusTopEnd="5dp"
-            app:boxCornerRadiusTopStart="5dp">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_otp_4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:textAlignment="center"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="18dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                android:background="@drawable/otp_edit_bg"
                 android:focusable="true"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:textColor="@color/orange_main"
-                android:inputType="number"
-                android:maxLength="1" />
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_otp_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:textAlignment="center"
+                    android:focusable="true"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:textColor="@color/orange_main"
+                    android:inputType="number"
+                    android:maxLength="1" />
 
-    </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/resendOTP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/overpass"
-        android:layout_marginStart="10dp"
-        android:text="Resend OTP"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        </LinearLayout>
 
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/verifyOTP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="2dp"
+            android:src="@drawable/otp_submit"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
-        android:id="@+id/timerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/overpass"
-        android:text="1:00 left"
-        android:layout_marginEnd="10dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        <TextView
+            android:id="@+id/resendOTP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/overpass"
+            android:layout_marginStart="10dp"
+            android:text="Resend OTP"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-        app:layout_goneMarginTop="12dp" />
+        <TextView
+            android:id="@+id/timerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/overpass"
+            android:text="1:00 left"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/verifyOTP"
+            app:layout_constraintTop_toBottomOf="@+id/verifyOTP"
+            app:layout_goneMarginTop="12dp" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/verifyOTP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/otp_submit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resendOTP" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
 
 
 

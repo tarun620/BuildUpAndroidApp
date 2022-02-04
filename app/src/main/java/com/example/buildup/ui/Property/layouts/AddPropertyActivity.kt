@@ -27,7 +27,6 @@ import com.example.api.models.responsesAndData.property.propertyEntities.AddProp
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityAddPropertyBinding
-import com.example.buildup.databinding.AssetSuccesDialogBinding
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.PendingResult
 import com.google.android.gms.common.api.ResolvableApiException
@@ -45,7 +44,6 @@ class AddPropertyActivity : AppCompatActivity() {
         private const val PERMISSION_REQUEST_ACCESS_LOCATION=100
     }
     private lateinit var _binding: ActivityAddPropertyBinding
-    private lateinit var _bindingDialog: AssetSuccesDialogBinding
     private lateinit var authViewModel: AuthViewModel
     private var propertyId:String?=null
     //    private  var addressType: String?=null
@@ -71,7 +69,6 @@ class AddPropertyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_add_property)
         _binding = ActivityAddPropertyBinding.inflate(layoutInflater)
-        _bindingDialog= AssetSuccesDialogBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
 
         propertyId=intent.getStringExtra("propertyId")
@@ -164,7 +161,6 @@ class AddPropertyActivity : AppCompatActivity() {
 
                         authViewModel.respEditPropertyAddress.observe({ lifecycle }) {
                             if (it?.success!!) {
-                                Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
                                 finish()
                             } else {
                                 Toast.makeText(this@AddPropertyActivity, it.error, Toast.LENGTH_SHORT).show()
@@ -188,7 +184,6 @@ class AddPropertyActivity : AppCompatActivity() {
 
                         authViewModel.resp.observe({ lifecycle }) {
                             if (it?.success!!) {
-                                Toast.makeText(this@AddPropertyActivity, it.message, Toast.LENGTH_SHORT).show()
                                 finish()
                             } else {
                                 Toast.makeText(this@AddPropertyActivity, it?.error, Toast.LENGTH_SHORT).show()
@@ -718,7 +713,6 @@ class AddPropertyActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if(requestCode== PERMISSION_REQUEST_ACCESS_LOCATION){
             if(grantResults.isNotEmpty() && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this,"Permission Granted.",Toast.LENGTH_SHORT).show()
                 getCurrentLocation()
             }
             else{

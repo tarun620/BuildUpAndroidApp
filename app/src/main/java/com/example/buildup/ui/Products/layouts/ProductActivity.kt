@@ -29,6 +29,9 @@ class ProductActivity : AppCompatActivity() {
     private lateinit var adapter: ProductViewPagerAdapter
 //    private lateinit var productImageList: ArrayList<String>
     private lateinit var productId:String
+    private var productClickedFromCartIntent:Boolean=false
+    private var productClickedFromHomeIntent:Boolean=false
+    private var productClickedFromSearchIntent:Boolean=false
     private var inCart=false
     private var isWishlisted=false
     private val colors = intArrayOf(
@@ -60,11 +63,19 @@ class ProductActivity : AppCompatActivity() {
         setContentView(_binding.root)
 
         productId= intent.getStringExtra("productId")!!
+        productClickedFromCartIntent=intent.getBooleanExtra("productClickedFromCartIntent",false)
+        productClickedFromHomeIntent=intent.getBooleanExtra("productClickedFromHomeIntent",false)
+        productClickedFromSearchIntent=intent.getBooleanExtra("productClickedFromSearchIntent",false)
 
         _binding.backBtn.setOnClickListener {
-            val intent=Intent(this,ProductsActivity::class.java)
-            intent.putExtra("fromProductActivity",true)
-            startActivity(intent)
+            if(productClickedFromCartIntent || productClickedFromHomeIntent || productClickedFromSearchIntent)
+                finish()
+            else{
+                val intent=Intent(this,ProductsActivity::class.java)
+                intent.putExtra("fromProductActivity",true)
+                startActivity(intent)
+            }
+
         }
         _binding.btnCart.setOnClickListener {
             val intent=Intent(this,CartActivity::class.java)
@@ -252,9 +263,13 @@ class ProductActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent=Intent(this,ProductsActivity::class.java)
-        intent.putExtra("fromProductActivity",true)
-        startActivity(intent)
+        if(productClickedFromCartIntent || productClickedFromHomeIntent || productClickedFromSearchIntent)
+            finish()
+        else{
+            val intent=Intent(this,ProductsActivity::class.java)
+            intent.putExtra("fromProductActivity",true)
+            startActivity(intent)
+        }
 
     }
 }

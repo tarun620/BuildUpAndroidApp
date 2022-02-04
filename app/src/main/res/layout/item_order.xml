@@ -72,13 +72,14 @@
             android:layout_marginStart="12dp"/>
         <LinearLayout
             android:id="@+id/nested_linear_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginStart="45dp"
+            android:layout_marginStart="24dp"
             app:layout_constraintStart_toEndOf="@id/iv_product_image"
             app:layout_constraintTop_toTopOf="@id/iv_product_image"
-            app:layout_constraintBottom_toBottomOf="@id/iv_product_image">
+            app:layout_constraintBottom_toBottomOf="@id/iv_product_image"
+            app:layout_constraintEnd_toStartOf="@+id/btn_open_order_details">
 
             <TextView
                 android:id="@+id/tv_brand_name"
@@ -124,10 +125,11 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btn_open_order_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_right_arrow"
-            android:layout_marginEnd="30dp"
+            android:layout_marginEnd="18dp"
             android:padding="7dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/nested_linear_layout"

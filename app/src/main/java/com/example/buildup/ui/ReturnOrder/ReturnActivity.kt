@@ -68,7 +68,7 @@ class ReturnActivity : AppCompatActivity() {
                     }
                 }
                 else{
-                    Toast.makeText(this@ReturnActivity,"Please Select a Reason to Return the Products..",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ReturnActivity,"Please Select a Reason to Return the Product..",Toast.LENGTH_SHORT).show()
                 }
             }
         }
