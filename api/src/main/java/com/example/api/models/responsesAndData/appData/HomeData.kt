@@ -6,6 +6,8 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class HomeData(
+    @Json(name = "imgPath")
+    var imgPath:String,
     @Json(name = "heading1")
     var heading1: String,
     @Json(name = "heading2")

@@ -21,6 +21,7 @@ import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.example.buildup.ui.Products.adapters.ProductViewPagerAdapter
 import com.taufiqrahman.reviewratings.BarLabels
 import java.util.*
+import kotlin.math.floor
 
 
 class ProductActivity : AppCompatActivity() {
@@ -67,13 +68,16 @@ class ProductActivity : AppCompatActivity() {
         productClickedFromHomeIntent=intent.getBooleanExtra("productClickedFromHomeIntent",false)
         productClickedFromSearchIntent=intent.getBooleanExtra("productClickedFromSearchIntent",false)
 
+        Log.d("productId",productId)
         _binding.backBtn.setOnClickListener {
             if(productClickedFromCartIntent || productClickedFromHomeIntent || productClickedFromSearchIntent)
                 finish()
             else{
-                val intent=Intent(this,ProductsActivity::class.java)
-                intent.putExtra("fromProductActivity",true)
-                startActivity(intent)
+                finish()
+
+//                val intent=Intent(this,ProductsActivity::class.java)
+//                intent.putExtra("fromProductActivity",true)
+//                startActivity(intent)
             }
 
         }
@@ -180,9 +184,14 @@ class ProductActivity : AppCompatActivity() {
 
                     tvProductName.text=it.product?.brand?.name + " " + it.product?.name
                     tvDescription.text=it.product?.description
-                    tvProductPrice.text="₹ " + it.product?.amount.toString()
-                    tvProductMRP.text="₹ " + it.product?.mrp.toString()
+                    var productPrice:Int=it.product?.amount!!
+                    var productMRP:Int=it.product?.mrp!!
+                    tvProductPrice.text="₹ " + productPrice.toString()
+                    tvProductMRP.text="₹ " + productMRP.toString()
                     tvProductMRP.paintFlags = tvProductMRP.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    var discount:Double = ((productMRP-productPrice).toDouble()/productMRP)*100
+                    discount= floor(discount)
+                    tvDiscount.text=discount.toInt().toString() + "% OFF"
 
                     setViewPagerAdapter(it.product?.image!!)
                     if(it.product?.isWishlisted!!){
@@ -194,6 +203,7 @@ class ProductActivity : AppCompatActivity() {
                         _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlist_new)
                     }
 
+//                    Log.d("inCart",it.product?.inCart.toString())
                     if(it.product?.inCart!!){
                         Log.d("inCartFunc","true")
                         inCart=true
@@ -266,9 +276,11 @@ class ProductActivity : AppCompatActivity() {
         if(productClickedFromCartIntent || productClickedFromHomeIntent || productClickedFromSearchIntent)
             finish()
         else{
-            val intent=Intent(this,ProductsActivity::class.java)
-            intent.putExtra("fromProductActivity",true)
-            startActivity(intent)
+
+            finish()
+//            val intent=Intent(this,ProductsActivity::class.java)
+//            intent.putExtra("fromProductActivity",true)
+//            startActivity(intent)
         }
 
     }

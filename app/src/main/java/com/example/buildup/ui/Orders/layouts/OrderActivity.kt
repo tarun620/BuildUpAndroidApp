@@ -111,7 +111,7 @@ class OrderActivity : AppCompatActivity() {
                 startActivity(Intent(this@OrderActivity, OrdersActivity::class.java))
             }
 
-            ivDownloadImage.setOnClickListener {
+            invoiceLayout.setOnClickListener {
 //                requestPermission()
                 downloadInvoice()
             }

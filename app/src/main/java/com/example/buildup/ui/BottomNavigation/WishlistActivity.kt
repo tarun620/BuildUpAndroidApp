@@ -21,7 +21,7 @@ import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Wishlist.adapters.WishlistAdapter
 
 
-class  WishlistActivity : AppCompatActivity() {
+class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputListener {
     private lateinit var _binding: ActivityWishlistBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var wishlistAdapter: WishlistAdapter
@@ -32,9 +32,12 @@ class  WishlistActivity : AppCompatActivity() {
     private var productsList= mutableListOf<Product>()
     private var fromCartActivity:Boolean=false
     private var fromProductActivity:Boolean=false
+    private var mInput:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityWishlistBinding.inflate(layoutInflater)
+
+
 
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
 
@@ -46,6 +49,11 @@ class  WishlistActivity : AppCompatActivity() {
         fromCartActivity=intent.getBooleanExtra("fromCartActivity",false)
         fromProductActivity=intent.getBooleanExtra("fromProductActivity",false)
 
+
+        _binding.wishListRecyclerView.visibility= View.VISIBLE
+        _binding.idPBLoading.visibility= View.GONE
+        _binding.emptyWishlistLayout.visibility=View.GONE
+        _binding.removeBtn.visibility=View.VISIBLE
 
         _binding.backBtn.setOnClickListener {
 //            if(fromProductActivity)
@@ -67,31 +75,36 @@ class  WishlistActivity : AppCompatActivity() {
 
         _binding.apply {
             removeBtn.setOnClickListener {
-                val builder = AlertDialog.Builder(this@WishlistActivity)
-                //set title for alert dialog
-                builder.setTitle("Delete Wishlist")
-                //set message for alert dialog
-                builder.setMessage("Do you want to delete your Entire Wishlist?")
-                builder.setIcon(android.R.drawable.ic_dialog_alert)
+//                val builder = AlertDialog.Builder(this@WishlistActivity)
+//                //set title for alert dialog
+//                builder.setTitle("Delete Wishlist")
+//                //set message for alert dialog
+//                builder.setMessage("Do you want to delete your Entire Wishlist?")
+//                builder.setIcon(android.R.drawable.ic_dialog_alert)
+//
+//                //performing positive action
+//                builder.setPositiveButton("Yes"){dialogInterface, which ->
+////                    (application as MyApplication).clearQueue()
+////                    deleteWishlist()
+//                }
+//                //performing cancel action
+//                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+//
+//                }
+//                //performing negative action
+//                builder.setNegativeButton("No"){dialogInterface, which ->
+//                }
+//                // Create the AlertDialog
+//                val alertDialog: AlertDialog = builder.create()
+//                // Set other dialog properties
+//                alertDialog.setCancelable(false)
+//                alertDialog.show()
 
-                //performing positive action
-                builder.setPositiveButton("Yes"){dialogInterface, which ->
-//                    (application as MyApplication).clearQueue()
-                    deleteWishlist()
-                }
-                //performing cancel action
-                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+                MyCustomDialogWishlist().show(supportFragmentManager, "MyCustomFragment")
 
-                }
-                //performing negative action
-                builder.setNegativeButton("No"){dialogInterface, which ->
-                }
-                // Create the AlertDialog
-                val alertDialog: AlertDialog = builder.create()
-                // Set other dialog properties
-                alertDialog.setCancelable(false)
-                alertDialog.show()
             }
+
+
         }
 
 
@@ -245,20 +258,6 @@ class  WishlistActivity : AppCompatActivity() {
 
     }
 
-    private fun deleteWishlist(){
-        authViewModel.deleteWishlist()
-        authViewModel.respDeleteWishlist.observe({lifecycle}){
-            if(it?.success!!) {
-                _binding.itemCount.text="0 items"
-                productsList.clear()
-                wishlistAdapter.submitList(productsList)
-                wishlistAdapter.notifyDataSetChanged()
-            }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         getWishlistOnScrolled(0,true)
@@ -272,5 +271,29 @@ class  WishlistActivity : AppCompatActivity() {
         else
             finish()
 
+    }
+
+    override fun sendInput(input: String?) {
+        if(input=="yes")
+            deleteWishlist();
+    }
+    private fun deleteWishlist(){
+        authViewModel.deleteWishlist()
+        authViewModel.respDeleteWishlist.observe({lifecycle}){
+            if(it?.success!!) {
+                _binding.itemCount.text="0 items"
+                productsList.clear()
+                wishlistAdapter.submitList(productsList)
+                wishlistAdapter.notifyDataSetChanged()
+
+                _binding.wishListRecyclerView.visibility= View.GONE
+                _binding.idPBLoading.visibility= View.GONE
+                _binding.emptyWishlistLayout.visibility=View.VISIBLE
+                _binding.removeBtn.visibility=View.GONE
+
+            }
+            else
+                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+        }
     }
 }

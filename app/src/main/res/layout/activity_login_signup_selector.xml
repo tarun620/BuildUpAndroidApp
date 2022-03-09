@@ -34,7 +34,7 @@
             android:layout_height="60dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
-            android:src="@drawable/home_icon"
+            android:src="@drawable/ic_home_icon_gradient2"
             app:layout_constraintBottom_toTopOf="@+id/tv_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

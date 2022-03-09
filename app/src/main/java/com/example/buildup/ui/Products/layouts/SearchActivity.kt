@@ -18,8 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.products.productsEntities.RecentySearchedQueryData
 import com.example.buildup.AuthViewModel
+import com.example.buildup.MyApplication
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivitySearchBinding
+import com.example.buildup.ui.BottomNavigation.MyCustomDialogCart
 import com.example.buildup.ui.Products.adapters.AutoCompleteQueryAdapter
 import com.example.buildup.ui.Products.adapters.AutoCompleteQueryAdapterJava
 import com.example.buildup.ui.Products.adapters.RecentSearchedAdapter
@@ -28,7 +30,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(),MyCustomDialogSearch.OnInputListener{
     private lateinit var _binding: ActivitySearchBinding
     private lateinit var authViewModel: AuthViewModel
     private lateinit var recentViewedProductsAdapter: RecentViewedProductsAdapter
@@ -79,32 +81,35 @@ class SearchActivity : AppCompatActivity() {
                 finish()
             }
             removeBtn.setOnClickListener {
-                val builder = AlertDialog.Builder(this@SearchActivity)
-                //set title for alert dialog
-                builder.setTitle("Delete History")
-                //set message for alert dialog
-                builder.setMessage("Do you want to delete your Entire Search History?")
-                builder.setIcon(android.R.drawable.ic_dialog_alert)
+//                val builder = AlertDialog.Builder(this@SearchActivity)
+//                //set title for alert dialog
+//                builder.setTitle("Delete History")
+//                //set message for alert dialog
+//                builder.setMessage("Do you want to delete your Entire Search History?")
+//                builder.setIcon(android.R.drawable.ic_dialog_alert)
+//
+//                //performing positive action
+//                builder.setPositiveButton("Yes"){dialogInterface, which ->
+////                    (application as MyApplication).clearQueue()
+//                    searchQueryList.clear()
+//                    tinyDB.putListString("searchQueryList",searchQueryList)
+//                    getRecentSearchedQuery()
+//                }
+//                //performing cancel action
+//                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+//
+//                }
+//                //performing negative action
+//                builder.setNegativeButton("No"){dialogInterface, which ->
+//                }
+//                // Create the AlertDialog
+//                val alertDialog: AlertDialog = builder.create()
+//                // Set other dialog properties
+//                alertDialog.setCancelable(false)
+//                alertDialog.show()
 
-                //performing positive action
-                builder.setPositiveButton("Yes"){dialogInterface, which ->
-//                    (application as MyApplication).clearQueue()
-                    searchQueryList.clear()
-                    tinyDB.putListString("searchQueryList",searchQueryList)
-                    getRecentSearchedQuery()
-                }
-                //performing cancel action
-                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+                MyCustomDialogSearch().show(supportFragmentManager, "MyCustomFragment")
 
-                }
-                //performing negative action
-                builder.setNegativeButton("No"){dialogInterface, which ->
-                }
-                // Create the AlertDialog
-                val alertDialog: AlertDialog = builder.create()
-                // Set other dialog properties
-                alertDialog.setCancelable(false)
-                alertDialog.show()
             }
         }
 
@@ -112,6 +117,20 @@ class SearchActivity : AppCompatActivity() {
         getRecentlyViewedProducts()
 //        getRecentSearchedQuery()
     }
+    override fun sendInput(input: String?) {
+        if(input=="yes"){
+            Log.d("productId","i am here")
+            deleteList()
+        }
+    }
+
+    private fun deleteList(){
+//        (application as MyApplication).clearQueue()
+        searchQueryList.clear()
+        tinyDB.putListString("searchQueryList",searchQueryList)
+        getRecentSearchedQuery()
+    }
+
 
     private fun performSearch() {
         _binding.apply {
@@ -156,7 +175,8 @@ class SearchActivity : AppCompatActivity() {
     }
     private fun onItemClicked(searchQuery:String?){
         val intent= Intent(this@SearchActivity,ProductsActivity::class.java)
-        intent.putExtra("searchQuery",_binding.etSearch.text.toString())
+        intent.putExtra("searchQueryRecentlySearched",searchQuery)
+        intent.putExtra("intentFromRecentlySearched",true)
         startActivity(intent)
     }
     private fun getRecentlyViewedProducts(){

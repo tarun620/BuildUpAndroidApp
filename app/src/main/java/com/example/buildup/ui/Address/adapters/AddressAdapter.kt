@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.api.models.responsesAndData.address.Property
+import com.example.buildup.MyApplication
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemAddressBinding
 
@@ -53,7 +54,9 @@ class AddressAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit, val
             tvClientMobileNumber.text=addresss.mobileNo.toString()
 
             btnEditAddress.setOnClickListener{ onEditAddressBtnClicked(addresss.id)}
-            btnDeleteAddress.setOnClickListener{ onDeleteAddressBtnClicked(addresss.id)}
+            btnDeleteAddress.setOnClickListener{
+                MyApplication.getInstance().clearPropertyId()
+                onDeleteAddressBtnClicked(addresss.id)}
 
         }
     }

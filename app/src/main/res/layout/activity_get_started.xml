@@ -33,7 +33,7 @@
             android:id="@+id/imageView8"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/home_icon"
+            android:src="@drawable/ic_home_icon_gradient2"
             app:tint="@color/orange_main" />
 
         <TextView

@@ -1,6 +1,7 @@
 package com.example.buildup.ui.Products.adapters
 
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +54,7 @@ class RecentViewedProductsAdapter(val onProductClicked:(productId:String?)->Unit
                 tvProductMRP.text="₹" + " " + product.mrp.toString()
                 tvProductMRP.paintFlags = tvProductMRP.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
+                Log.d("productId",product.id)
                 root.setOnClickListener { onProductClicked(product.id) }
             }
         }

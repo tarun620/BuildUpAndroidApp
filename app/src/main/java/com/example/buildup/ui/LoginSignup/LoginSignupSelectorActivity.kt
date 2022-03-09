@@ -27,6 +27,12 @@ class LoginSignupSelectorActivity : AppCompatActivity() {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+        authViewModel.getAppData("registration")
+        authViewModel.respGetAppData.observe({lifecycle}){
+            if(it?.success!!){
+                _binding?.tvDescription?.text=it.registrationData!!.text
+            }
+        }
         _binding?.apply {
             LoginButton.setOnClickListener {
                 isLogin=true

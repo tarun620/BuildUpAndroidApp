@@ -9,11 +9,12 @@
         android:id="@+id/back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="19dp"
+        android:layout_marginStart="7dp"
         android:padding="5dp"
         android:src="@drawable/ic_back_up_btn"
+        app:layout_constraintBottom_toBottomOf="@id/textView11"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textView11"
         app:tint="@color/black" />
 
     <TextView
@@ -25,7 +26,7 @@
         android:fontFamily="@font/overpass"
         android:text="Products"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@id/back_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +34,7 @@
         android:id="@+id/cart_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="16dp"
         android:src="@drawable/ic_cart_tool"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +44,7 @@
         android:id="@+id/search_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="24dp"
+        android:layout_margin="16dp"
         android:src="@drawable/ic_search"
         app:layout_constraintEnd_toStartOf="@id/cart_btn"
         app:layout_constraintTop_toTopOf="parent"

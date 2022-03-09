@@ -26,9 +26,9 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="12dp"
         android:fontFamily="@font/overpass"
-        android:text="Orders"
+        android:text="My Orders"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@id/back_btn"
         app:layout_constraintTop_toTopOf="parent" />
 

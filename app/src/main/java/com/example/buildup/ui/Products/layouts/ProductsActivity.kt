@@ -43,6 +43,8 @@ class ProductsActivity : AppCompatActivity() {
     private var sort:String?=null
     private val productList= mutableListOf<Products>()
     private var fromProductActivity:Boolean=false
+    private var intentFromRecentlySearched:Boolean=false
+    private var searchQueryRecentlySearched:String?=null
 
 
 
@@ -58,6 +60,8 @@ class ProductsActivity : AppCompatActivity() {
         searchQuery=intent.getStringExtra("searchQuery")
         singleBrandArray=intent.getStringArrayListExtra("singleBrandArray")
         fromProductActivity=intent.getBooleanExtra("fromProductActivity",false)
+        intentFromRecentlySearched=intent.getBooleanExtra("intentFromRecentlySearched",false)
+        searchQueryRecentlySearched=intent.getStringExtra("searchQueryRecentlySearched")
 
         if((application as MyApplication).getFromRange()!=null)
             fromRange=(application as MyApplication).getFromRange()
@@ -154,24 +158,37 @@ class ProductsActivity : AppCompatActivity() {
 
 
     private fun sortAsec() {
-//        sort="price_asc"
-//        getProductsBySearchQuery(0,true)
-        val intent = intent
-        intent.putExtra("sort","price_asc")
-        finish()
-        startActivity(intent)
+        sort="price_asc"
+        getProductsBySearchQuery(0,true)
+//        val intent = intent
+//        intent.putExtra("sort","price_asc")
+//        finish()
+//        startActivity(intent)
     }
 
     private fun sortDesc() {
-//        sort="price_desc"
-//        getProductsBySearchQuery(0,true)
-        val intent = intent
-        intent.putExtra("sort","price_desc")
-        finish()
-        startActivity(intent)
+        sort="price_desc"
+        getProductsBySearchQuery(0,true)
+//        val intent = intent
+//        intent.putExtra("sort","price_desc")
+//        finish()
+//        startActivity(intent)
     }
 
     private fun onProductClicked(productId:String?){
+
+//        val intent=Intent(this, ProductActivity::class.java)
+//        intent.putExtra("productSubCategoryId",productCategoryId)
+//        intent.putExtra("productSubCategoryName",productSubCategoryName)
+//        intent.putExtra("productCategoryName",productCategoryName)
+//        intent.putExtra("productCategoryId",productCategoryId)
+//        intent.putExtra("searchQuery",searchQuery)
+//        intent.putExtra("singleBrandArray",singleBrandArray)
+//        intent.putExtra("fromProductActivity",false)
+//        intent.putExtra("intentFromRecentlySearched",false)
+//        intent.putExtra("searchQueryRecentlySearched",searchQueryRecentlySearched)
+
+
         val intent=Intent(this, ProductActivity::class.java)
         intent.putExtra("productId",productId)
         Log.d("productId",productId.toString())
@@ -240,11 +257,13 @@ class ProductsActivity : AppCompatActivity() {
 //                        if(i!=null)
 //                            producIdList.add(i.id)
 //                    }
-                    for(i in it.products!!){
-                        if(i!=null && !productList.contains(i))
-                            productList.add(i)
-                    }
-                    productAdapter.submitList(productList)
+//                    for(i in it.products!!){
+//                        if(i!=null && !productList.contains(i))
+//                            productList.add(i)
+//                    }
+                    // productAdapter.submitList(productList)
+
+                    productAdapter.submitList(it.products)
                     productAdapter.notifyDataSetChanged()
                 }
             }
@@ -282,7 +301,14 @@ class ProductsActivity : AppCompatActivity() {
 //    }
 
     private fun setName(){
-        if(searchQuery.isNullOrBlank()){
+        if(intentFromRecentlySearched){
+            if(searchQueryRecentlySearched?.length!!>23)
+                _binding.tvProductSubCategoryName.text= searchQueryRecentlySearched!!.take(23) + ".."
+            else
+                _binding.tvProductSubCategoryName.text=searchQueryRecentlySearched
+        }
+
+        else if(searchQuery.isNullOrBlank()){
             Log.d("inside","inside if(searchQuery.isNullOrBlank())")
 
             if(!productSubCategoryId.isNullOrBlank()){
@@ -316,6 +342,8 @@ class ProductsActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         brandList=(application as MyApplication).getList()
+        Log.d("brandList",brandList.toString())
+
         if((application as MyApplication).getFromRange()!=-1)
             fromRange=(application as MyApplication).getFromRange()
         if((application as MyApplication).getToRange()!=-1)

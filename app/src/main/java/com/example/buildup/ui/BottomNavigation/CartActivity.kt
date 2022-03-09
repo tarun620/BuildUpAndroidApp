@@ -26,7 +26,7 @@ import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
-class CartActivity : AppCompatActivity() {
+class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
     companion object {
         var PREFS_FILE_AUTH = "prefs_property"
         var PREFS_KEY_TOKEN = "propertyId"
@@ -42,6 +42,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var tinyDB: TinyDB
     private var shippingCost:Int=-1
     private var intentFromWishlist:Boolean?=false
+    private var productIdDelete:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityCartBinding.inflate(layoutInflater)
@@ -62,14 +63,14 @@ class CartActivity : AppCompatActivity() {
 //            remove("propertyIdForCart")
 //        }
 
-        (application as MyApplication).clearPropertyId()
+//        (application as MyApplication).clearPropertyId()
 //        tinyDB.remove("propertyIdForCart")
 //        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
-        propertyId=(application as MyApplication).getPropertyId()
-//        if(tinyDB.getString("propertyIdForCart")==null)
-//            propertyId=null
-//        else
-//            propertyId=tinyDB.getString("propertyIdForCart")
+//        propertyId=(application as MyApplication).getPropertyId()
+        if(tinyDB.getString("propertyIdForCart")==null || tinyDB.getString("propertyIdForCart")=="")
+            propertyId=null
+        else
+            propertyId=tinyDB.getString("propertyIdForCart")
 
 //        if(propertyId!=null){
 ////            val intent=Intent(this,PropertiesActivity::class.java)
@@ -216,6 +217,28 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun removeProductFromCart(productId:String?){
+        productIdDelete=productId
+//        isEmpty=true
+//        authViewModel.removeProductFromCart(productId!!)
+//        authViewModel.respRemoveProductFromCart.observe({lifecycle}){
+//            if(it?.success!!)
+//                getProductsFromCart()
+//
+//            else
+//                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+//        }
+        MyCustomDialogCart().show(supportFragmentManager, "MyCustomFragment")
+
+
+    }
+    override fun sendInput(input: String?) {
+        if(input=="yes"){
+            Log.d("productId","i am here")
+            deleteItem(productIdDelete)
+        }
+    }
+    private fun deleteItem(productId: String?){
+        Log.d("productId",productId.toString())
         isEmpty=true
         authViewModel.removeProductFromCart(productId!!)
         authViewModel.respRemoveProductFromCart.observe({lifecycle}){
@@ -275,13 +298,18 @@ class CartActivity : AppCompatActivity() {
 
         if(propertyIdFunc==null){
             _binding.tvAddress.text="Select Delivery Address"
-            Toast.makeText(this@CartActivity,"Please Select Delivery Address",Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this@CartActivity,"Please Select Delivery Address",Toast.LENGTH_SHORT).show()
         }
         else{
             authViewModel.getAddressById(propertyIdFunc)
             authViewModel.respGetAddressById.observe({lifecycle}){
                 if(it?.success!!){
-                    _binding.tvAddress.text=it.property?.address?.houseNo + ", " + it.property?.address?.colony + ", " + it.property?.address?.city + ", " + it.property?.address?.state + " - " + it.property?.address?.pincode
+                    if(it.property==null){
+                        propertyId=null
+                        _binding.tvAddress.text="Select Delivery Address"
+                    }
+                    else
+                        _binding.tvAddress.text=it.property?.address?.houseNo + ", " + it.property?.address?.colony + ", " + it.property?.address?.city + ", " + it.property?.address?.state + " - " + it.property?.address?.pincode
                 }
                 else{
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
@@ -326,7 +354,13 @@ class CartActivity : AppCompatActivity() {
         _binding.bottomNavigationView.menu.getItem(1).isChecked = true
 //
 //        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
-        propertyId=(application as MyApplication).getPropertyId()
+//        propertyId=(application as MyApplication).getPropertyId()
+        Log.d("propertyId","hello")
+        Log.d("propertyId",propertyId.toString())
+        if(tinyDB.getString("propertyIdForCart")==null || tinyDB.getString("propertyIdForCart")=="")
+            propertyId=null
+        else
+            propertyId=tinyDB.getString("propertyIdForCart")
 
         Log.d("propertyIdDelete",propertyId.toString())
 //        propertyId=tinyDB.getString("propertyIdForCart")

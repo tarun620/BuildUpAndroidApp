@@ -4,9 +4,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
@@ -30,7 +34,9 @@ import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityHomeBinding
+import com.example.buildup.extensions.loadHomeBanner
 import com.example.buildup.ui.BottomNavigation.CartActivity
+import com.example.buildup.ui.BottomNavigation.MyCustomDialog
 import com.example.buildup.ui.BottomNavigation.ProfileActivity
 import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.example.buildup.ui.Brand.BrandAdapter
@@ -63,6 +69,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         _binding = ActivityHomeBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
+
 
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
@@ -103,6 +110,23 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         _binding.btnAddProducts.setOnClickListener {
             startActivity(Intent(this,ProductCategoryActivity::class.java))
         }
+        _binding.btnRetry.setOnClickListener {
+            finish();
+            startActivity(intent);
+        }
+
+        if(checkForInternet(this)){
+            Log.d("internet","i am here")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+        }
+        else{
+            Log.d("no internet","i am here")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+
+
+        }
 
         setupNavigationDrawer()
         setupBottomNavigationBar()
@@ -113,7 +137,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 
-
     }
 
     private fun getAppData(){
@@ -121,6 +144,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         authViewModel.respGetAppData.observe({lifecycle}){
             if(it?.success!!){
                 _binding.apply {
+                    bgBanner.loadHomeBanner("https://api.buildup.org.in" + it.homeData!!.imgPath)
                     heading1.text=it.homeData!!.heading1
                     heading2.text=it.homeData!!.heading2
                     subHeading.text=it.homeData!!.subHeading
@@ -198,6 +222,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun onProductClicked(productId:String?){
+//        Log.d("productId",productId.toString())
         val intent= Intent(this, ProductActivity::class.java)
         intent.putExtra("productId",productId)
         intent.putExtra("productClickedFromHomeIntent",true)
@@ -327,29 +352,32 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
             R.id.nav_sign_out -> {
-                val builder = AlertDialog.Builder(this)
-                //set title for alert dialog
-                builder.setTitle("Sign Out")
-                //set message for alert dialog
-                builder.setMessage("Are you sure you want to sign out?")
-                builder.setIcon(android.R.drawable.ic_dialog_alert)
+//                val builder = AlertDialog.Builder(this)
+//                //set title for alert dialog
+//                builder.setTitle("Sign Out")
+//                //set message for alert dialog
+//                builder.setMessage("Are you sure you want to sign out?")
+//                builder.setIcon(android.R.drawable.ic_dialog_alert)
+//
+//                //performing positive action
+//                builder.setPositiveButton("Yes"){dialogInterface, which ->
+//                    signout()
+//                }
+//                //performing cancel action
+//                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+//
+//                }
+//                //performing negative action
+//                builder.setNegativeButton("No"){dialogInterface, which ->
+//                }
+//                // Create the AlertDialog
+//                val alertDialog: AlertDialog = builder.create()
+//                // Set other dialog properties
+//                alertDialog.setCancelable(false)
+//                alertDialog.show()
 
-                //performing positive action
-                builder.setPositiveButton("Yes"){dialogInterface, which ->
-                    signout()
-                }
-                //performing cancel action
-                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+                MyCustomDialog().show(supportFragmentManager, "MyCustomFragment")
 
-                }
-                //performing negative action
-                builder.setNegativeButton("No"){dialogInterface, which ->
-                }
-                // Create the AlertDialog
-                val alertDialog: AlertDialog = builder.create()
-                // Set other dialog properties
-                alertDialog.setCancelable(false)
-                alertDialog.show()
             }
 
         }
@@ -368,8 +396,59 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
     }
     override fun onResume() {
+//        if(checkForInternet(this)){
+//            Log.d("internet","i am here")
+//            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.noInternetLayout.visibility=View.GONE
+//        }
+//        else{
+//            Log.d("no internet","i am here")
+//            _binding.mainLayout.visibility=View.GONE
+//            _binding.noInternetLayout.visibility=View.VISIBLE
+//        }
+
         super.onResume()
         _binding.bottomNavigationView.menu.getItem(0).isEnabled = false
         _binding.bottomNavigationView.menu.getItem(0).isChecked = true
+    }
+
+    private fun checkForInternet(context: Context): Boolean {
+
+
+        // register activity with the connectivity manager service
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        // if the android version is equal to M
+        // or greater we need to use the
+        // NetworkCapabilities to check what type of
+        // network has the internet connection
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            // Returns a Network object corresponding to
+            // the currently active default data network.
+            val network = connectivityManager.activeNetwork ?: return false
+
+            // Representation of the capabilities of an active network.
+            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+
+            return when {
+                // Indicates this network uses a Wi-Fi transport,
+                // or WiFi has network connectivity
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+
+                // Indicates this network uses a Cellular transport. or
+                // Cellular has network connectivity
+                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+
+                // else return false
+                else -> false
+            }
+        } else {
+            // if the android version is below M
+            @Suppress("DEPRECATION") val networkInfo =
+                connectivityManager.activeNetworkInfo ?: return false
+            @Suppress("DEPRECATION")
+            return networkInfo.isConnected
+        }
     }
 }

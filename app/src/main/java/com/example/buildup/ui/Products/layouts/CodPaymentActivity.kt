@@ -69,8 +69,8 @@ class CodPaymentActivity : AppCompatActivity() {
                 var productQuantity=0
 
                 for(i in it.items!!){
-                    totalMrp+=i.product.mrp
-                    discountedPrice+=i.product.amount
+                    totalMrp+=i.product.mrp * i.quantity
+                    discountedPrice+=i.product.amount * i.quantity
                     productQuantity+=i.quantity
 
                 }

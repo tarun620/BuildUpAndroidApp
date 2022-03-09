@@ -87,8 +87,6 @@ class NewSendOtpActivity : AppCompatActivity() {
 
                     authViewModel.resp.observe({lifecycle}){
                         if(it?.success!=null && it.success!!){
-                            Toast.makeText(this@NewSendOtpActivity,"Otp Sent Successfully,Please check your inbox..",
-                                Toast.LENGTH_SHORT).show()
                             val intent: Intent = Intent(this@NewSendOtpActivity, NewOtpActivity::class.java)
                             intent.putExtra("mobileNo",mobileEditText.text.toString())
                             intent.putExtra("isLogin",isLogin)

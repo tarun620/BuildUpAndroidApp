@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginStart="12dp"
+                android:lines="2"
                 android:fontFamily="@font/overpass"
                 android:text="Vignette Mixture"
                 android:textSize="12sp"

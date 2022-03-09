@@ -876,10 +876,10 @@ object UserRepo {
                 response.body()
             }else{
                 val apiErrorNew=ErrorUtilsNew.parseError(response)
-                GetAppDataResponse(null,null,false,apiErrorNew.error)
+                GetAppDataResponse(null,null,null,false,apiErrorNew.error)
             }
         }catch (e:IOException){
-            GetAppDataResponse(null,null,false,"Network Failure")
+            GetAppDataResponse(null,null,null,false,"Network Failure")
         }
     }
 //

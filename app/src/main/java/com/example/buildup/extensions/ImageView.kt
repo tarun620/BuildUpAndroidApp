@@ -32,3 +32,10 @@ fun ImageView.loadCategoryImage(uri:String?){
         .into(this)
 }
 
+fun ImageView.loadHomeBanner(uri:String?){
+    Glide.with(this)
+        .load(uri)
+        .placeholder(R.color.banner_bg)
+        .into(this)
+}
+

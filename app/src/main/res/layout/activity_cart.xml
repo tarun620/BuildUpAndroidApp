@@ -27,7 +27,7 @@
         android:fontFamily="@font/overpass"
         android:text="My Cart"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@id/back_btn"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -14,9 +14,10 @@ import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityAddressesBinding
 import com.example.buildup.ui.Address.adapters.AddressRadioAdapter
 import com.example.buildup.MyApplication
+import com.example.buildup.ui.BottomNavigation.MyCustomDialogWishlist
 import com.example.buildup.ui.Property.layouts.AddPropertyActivity
 
-class AddressesActivity : AppCompatActivity() {
+class AddressesActivity : AppCompatActivity(), MyCustomDialogAddress.OnInputListener{
     companion object {
         var PREFS_FILE_AUTH = "prefs_property"
         var PREFS_KEY_TOKEN = "propertyId"
@@ -27,6 +28,7 @@ class AddressesActivity : AppCompatActivity() {
     private lateinit var addressRadioAdapter: AddressRadioAdapter
     private lateinit var sharedPrefrences: SharedPreferences
     private lateinit var tinyDB: TinyDB
+    private var propertyIdAddress:String?=null
 
 
     private lateinit var authViewModel: AuthViewModel
@@ -50,7 +52,7 @@ class AddressesActivity : AppCompatActivity() {
         setContentView(_binding.root)
 
 
-        getAddresses()
+//        getAddresses()
 
         _binding.btnAddAddress.setOnClickListener {
             startActivity(Intent(this,AddPropertyActivity::class.java))
@@ -81,11 +83,20 @@ class AddressesActivity : AppCompatActivity() {
 
     }
     private fun onDeleteAddressBtnClicked(propertyId: String){
+        propertyIdAddress=propertyId
+        MyCustomDialogAddress().show(supportFragmentManager, "MyCustomFragment")
+
+    }
+    override fun sendInput(input: String?) {
+        if(input=="yes")
+            deleteAddress(propertyIdAddress!!)
+    }
+
+    private fun deleteAddress(propertyId: String){
         authViewModel.deletePropertyAddress(propertyId)
         authViewModel.respDeletePropertyAddress.observe({lifecycle}){
             if(it?.success!!) {
                 getAddresses()
-                Toast.makeText(this, "propertyAddress Deleted", Toast.LENGTH_SHORT).show()
             }
             else
                 Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
@@ -96,9 +107,9 @@ class AddressesActivity : AppCompatActivity() {
 //        sharedPrefrences.edit {
 //            putString("propertyIdForCart",propertyId)
 //        }
-//        tinyDB.putString("propertyIdForCart",propertyId)
+        tinyDB.putString("propertyIdForCart",propertyId)
 
-        (application as MyApplication).addPropertyId(propertyId)
+//        (application as MyApplication).addPropertyId(propertyId)
 
         finish()
     }

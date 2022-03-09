@@ -10,6 +10,8 @@ data class GetAppDataResponse(
     var homeData: HomeData?,
     @Json(name = "introData")
     var introData: List<IntroData>?,
+    @Json(name ="registrationData")
+    var registrationData: RegistrationData?,
     @Json(name = "success")
     var success: Boolean?,
     @Json(name = "error")

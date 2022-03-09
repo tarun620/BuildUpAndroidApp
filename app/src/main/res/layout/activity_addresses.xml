@@ -29,7 +29,7 @@ android:layout_height="match_parent">
         android:fontFamily="@font/overpass"
         android:text="My Addresses"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="22sp"
         app:layout_constraintStart_toEndOf="@id/back_btn"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -64,7 +64,7 @@ android:layout_height="match_parent">
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_address" />
+                tools:listitem="@layout/item_address_radio" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

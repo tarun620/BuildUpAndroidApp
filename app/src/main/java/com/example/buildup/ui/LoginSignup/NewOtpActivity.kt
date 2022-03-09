@@ -273,12 +273,8 @@ class NewOtpActivity : AppCompatActivity() {
 
         }
         authViewModel.resp.observe({lifecycle}){
-            if(it?.success!!){
-                Toast.makeText(this,"Otp Sent Successfully,Please check your inbox..",Toast.LENGTH_SHORT).show()
-            }
-            else{
+            if(!it?.success!!){
                 Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-                Log.d("errorSignup",it.error.toString())
             }
         }
     }
