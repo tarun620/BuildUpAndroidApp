@@ -3,6 +3,8 @@ package com.example.buildup.ui.LoginSignup
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -48,6 +50,13 @@ class NewOtpActivity : AppCompatActivity() {
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
         setContentView(_binding.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         tinyDB = TinyDB(this)
 
@@ -213,8 +222,8 @@ class NewOtpActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
                     else{
-                        Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
-                    }
+                        if(it.error!="Network Failure")
+                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()                    }
                 }
             }
             else{
@@ -240,8 +249,8 @@ class NewOtpActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                         else{
-                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
-                        }
+                            if(it.error!="Network Failure")
+                                Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()                        }
                     }
                 }
                 else{
@@ -254,8 +263,8 @@ class NewOtpActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                         else{
-                            Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
-                            Log.d("errorOtp",it.error.toString())
+                            if(it.error!="Network Failure")
+                                Toast.makeText(this@NewOtpActivity,it.error,Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -274,8 +283,29 @@ class NewOtpActivity : AppCompatActivity() {
         }
         authViewModel.resp.observe({lifecycle}){
             if(!it?.success!!){
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility= View.VISIBLE
+            _binding.noInternetLayout.visibility= View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility= View.GONE
+            _binding.noInternetLayout.visibility= View.VISIBLE
+
         }
     }
 

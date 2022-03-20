@@ -2,10 +2,14 @@ package com.example.buildup.ui.ReturnOrder
 
 import android.app.Dialog
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.text.InputFilter
+import android.util.Log
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -34,6 +38,13 @@ class BankDetailsActivity : AppCompatActivity() {
         _bindingDialog= ActivitySuccessMessageBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         val bundle = intent.extras
 
@@ -67,8 +78,8 @@ class BankDetailsActivity : AppCompatActivity() {
                             showDialog()
                         }
                         else{
-                            Toast.makeText(this@BankDetailsActivity,it.error,Toast.LENGTH_SHORT).show()
-                        }
+                            if(it.error!="Network Failure")
+                                Toast.makeText(this@BankDetailsActivity,it.error,Toast.LENGTH_SHORT).show()                        }
                     }
                 }
 //            startActivity(Intent(this,SuccessMessageActivity::class.java))
@@ -126,5 +137,27 @@ class BankDetailsActivity : AppCompatActivity() {
             startActivity(intent)
         }, 4000)
 
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.radioGroupLayout.visibility= View.VISIBLE
+            _binding.noInternetLayout.visibility= View.GONE
+            _binding.btnContinue.visibility= View.VISIBLE
+        } else {
+            Log.d("internet","no internet")
+            _binding.radioGroupLayout.visibility= View.GONE
+            _binding.noInternetLayout.visibility= View.VISIBLE
+            _binding.btnContinue.visibility= View.GONE
+
+        }
     }
 }

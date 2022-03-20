@@ -7,6 +7,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -31,7 +32,6 @@ class NewSendOtpActivity : AppCompatActivity() {
     }
     private lateinit var sharedPrefrences: SharedPreferences
     private var _binding: ActivityNewestOtpBinding?=null
-    private var _bindingNoInternet:ActivityWorkInProgressBinding?=null
     lateinit var authViewModel: AuthViewModel
     private var isLogin=false
     private var RC_SIGN_IN = 123
@@ -44,13 +44,16 @@ class NewSendOtpActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_newest_otp)
 
         _binding= ActivityNewestOtpBinding.inflate(layoutInflater)
-        _bindingNoInternet= ActivityWorkInProgressBinding.inflate(layoutInflater)
 
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
-        if(isOnline(this))
-            setContentView(_binding?.root)
-        else
-            setContentView(_bindingNoInternet?.root)
+        setContentView(_binding?.root)
+
+        drawLayout()
+        _binding!!.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
         tinyDB = TinyDB(this)
@@ -93,9 +96,8 @@ class NewSendOtpActivity : AppCompatActivity() {
                             startActivity(intent)
                         }
                         else{
-                            Log.d("test","reached in error block")
-                            Toast.makeText(this@NewSendOtpActivity,it?.error, Toast.LENGTH_SHORT).show()
-                            Log.d("errorSignup",it?.error.toString())
+                            if(it!!.error!="Network Failure")
+                                Toast.makeText(this@NewSendOtpActivity,it.error,Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -114,27 +116,6 @@ class NewSendOtpActivity : AppCompatActivity() {
         }
     }
 
-    fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
-                    return true
-                }
-            }
-        }
-        return false
-    }
 
     private fun validationMobileNumber(): Boolean {
         _binding?.apply {
@@ -216,10 +197,30 @@ class NewSendOtpActivity : AppCompatActivity() {
                         intent.putExtras(bundle)
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this@NewSendOtpActivity, it.error, Toast.LENGTH_SHORT).show()
-                    }
+                        if(it.error!="Network Failure")
+                            Toast.makeText(this@NewSendOtpActivity,it.error,Toast.LENGTH_SHORT).show()                    }
                 }
             }
+        }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding!!.mainLayout.visibility= View.VISIBLE
+            _binding!!.noInternetLayout.visibility= View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding!!.mainLayout.visibility= View.GONE
+            _binding!!.noInternetLayout.visibility= View.VISIBLE
+
         }
     }
 }

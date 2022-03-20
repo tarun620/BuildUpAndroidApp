@@ -3,6 +3,8 @@ package com.example.buildup.ui.Products.layouts
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -62,6 +64,14 @@ class ProductActivity : AppCompatActivity() {
         window.statusBarColor = ContextCompat.getColor(this, R.color.black)
 
         setContentView(_binding.root)
+        
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
+
 
         productId= intent.getStringExtra("productId")!!
         productClickedFromCartIntent=intent.getBooleanExtra("productClickedFromCartIntent",false)
@@ -128,8 +138,8 @@ class ProductActivity : AppCompatActivity() {
                             inCart=true
                         }
                         else{
-                            Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()
-                        }
+                            if(it.error!="Network Failure")
+                                Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()                        }
                     }
                 }
                 else{
@@ -150,8 +160,10 @@ class ProductActivity : AppCompatActivity() {
                             _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlist_new)
                             isWishlisted=false
                         }
-                        else
-                            Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()
+                        else{
+                            if(it.error!="Network Failure")
+                                Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
                 else{
@@ -164,8 +176,10 @@ class ProductActivity : AppCompatActivity() {
                             _binding.btnWishlist.icon=resources.getDrawable(R.drawable.ic_icon_wishlisted_new6)
                             isWishlisted=true
                         }
-                        else
-                            Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()
+                        else{
+                            if(it.error!="Network Failure")
+                                Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()
+                        }
 
                     }
                 }
@@ -215,8 +229,10 @@ class ProductActivity : AppCompatActivity() {
                     }
                 }
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
 
         }
     }
@@ -243,8 +259,10 @@ class ProductActivity : AppCompatActivity() {
 
                 }
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
     }
     private fun setViewPagerAdapter(images:List<String>){
@@ -283,5 +301,25 @@ class ProductActivity : AppCompatActivity() {
 //            startActivity(intent)
         }
 
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
+        }
     }
 }

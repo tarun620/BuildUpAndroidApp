@@ -3,8 +3,11 @@ package com.example.buildup.ui.Address.layouts
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -51,6 +54,13 @@ class AddressesActivity : AppCompatActivity(), MyCustomDialogAddress.OnInputList
 
         setContentView(_binding.root)
 
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
+
 
 //        getAddresses()
 
@@ -71,8 +81,10 @@ class AddressesActivity : AppCompatActivity(), MyCustomDialogAddress.OnInputList
                 addressRadioAdapter.submitList(it.properties)
 
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -98,8 +110,11 @@ class AddressesActivity : AppCompatActivity(), MyCustomDialogAddress.OnInputList
             if(it?.success!!) {
                 getAddresses()
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 
@@ -117,5 +132,27 @@ class AddressesActivity : AppCompatActivity(), MyCustomDialogAddress.OnInputList
     override fun onResume() {
         super.onResume()
         getAddresses()
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.addressRecyclerView.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+            _binding.btnAddAddress.visibility=View.VISIBLE
+        } else {
+            Log.d("internet","no internet")
+            _binding.addressRecyclerView.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.btnAddAddress.visibility=View.GONE
+
+        }
     }
 }

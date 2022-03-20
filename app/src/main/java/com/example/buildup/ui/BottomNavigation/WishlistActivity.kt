@@ -2,6 +2,8 @@ package com.example.buildup.ui.BottomNavigation
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -46,6 +48,15 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
         _binding.wishListRecyclerView.adapter=wishlistAdapter
         setContentView(_binding.root)
 
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+            drawLayout()
+
+            finish();
+            startActivity(intent);
+
+        }
+
         fromCartActivity=intent.getBooleanExtra("fromCartActivity",false)
         fromProductActivity=intent.getBooleanExtra("fromProductActivity",false)
 
@@ -53,7 +64,7 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
         _binding.wishListRecyclerView.visibility= View.VISIBLE
         _binding.idPBLoading.visibility= View.GONE
         _binding.emptyWishlistLayout.visibility=View.GONE
-        _binding.removeBtn.visibility=View.VISIBLE
+//        _binding.removeBtn.visibility=View.VISIBLE
 
         _binding.backBtn.setOnClickListener {
 //            if(fromProductActivity)
@@ -188,8 +199,8 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
 
             }
             else{
-                Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
-
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -220,8 +231,10 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
                 wishlistAdapter .submitList(productsList)
                 wishlistAdapter.notifyDataSetChanged()
             }
-            else
-                Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -250,8 +263,10 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
                     wishlistAdapter .submitList(productsList)
                     wishlistAdapter.notifyDataSetChanged()
                 }
-                else
-                    Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
+                else{
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                }
 
             }
         }
@@ -292,8 +307,35 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
                 _binding.removeBtn.visibility=View.GONE
 
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.wishListRecyclerView.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+            _binding.removeBtn.visibility=View.VISIBLE
+//            _binding.cartBtn.visibility=View.VISIBLE
+        } else {
+            Log.d("internet","no internet")
+            _binding.wishListRecyclerView.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
+            _binding.emptyWishlistLayout.visibility=View.GONE
+            _binding.removeBtn.visibility=View.GONE
+//            _binding.cartBtn.visibility=View.GONE
         }
     }
 }

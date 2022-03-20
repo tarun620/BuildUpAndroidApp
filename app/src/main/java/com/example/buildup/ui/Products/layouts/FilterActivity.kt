@@ -201,8 +201,8 @@ class FilterActivity : AppCompatActivity() {
                 filterBrandAdapter.submitList(tempBrandList)
             }
             else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-        }
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()        }
     }
     private fun onBrandClicked(isBrandSelectedData: IsBrandSelectedData?){
         if(isBrandSelectedData?.isBrandSelected!!){

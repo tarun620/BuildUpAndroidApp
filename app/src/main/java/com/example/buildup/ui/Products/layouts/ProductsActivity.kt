@@ -1,6 +1,8 @@
 package com.example.buildup.ui.Products.layouts
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -84,6 +86,13 @@ class ProductsActivity : AppCompatActivity() {
         _binding.productsRecyclerView.adapter=productAdapter
 
         setContentView(_binding.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         _binding.backBtn.setOnClickListener {
             if(fromProductActivity)
@@ -199,15 +208,19 @@ class ProductsActivity : AppCompatActivity() {
         if(isWishlistedData.isWishlisted){
             authViewModel.removeProductFromWishlist(isWishlistedData.productId)
             authViewModel.respRemoveProductFromWishlist.observe({lifecycle}){
-                if(!it?.success!!)
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                if(!it?.success!!){
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                }
             }
         }
         else{
             authViewModel.addProductToWishlist(isWishlistedData.productId)
             authViewModel.respAddProductToWishlist.observe({lifecycle}){
-                if(!it?.success!!)
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                if(!it?.success!!){
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -268,7 +281,8 @@ class ProductsActivity : AppCompatActivity() {
                 }
             }
             else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -363,5 +377,30 @@ class ProductsActivity : AppCompatActivity() {
             startActivity(Intent(this,HomeActivity::class.java))
         else
             finish()
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.productsRecyclerView.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+            _binding.llBottom.visibility=View.VISIBLE
+        } else {
+            Log.d("internet","no internet")
+            _binding.productsRecyclerView.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.noProductsLayout.visibility=View.GONE
+            _binding.idPBLoading.visibility=View.GONE
+            _binding.llBottom.visibility=View.GONE
+
+        }
     }
 }

@@ -3,19 +3,24 @@ package com.example.buildup
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
-import com.example.api.models.responsesAndData.appData.IntroData
+import com.example.api.BuildUpClient
 import com.example.buildup.databinding.ActivitySplashBinding
+import com.example.buildup.ui.HomeActivity
+import com.example.buildup.ui.IntroScreens.GetStartedActivity
 import com.example.buildup.ui.IntroScreens.IntroScreen
-import kotlinx.coroutines.delay
+import com.example.buildup.ui.IntroScreens.PrefManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
         setContentView(_binding?.root)
+
+
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -68,21 +75,15 @@ class MainActivity : AppCompatActivity() {
 //                        startActivity(Intent(this, IntroScreen::class.java))
 //
 //                    }
-                    authViewModel.getAppData("intro")
-                    authViewModel.respGetAppData.observe({lifecycle}){
-                        if(it?.success!!){
-                            it.introData!!.forEach {
-                                introAppDataHeadingList.add(it.heading)
-                                introAppDataTextList.add(it.text)
-                            }
+                    if(BuildUpClient.authToken!=null && sharedPrefrences.getString("token",null)!=null){
+                        Log.d("enter","if")
+                        startActivity(Intent(this,HomeActivity::class.java))
+                    }
+                    else{
+                        drawLayout()
+                        Log.d("enter","else")
 
-                            val intent=Intent(this,IntroScreen::class.java)
-                            intent.putExtra("introAppDataHeadingList",introAppDataHeadingList)
-                            intent.putExtra("introAppDataTextList",introAppDataTextList)
-                            startActivity(intent)
-                        }
-                        else
-                            Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+
                     }
 
                 }, 400)
@@ -91,21 +92,48 @@ class MainActivity : AppCompatActivity() {
 
         }, 600)
 
+        _binding?.btnRetry?.setOnClickListener {
+            drawLayout()
+        }
+
 
     }
-    private fun getAppData(){
-        authViewModel.getAppData("intro")
-        authViewModel.respGetAppData.observe({lifecycle}){
-            if(it?.success!!){
-                it.introData!!.forEach {
-                    introAppDataHeadingList.add(it.heading)
-                    introAppDataTextList.add(it.text)
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding?.mainLayout?.visibility=View.VISIBLE
+            _binding?.noInternetLayout?.visibility=View.GONE
+
+            authViewModel.getAppData("intro")
+            authViewModel.respGetAppData.observe({lifecycle}){
+                if(it?.success!!){
+                    it.introData!!.forEach {
+                        introAppDataHeadingList.add(it.heading)
+                        introAppDataTextList.add(it.text)
+                    }
+
+                    val intent=Intent(this,IntroScreen::class.java)
+                    intent.putExtra("introAppDataHeadingList",introAppDataHeadingList)
+                    intent.putExtra("introAppDataTextList",introAppDataTextList)
+                    startActivity(intent)
                 }
-                Log.d("appListHeadingAPI",introAppDataHeadingList.toString())
-                Log.d("appListTextAPI",introAppDataTextList.toString())
+                else{
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                }
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+        } else {
+            Log.d("internet","no internet")
+            _binding?.mainLayout?.visibility=View.GONE
+            _binding?.noInternetLayout?.visibility=View.VISIBLE
         }
     }
 }

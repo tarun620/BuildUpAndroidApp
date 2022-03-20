@@ -27,7 +27,7 @@
         android:textFontWeight="600"
         android:text="Bhavishay Gulati"
         android:textColor="@color/white"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/iv_profileImage"
         app:layout_constraintTop_toBottomOf="@id/iv_profileImage" />
@@ -41,7 +41,7 @@
         android:textFontWeight="400"
         android:text="+91 7011934272"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/tv_fullname"
         app:layout_constraintTop_toBottomOf="@id/tv_fullname" />

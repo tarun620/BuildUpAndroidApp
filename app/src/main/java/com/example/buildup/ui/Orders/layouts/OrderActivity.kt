@@ -5,6 +5,8 @@ import android.app.DownloadManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -64,6 +66,12 @@ class OrderActivity : AppCompatActivity() {
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
 
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
 //        array.add("Ordered")
 //        array.add("Shipped")
@@ -236,8 +244,8 @@ class OrderActivity : AppCompatActivity() {
                     }
                 }
                 else
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-            }
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()            }
         }
     }
 
@@ -255,8 +263,8 @@ class OrderActivity : AppCompatActivity() {
                 }
                 else{
                     isSuccess=false
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -273,8 +281,8 @@ class OrderActivity : AppCompatActivity() {
                         setProductRating()
                 }
                 else
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-            }
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()            }
         }
     }
 
@@ -390,7 +398,8 @@ class OrderActivity : AppCompatActivity() {
                 getOrderById(orderId)
             }
             else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -457,6 +466,26 @@ class OrderActivity : AppCompatActivity() {
         super.onBackPressed()
         startActivity(Intent(this, OrdersActivity::class.java))
 
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
+        }
     }
 
 

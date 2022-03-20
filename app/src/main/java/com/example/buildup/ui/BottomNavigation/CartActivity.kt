@@ -3,6 +3,8 @@ package com.example.buildup.ui.BottomNavigation
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -58,6 +60,13 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
         _binding.cartItemRecyclerView.adapter = cartAdapter
 
         setContentView(_binding.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
 //        sharedPrefrences.edit {
 //            remove("propertyIdForCart")
@@ -161,7 +170,8 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
                 }
             }
             else{
-                Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -185,8 +195,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
         authViewModel.respUpdateProductQuantityCart.observe({lifecycle}){
             if(it?.success!!)
                 getProductsFromCart()
-            else
-                Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
@@ -210,8 +222,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
             authViewModel.respUpdateProductQuantityCart.observe({ lifecycle }) {
                 if (it?.success!!)
                     getProductsFromCart()
-                else
-                    Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                else {
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -245,8 +259,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
             if(it?.success!!)
                 getProductsFromCart()
 
-            else
-                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
     }
     private fun setupBottomNavigationBar() {
@@ -256,6 +272,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
 
                 R.id.nav_home -> {
                     startActivity(Intent(this, HomeActivity::class.java))
+                    overridePendingTransition(0,0)
 
 
                 }
@@ -267,11 +284,14 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
                 R.id.nav_property -> {
 
                     startActivity(Intent(this, WorkInProgressActivity::class.java))
+                    overridePendingTransition(0,0)
 
                 }
 
                 R.id.nav_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    overridePendingTransition(0,0)
+
 
                 }
             }
@@ -312,8 +332,8 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
                         _binding.tvAddress.text=it.property?.address?.houseNo + ", " + it.property?.address?.colony + ", " + it.property?.address?.city + ", " + it.property?.address?.state + " - " + it.property?.address?.pincode
                 }
                 else{
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-                }
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()                }
             }
         }
     }
@@ -342,8 +362,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
                 }
 
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
@@ -379,6 +401,28 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
         }
         else
             finish()
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+            _binding.btnCheckout.visibility=View.VISIBLE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
+            _binding.btnCheckout.visibility=View.GONE
+        }
     }
 }
 

@@ -2,10 +2,13 @@ package com.example.buildup.ui.ReturnOrder
 
 import android.content.Intent
 import android.graphics.Paint
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -35,6 +38,13 @@ class ReturnActivity : AppCompatActivity() {
         _binding.orderReturnReasonsRecyclerview.adapter=orderReturnReasonAdapter
 
         setContentView(_binding.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         orderId=intent.getStringExtra("orderId")
 
@@ -134,14 +144,36 @@ class ReturnActivity : AppCompatActivity() {
 
                     }
                 }
-                else
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                else{
+                    if(it.error!="Network Failure")
+                        Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     private fun onReasonClicked(reasonItem:String?) {
         orderReturnReason=reasonItem
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
+        }
     }
 
 }

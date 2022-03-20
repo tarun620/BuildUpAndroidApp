@@ -1,8 +1,12 @@
 package com.example.buildup.ui.Address.layouts
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +29,13 @@ class AddressesActivityProfile : AppCompatActivity() {
         _binding = ActivityAddressesProfileBinding.inflate(layoutInflater)
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         //        addressAdapter= AddressAdapter({onEditAddrressBtnClicked(it!!)},{onDeleteAddressBtnClicked(it!!)})
         addressAdapter= AddressAdapter({onEditAddrressBtnClicked(it!!)},{onDeleteAddressBtnClicked(it!!)})
@@ -52,8 +63,10 @@ class AddressesActivityProfile : AppCompatActivity() {
                 addressAdapter.submitList(it.properties)
 
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -70,12 +83,36 @@ class AddressesActivityProfile : AppCompatActivity() {
                 getAddresses()
                 Toast.makeText(this, "propertyAddress Deleted", Toast.LENGTH_SHORT).show()
             }
-            else
-                Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
     }
     override fun onResume() {
         super.onResume()
         getAddresses()
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.addressRecyclerView.visibility= View.VISIBLE
+            _binding.noInternetLayout.visibility= View.GONE
+            _binding.btnAddAddress.visibility= View.VISIBLE
+        } else {
+            Log.d("internet","no internet")
+            _binding.addressRecyclerView.visibility= View.GONE
+            _binding.noInternetLayout.visibility= View.VISIBLE
+            _binding.btnAddAddress.visibility= View.GONE
+
+        }
     }
 }

@@ -11,6 +11,8 @@ import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -97,7 +99,15 @@ class AddPropertyActivity : AppCompatActivity() {
 
 
         setContentView(_binding.root)
-        _binding.idPBLoading.visibility= View.GONE
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
+
+//        _binding.idPBLoading.visibility= View.GONE
 
 
         if(propertyId.isNullOrEmpty() || propertyId.isNullOrBlank()){
@@ -163,8 +173,8 @@ class AddPropertyActivity : AppCompatActivity() {
                             if (it?.success!!) {
                                 finish()
                             } else {
-                                Toast.makeText(this@AddPropertyActivity, it.error, Toast.LENGTH_SHORT).show()
-                                Log.d("errorAddProperty", it?.error.toString())
+                                if(it.error!="Network Failure")
+                                    Toast.makeText(this@AddPropertyActivity,it.error,Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -186,8 +196,8 @@ class AddPropertyActivity : AppCompatActivity() {
                             if (it?.success!!) {
                                 finish()
                             } else {
-                                Toast.makeText(this@AddPropertyActivity, it?.error, Toast.LENGTH_SHORT).show()
-                                Log.d("errorAddProperty", it.error.toString())
+                                if(it.error!="Network Failure")
+                                    Toast.makeText(this@AddPropertyActivity,it.error,Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -580,7 +590,8 @@ class AddPropertyActivity : AppCompatActivity() {
                 }
             }
             else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -755,6 +766,28 @@ class AddPropertyActivity : AppCompatActivity() {
         }
     }
 
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+            _binding.submitButton.visibility=View.VISIBLE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
+            _binding.submitButton.visibility=View.GONE
+
+        }
+    }
 
 
 

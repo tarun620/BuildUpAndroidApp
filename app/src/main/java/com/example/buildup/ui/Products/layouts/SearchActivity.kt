@@ -4,10 +4,13 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.app.SearchManager
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.view.View.*
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
@@ -62,6 +65,13 @@ class SearchActivity : AppCompatActivity(),MyCustomDialogSearch.OnInputListener{
         _binding.recentlySearchRecyclerView.adapter=recentSearchedAdapter
 //        setContentView(R.layout.activity_search)
         setContentView(_binding.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
 
         _binding.apply {
@@ -197,7 +207,8 @@ class SearchActivity : AppCompatActivity(),MyCustomDialogSearch.OnInputListener{
                 recentViewedProductsAdapter.submitList(it.products)
             }
             else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -262,8 +273,8 @@ class SearchActivity : AppCompatActivity(),MyCustomDialogSearch.OnInputListener{
                                 etSearch.setAdapter(autoCompleteQueryAdapterJava)
                             }
                             else if(!it.success!!){
-                                Toast.makeText(this@SearchActivity,it.error,Toast.LENGTH_SHORT).show()
-                            }
+                                if(it.error!="Network Failure")
+                                    Toast.makeText(this@SearchActivity,it.error,Toast.LENGTH_SHORT).show()                            }
                         }
                     }
                 }
@@ -301,5 +312,24 @@ class SearchActivity : AppCompatActivity(),MyCustomDialogSearch.OnInputListener{
         searchQueryList=tinyDB.getListString("searchQueryList")
         _binding.recentlySearchRecyclerView.adapter=recentSearchedAdapter
         getRecentSearchedQuery()
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility= View.VISIBLE
+            _binding.noInternetLayout.visibility= View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility= View.GONE
+            _binding.noInternetLayout.visibility= View.VISIBLE
+        }
     }
 }

@@ -45,380 +45,467 @@
             app:layout_constraintStart_toStartOf="@+id/titleText"
             app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
-        <View
-            android:id="@+id/first_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/textGrey"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintStart_toStartOf="@+id/view"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layoutDirection="rtl"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/first_view">
-
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:checked="true"
-                android:buttonTint="@color/orange_main"
-                android:drawablePadding="16dp"
-                android:text="Cash On Delivery"
-                android:fontFamily="@font/overpass_semibold"
-                android:textFontWeight="600"
-                android:textSize="17sp"
-                android:layout_marginStart="20dp"
-                android:drawableEnd="@drawable/ic_icon_cod_payment"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/textGrey"/>
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:padding="20dp"
-                android:drawablePadding="16dp"
-                android:text="UPI"
-                android:fontFamily="@font/overpass_semibold"
-                android:textFontWeight="600"
-                android:textSize="17sp"
-                android:layout_marginStart="20dp"
-                android:drawableEnd="@drawable/ic_icon_cod_payment_disabled"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/textGrey"/>
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:padding="20dp"
-                android:drawablePadding="16dp"
-                android:text="Wallets"
-                android:fontFamily="@font/overpass_semibold"
-                android:textFontWeight="600"
-                android:textSize="17sp"
-                android:layout_marginStart="20dp"
-                android:drawableEnd="@drawable/ic_icon_cod_payment_disabled"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/textGrey"/>
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:padding="20dp"
-                android:drawablePadding="16dp"
-                android:text="Net Banking"
-                android:fontFamily="@font/overpass_semibold"
-                android:textFontWeight="600"
-                android:textSize="17sp"
-                android:layout_marginStart="20dp"
-                android:drawableEnd="@drawable/ic_icon_cod_payment_disabled"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/textGrey"/>
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:padding="20dp"
-                android:drawablePadding="16dp"
-                android:text="Debit Cards / Credit Cards"
-                android:fontFamily="@font/overpass_semibold"
-                android:textFontWeight="600"
-                android:textSize="17sp"
-                android:layout_marginStart="20dp"
-                android:drawableEnd="@drawable/ic_icon_cod_payment_disabled"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/textGrey"/>
-        </RadioGroup>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/payment_info_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/radioGroup">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/payment_info_icon_new"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_assignment"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"/>
-            <TextView
-                android:id="@+id/payment_info_text_new"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Payment Information"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/overpass_bold"
-                app:layout_constraintStart_toEndOf="@+id/payment_info_icon_new"
-                app:layout_constraintTop_toTopOf="@+id/payment_info_icon_new"
-                app:layout_constraintBottom_toBottomOf="@id/payment_info_icon_new"
-                android:layout_marginStart="15dp"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="6dp"
-            android:background="@color/grey_bg_orrder_screen"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/payment_info_layout">
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            android:layout_marginTop="24dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/payment_layout"
+                android:id="@+id/main_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/grey_bg_orrder_screen"
-                android:visibility="gone">
-                <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="wrap_content"
+                >
+
+                <View
+                    android:id="@+id/first_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
+                    android:layout_height="1dp"
+                    android:background="@color/textGrey"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_margin="8dp">
+                    />
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layoutDirection="rtl"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/first_view">
 
-                    <TextView
-                        android:id="@+id/tv_order_product_detail"
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:checked="true"
+                        android:buttonTint="@color/orange_main"
+                        android:drawablePadding="16dp"
+                        android:text="Cash On Delivery"
+                        android:fontFamily="@font/overpass_semibold"
+                        android:textFontWeight="600"
+                        android:textSize="17sp"
+                        android:layout_marginStart="20dp"
+                        android:drawableEnd="@drawable/ic_icon_cod_payment"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/textGrey"/>
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:padding="20dp"
+                        android:drawablePadding="16dp"
+                        android:text="UPI"
+                        android:fontFamily="@font/overpass_semibold"
+                        android:textFontWeight="600"
+                        android:textSize="17sp"
+                        android:layout_marginStart="20dp"
+                        android:drawableEnd="@drawable/ic_icon_cod_payment_disabled"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/textGrey"/>
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:padding="20dp"
+                        android:drawablePadding="16dp"
+                        android:text="Wallets"
+                        android:fontFamily="@font/overpass_semibold"
+                        android:textFontWeight="600"
+                        android:textSize="17sp"
+                        android:layout_marginStart="20dp"
+                        android:drawableEnd="@drawable/ic_icon_cod_payment_disabled"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/textGrey"/>
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:padding="20dp"
+                        android:drawablePadding="16dp"
+                        android:text="Net Banking"
+                        android:fontFamily="@font/overpass_semibold"
+                        android:textFontWeight="600"
+                        android:textSize="17sp"
+                        android:layout_marginStart="20dp"
+                        android:drawableEnd="@drawable/ic_icon_cod_payment_disabled"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/textGrey"/>
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:padding="20dp"
+                        android:drawablePadding="16dp"
+                        android:text="Debit Cards / Credit Cards"
+                        android:fontFamily="@font/overpass_semibold"
+                        android:textFontWeight="600"
+                        android:textSize="17sp"
+                        android:layout_marginStart="20dp"
+                        android:drawableEnd="@drawable/ic_icon_cod_payment_disabled"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/textGrey"/>
+                </RadioGroup>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/payment_info_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="42dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/radioGroup">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/payment_info_icon_new"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1 x Jaguar Faucet"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/overpass"
-                        android:textColor="@color/grey_order"
+                        android:src="@drawable/ic_assignment"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="11dp"/>
-
-                    <TextView
-                        android:id="@+id/tv_total_mrp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="₹ 2200.00"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/overpass_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/tv_order_product_detail"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_order_product_detail"
-                        android:layout_marginEnd="6dp"/>
-
-                    <View
-                        android:id="@+id/view1"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_order_product_detail"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/grey_order_view"/>
-                    <TextView
-                        android:id="@+id/discount_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Discount"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/overpass"
-                        android:textColor="@color/grey_order"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view1"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="6dp"/>
-
-                    <TextView
-                        android:id="@+id/tv_total_discount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="- ₹ 200.00"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/overpass_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/discount_text"
-                        app:layout_constraintBottom_toBottomOf="@id/discount_text"
-                        android:layout_marginEnd="6dp"/>
-
-                    <View
-                        android:id="@+id/view2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/discount_text"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/grey_order_view"/>
-
-                    <TextView
-                        android:id="@+id/discounted_price_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Discounted Price"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/overpass"
-                        android:textColor="@color/grey_order"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view2"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="6dp"/>
-
-                    <TextView
-                        android:id="@+id/tv_discounted_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="₹ 2000.00"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/overpass_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/discounted_price_text"
-                        app:layout_constraintBottom_toBottomOf="@id/discounted_price_text"
-                        android:layout_marginEnd="6dp"/>
-
-                    <View
-                        android:id="@+id/view3"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/discounted_price_text"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/grey_order_view"/>
-
-                    <TextView
-                        android:id="@+id/delivery_charge_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Delivery Charge"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/overpass"
-                        android:textColor="@color/grey_order"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view3"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="6dp"/>
-                    <TextView
-                        android:id="@+id/tv_delivery_charge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="₹ 100.00"
-                        android:textSize="14sp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/overpass_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/delivery_charge_text"
-                        app:layout_constraintBottom_toBottomOf="@id/delivery_charge_text"
-                        android:layout_marginEnd="6dp"/>
-
-                    <View
-                        android:id="@+id/view4"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/delivery_charge_text"
-                        android:layout_marginTop="6dp"
-                        android:background="@color/grey_order_view"/>
-
-                    <TextView
-                        android:id="@+id/total_cart_value_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Total Cart Value"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/overpass_semibold"
-                        android:textColor="@color/black"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/view4"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="17dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="17dp" />
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"/>
                     <TextView
-                        android:id="@+id/tv_total_cart_value"
+                        android:id="@+id/payment_info_text_new"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="₹ 2100.00"
-                        android:textSize="14sp"
+                        android:text="Payment Information"
+                        android:textSize="20sp"
                         android:textColor="@color/black"
                         android:fontFamily="@font/overpass_bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/total_cart_value_text"
-                        app:layout_constraintBottom_toBottomOf="@id/total_cart_value_text"
-                        android:layout_marginEnd="6dp"/>
-
+                        app:layout_constraintStart_toEndOf="@+id/payment_info_icon_new"
+                        app:layout_constraintTop_toTopOf="@+id/payment_info_icon_new"
+                        app:layout_constraintBottom_toBottomOf="@id/payment_info_icon_new"
+                        android:layout_marginStart="15dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="6dp"
+                    android:background="@color/grey_bg_orrder_screen"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/payment_info_layout">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/payment_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/grey_bg_orrder_screen"
+                        android:visibility="gone">
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/white"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_margin="8dp">
+
+                            <TextView
+                                android:id="@+id/tv_order_product_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1 x Jaguar Faucet"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/overpass"
+                                android:textColor="@color/grey_order"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginTop="11dp"/>
+
+                            <TextView
+                                android:id="@+id/tv_total_mrp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹ 2200.00"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/overpass_bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/tv_order_product_detail"
+                                app:layout_constraintBottom_toBottomOf="@id/tv_order_product_detail"
+                                android:layout_marginEnd="6dp"/>
+
+                            <View
+                                android:id="@+id/view1"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tv_order_product_detail"
+                                android:layout_marginTop="6dp"
+                                android:background="@color/grey_order_view"/>
+                            <TextView
+                                android:id="@+id/discount_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Discount"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/overpass"
+                                android:textColor="@color/grey_order"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/view1"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginTop="6dp"/>
+
+                            <TextView
+                                android:id="@+id/tv_total_discount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="- ₹ 200.00"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/overpass_bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/discount_text"
+                                app:layout_constraintBottom_toBottomOf="@id/discount_text"
+                                android:layout_marginEnd="6dp"/>
+
+                            <View
+                                android:id="@+id/view2"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/discount_text"
+                                android:layout_marginTop="6dp"
+                                android:background="@color/grey_order_view"/>
+
+                            <TextView
+                                android:id="@+id/discounted_price_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Discounted Price"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/overpass"
+                                android:textColor="@color/grey_order"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/view2"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginTop="6dp"/>
+
+                            <TextView
+                                android:id="@+id/tv_discounted_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹ 2000.00"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/overpass_bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/discounted_price_text"
+                                app:layout_constraintBottom_toBottomOf="@id/discounted_price_text"
+                                android:layout_marginEnd="6dp"/>
+
+                            <View
+                                android:id="@+id/view3"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/discounted_price_text"
+                                android:layout_marginTop="6dp"
+                                android:background="@color/grey_order_view"/>
+
+                            <TextView
+                                android:id="@+id/delivery_charge_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Delivery Charge"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/overpass"
+                                android:textColor="@color/grey_order"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/view3"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginTop="6dp"/>
+                            <TextView
+                                android:id="@+id/tv_delivery_charge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹ 100.00"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/overpass_bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/delivery_charge_text"
+                                app:layout_constraintBottom_toBottomOf="@id/delivery_charge_text"
+                                android:layout_marginEnd="6dp"/>
+
+                            <View
+                                android:id="@+id/view4"
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/delivery_charge_text"
+                                android:layout_marginTop="6dp"
+                                android:background="@color/grey_order_view"/>
+
+                            <TextView
+                                android:id="@+id/total_cart_value_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total Cart Value"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/overpass_semibold"
+                                android:textColor="@color/black"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/view4"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:layout_marginBottom="17dp"
+                                android:layout_marginStart="6dp"
+                                android:layout_marginTop="17dp" />
+                            <TextView
+                                android:id="@+id/tv_total_cart_value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="₹ 2100.00"
+                                android:textSize="14sp"
+                                android:textColor="@color/black"
+                                android:fontFamily="@font/overpass_bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/total_cart_value_text"
+                                app:layout_constraintBottom_toBottomOf="@id/total_cart_value_text"
+                                android:layout_marginEnd="6dp"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <ProgressBar
+                        android:id="@+id/idPBLoading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        />
+
+
+                </LinearLayout>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/submitButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginBottom="36dp"
+                    android:padding="9dp"
+                    app:cornerRadius="15dp"
+                    android:elevation="30dp"
+                    android:shadowColor="@color/black"
+                    android:backgroundTint="@color/black"
+                    android:fontFamily="@font/overpass"
+                    android:text="PLACE ORDER"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:elevation="24dp"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ProgressBar
-                android:id="@+id/idPBLoading"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/no_internet_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
-                />
+                android:visibility="gone">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_no_internet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_no_internet"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="48dp"/>
+
+                <TextView
+                    android:id="@+id/no_internet_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Internet Connection"
+                    android:textSize="30sp"
+                    android:paddingStart="18dp"
+                    android:paddingEnd="18dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/overpass_bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_no_internet"
+                    android:layout_marginTop="24dp"/>
+                <TextView
+                    android:id="@+id/no_internet_subtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check Your Internet Connection and Try Again"
+                    android:gravity="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/no_internet_text"
+                    android:fontFamily="@font/overpass"
+                    android:textSize="18sp"
+                    android:paddingStart="36dp"
+                    android:paddingEnd="36dp"
+                    android:layout_marginTop="12dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="Retry"
+                    android:textAllCaps="false"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:fontFamily="@font/overpass_semibold"
+                    android:backgroundTint="#F78E4D"
+                    app:cornerRadius="16dp"
+                    android:textSize="18sp"
+                    android:layout_marginTop="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/no_internet_subtext"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </LinearLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/submitButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginBottom="36dp"
-            android:padding="9dp"
-            app:cornerRadius="15dp"
-            android:elevation="30dp"
-            android:shadowColor="@color/black"
-            android:backgroundTint="@color/black"
-            android:fontFamily="@font/overpass"
-            android:text="PLACE ORDER"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:elevation="24dp"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

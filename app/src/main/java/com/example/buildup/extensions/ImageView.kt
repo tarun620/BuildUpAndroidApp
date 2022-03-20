@@ -14,7 +14,6 @@ fun ImageView.loadImage(uri:String){
 fun ImageView.newLoadImage(uri:String){
     Glide.with(this)
         .load(uri)
-        .placeholder(R.drawable.tap)
         .into(this)
 }
 

@@ -4,7 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -40,6 +43,13 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityProfileNewBinding.inflate(layoutInflater)
         setContentView(_binding.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         tinyDB = TinyDB(this)
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
@@ -158,18 +168,22 @@ class ProfileActivity : AppCompatActivity() {
 
                 R.id.nav_home -> {
                     startActivity(Intent(this, HomeActivity::class.java))
+                    overridePendingTransition(0,0)
 
 
                 }
                 R.id.nav_cart -> {
 
                     startActivity(Intent(this, CartActivity::class.java))
+                    overridePendingTransition(0,0)
+
 
                 }
 
                 R.id.nav_property -> {
 
                     startActivity(Intent(this, WorkInProgressActivity::class.java))
+                    overridePendingTransition(0,0)
 
                 }
 
@@ -202,5 +216,24 @@ class ProfileActivity : AppCompatActivity() {
 //                    remove("token")
 //                }
         startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+        }
     }
 }

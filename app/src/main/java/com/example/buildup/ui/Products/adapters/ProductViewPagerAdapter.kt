@@ -21,7 +21,7 @@ class ProductViewPagerAdapter(private val images: ArrayList<String>, val context
 
         fun bindView(image: String) {
 
-            Glide.with(context).load(image).centerCrop().placeholder(R.drawable.ic_profile).into(imageView)
+            Glide.with(context).load(image).centerCrop().placeholder(R.drawable.product_placeholder).into(imageView)
 
         }
     }

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -70,6 +71,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         authViewModel= ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
 
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
@@ -115,18 +122,18 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(intent);
         }
 
-        if(checkForInternet(this)){
-            Log.d("internet","i am here")
-            _binding.mainLayout.visibility=View.VISIBLE
-            _binding.noInternetLayout.visibility=View.GONE
-        }
-        else{
-            Log.d("no internet","i am here")
-            _binding.mainLayout.visibility=View.GONE
-            _binding.noInternetLayout.visibility=View.VISIBLE
-
-
-        }
+//        if(checkForInternet(this)){
+//            Log.d("internet","i am here")
+//            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.noInternetLayout.visibility=View.GONE
+//        }
+//        else{
+//            Log.d("no internet","i am here")
+//            _binding.mainLayout.visibility=View.GONE
+//            _binding.noInternetLayout.visibility=View.VISIBLE
+//
+//
+//        }
 
         setupNavigationDrawer()
         setupBottomNavigationBar()
@@ -152,8 +159,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     text2.text=it.homeData!!.text2
                 }
             }
-            else
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
     }
     private fun getBrands(){
@@ -164,8 +173,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 _binding.idPBLoading.visibility=View.GONE
                 brandAdapter.submitList(it.brands)
             }
-            else
-                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
 
         }
     }
@@ -187,8 +198,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 productCategoryAdapter.notifyDataSetChanged()
 
             } else {
-                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
-            }
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()            }
         }
 //        return propertyCategoryId!!
     }
@@ -216,8 +227,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 recentViewedProductsAdapter.submitList(it.products)
             }
             else{
-                Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
-            }
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()            }
         }
     }
 
@@ -252,12 +263,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.nav_cart -> {
 
                     startActivity(Intent(this, CartActivity::class.java))
+                    overridePendingTransition(0,0)
 
                 }
 
                 R.id.nav_property -> {
 
                     startActivity(Intent(this, WorkInProgressActivity::class.java))
+                    overridePendingTransition(0,0)
 
 
                 }
@@ -265,6 +278,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 R.id.nav_profile -> {
 
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    overridePendingTransition(0,0)
 
                 }
             }
@@ -301,6 +315,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             var headerView=navView.getHeaderView(0)
             val profileImage=headerView.findViewById<ImageView>(R.id.iv_profileImage)
             val userName=headerView.findViewById<TextView>(R.id.tv_fullname)
+            val savedName=tinyDB.getString("userName")
+            val nameArr=savedName.split(" ")
+            val name=nameArr[0]
             val userMobile=headerView.findViewById<TextView>(R.id.tv_phoneNo)
 
             if(!tinyDB.getString("userProfileImage").isNullOrBlank())
@@ -309,7 +326,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .circleCrop()
                     .placeholder(R.drawable.ic_profile)
                     .into(profileImage)
-            userName.text=tinyDB.getString("userName")
+            userName.text=name
             userMobile.text="+91 " + tinyDB.getString("userMobile")
         }
         _binding.navView.setNavigationItemSelectedListener(this)
@@ -352,37 +369,16 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
             R.id.nav_sign_out -> {
-//                val builder = AlertDialog.Builder(this)
-//                //set title for alert dialog
-//                builder.setTitle("Sign Out")
-//                //set message for alert dialog
-//                builder.setMessage("Are you sure you want to sign out?")
-//                builder.setIcon(android.R.drawable.ic_dialog_alert)
-//
-//                //performing positive action
-//                builder.setPositiveButton("Yes"){dialogInterface, which ->
-//                    signout()
-//                }
-//                //performing cancel action
-//                builder.setNeutralButton("Cancel"){dialogInterface , which ->
-//
-//                }
-//                //performing negative action
-//                builder.setNegativeButton("No"){dialogInterface, which ->
-//                }
-//                // Create the AlertDialog
-//                val alertDialog: AlertDialog = builder.create()
-//                // Set other dialog properties
-//                alertDialog.setCancelable(false)
-//                alertDialog.show()
-
-                MyCustomDialog().show(supportFragmentManager, "MyCustomFragment")
+                if(isNetworkAvailable())
+                    MyCustomDialog().show(supportFragmentManager, "MyCustomFragment")
+                else
+                    Toast.makeText(this,"Connection to internet failed",Toast.LENGTH_SHORT).show()
 
             }
 
         }
         _binding.drawer.closeDrawer(GravityCompat.START)
-        return true
+        return false
     }
 
     private fun signout(){
@@ -412,43 +408,65 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         _binding.bottomNavigationView.menu.getItem(0).isChecked = true
     }
 
-    private fun checkForInternet(context: Context): Boolean {
 
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
 
-        // register activity with the connectivity manager service
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return (capabilities != null && capabilities.hasCapability(NET_CAPABILITY_INTERNET))
 
-        // if the android version is equal to M
-        // or greater we need to use the
-        // NetworkCapabilities to check what type of
-        // network has the internet connection
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            // Returns a Network object corresponding to
-            // the currently active default data network.
-            val network = connectivityManager.activeNetwork ?: return false
-
-            // Representation of the capabilities of an active network.
-            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
-
-            return when {
-                // Indicates this network uses a Wi-Fi transport,
-                // or WiFi has network connectivity
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-
-                // Indicates this network uses a Cellular transport. or
-                // Cellular has network connectivity
-                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-
-                // else return false
-                else -> false
-            }
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
         } else {
-            // if the android version is below M
-            @Suppress("DEPRECATION") val networkInfo =
-                connectivityManager.activeNetworkInfo ?: return false
-            @Suppress("DEPRECATION")
-            return networkInfo.isConnected
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
         }
     }
+//    private fun checkForInternet(context: Context): Boolean {
+//
+//
+//        // register activity with the connectivity manager service
+//        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//
+//        // if the android version is equal to M
+//        // or greater we need to use the
+//        // NetworkCapabilities to check what type of
+//        // network has the internet connection
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//
+//            // Returns a Network object corresponding to
+//            // the currently active default data network.
+//            val network = connectivityManager.activeNetwork ?: return false
+//
+//            // Representation of the capabilities of an active network.
+//            val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
+//
+//            return when {
+//                // Indicates this network uses a Wi-Fi transport,
+//                // or WiFi has network connectivity
+//                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+//
+//                // Indicates this network uses a Cellular transport. or
+//                // Cellular has network connectivity
+//                activeNetwork.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+//
+//                // else return false
+//                else -> false
+//            }
+//        } else {
+//            // if the android version is below M
+//            @Suppress("DEPRECATION") val networkInfo =
+//                connectivityManager.activeNetworkInfo ?: return false
+//            @Suppress("DEPRECATION")
+//            return networkInfo.isConnected
+//        }
+//    }
+
+
 }

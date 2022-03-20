@@ -1,164 +1,240 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        xmlns:tools="http://schemas.android.com/tools">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:hintEnabled="false"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:endIconDrawable="@drawable/ic_icon_view_search"
-            app:endIconMode="custom"
-            app:endIconTintMode="screen"
-            app:startIconDrawable="@drawable/ic_back_up_btn"
-            android:background="@color/grey_bg_2">
-
-            <AutoCompleteTextView
-                android:id="@+id/etSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:backgroundTint="@color/grey_bg_2"
-                android:inputType="text"
-                android:imeOptions="actionSearch"
-                android:maxLines="1"
-                android:lines="1"
-                android:padding="12dp"
-                android:textSize="15sp"
-                android:hint="Search Your products.." />
-
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-<!--        <androidx.appcompat.widget.AppCompatImageView-->
-<!--            android:id="@+id/btn_search"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/ic_search"-->
-<!--            app:layout_constraintStart_toEndOf="@id/textInputLayout"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@id/textInputLayout"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/textInputLayout"-->
-<!--            android:padding="12dp"-->
-<!--            android:layout_marginEnd="12dp"/>-->
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/grey_bg_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputLayout" />
-        <TextView
-            android:id="@+id/recentlyViewedText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/overpass"
-            android:text="RECENTLY VIEWED"
-            android:textColor="@color/grey_searchActivity"
-            android:textSize="15sp"
-            android:padding="12dp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view"/>
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recentlyViewedText">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/recentlyViewedLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_recently_viewed2"
-                android:visibility="visible">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recentlyViewedRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_margin="6dp"
-                    tools:listitem="@layout/item_recent_viewed_products"
-                    tools:itemCount="1"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <ProgressBar
-                android:id="@+id/idPBLoading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_marginTop="48dp"
-                android:layout_marginBottom="48dp"/>
-        </LinearLayout>
-
-
-
+    android:orientation="vertical">
+    <ScrollView
+        android:id="@+id/main_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/recently_searched_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/grey_bg_2"
-            android:layout_marginTop="48dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearLayout">
+            xmlns:tools="http://schemas.android.com/tools">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:endIconDrawable="@drawable/ic_icon_view_search"
+                app:endIconMode="custom"
+                app:endIconTintMode="screen"
+                app:startIconDrawable="@drawable/ic_back_up_btn"
+                android:background="@color/grey_bg_2">
+
+                <AutoCompleteTextView
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/grey_bg_2"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:padding="12dp"
+                    android:textSize="15sp"
+                    android:hint="Search Your products.." />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--        <androidx.appcompat.widget.AppCompatImageView-->
+            <!--            android:id="@+id/btn_search"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:src="@drawable/ic_search"-->
+            <!--            app:layout_constraintStart_toEndOf="@id/textInputLayout"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintTop_toTopOf="@id/textInputLayout"-->
+            <!--            app:layout_constraintBottom_toBottomOf="@id/textInputLayout"-->
+            <!--            android:padding="12dp"-->
+            <!--            android:layout_marginEnd="12dp"/>-->
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/grey_bg_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textInputLayout" />
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/recentlyViewedText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/overpass"
-                android:text="RECENTLY SEARCHED"
+                android:text="RECENTLY VIEWED"
                 android:textColor="@color/grey_searchActivity"
                 android:textSize="15sp"
                 android:padding="12dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/view"/>
 
-            <ImageView
-                android:id="@+id/remove_btn"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_remove"
-                android:padding="12dp"
-                android:layout_marginEnd="7dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:tint="@color/grey_searchActivity" />
+                app:layout_constraintTop_toBottomOf="@id/recentlyViewedText">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/recentlyViewedLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_recently_viewed2"
+                    android:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recentlyViewedRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_margin="6dp"
+                        tools:listitem="@layout/item_recent_viewed_products"
+                        tools:itemCount="1"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ProgressBar
+                    android:id="@+id/idPBLoading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginBottom="48dp"/>
+            </LinearLayout>
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/recently_searched_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_bg_2"
+                android:layout_marginTop="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/linearLayout">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/overpass"
+                    android:text="RECENTLY SEARCHED"
+                    android:textColor="@color/grey_searchActivity"
+                    android:textSize="15sp"
+                    android:padding="12dp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/remove_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_remove"
+                    android:padding="12dp"
+                    android:layout_marginEnd="7dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:tint="@color/grey_searchActivity" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recentlySearchRecyclerView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/recently_searched_layout"
+                android:layout_marginTop="12dp"
+                tools:itemCount="6"
+                tools:listitem="@layout/item_recent_searched_products"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recentlySearchRecyclerView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/no_internet_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_no_internet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_no_internet"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recently_searched_layout"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="48dp"/>
+
+        <TextView
+            android:id="@+id/no_internet_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Internet Connection"
+            android:textSize="30sp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/overpass_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_no_internet"
+            android:layout_marginTop="24dp"/>
+        <TextView
+            android:id="@+id/no_internet_subtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Check Your Internet Connection and Try Again"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/no_internet_text"
+            android:fontFamily="@font/overpass"
+            android:textSize="18sp"
+            android:paddingStart="36dp"
+            android:paddingEnd="36dp"
+            android:layout_marginTop="12dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:text="Retry"
+            android:textAllCaps="false"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:fontFamily="@font/overpass_semibold"
+            android:backgroundTint="#F78E4D"
+            app:cornerRadius="16dp"
+            android:textSize="18sp"
             android:layout_marginTop="12dp"
-            tools:itemCount="6"
-            tools:listitem="@layout/item_recent_searched_products"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            app:layout_constraintTop_toBottomOf="@+id/no_internet_subtext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+
+
+</LinearLayout>

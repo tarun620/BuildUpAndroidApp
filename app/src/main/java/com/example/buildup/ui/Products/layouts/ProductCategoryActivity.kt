@@ -1,6 +1,8 @@
 package com.example.buildup.ui.Products.layouts
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -43,6 +45,13 @@ class ProductCategoryActivity : AppCompatActivity() {
         _binding.productsSubCategoryRecyclerView.adapter = productSubCategoryAdapter
 
         setContentView(_binding?.root)
+
+        drawLayout()
+        _binding.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
 //        productCategoryId=intent.getStringExtra("productCategoryId")
 //        productCategoryName=intent.getStringExtra("productCategoryName")
@@ -87,8 +96,8 @@ class ProductCategoryActivity : AppCompatActivity() {
 //                }
 
             } else {
-                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
-                Log.d("errorProductCategory", it.error.toString())
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
 //        return propertyCategoryId!!
@@ -125,8 +134,8 @@ class ProductCategoryActivity : AppCompatActivity() {
 
                 productSubCategoryAdapter.submitList(it.productSubCategories)
             } else {
-                Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
-                Log.d("errorProductSubCategory", it.error.toString())
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -140,9 +149,30 @@ class ProductCategoryActivity : AppCompatActivity() {
 //            .show()
     }
 
+
 //    fun onProductSubCategoryClicked(productSubCategoryId:String?){
 //        val intent= Intent(this,ProductsActivity::class.java)
 //        intent.putExtra("productSubCategoryId",productSubCategoryId)
 //        startActivity(intent)
 //    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding.mainLayout.visibility=View.VISIBLE
+            _binding.noInternetLayout.visibility=View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding.mainLayout.visibility=View.GONE
+            _binding.noInternetLayout.visibility=View.VISIBLE
+            _binding.idPBLoading.visibility=View.GONE
+        }
+    }
 }

@@ -3,10 +3,14 @@ package com.example.buildup.ui.LoginSignup
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +41,13 @@ class NewSignupActivity : AppCompatActivity() {
         sharedPrefrences = getSharedPreferences(PREFS_FILE_AUTH, Context.MODE_PRIVATE)
 
         setContentView(_binding?.root)
+
+        drawLayout()
+        _binding!!.btnRetry.setOnClickListener {
+//            drawLayout()
+            finish();
+            startActivity(intent);
+        }
 
         tinyDB = TinyDB(this)
 
@@ -78,8 +89,8 @@ class NewSignupActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             else{
-                Toast.makeText(this,it?.error, Toast.LENGTH_SHORT).show()
-            }
+                if(it!!.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()            }
         }
     }
 
@@ -111,6 +122,26 @@ class NewSignupActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity(Intent(this,LoginSignupSelectorActivity::class.java))
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val cm = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = cm.getNetworkCapabilities(cm.activeNetwork)
+
+        return (capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET))
+
+    }
+    private fun drawLayout() {
+        if (isNetworkAvailable()) {
+            Log.d("internet","internet")
+            _binding!!.mainLayout.visibility= View.VISIBLE
+            _binding!!.noInternetLayout.visibility= View.GONE
+        } else {
+            Log.d("internet","no internet")
+            _binding!!.mainLayout.visibility= View.GONE
+            _binding!!.noInternetLayout.visibility= View.VISIBLE
+
+        }
     }
 
 
