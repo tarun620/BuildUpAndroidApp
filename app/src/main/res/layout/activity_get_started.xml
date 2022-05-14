@@ -42,8 +42,8 @@
             android:layout_marginStart="7dp"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/rancho"
-            android:text="Build Up"
-            android:textColor="@color/orange_main"
+            android:text="BuildUp"
+            android:textColor="@color/black"
             android:textSize="50sp"/>
     </LinearLayout>
 

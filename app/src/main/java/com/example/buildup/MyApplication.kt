@@ -1,6 +1,7 @@
 package com.example.buildup
 
 import android.app.Application
+import android.util.Log
 
 class MyApplication: Application() {
     companion object {
@@ -58,8 +59,12 @@ class MyApplication: Application() {
 
     fun addPropertyId(propertyIdData:String){
         propertyId=propertyIdData
+//        Log.d("propertyIdAddPropertyId()",propertyId.toString())
+//        Log.d("propertyIdDataAddPropertyId()",propertyIdData)
+
     }
     fun getPropertyId():String?{
+//        Log.d("propertyIdGetPropertyId()",propertyId.toString())
         return propertyId
     }
 

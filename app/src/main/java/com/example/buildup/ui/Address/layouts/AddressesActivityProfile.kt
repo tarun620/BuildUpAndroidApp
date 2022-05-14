@@ -19,10 +19,12 @@ import com.example.buildup.ui.Address.adapters.AddressAdapter
 import com.example.buildup.ui.Address.adapters.AddressRadioAdapter
 import com.example.buildup.ui.Property.layouts.AddPropertyActivity
 
-class AddressesActivityProfile : AppCompatActivity() {
+class AddressesActivityProfile : AppCompatActivity(), MyCustomDialogAddress.OnInputListener {
     private lateinit var authViewModel: AuthViewModel
     private lateinit var _binding: ActivityAddressesProfileBinding
-        private lateinit var addressAdapter: AddressAdapter
+    private lateinit var addressAdapter: AddressAdapter
+    private var propertyIdAddress:String?=null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,18 +79,41 @@ class AddressesActivityProfile : AppCompatActivity() {
 
     }
     private fun onDeleteAddressBtnClicked(propertyId: String){
+//        authViewModel.deletePropertyAddress(propertyId)
+//        authViewModel.respDeletePropertyAddress.observe({lifecycle}){
+//            if(it?.success!!) {
+//                getAddresses()
+//                Toast.makeText(this, "propertyAddress Deleted", Toast.LENGTH_SHORT).show()
+//            }
+//            else{
+//                if(it.error!="Network Failure")
+//                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+//            }
+//        }
+
+        propertyIdAddress=propertyId
+        MyCustomDialogAddress().show(supportFragmentManager, "MyCustomFragment")
+    }
+
+    override fun sendInput(input: String?) {
+        if(input=="yes")
+            deleteAddress(propertyIdAddress!!)
+    }
+
+    private fun deleteAddress(propertyId: String){
         authViewModel.deletePropertyAddress(propertyId)
         authViewModel.respDeletePropertyAddress.observe({lifecycle}){
             if(it?.success!!) {
                 getAddresses()
-                Toast.makeText(this, "propertyAddress Deleted", Toast.LENGTH_SHORT).show()
             }
             else{
                 if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
+
         }
     }
+
     override fun onResume() {
         super.onResume()
         getAddresses()

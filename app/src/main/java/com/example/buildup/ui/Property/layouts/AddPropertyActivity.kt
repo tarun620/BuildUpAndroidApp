@@ -776,7 +776,7 @@ class AddPropertyActivity : AppCompatActivity() {
     private fun drawLayout() {
         if (isNetworkAvailable()) {
             Log.d("internet","internet")
-            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.mainLayout.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
             _binding.submitButton.visibility=View.VISIBLE
         } else {

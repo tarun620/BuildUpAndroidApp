@@ -13,10 +13,7 @@ import com.example.api.models.responsesAndData.property.propertyEntities.AddProp
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.SuccessMessageResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
-import com.example.api.models.responsesAndData.order.CreateOrderData
-import com.example.api.models.responsesAndData.order.DownloadInvoiceResponse
-import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
-import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
+import com.example.api.models.responsesAndData.order.*
 import com.example.api.models.responsesAndData.products.productsResponses.*
 import com.example.api.models.responsesAndData.property.propertyResponses.PropertiesResponse
 import com.example.api.models.responsesAndData.property.propertyResponses.SinglePropertyResponse
@@ -230,8 +227,9 @@ interface BuildUpAuthAPI {
 
     @PUT("api/order/{id}/cancel")
     suspend fun cancelOrder(
-        @Path("id") orderId: String
-    ):Response<SuccessMessageResponse>
+        @Path("id") orderId: String,
+        @Query("forceAll") forceAll: Boolean?
+    ):Response<CancelOrderResponse>
 
     @POST("api/cart/cost-delivery-details")
     suspend fun getCostDeliveryDetails(

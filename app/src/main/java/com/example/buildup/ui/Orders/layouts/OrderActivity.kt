@@ -1,10 +1,13 @@
 package com.example.buildup.ui.Orders.layouts
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DownloadManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.icu.text.SimpleDateFormat
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -26,6 +29,7 @@ import com.example.buildup.AuthViewModel
 import com.example.buildup.R
 import com.example.buildup.databinding.ActivityOrderBinding
 import com.example.buildup.extensions.newLoadImage
+import com.example.buildup.ui.BottomNavigation.MyCustomDialogWishlist
 import com.example.buildup.ui.Orders.adapters.isoDateFormat
 import com.example.buildup.ui.ReturnOrder.ReturnActivity
 import kotlinx.coroutines.*
@@ -37,7 +41,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class OrderActivity : AppCompatActivity() {
+class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,MyCustomDialogOrderNew.OnInputListenerNew {
+    @SuppressLint("ConstantLocale")
+    val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+
     private lateinit var _binding: ActivityOrderBinding
     private lateinit var authViewModel: AuthViewModel
     private var orderId :String?=null
@@ -54,7 +61,6 @@ class OrderActivity : AppCompatActivity() {
     private var rating:Int=0
     private var userRating:Int=0
     private var productId:String?=null
-    private var isDelivered=false
     private var isSuccess=false
 
 
@@ -167,55 +173,140 @@ class OrderActivity : AppCompatActivity() {
                         idPBLoading.visibility=View.GONE
 
                         var finalStepList=listOf<String>()
-                        val apiStatusArray=it.order!!.shipping.tracking.status
-                        val currentStatus:String=apiStatusArray.last().name
+                        val apiStatusArray=it.order!!.packageId.shipping.tracking.status
+                        if(!apiStatusArray.isNullOrEmpty() && it.order!!.isCancelled==null){ //order goes as expected
+                            paymentInfoLayout.visibility=View.VISIBLE
+                            paymentLayout.visibility=View.VISIBLE
 
-                        if(currentStatus=="cancelled"){
-                            if(apiStatusArray.size==3) { // ordered..shipped..cancelled
-                                finalStepList=cancelledArray2
-                            }
-                            else if(apiStatusArray.size==2){
-                                if(apiStatusArray[0].name=="ordered") // ordered..cancelled
-                                    finalStepList=cancelledArray1
-                                else if(apiStatusArray[0].name=="returned") //returned..cancelled
-                                    finalStepList=cancelledArray3
-                            }
-                        }
-                        else if(apiStatusArray[0].name=="ordered")
-                            finalStepList=array
-                        else if(apiStatusArray[0].name=="returned")
-                            finalStepList=returnArray
-
-                        if(currentStatus=="delivered"){
-                            ratingLayout.visibility=View.VISIBLE
-                            invoiceLayout.visibility=View.VISIBLE
-                            cancelBtn.text="RETURN"
-                            cancelBtn.setIconResource(R.drawable.ic_icon_return_button)
-                            if(!isReturnWindowLeft(apiStatusArray.last().time))
-                                cancelBtn.visibility=View.GONE
-                            cancelBtn.setOnClickListener {
-                                val intent=Intent(this@OrderActivity,ReturnActivity::class.java)
-                                intent.putExtra("orderId",orderId)
-                                startActivity(intent)
-                            }
-                        }
+                            confirmationLayout.visibility=View.GONE
+                            timelineLayout.visibility=View.VISIBLE
 
 
-                        if(currentStatus=="cancelled")
-                            cancelBtn.visibility=View.GONE
+                            val currentStatus:String=apiStatusArray.last().name
 
-                        if(currentStatus=="ordered" || currentStatus=="shipped" || currentStatus=="returned"){
-                            _binding.apply {
-                                cancelBtn.visibility=View.VISIBLE
-                                cancelBtn.setOnClickListener {
-                                    cancelOrder()
+                            if(currentStatus=="cancelled"){
+                                if(apiStatusArray.size==3) { // ordered..shipped..cancelled
+                                    finalStepList=cancelledArray2
+                                }
+                                else if(apiStatusArray.size==2){
+                                    if(apiStatusArray[0].name=="ordered") // ordered..cancelled
+                                        finalStepList=cancelledArray1
+                                    else if(apiStatusArray[0].name=="returned") //returned..cancelled
+                                        finalStepList=cancelledArray3
                                 }
                             }
-                        }
-                        if(it.order!!.isReturnAvailed!=null && it.order!!.isReturnAvailed!!)
-                            cancelBtn.visibility= View.GONE
+                            else if(apiStatusArray[0].name=="ordered")
+                                finalStepList=array
+                            else if(apiStatusArray[0].name=="returned")
+                                finalStepList=returnArray
 
-                        apiStatusArraySize=apiStatusArray.size
+                            if(currentStatus=="delivered"){
+                                ratingLayout.visibility=View.VISIBLE
+                                invoiceLayout.visibility=View.VISIBLE
+                                cancelBtn.text="RETURN"
+                                cancelBtn.setIconResource(R.drawable.ic_icon_return_button)
+                                if(!isReturnWindowLeft(apiStatusArray.last().time))
+                                    cancelBtn.visibility=View.GONE
+                                cancelBtn.setOnClickListener {
+                                    val intent=Intent(this@OrderActivity,ReturnActivity::class.java)
+                                    intent.putExtra("orderId",orderId)
+                                    startActivity(intent)
+                                }
+                            }
+
+
+                            if(currentStatus=="cancelled" || currentStatus=="outForDelivery")
+                                cancelBtn.visibility=View.GONE
+
+                            if(currentStatus=="ordered" || currentStatus=="shipped" || currentStatus=="returned"){
+                                _binding.apply {
+                                    cancelBtn.visibility=View.VISIBLE
+                                    cancelBtn.setOnClickListener {
+                                        MyCustomDialogOrderNew().show(supportFragmentManager, "MyCustomFragment")
+
+                                    }
+                                }
+                            }
+                            if(it.order!!.isReturnAvailed!=null && it.order!!.isReturnAvailed!!)
+                                cancelBtn.visibility= View.GONE
+
+                            apiStatusArraySize=apiStatusArray.size
+
+
+                            Log.d("finalStepList",finalStepList.toString())
+                            getUserProductRating()
+                            drawStepView(finalStepList)
+                        }
+
+                        else if(apiStatusArray.isNullOrEmpty() &&  it.order!!.isCancelled==null){  //order under confirmation
+                            confirmationLayout.visibility=View.VISIBLE
+                            timelineLayout.visibility=View.VISIBLE
+                            stepView.visibility=View.GONE
+                            cancelBtn.visibility=View.VISIBLE
+                            confirmationLayout.setBackgroundColor(Color.parseColor("#F69421"))
+                            confirmationText.text="Your order is being processed"
+
+                            paymentInfoLayout.visibility=View.GONE
+                            paymentLayout.visibility=View.GONE
+                             //TODO : implement order under confirmation layout UI - change icon
+
+                        }
+                        else if(it.order!!.isCancelled!!.value && !it.order!!.isCancelled!!.bySelf){ //order cancelled by admin
+                            confirmationLayout.visibility=View.VISIBLE
+                            timelineLayout.visibility=View.GONE
+
+                            paymentInfoLayout.visibility=View.GONE
+                            paymentLayout.visibility=View.GONE
+
+
+                            //TODO : implement order couldn't get confirmation layout UI
+
+                        }
+
+                        else if(it.order!!.isCancelled!!.value && it.order!!.isCancelled!!.bySelf){ //order cancelled by user
+                            confirmationLayout.visibility=View.GONE
+                            timelineLayout.visibility=View.VISIBLE
+                            cancelBtn.visibility=View.GONE
+
+
+                            if(apiStatusArray.isNullOrEmpty()){
+                                //order cancelled by user before confirmation
+                                finalStepList=cancelledArray1
+
+                                paymentInfoLayout.visibility=View.GONE
+                                paymentLayout.visibility=View.GONE
+                            }
+                            else if(apiStatusArray.isNotEmpty()){
+                                //order maybe cancelled by user before/after cancellation
+
+                                if(isOrderCancelledBeforeConfirmation(it.order!!.isCancelled!!.time, it.order!!.packageId.shipping.tracking.status?.get(0)!!.time)){
+                                    //order cancelled before confirmation
+                                    finalStepList=cancelledArray1
+
+                                    paymentInfoLayout.visibility=View.GONE
+                                    paymentLayout.visibility=View.GONE
+                                }
+                                else{
+                                    //order cancelled after confirmation
+                                    paymentInfoLayout.visibility=View.VISIBLE
+                                    paymentLayout.visibility=View.VISIBLE
+
+                                    if(apiStatusArray.size==3) { // ordered..shipped..cancelled
+                                        finalStepList=cancelledArray2
+                                    }
+                                    else if(apiStatusArray.size==2){
+                                        if(apiStatusArray[0].name=="ordered") // ordered..cancelled
+                                            finalStepList=cancelledArray1
+                                        else if(apiStatusArray[0].name=="returned") //returned..cancelled
+                                            finalStepList=cancelledArray3
+
+                                    }
+
+                                }
+                            }
+                            drawStepView(finalStepList)
+                        }
+
                         productId=it.order!!.product.id.id
                         ivProductImage.newLoadImage(it.order?.product?.id?.image?.get(0)!!)
                         val brandName=it.order!!.product.id.brand.name
@@ -226,27 +317,45 @@ class OrderActivity : AppCompatActivity() {
 //                        current_state=it.order!!.shipping.tracking.status.toInt()
                         tvBrandName.text=brandName
                         tvProductName.text=productName
-                        tvClientName.text=it.order!!.shipping.customer
+                        tvClientName.text=it.order!!.packageId.shipping.customer
 //                        tvShippingAddress.text=it.order!!.shipping.address
-                        tvClientMobileNumber.text=it.order!!.shipping.mobileNo
-                        tvShippingAddress.text=it.order!!.shipping.address + ", "  + it.order!!.shipping.city + ", " + it.order!!.shipping.state + " - " + it.order!!.shipping.pincode
+                        tvClientMobileNumber.text=it.order!!.packageId.shipping.mobileNo
+                        tvShippingAddress.text=it.order!!.packageId.shipping.address + ", "  + it.order!!.packageId.shipping.city + ", " + it.order!!.packageId.shipping.state + " - " + it.order!!.packageId.shipping.pincode
                         tvOrderId.text="Order Id - " + it.order!!.id
                         tvOrderProductDetail.text= tvProductQuantity.toString() + " x " + brandName + " " + productName
                         tvTotalMrp.text="₹ " + totalMrp.toString()
                         tvDiscountedPrice.text="₹ " + discountedPrice.toString()
                         tvTotalDiscount.text="- ₹ " + (totalMrp-discountedPrice).toString()
-                        tvDeliveryCharge.text=it.order!!.shipping.charge.toString()
-                        tvTotalCartValue.text="₹ " + (discountedPrice+it.order!!.shipping.charge).toString()
-
-                        getUserProductRating()
-                        drawStepView(it.order!!.isReturn,finalStepList)
+                        tvDeliveryCharge.text=it.order!!.packageId.shipping.chargeForUser.toString()
+                        if(it.order!!.packageId.shipping.chargeForUser!=null)
+                            tvTotalCartValue.text="₹ " + (discountedPrice+it.order!!.packageId.shipping.chargeForUser!!.toInt()).toString()
 
                     }
                 }
+
                 else
                     if(it.error!="Network Failure")
                         Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()            }
         }
+    }
+
+    private fun isOrderCancelledBeforeConfirmation(orderCancelledTimeApi:String, statusObjectTimeApi:String):Boolean{
+
+        val orderCancelledTime = Calendar.getInstance()
+        orderCancelledTime.add(Calendar.HOUR,5)
+        orderCancelledTime.add(Calendar.MINUTE,30)
+
+        val statusObjectTime = Calendar.getInstance()
+        statusObjectTime.add(Calendar.HOUR,5)
+        statusObjectTime.add(Calendar.MINUTE,30)
+
+        orderCancelledTime.time = isoDateFormat.parse(orderCancelledTimeApi)
+        statusObjectTime.time = isoDateFormat.parse(statusObjectTimeApi)
+
+        if(orderCancelledTime.before(statusObjectTime)){
+            return true
+        }
+        return false
     }
 
 
@@ -333,7 +442,7 @@ class OrderActivity : AppCompatActivity() {
         }
     }
 
-    private fun drawStepView(isReturn:Boolean?,finalStepList:List<String>){
+    private fun drawStepView(finalStepList:List<String>){
         _binding.apply {
             stepView.state
                 .steps(finalStepList)
@@ -362,45 +471,45 @@ class OrderActivity : AppCompatActivity() {
 
     }
 
-    private fun cancelOrder(){
-        _binding.apply {
-            val builder = AlertDialog.Builder(this@OrderActivity)
-            //set title for alert dialog
-            builder.setTitle("Cancel Order")
-            //set message for alert dialog
-            builder.setMessage("Are you sure you want to Cancel the Order ?")
-            builder.setIcon(android.R.drawable.ic_dialog_alert)
-
-            //performing positive action
-            builder.setPositiveButton("Yes"){dialogInterface, which ->
-//                    (application as MyApplication).clearQueue()
-                cancelOrderAPI()
-            }
-            //performing cancel action
-            builder.setNeutralButton("Cancel"){dialogInterface , which ->
-
-            }
-            //performing negative action
-            builder.setNegativeButton("No"){dialogInterface, which ->
-            }
-            // Create the AlertDialog
-            val alertDialog: AlertDialog = builder.create()
-            // Set other dialog properties
-            alertDialog.setCancelable(false)
-            alertDialog.show()
-        }
+    override fun sendInput(input: String?) {
+        if(input=="yes")
+            cancelAllOrders();
     }
-    private fun cancelOrderAPI(){
-        authViewModel.cancelOrder(orderId!!)
+
+    override fun sendInputNew(input: String?) {
+        if(input=="yes")
+            cancelOrder();
+    }
+    private fun cancelAllOrders(){
+        authViewModel.cancelOrder(orderId!!,true)
         authViewModel.respCancelOrder.observe({lifecycle}){
             if(it?.success!!){
-//                updateStepView()
                 getOrderById(orderId)
             }
             else{
                 if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    private fun cancelOrder(){
+        authViewModel.cancelOrder(orderId!!,false)
+        authViewModel.respCancelOrder.observe({lifecycle}){
+            Log.d("it_new",it.toString())
+            if(it?.error!=null && it.ordersInPackage!=null){
+                Log.d("it.error",it.error.toString())
+                if(it.ordersInPackage!! >1){
+                    Log.d("orderInPackage","true")
+                    MyCustomDialogOrder().show(supportFragmentManager, "MyCustomFragment")
+                }
+                else{
+                    cancelAllOrders()
+                }
+            }
+            else if(it?.success!!){
+                getOrderById(orderId)
+            }
+
         }
     }
 
@@ -478,7 +587,7 @@ class OrderActivity : AppCompatActivity() {
     private fun drawLayout() {
         if (isNetworkAvailable()) {
             Log.d("internet","internet")
-            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.mainLayout.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
         } else {
             Log.d("internet","no internet")

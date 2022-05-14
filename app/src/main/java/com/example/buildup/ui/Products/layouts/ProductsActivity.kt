@@ -390,7 +390,7 @@ class ProductsActivity : AppCompatActivity() {
     private fun drawLayout() {
         if (isNetworkAvailable()) {
             Log.d("internet","internet")
-            _binding.productsRecyclerView.visibility=View.VISIBLE
+//            _binding.productsRecyclerView.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
             _binding.llBottom.visibility=View.VISIBLE
         } else {

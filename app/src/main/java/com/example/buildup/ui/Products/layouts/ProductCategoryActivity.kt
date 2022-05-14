@@ -166,7 +166,7 @@ class ProductCategoryActivity : AppCompatActivity() {
     private fun drawLayout() {
         if (isNetworkAvailable()) {
             Log.d("internet","internet")
-            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.mainLayout.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
         } else {
             Log.d("internet","no internet")

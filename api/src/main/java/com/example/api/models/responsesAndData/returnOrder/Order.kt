@@ -16,8 +16,8 @@ data class Order(
     var product: Product,
     @Json(name = "propertyId")
     var propertyId: String,
-    @Json(name = "shipping")
-    var shipping: Shipping,
+    @Json(name = "packageId")
+    var packageId: PackageId,
     @Json(name = "userId")
     var userId: String
 )

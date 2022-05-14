@@ -245,7 +245,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view2" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -255,25 +255,28 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/app_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_icon_buildup"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Build Up"
-                    android:textSize="30sp"
+                    android:text="BuildUp"
+                    android:textSize="40sp"
                     android:fontFamily="@font/rancho"
                     android:textColor="@color/black"
-                    android:layout_marginStart="6dp"/>
+                    android:layout_marginStart="7dp"
+                    app:layout_constraintStart_toEndOf="@+id/app_logo"
+                    app:layout_constraintTop_toTopOf="@+id/app_logo"
+                    app:layout_constraintBottom_toBottomOf="@+id/app_logo"/>
 
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

@@ -139,7 +139,8 @@ class ProductActivity : AppCompatActivity() {
                         }
                         else{
                             if(it.error!="Network Failure")
-                                Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()                        }
+                                Toast.makeText(this@ProductActivity,it.error,Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
                 else{
@@ -313,7 +314,7 @@ class ProductActivity : AppCompatActivity() {
     private fun drawLayout() {
         if (isNetworkAvailable()) {
             Log.d("internet","internet")
-            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.mainLayout.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
         } else {
             Log.d("internet","no internet")

@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buildup.AuthViewModel
@@ -124,10 +125,12 @@ class AddressesActivity : AppCompatActivity(), MyCustomDialogAddress.OnInputList
 //        }
         tinyDB.putString("propertyIdForCart",propertyId)
 
-//        (application as MyApplication).addPropertyId(propertyId)
+//        Log.d("propertyIdRadio",propertyId)
+        (application as MyApplication).addPropertyId(propertyId)
 
         finish()
     }
+
 
     override fun onResume() {
         super.onResume()

@@ -1,5 +1,6 @@
 package com.example.buildup.ui.Address.adapters
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,9 @@ import com.example.api.models.responsesAndData.address.Property
 import com.example.buildup.R
 import com.example.buildup.databinding.ItemAddressRadioBinding
 import com.example.buildup.MyApplication
+import com.example.buildup.TinyDB
 
-class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit, val onDeleteAddressBtnClicked:(propertyId:String?)->Unit, val onRadioBtnClicked:(propertyId:String?)->Unit): ListAdapter<Property, AddressRadioAdapter.AddressRadioViewHolder> (
+class   AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit, val onDeleteAddressBtnClicked:(propertyId:String?)->Unit, val onRadioBtnClicked:(propertyId:String?)->Unit): ListAdapter<Property, AddressRadioAdapter.AddressRadioViewHolder> (
     object : DiffUtil.ItemCallback<Property>(){
         override fun areItemsTheSame(oldItem: Property, newItem: Property): Boolean {
             return oldItem == newItem
@@ -23,7 +25,7 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
         }
     }
 ){
-
+    private lateinit var tinyDB: TinyDB
     var lastSelectedPosition=-1
     inner class AddressRadioViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
@@ -45,7 +47,12 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
         var bind= ItemAddressRadioBinding.bind(holder.itemView).apply {
             val addresss=getItem(position)
 
-            val propertyId= MyApplication.getInstance().getPropertyId()
+            tinyDB= TinyDB(holder.itemView.context)
+            val propertyId=tinyDB.getString("propertyIdForCart")
+//            val sharedPrefrences = holder.itemView.context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
+//            val propertyId= sharedPrefrences.getString("propertyIdForCart","")
+//            val propertyId= MyApplication.getInstance().getPropertyId()
+            Log.d("propertyIdRadio",propertyId.toString())
             if(!propertyId.isNullOrEmpty()){
                 Log.d("adapterDB",propertyId)
                 Log.d("adapterAPI",addresss.id)
@@ -61,11 +68,15 @@ class AddressRadioAdapter(val onEditAddressBtnClicked:(propertyId:String?)->Unit
 
 //            btnRadio.isChecked=lastSelectedPosition == position
             Log.d("selected_property","test log")
+            root.setOnClickListener {
+                lastSelectedPosition = position
+                notifyDataSetChanged()
+                onRadioBtnClicked(addresss.id)
+            }
             btnRadio.setOnClickListener {
                 lastSelectedPosition = position
                 notifyDataSetChanged()
                 onRadioBtnClicked(addresss.id)
-//                Log.d("selected_property",addresss.id)
             }
             if(addresss.type=="work"){
                 homeIcon.setImageResource(R.drawable.ic_icon_work_type_new)

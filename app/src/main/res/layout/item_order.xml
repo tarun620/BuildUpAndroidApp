@@ -41,7 +41,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/overpass"
-            android:text="On Wed, 6 Oct"
             android:textSize="10sp"
             android:textColor="@color/black"/>
     </LinearLayout>

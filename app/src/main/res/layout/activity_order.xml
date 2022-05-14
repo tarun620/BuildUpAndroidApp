@@ -170,11 +170,50 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/confirmation_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#FF4E4E"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:padding="24dp"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/timeline_layout">
+
+                       <ImageView
+                           android:id="@+id/confirmation_icon"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:src="@drawable/ic_cross_icon"
+                           app:layout_constraintStart_toStartOf="parent"
+                           app:layout_constraintTop_toTopOf="parent"
+                           app:layout_constraintBottom_toBottomOf="parent"/>
+
+                        <TextView
+                            android:id="@+id/confirmation_text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintStart_toEndOf="@+id/confirmation_icon"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:text="Your order couldn't get confirmed"
+                            android:textColor="#333333"
+                            android:textSize="12sp"
+                            android:fontFamily="@font/overpass_semibold"
+                            android:layout_marginStart="12dp"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/rating_layout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        app:layout_constraintTop_toBottomOf="@+id/timeline_layout"
+                        app:layout_constraintTop_toBottomOf="@+id/confirmation_layout"
                         android:background="@color/white"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
@@ -342,7 +381,7 @@
                             android:id="@+id/tv_client_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Shashank Jain"
+                            android:text="Name"
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             android:fontFamily="@font/overpass_semibold"
@@ -355,7 +394,7 @@
                             android:id="@+id/tv_shipping_address"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="50 C ED Block, Madhuban Chowk, PitamPura, Delhi - 110034"
+                            android:text="Address"
                             android:textColor="@color/black_text"
                             android:textSize="15sp"
                             android:fontFamily="@font/overpass"
@@ -381,7 +420,7 @@
                             android:id="@+id/tv_client_mobile_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="+91 8178600312"
+                            android:text="+91 9999999999"
                             android:textSize="15sp"
                             android:textColor="@color/black"
                             android:fontFamily="@font/overpass_semibold"

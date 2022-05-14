@@ -840,17 +840,20 @@ object UserRepo {
             SuccessMessageResponse(null,false,"Network Failure")
         }
     }
-    suspend fun cancelOrder(orderId: String):SuccessMessageResponse?{
+    suspend fun cancelOrder(orderId: String, forceAll:Boolean):CancelOrderResponse?{
         return try{
-            val response= authApi.cancelOrder(orderId)
+            val response= authApi.cancelOrder(orderId,forceAll)
             if(response.isSuccessful){
+                Log.d("responseIf",response.body().toString())
                 response.body()
             } else{
+                Log.d("responseElse",response.body().toString())
                 val apiErrorNew=ErrorUtilsNew.parseError(response)
-                SuccessMessageResponse(null,false,apiErrorNew.error)
+                CancelOrderResponse(null,false,null,apiErrorNew.error)
             }
+            response.body()
         }catch (e:IOException){
-            SuccessMessageResponse(null,false,"Network Failure")
+            CancelOrderResponse(null,false,null,"Network Failure")
         }
     }
 
@@ -861,11 +864,11 @@ object UserRepo {
                 response.body()
             }else{
                 val apiErrorNew=ErrorUtilsNew.parseError(response)
-                GetCostDeliveryDetailsResponse(null,null,false,apiErrorNew.error)
+                GetCostDeliveryDetailsResponse(null,null,false,false,apiErrorNew.error)
             }
         }
         catch (e:IOException){
-            GetCostDeliveryDetailsResponse(null,null,false,"Network Failure")
+            GetCostDeliveryDetailsResponse(null,null,false,false,"Network Failure")
         }
     }
 

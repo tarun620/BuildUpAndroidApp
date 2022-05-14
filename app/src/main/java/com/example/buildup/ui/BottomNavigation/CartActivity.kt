@@ -14,21 +14,20 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.buildup.AuthViewModel
+import com.example.buildup.MyApplication
 import com.example.buildup.R
 import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityCartBinding
 import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.Cart.adapters.CartAdapter
 import com.example.buildup.ui.HomeActivity
-import com.example.buildup.MyApplication
 import com.example.buildup.extensions.timeStamp
 import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
 import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
-import com.example.buildup.ui.Property.layouts.PropertiesActivity
 
-class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
+class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCustomDialogDelivery.OnInputListenerDelivery, MyCustomDialogPlaceOrder.OnInputListenerPlaceOrder {
     companion object {
         var PREFS_FILE_AUTH = "prefs_property"
         var PREFS_KEY_TOKEN = "propertyId"
@@ -76,15 +75,12 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
 //        tinyDB.remove("propertyIdForCart")
 //        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
 //        propertyId=(application as MyApplication).getPropertyId()
+
+
         if(tinyDB.getString("propertyIdForCart")==null || tinyDB.getString("propertyIdForCart")=="")
             propertyId=null
         else
-            propertyId=tinyDB.getString("propertyIdForCart")
-
-//        if(propertyId!=null){
-////            val intent=Intent(this,PropertiesActivity::class.java)
-////            startActivity(intent)
-//        }
+        propertyId=tinyDB.getString("propertyIdForCart")
 
         intentFromWishlist=intent.getBooleanExtra("intentFromWishlist",false)
         _binding.apply {
@@ -115,7 +111,8 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
                 if(isEmpty)
                     Toast.makeText(this@CartActivity,"Cart is Empty.",Toast.LENGTH_SHORT).show()
                 else
-                    placeOrder(propertyId)
+                    MyCustomDialogPlaceOrder().show(supportFragmentManager, "MyCustomFragment")
+
             }
 
             btnAddProducts.setOnClickListener {
@@ -163,8 +160,11 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
                     tvTotalMrp.text="₹ " + totalMrp.toString()
                     tvDiscountedPrice.text="₹ " + discountedPrice.toString()
                     tvTotalDiscount.text="- ₹ " + (totalMrp-discountedPrice).toString()
-                    if(shippingCost==-1)
+                    Log.d("shippingCostAfter",shippingCost.toString())
+                    if(shippingCost==-1){
                         tvTotalCartValue.text="₹ " + (discountedPrice).toString()
+//                        tvTotalCartValue.text="shipping cost = -1"
+                    }
                     else
                         tvTotalCartValue.text="₹ " + (discountedPrice+shippingCost!!).toString()
                 }
@@ -193,8 +193,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
         }
         authViewModel.updateProductQuantityCart(productId!!,currQuantity+1)
         authViewModel.respUpdateProductQuantityCart.observe({lifecycle}){
-            if(it?.success!!)
-                getProductsFromCart()
+            if(it?.success!!) {
+//                getProductsFromCart()
+                getCostDeliveryDetails()
+            }
             else{
                 if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
@@ -220,8 +222,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
         } else {
             authViewModel.updateProductQuantityCart(productId!!, currQuantity - 1)
             authViewModel.respUpdateProductQuantityCart.observe({ lifecycle }) {
-                if (it?.success!!)
-                    getProductsFromCart()
+                if (it?.success!!) {
+//                    getProductsFromCart()
+                    getCostDeliveryDetails()
+                }
                 else {
                     if(it.error!="Network Failure")
                         Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
@@ -256,13 +260,35 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
         isEmpty=true
         authViewModel.removeProductFromCart(productId!!)
         authViewModel.respRemoveProductFromCart.observe({lifecycle}){
-            if(it?.success!!)
-                getProductsFromCart()
+            if(it?.success!!) {
+//                getProductsFromCart()
+                getCostDeliveryDetails()
+            }
 
             else{
                 if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    override fun sendInputDelivery(input: String?) {
+        if(input=="yes"){
+            deliveryNotAvailable()
+        }
+    }
+
+    private fun deliveryNotAvailable(){
+        tinyDB.remove("propertyIdForCart") //setting property id as null
+        (application as MyApplication).clearPropertyId() //setting property id as null
+        finish();
+        startActivity(intent);
+
+    }
+
+    override fun sendInputPlaceOrder(input: String?) {
+        if(input=="yes"){
+            placeOrder(propertyId)
         }
     }
     private fun setupBottomNavigationBar() {
@@ -303,7 +329,6 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
     private fun placeOrder(propertyId:String?){
         if(propertyId==null){
             Toast.makeText(this@CartActivity,"Please Select Delivery Address",Toast.LENGTH_SHORT).show()
-
         }
         else{
             val intent=Intent(this,CodPaymentActivity::class.java)
@@ -343,13 +368,19 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
         authViewModel.respGetCostDeliveryDetails.observe({lifecycle}){
             if(it?.success!!){
                 _binding.apply {
+                    if(it.isDeliverable!=null && !it.isDeliverable!!){
+                        MyCustomDialogDelivery().show(supportFragmentManager, "MyCustomFragment")
 
+                    }
                     if(it.estimatedDelivery!=null && it.cost!!.shipping!=null){
                         deliveryDateLayout.visibility=View.VISIBLE
                         tvDeliveryCharge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14F);
                         tvEstimatedDeliveryDate.timeStamp=it.estimatedDelivery!!
-                        tvDeliveryCharge.text="₹ " + it.cost!!.shipping
-                        shippingCost=it.cost!!.shipping!!
+                        tvDeliveryCharge.text="₹ " + it.cost!!.shipping!!.toInt()
+                        shippingCost=it.cost!!.shipping!!.toInt()
+
+                        getProductsFromCart()
+                        Log.d("shippingCost",shippingCost.toString())
                     }
                     else{
                         deliveryDateLayout.visibility=View.GONE
@@ -374,21 +405,17 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
         super.onResume()
         _binding.bottomNavigationView.menu.getItem(1).isEnabled = false
         _binding.bottomNavigationView.menu.getItem(1).isChecked = true
-//
-//        propertyId= sharedPrefrences.getString("propertyIdForCart",null)
-//        propertyId=(application as MyApplication).getPropertyId()
-        Log.d("propertyId","hello")
-        Log.d("propertyId",propertyId.toString())
+
         if(tinyDB.getString("propertyIdForCart")==null || tinyDB.getString("propertyIdForCart")=="")
             propertyId=null
         else
             propertyId=tinyDB.getString("propertyIdForCart")
 
-        Log.d("propertyIdDelete",propertyId.toString())
-//        propertyId=tinyDB.getString("propertyIdForCart")
+        _binding.btnCheckout.isEnabled = !propertyId.isNullOrEmpty()
+
         changeDeliveryAddress(propertyId)
-        getProductsFromCart()
         getCostDeliveryDetails()
+        getProductsFromCart()
     }
 
     override fun onBackPressed() {
@@ -413,7 +440,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
     private fun drawLayout() {
         if (isNetworkAvailable()) {
             Log.d("internet","internet")
-            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.mainLayout.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
             _binding.btnCheckout.visibility=View.VISIBLE
         } else {
@@ -421,6 +448,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener {
             _binding.mainLayout.visibility=View.GONE
             _binding.noInternetLayout.visibility=View.VISIBLE
             _binding.idPBLoading.visibility=View.GONE
+            _binding.emptyCartLayout.visibility=View.GONE
             _binding.btnCheckout.visibility=View.GONE
         }
     }

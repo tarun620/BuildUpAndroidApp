@@ -21,7 +21,7 @@ import com.google.android.material.slider.LabelFormatter
 import com.google.android.material.slider.RangeSlider
 import java.util.*
 
-class FilterActivity : AppCompatActivity() {
+class FilterActivity : AppCompatActivity(),MyCustomDialogClearFilters.OnInputListener {
     private lateinit var _binding:ActivityFilterBinding
     private lateinit var  authViewModel:AuthViewModel
     private lateinit var filterBrandAdapter: FilterBrandAdapter
@@ -66,39 +66,41 @@ class FilterActivity : AppCompatActivity() {
                 nestedRecyclerView1.visibility=View.GONE
             }
             clearAllBtn.setOnClickListener {
-                val builder = AlertDialog.Builder(this@FilterActivity)
-                //set title for alert dialog
-                builder.setTitle("Clear All Filters")
-                //set message for alert dialog
-                builder.setMessage("Do you want to clear all the filters applied?")
-                builder.setIcon(android.R.drawable.ic_dialog_alert)
+//                val builder = AlertDialog.Builder(this@FilterActivity)
+//                //set title for alert dialog
+//                builder.setTitle("Clear All Filters")
+//                //set message for alert dialog
+//                builder.setMessage("Do you want to clear all the filters applied?")
+//                builder.setIcon(android.R.drawable.ic_dialog_alert)
+//
+//                //performing positive action
+//                builder.setPositiveButton("Yes"){dialogInterface, which ->
+//                    (application as MyApplication).clearList()
+//                    filterBrandAdapter.notifyDataSetChanged()
+//
+//                    (application as MyApplication).clearFromRange()
+//                    (application as MyApplication).clearToRange()
+//                    tvPriceRangeFrom.text="₹ 100" + " - "
+//                    tvPriceRangeTo.text="₹ 5000"
+//
+//                    rangeSlider.setValues(100F,5000F)
+//
+//                }
+//                //performing cancel action
+//                builder.setNeutralButton("Cancel"){dialogInterface , which ->
+//
+//                }
+//                //performing negative action
+//                builder.setNegativeButton("No"){dialogInterface, which ->
+//                }
+//                // Create the AlertDialog
+//                val alertDialog: AlertDialog = builder.create()
+//                // Set other dialog properties
+//                alertDialog.setCancelable(false)
+//                alertDialog.show()
 
-                //performing positive action
-                builder.setPositiveButton("Yes"){dialogInterface, which ->
-                    (application as MyApplication).clearList()
-                    filterBrandAdapter.notifyDataSetChanged()
+                MyCustomDialogClearFilters().show(supportFragmentManager, "MyCustomFragment")
 
-                    (application as MyApplication).clearFromRange()
-                    (application as MyApplication).clearToRange()
-                    tvPriceRangeFrom.text="₹ 100" + " - "
-                    tvPriceRangeTo.text="₹ 5000"
-
-                    rangeSlider.setValues(100F,5000F)
-
-
-                }
-                //performing cancel action
-                builder.setNeutralButton("Cancel"){dialogInterface , which ->
-
-                }
-                //performing negative action
-                builder.setNegativeButton("No"){dialogInterface, which ->
-                }
-                // Create the AlertDialog
-                val alertDialog: AlertDialog = builder.create()
-                // Set other dialog properties
-                alertDialog.setCancelable(false)
-                alertDialog.show()
             }
 
             applyBtn.setOnClickListener {
@@ -187,6 +189,22 @@ class FilterActivity : AppCompatActivity() {
 
         getBrands()
 
+    }
+    override fun sendInput(input: String?) {
+        if(input=="yes"){
+            clearFilters()
+        }
+    }
+    private fun clearFilters(){
+        (application as MyApplication).clearList()
+        filterBrandAdapter.notifyDataSetChanged()
+
+        (application as MyApplication).clearFromRange()
+        (application as MyApplication).clearToRange()
+        _binding.tvPriceRangeFrom.text="₹ 100" + " - "
+        _binding.tvPriceRangeTo.text="₹ 5000"
+
+        _binding.rangeSlider.setValues(100F,5000F)
     }
     private fun getBrands(){
         authViewModel.getBrands(false,null)

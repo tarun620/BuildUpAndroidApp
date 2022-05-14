@@ -14,14 +14,14 @@ data class OrderIndividual(
     var payment: Payment?,
     @Json(name = "product")
     var product: Product,
-    @Json(name = "propertyId")
-    var propertyId: String,
-    @Json(name = "shipping")
-    var shipping: ShippingIndividual,
-    @Json(name = "userId")
-    var userId: String,
+    @Json(name = "packageId")
+    var packageId: PackageIdIndivisual,
     @Json(name = "isReturnAvailed")
     val isReturnAvailed:Boolean?,
     @Json(name = "isReturn")
-    val isReturn:Boolean?
+    val isReturn:Boolean?,
+    @Json(name="isCancelled")
+    val isCancelled : IsCancelledIndividual?,
+    @Json(name="cancellationReason")
+    val cancellationReason: String?
 )

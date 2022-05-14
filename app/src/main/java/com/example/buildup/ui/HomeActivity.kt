@@ -43,6 +43,7 @@ import com.example.buildup.ui.BottomNavigation.WishlistActivity
 import com.example.buildup.ui.Brand.BrandAdapter
 import com.example.buildup.ui.LoginSignup.LoginSignupSelectorActivity
 import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
+import com.example.buildup.ui.Orders.layouts.OrderActivity
 import com.example.buildup.ui.Orders.layouts.OrdersActivity
 import com.example.buildup.ui.Products.adapters.ProductCategoryAdapterNew
 import com.example.buildup.ui.Products.adapters.RecentViewedProductsAdapter
@@ -345,6 +346,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_my_order -> {
                 startActivity(Intent(this,OrdersActivity::class.java))
+
             }
 
             R.id.nav_my_cart -> {
@@ -363,6 +365,15 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val i = Intent(
                     Intent.ACTION_VIEW,
                     Uri.parse("https://www.buildup.org.in/about")
+                )
+                startActivity(i)
+            }
+
+            R.id.nav_privacy_policy -> {
+//                startActivity(Intent(this, WorkInProgressActivity::class.java))
+                val i = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://www.buildup.org.in/privacy-policy")
                 )
                 startActivity(i)
             }
@@ -419,7 +430,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun drawLayout() {
         if (isNetworkAvailable()) {
             Log.d("internet","internet")
-            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.mainLayout.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
         } else {
             Log.d("internet","no internet")

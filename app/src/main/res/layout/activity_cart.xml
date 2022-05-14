@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="7dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerLayout"
@@ -172,7 +172,6 @@
                                 android:id="@+id/tv_estimated_delivery_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="18 Jan"
                                 app:layout_constraintStart_toEndOf="@+id/delivery_by_text"
                                 app:layout_constraintTop_toTopOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -389,7 +388,7 @@
                             android:id="@+id/tv_delivery_charge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="₹ 100.00"
+                            android:text="Select Delivery Address"
                             android:textSize="14sp"
                             android:textColor="@color/black"
                             android:fontFamily="@font/overpass_bold"
@@ -676,7 +675,8 @@
         android:text="Checkout"
         android:padding="6dp"
         android:fontFamily="@font/overpass"
-        android:backgroundTint="@color/black"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/button_state_colors"
         app:cornerRadius="16dp"
         android:textSize="18sp"
         android:layout_marginBottom="60dp"

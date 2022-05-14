@@ -103,7 +103,7 @@ class ReturnActivity : AppCompatActivity() {
                         tvProductPrice.text="₹ " + it.order!!.product.unitCost.toString()
                         tvProductMrp.text="₹ " + it.order!!.product.unitMrp.toString()
                         tvProductMrp.paintFlags = tvProductMrp.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                        tvReturnValidity.getReturnValidyDate=it.order!!.shipping.tracking.status[0].time
+                        tvReturnValidity.getReturnValidyDate= it.order!!.packageId.shipping.tracking.status?.get(0)!!.time
                         orderReturnReasonAdapter.submitList(it.reasons)
                         orderReturnAdditionalReason=reasonEditText.text.toString()
 
@@ -140,7 +140,7 @@ class ReturnActivity : AppCompatActivity() {
 
                         })
 
-                        tvAddress.text=it.order!!.shipping.address + ", "  + it.order!!.shipping.city + ", " + it.order!!.shipping.state + " - " + it.order!!.shipping.pincode
+                        tvAddress.text=it.order!!.packageId.shipping.address + ", "  + it.order!!.packageId.shipping.city + ", " + it.order!!.packageId.shipping.state + " - " + it.order!!.packageId.shipping.pincode
 
                     }
                 }
@@ -166,7 +166,7 @@ class ReturnActivity : AppCompatActivity() {
     private fun drawLayout() {
         if (isNetworkAvailable()) {
             Log.d("internet","internet")
-            _binding.mainLayout.visibility=View.VISIBLE
+//            _binding.mainLayout.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
         } else {
             Log.d("internet","no internet")

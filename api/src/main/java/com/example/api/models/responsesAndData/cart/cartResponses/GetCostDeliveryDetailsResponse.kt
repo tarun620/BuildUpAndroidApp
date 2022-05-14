@@ -12,6 +12,9 @@ data class GetCostDeliveryDetailsResponse(
     var estimatedDelivery: String?,
     @Json(name = "success")
     var success: Boolean?,
+    @Json(name = "isDeliverable")
+    var isDeliverable:Boolean?,
     @Json(name = "error")
     var error:String?
+
 )

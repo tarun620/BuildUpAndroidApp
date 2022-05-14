@@ -11,5 +11,5 @@ data class Cost(
     @Json(name = "subtotal")
     var subtotal: Int,
     @Json(name = "total")
-    var total: Int
+    var total: Int?
 )

@@ -16,6 +16,7 @@ import com.example.api.models.responsesAndData.cart.cartResponses.GetProductsFro
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.ExpendituresResponse
 import com.example.api.models.responsesAndData.expenditure.expenditureResponses.TotalExpenditureResponse
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
+import com.example.api.models.responsesAndData.order.CancelOrderResponse
 import com.example.api.models.responsesAndData.order.GetAllOrdersResponse
 import com.example.api.models.responsesAndData.order.GetOrderByIdResponse
 import com.example.api.models.responsesAndData.products.productsResponses.*
@@ -75,7 +76,7 @@ class AuthViewModel:ViewModel() {
     private val _respGetUserProductrating = MutableLiveData<GetUserProductRatingResponse?>()
     private val _respGetOrderReturnDetails = MutableLiveData<GetOrderReturnDetailsResponse?>()
     private val _respPlaceOrderReturnRequest = MutableLiveData<SuccessMessageResponse?>()
-    private val _respCancelOrder = MutableLiveData<SuccessMessageResponse?>()
+    private val _respCancelOrder = MutableLiveData<CancelOrderResponse?>()
     private val _respGetCostDeliveryDetails = MutableLiveData<GetCostDeliveryDetailsResponse?>()
     private val _respGetAppData = MutableLiveData<GetAppDataResponse?>()
 
@@ -119,7 +120,7 @@ class AuthViewModel:ViewModel() {
     val respGetUserProductrating : LiveData<GetUserProductRatingResponse?> = _respGetUserProductrating
     val respGetOrderReturnDetails : LiveData<GetOrderReturnDetailsResponse?> = _respGetOrderReturnDetails
     val respPlaceOrderReturnRequest : LiveData<SuccessMessageResponse?>  = _respPlaceOrderReturnRequest
-    val respCancelOrder : LiveData<SuccessMessageResponse?> = _respCancelOrder
+    val respCancelOrder : LiveData<CancelOrderResponse?> = _respCancelOrder
     val respGetCostDeliveryDetails : LiveData<GetCostDeliveryDetailsResponse?> = _respGetCostDeliveryDetails
     val respGetAppData : LiveData<GetAppDataResponse?> = _respGetAppData
 
@@ -410,8 +411,8 @@ class AuthViewModel:ViewModel() {
             _respPlaceOrderReturnRequest.postValue(it)
         }
     }
-    fun cancelOrder(orderId: String)=viewModelScope.launch {
-        UserRepo.cancelOrder(orderId).let {
+    fun cancelOrder(orderId: String, forceAll:Boolean)=viewModelScope.launch {
+        UserRepo.cancelOrder(orderId,forceAll).let {
             _respCancelOrder.postValue(it)
         }
     }

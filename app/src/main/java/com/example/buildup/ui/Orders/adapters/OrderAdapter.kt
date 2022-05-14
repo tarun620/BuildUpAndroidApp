@@ -1,6 +1,7 @@
 package com.example.buildup.ui.Orders.adapters
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,9 +21,6 @@ import java.util.*
 
 @SuppressLint("ConstantLocale")
 val isoDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-
-@SuppressLint("ConstantLocale")
-val appDateFormatOnlyDate = SimpleDateFormat("dd MMM, yyyy", Locale.getDefault())
 
 val weekMap = mapOf<Int,String>(1 to "Mon", 2 to "Tues", 3 to "Wed", 4 to "Thurs", 5 to "Fri", 6 to "Sat", 7 to "Sun")
 val statusIcon = mapOf<String,Int>("ordered" to R.drawable.ic_icon_ordered,
@@ -48,7 +46,6 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
     }
 ) {
     inner class OrderViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
-    val map = mapOf(1 to "Ordered", 2 to "Shipped" , 3 to "Out For Delivery" , 4 to "Delivered")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         return OrderViewHolder(
@@ -63,62 +60,97 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         var bind= ItemOrderBinding.bind(holder.itemView).apply {
             val order=getItem(position)
-
-            val currentState=order.shipping.tracking.status[0].name
-//            val currentState="outForDelivery"
-            var counter=0
-            var transformed = ""
-            currentState.forEach{
-                if (counter == 0) {
-                    transformed += it.toUpperCase();
-                }
-                //everything else
-                if (counter != 0 && it == it.toUpperCase()) {
-                    transformed+= " ";
-                    transformed+=it;
-                }
-                else if(counter != 0 && it == it.toLowerCase()){
-                    transformed+=it;
-                }
-                //increment counter
-                counter++;
-            }
-
-//            tvOrderStatus.text= currentState
-            tvOrderStatus.text= transformed
-
-            if(currentState != "delivered"){
-
+            var currentState:String=""
+            if(order.isCancelled!=null && order.isCancelled!!.value){
+                tvOrderStatus.text= "Cancelled"
+                ivOrderStatusIcon.setImageResource(R.drawable.ic_icon_cancelled)
                 btnReturn.visibility=View.GONE
                 ivReturnIcon.visibility=View.GONE
                 tvReturnText.visibility=View.GONE
                 tvReturnValidity.visibility=View.GONE
+
+
+                //TODO : Implement Time
+                if(!order.packageId.shipping.tracking.status.isNullOrEmpty()){
+                    tvOrderStatusDate.visibility=View.VISIBLE
+                    tvOrderStatusDate.timeStamp= order.packageId.shipping.tracking.status!![0].time
+                    val week= weekMap[getWeekFromDate(order.packageId.shipping.tracking.status!![0].time)]
+                    tvOrderStatusDate.text="On " + week + ", " + tvOrderStatusDate.text.toString()
+                }
+                else{
+                    tvOrderStatusDate.visibility=View.GONE
+                }
             }
+            else if(order.packageId.shipping.tracking.status.isNullOrEmpty()){
+                //order not confirmed yet - status array empty
+                tvOrderStatus.text= "Confirmation Awaited"
+                tvOrderStatus.setTextColor(Color.parseColor("#F69421"))
+                btnReturn.visibility=View.GONE
+                ivReturnIcon.visibility=View.GONE
+                tvReturnText.visibility=View.GONE
+                tvReturnValidity.visibility=View.GONE
+                tvOrderStatusDate.visibility=View.GONE
+
+                //TODO : change icon
+
+            }
+
             else{
-                btnReturn.visibility=View.VISIBLE
-                ivReturnIcon.visibility=View.VISIBLE
-                tvReturnText.visibility=View.VISIBLE
-                tvReturnValidity.visibility=View.VISIBLE
-            }
+                tvOrderStatusDate.visibility=View.VISIBLE
+                currentState= order.packageId.shipping.tracking.status?.get(0)!!.name
 
-//            tvOrderStatus.text= map[order.shipping.tracking.status.toInt()]
-            tvOrderStatusDate.timeStamp=order.shipping.tracking.status[0].time
-            val week= weekMap[getWeekFromDate(order.shipping.tracking.status[0].time)]
-            if(!isReturnWindowLeft(order.shipping.tracking.status[0].time)){
-                btnReturn.visibility=View.GONE
-                ivReturnIcon.visibility=View.GONE
-                tvReturnText.visibility=View.GONE
-                tvReturnValidity.visibility=View.GONE
+                var counter=0
+                var transformed = ""
+                currentState.forEach{
+                    if (counter == 0) {
+                        transformed += it.toUpperCase();
+                    }
+                    //everything else
+                    if (counter != 0 && it == it.toUpperCase()) {
+                        transformed+= " ";
+                        transformed+=it;
+                    }
+                    else if(counter != 0 && it == it.toLowerCase()){
+                        transformed+=it;
+                    }
+                    //increment counter
+                    counter++;
+                }
+
+                tvOrderStatus.text= transformed
+
+                if(currentState != "delivered"){
+
+                    btnReturn.visibility=View.GONE
+                    ivReturnIcon.visibility=View.GONE
+                    tvReturnText.visibility=View.GONE
+                    tvReturnValidity.visibility=View.GONE
+                }
+                else{
+                    btnReturn.visibility=View.VISIBLE
+                    ivReturnIcon.visibility=View.VISIBLE
+                    tvReturnText.visibility=View.VISIBLE
+                    tvReturnValidity.visibility=View.VISIBLE
+                }
+
+                tvOrderStatusDate.timeStamp= order.packageId.shipping.tracking.status!![0].time
+                val week= weekMap[getWeekFromDate(order.packageId.shipping.tracking.status!![0].time)]
+                if(!isReturnWindowLeft(order.packageId.shipping.tracking.status!![0].time)){
+                    btnReturn.visibility=View.GONE
+                    ivReturnIcon.visibility=View.GONE
+                    tvReturnText.visibility=View.GONE
+                    tvReturnValidity.visibility=View.GONE
+                }
+                tvOrderStatusDate.text="On " + week + ", " + tvOrderStatusDate.text.toString()
+                ivOrderStatusIcon.setImageResource(statusIcon[order.packageId.shipping.tracking.status!![0].name]!!)
+                tvReturnValidity.getReturnValidyDate= order.packageId.shipping.tracking.status!![0].time
             }
-            tvOrderStatusDate.text="On " + week + ", " + tvOrderStatusDate.text.toString()
-            ivOrderStatusIcon.setImageResource(statusIcon[order.shipping.tracking.status[0].name]!!)
             ivProductImage.newLoadImage(order.product.id.image[0])
             tvBrandName.text=order.product.id.brand.name
             tvProductName.text=order.product.id.name
 //            tvProductPrice.text="₹" + " " + (order.product.unitCost)
 //            tvProductMrp.text="₹" + " " + ((order.product.unitMrp) * (order.product.quantity)).toString()
             tvProductQuantity.text=order.product.quantity.toString()
-            tvReturnValidity.getReturnValidyDate=order.shipping.tracking.status[0].time
 
             root.setOnClickListener {
                 onOrderClicked(order.id)
