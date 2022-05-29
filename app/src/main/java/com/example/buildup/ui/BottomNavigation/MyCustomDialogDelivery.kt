@@ -25,6 +25,7 @@ class MyCustomDialogDelivery: DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         getDialog()!!.getWindow()?.setBackgroundDrawableResource(R.drawable.round_corner);
+        isCancelable=false
         val view=inflater.inflate(R.layout.layout_alert_delivery, container, false)
         val btnOk=view.findViewById<TextView>(R.id.btn_ok)
         btnOk.setOnClickListener {

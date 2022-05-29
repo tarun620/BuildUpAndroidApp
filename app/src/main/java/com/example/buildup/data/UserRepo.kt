@@ -843,15 +843,17 @@ object UserRepo {
     suspend fun cancelOrder(orderId: String, forceAll:Boolean):CancelOrderResponse?{
         return try{
             val response= authApi.cancelOrder(orderId,forceAll)
+            Log.d("response",response.toString())
             if(response.isSuccessful){
                 Log.d("responseIf",response.body().toString())
                 response.body()
             } else{
-                Log.d("responseElse",response.body().toString())
+                Log.d("responseElse",response.errorBody().toString())
                 val apiErrorNew=ErrorUtilsNew.parseError(response)
                 CancelOrderResponse(null,false,null,apiErrorNew.error)
+//                response.errorBody()
             }
-            response.body()
+//            response.body()
         }catch (e:IOException){
             CancelOrderResponse(null,false,null,"Network Failure")
         }

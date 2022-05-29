@@ -21,7 +21,7 @@
                 android:id="@+id/iv_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_icon_delete_wishlist"
+                android:src="@drawable/ic_icon_confirmation_alert"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
             <TextView
@@ -41,7 +41,7 @@
                 android:id="@+id/tv_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:text="We need to check with seller about availability of these products, after that your order will be confirmed. Do you want to proceed ?"
+                android:text="We need to check with seller about availability of these products, after that your order will be confirmed. It usually takes 1-2 hours. Do you want to proceed ?"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:fontFamily="@font/overpass"

@@ -6,5 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class IsCancelled(
     @Json(name = "value")
-    var value: Boolean
+    var value: Boolean,
+    @Json(name = "time")
+    var time:String
 )

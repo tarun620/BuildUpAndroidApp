@@ -27,8 +27,8 @@ object BuildUpClient {
             .connectTimeout(5, TimeUnit.SECONDS)
 
     val retrofitBuilder=Retrofit.Builder()
-//        .baseUrl("https://api.buildup.org.in/")
-        .baseUrl(" http://192.168.0.103:5000/")
+        .baseUrl("https://api.buildup.org.in/")
+//        .baseUrl(" http://192.168.0.103:5000/")
 //        .baseUrl("http://192.168.157.11:5000/")
         .addConverterFactory(MoshiConverterFactory.create())
 

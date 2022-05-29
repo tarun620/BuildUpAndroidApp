@@ -174,28 +174,17 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
 
                         var finalStepList=listOf<String>()
                         val apiStatusArray=it.order!!.packageId.shipping.tracking.status
+
                         if(!apiStatusArray.isNullOrEmpty() && it.order!!.isCancelled==null){ //order goes as expected
                             paymentInfoLayout.visibility=View.VISIBLE
                             paymentLayout.visibility=View.VISIBLE
 
-                            confirmationLayout.visibility=View.GONE
+                            confirmationLayoutParent.visibility=View.GONE
                             timelineLayout.visibility=View.VISIBLE
 
 
                             val currentStatus:String=apiStatusArray.last().name
-
-                            if(currentStatus=="cancelled"){
-                                if(apiStatusArray.size==3) { // ordered..shipped..cancelled
-                                    finalStepList=cancelledArray2
-                                }
-                                else if(apiStatusArray.size==2){
-                                    if(apiStatusArray[0].name=="ordered") // ordered..cancelled
-                                        finalStepList=cancelledArray1
-                                    else if(apiStatusArray[0].name=="returned") //returned..cancelled
-                                        finalStepList=cancelledArray3
-                                }
-                            }
-                            else if(apiStatusArray[0].name=="ordered")
+                            if(apiStatusArray[0].name=="ordered")
                                 finalStepList=array
                             else if(apiStatusArray[0].name=="returned")
                                 finalStepList=returnArray
@@ -215,7 +204,7 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
                             }
 
 
-                            if(currentStatus=="cancelled" || currentStatus=="outForDelivery")
+                            if(currentStatus=="outForDelivery" || currentStatus=="outForPickup" || currentStatus=="pickedUp" || currentStatus=="refund")
                                 cancelBtn.visibility=View.GONE
 
                             if(currentStatus=="ordered" || currentStatus=="shipped" || currentStatus=="returned"){
@@ -233,38 +222,42 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
                             apiStatusArraySize=apiStatusArray.size
 
 
+                            Log.d("apiStatusArraySize",apiStatusArraySize.toString())
                             Log.d("finalStepList",finalStepList.toString())
                             getUserProductRating()
                             drawStepView(finalStepList)
                         }
 
                         else if(apiStatusArray.isNullOrEmpty() &&  it.order!!.isCancelled==null){  //order under confirmation
-                            confirmationLayout.visibility=View.VISIBLE
-                            timelineLayout.visibility=View.VISIBLE
+                            confirmationLayoutParent.visibility=View.VISIBLE
+                            timelineLayout.visibility=View.GONE
                             stepView.visibility=View.GONE
-                            cancelBtn.visibility=View.VISIBLE
-                            confirmationLayout.setBackgroundColor(Color.parseColor("#F69421"))
+                            ivOrderCancelled.setImageResource(R.drawable.ic_bg_image_confirmation)
                             confirmationText.text="Your order is being processed"
+                            confirmationIcon.setImageResource(R.drawable.ic_icon_confirmation_awaited_final)
+                            confirmationLayout.setBackgroundColor(Color.parseColor("#F69421"))
 
+                            cancelBtnAlternate.setOnClickListener {
+                                MyCustomDialogOrderNew().show(supportFragmentManager, "MyCustomFragment")
+
+                            }
                             paymentInfoLayout.visibility=View.GONE
                             paymentLayout.visibility=View.GONE
-                             //TODO : implement order under confirmation layout UI - change icon
 
                         }
                         else if(it.order!!.isCancelled!!.value && !it.order!!.isCancelled!!.bySelf){ //order cancelled by admin
-                            confirmationLayout.visibility=View.VISIBLE
+                            confirmationLayoutParent.visibility=View.VISIBLE
                             timelineLayout.visibility=View.GONE
+                            cancelBtnAlternate.visibility=View.GONE
 
                             paymentInfoLayout.visibility=View.GONE
                             paymentLayout.visibility=View.GONE
-
-
-                            //TODO : implement order couldn't get confirmation layout UI
 
                         }
 
                         else if(it.order!!.isCancelled!!.value && it.order!!.isCancelled!!.bySelf){ //order cancelled by user
-                            confirmationLayout.visibility=View.GONE
+                            Log.d("userCancelled","reached here")
+                            confirmationLayoutParent.visibility=View.GONE
                             timelineLayout.visibility=View.VISIBLE
                             cancelBtn.visibility=View.GONE
 
@@ -272,6 +265,7 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
                             if(apiStatusArray.isNullOrEmpty()){
                                 //order cancelled by user before confirmation
                                 finalStepList=cancelledArray1
+                                apiStatusArraySize=2  // timeline = ordered..cancelled
 
                                 paymentInfoLayout.visibility=View.GONE
                                 paymentLayout.visibility=View.GONE
@@ -282,6 +276,7 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
                                 if(isOrderCancelledBeforeConfirmation(it.order!!.isCancelled!!.time, it.order!!.packageId.shipping.tracking.status?.get(0)!!.time)){
                                     //order cancelled before confirmation
                                     finalStepList=cancelledArray1
+                                    apiStatusArraySize=2  // timeline = ordered..cancelled
 
                                     paymentInfoLayout.visibility=View.GONE
                                     paymentLayout.visibility=View.GONE
@@ -291,14 +286,16 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
                                     paymentInfoLayout.visibility=View.VISIBLE
                                     paymentLayout.visibility=View.VISIBLE
 
-                                    if(apiStatusArray.size==3) { // ordered..shipped..cancelled
-                                        finalStepList=cancelledArray2
+                                    if(apiStatusArray.size==2) {
+                                        finalStepList=cancelledArray2  // ordered..shipped..cancelled
+                                        apiStatusArraySize=3
                                     }
-                                    else if(apiStatusArray.size==2){
-                                        if(apiStatusArray[0].name=="ordered") // ordered..cancelled
-                                            finalStepList=cancelledArray1
-                                        else if(apiStatusArray[0].name=="returned") //returned..cancelled
-                                            finalStepList=cancelledArray3
+                                    else if(apiStatusArray.size==1){
+                                        apiStatusArraySize=2  // timeline = ordered..cancelled  ||  returned..cancelled
+                                        if(apiStatusArray[0].name=="ordered")
+                                            finalStepList=cancelledArray1   // ordered..cancelled
+                                        else if(apiStatusArray[0].name=="returned")
+                                            finalStepList=cancelledArray3   //returned..cancelled
 
                                     }
 
@@ -352,7 +349,7 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
         orderCancelledTime.time = isoDateFormat.parse(orderCancelledTimeApi)
         statusObjectTime.time = isoDateFormat.parse(statusObjectTimeApi)
 
-        if(orderCancelledTime.before(statusObjectTime)){
+        if(orderCancelledTime.before(statusObjectTime) || orderCancelledTime==statusObjectTime){
             return true
         }
         return false
@@ -484,10 +481,14 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
         authViewModel.cancelOrder(orderId!!,true)
         authViewModel.respCancelOrder.observe({lifecycle}){
             if(it?.success!!){
-                getOrderById(orderId)
+                Log.d("abcdif","reached here")
+//                getOrderById(orderId)
+                finish()
+                startActivity(intent)
             }
             else{
-                if(it.error!="Network Failure")
+                Log.d("abcdelse","reached here")
+                if(it.error!="Network Failure" && it.error!="Package contains more Orders")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
@@ -495,19 +496,12 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
     private fun cancelOrder(){
         authViewModel.cancelOrder(orderId!!,false)
         authViewModel.respCancelOrder.observe({lifecycle}){
-            Log.d("it_new",it.toString())
-            if(it?.error!=null && it.ordersInPackage!=null){
-                Log.d("it.error",it.error.toString())
-                if(it.ordersInPackage!! >1){
-                    Log.d("orderInPackage","true")
-                    MyCustomDialogOrder().show(supportFragmentManager, "MyCustomFragment")
-                }
-                else{
-                    cancelAllOrders()
-                }
+            if(it?.error!=null && it.error=="Package contains more Orders"){
+                MyCustomDialogOrder().show(supportFragmentManager, "MyCustomFragment")
             }
-            else if(it?.success!!){
-                getOrderById(orderId)
+            else if(it?.success!=null && it.success!!){
+                finish()
+                startActivity(intent)
             }
 
         }

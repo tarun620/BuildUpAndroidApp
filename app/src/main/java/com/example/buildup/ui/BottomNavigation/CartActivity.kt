@@ -108,8 +108,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
             }
 
             btnCheckout.setOnClickListener {
-                if(isEmpty)
+                if(isEmpty){
                     Toast.makeText(this@CartActivity,"Cart is Empty.",Toast.LENGTH_SHORT).show()
+
+                }
                 else
                     MyCustomDialogPlaceOrder().show(supportFragmentManager, "MyCustomFragment")
 
@@ -170,7 +172,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
                 }
             }
             else{
-                if(it.error!="Network Failure")
+                if(it.error!="Network Failure" && it.error!="Cart is Empty.")
                     Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
             }
         }
@@ -194,8 +196,8 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
         authViewModel.updateProductQuantityCart(productId!!,currQuantity+1)
         authViewModel.respUpdateProductQuantityCart.observe({lifecycle}){
             if(it?.success!!) {
-//                getProductsFromCart()
-                getCostDeliveryDetails()
+                getProductsFromCart()
+//                getCostDeliveryDetails()
             }
             else{
                 if(it.error!="Network Failure")
@@ -223,8 +225,8 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
             authViewModel.updateProductQuantityCart(productId!!, currQuantity - 1)
             authViewModel.respUpdateProductQuantityCart.observe({ lifecycle }) {
                 if (it?.success!!) {
-//                    getProductsFromCart()
-                    getCostDeliveryDetails()
+                    getProductsFromCart()
+//                    getCostDeliveryDetails()
                 }
                 else {
                     if(it.error!="Network Failure")
@@ -251,7 +253,6 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
     }
     override fun sendInput(input: String?) {
         if(input=="yes"){
-            Log.d("productId","i am here")
             deleteItem(productIdDelete)
         }
     }
@@ -261,8 +262,8 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
         authViewModel.removeProductFromCart(productId!!)
         authViewModel.respRemoveProductFromCart.observe({lifecycle}){
             if(it?.success!!) {
-//                getProductsFromCart()
-                getCostDeliveryDetails()
+                getProductsFromCart()
+//                getCostDeliveryDetails()
             }
 
             else{
@@ -282,8 +283,8 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
         tinyDB.remove("propertyIdForCart") //setting property id as null
         (application as MyApplication).clearPropertyId() //setting property id as null
         finish();
-        startActivity(intent);
-
+        startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION));
+        overridePendingTransition(0, 0);
     }
 
     override fun sendInputPlaceOrder(input: String?) {
@@ -369,6 +370,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
             if(it?.success!!){
                 _binding.apply {
                     if(it.isDeliverable!=null && !it.isDeliverable!!){
+//                        MyCustomDialogDelivery.isCanceleble (false);
                         MyCustomDialogDelivery().show(supportFragmentManager, "MyCustomFragment")
 
                     }
@@ -394,7 +396,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
 
             }
             else{
-                if(it.error!="Network Failure")
+                if(it.error!="Network Failure" && it.error!="Cart is Empty.")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }

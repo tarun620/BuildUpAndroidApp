@@ -37,6 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import java.util.*
 import com.google.android.gms.location.LocationRequest
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.android.asCoroutineDispatcher
 import kotlin.collections.ArrayList
@@ -173,8 +174,13 @@ class AddPropertyActivity : AppCompatActivity() {
                             if (it?.success!!) {
                                 finish()
                             } else {
-                                if(it.error!="Network Failure")
-                                    Toast.makeText(this@AddPropertyActivity,it.error,Toast.LENGTH_SHORT).show()
+//                                if(it.error!="Network Failure")
+//                                    Toast.makeText(this@AddPropertyActivity,it.error,Toast.LENGTH_SHORT).show()
+                                val snackBar = Snackbar.make(
+                                    view, it.error!!,
+                                    Snackbar.LENGTH_SHORT
+                                ).setAction("Action", null)
+                                snackBar.show()
                             }
                         }
                     }
@@ -196,8 +202,13 @@ class AddPropertyActivity : AppCompatActivity() {
                             if (it?.success!!) {
                                 finish()
                             } else {
-                                if(it.error!="Network Failure")
-                                    Toast.makeText(this@AddPropertyActivity,it.error,Toast.LENGTH_SHORT).show()
+//                                if(it.error!="Network Failure")
+//                                    Toast.makeText(this@AddPropertyActivity,it.error,Toast.LENGTH_SHORT).show()
+                                val snackBar = Snackbar.make(
+                                    view, it.error!!,
+                                    Snackbar.LENGTH_SHORT
+                                ).setAction("Action", null)
+                                snackBar.show()
                             }
                         }
                     }

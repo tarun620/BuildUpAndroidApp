@@ -10,14 +10,8 @@ data class Order(
     var createdAt: String,
     @Json(name = "_id")
     var id: String,
-    @Json(name = "payment")
-    var payment: Payment,
     @Json(name = "product")
     var product: Product,
-    @Json(name = "propertyId")
-    var propertyId: String,
     @Json(name = "packageId")
-    var packageId: PackageId,
-    @Json(name = "userId")
-    var userId: String
+    var packageId: PackageId
 )

@@ -13,7 +13,7 @@ data class Order(
     @Json(name = "product")
     var product: Product,
     @Json(name = "packageId")
-    var packageId: PackageId,
+    var packageId: PackageId?,
     @Json(name = "isReturnAvailed")
     var isReturnAvailed:Boolean?,
     @Json(name = "isCancelled")

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -61,27 +62,20 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
         var bind= ItemOrderBinding.bind(holder.itemView).apply {
             val order=getItem(position)
             var currentState:String=""
-            if(order.isCancelled!=null && order.isCancelled!!.value){
+            if(order.isCancelled!=null && order.isCancelled!!.value){  //order cancelled
                 tvOrderStatus.text= "Cancelled"
+                tvOrderStatus.setTextColor(Color.parseColor("#FF0000"))
                 ivOrderStatusIcon.setImageResource(R.drawable.ic_icon_cancelled)
                 btnReturn.visibility=View.GONE
                 ivReturnIcon.visibility=View.GONE
                 tvReturnText.visibility=View.GONE
                 tvReturnValidity.visibility=View.GONE
-
-
-                //TODO : Implement Time
-                if(!order.packageId.shipping.tracking.status.isNullOrEmpty()){
-                    tvOrderStatusDate.visibility=View.VISIBLE
-                    tvOrderStatusDate.timeStamp= order.packageId.shipping.tracking.status!![0].time
-                    val week= weekMap[getWeekFromDate(order.packageId.shipping.tracking.status!![0].time)]
-                    tvOrderStatusDate.text="On " + week + ", " + tvOrderStatusDate.text.toString()
-                }
-                else{
-                    tvOrderStatusDate.visibility=View.GONE
-                }
+                tvOrderStatusDate.visibility=View.VISIBLE
+                tvOrderStatusDate.timeStamp= order.isCancelled!!.time
+                val week= weekMap[getWeekFromDate(order.isCancelled!!.time)]
+                tvOrderStatusDate.text="On " + week + ", " + tvOrderStatusDate.text.toString()
             }
-            else if(order.packageId.shipping.tracking.status.isNullOrEmpty()){
+            else if(order.packageId==null || order.packageId!!.shipping.tracking.status.isNullOrEmpty()){
                 //order not confirmed yet - status array empty
                 tvOrderStatus.text= "Confirmation Awaited"
                 tvOrderStatus.setTextColor(Color.parseColor("#F69421"))
@@ -90,14 +84,13 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
                 tvReturnText.visibility=View.GONE
                 tvReturnValidity.visibility=View.GONE
                 tvOrderStatusDate.visibility=View.GONE
-
-                //TODO : change icon
+                ivOrderStatusIcon.setImageResource(R.drawable.ic_icon_confirmation_status)
 
             }
 
             else{
                 tvOrderStatusDate.visibility=View.VISIBLE
-                currentState= order.packageId.shipping.tracking.status?.get(0)!!.name
+                currentState= order.packageId!!.shipping.tracking.status?.get(0)!!.name
 
                 var counter=0
                 var transformed = ""
@@ -118,6 +111,8 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
                 }
 
                 tvOrderStatus.text= transformed
+                tvOrderStatus.setTextColor(Color.parseColor("#0CB683"))
+
 
                 if(currentState != "delivered"){
 
@@ -133,17 +128,17 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
                     tvReturnValidity.visibility=View.VISIBLE
                 }
 
-                tvOrderStatusDate.timeStamp= order.packageId.shipping.tracking.status!![0].time
-                val week= weekMap[getWeekFromDate(order.packageId.shipping.tracking.status!![0].time)]
-                if(!isReturnWindowLeft(order.packageId.shipping.tracking.status!![0].time)){
+                tvOrderStatusDate.timeStamp= order.packageId!!.shipping.tracking.status!![0].time
+                val week= weekMap[getWeekFromDate(order.packageId!!.shipping.tracking.status!![0].time)]
+                if(!isReturnWindowLeft(order.packageId!!.shipping.tracking.status!![0].time)){
                     btnReturn.visibility=View.GONE
                     ivReturnIcon.visibility=View.GONE
                     tvReturnText.visibility=View.GONE
                     tvReturnValidity.visibility=View.GONE
                 }
                 tvOrderStatusDate.text="On " + week + ", " + tvOrderStatusDate.text.toString()
-                ivOrderStatusIcon.setImageResource(statusIcon[order.packageId.shipping.tracking.status!![0].name]!!)
-                tvReturnValidity.getReturnValidyDate= order.packageId.shipping.tracking.status!![0].time
+                ivOrderStatusIcon.setImageResource(statusIcon[order.packageId!!.shipping.tracking.status!![0].name]!!)
+                tvReturnValidity.getReturnValidyDate= order.packageId!!.shipping.tracking.status!![0].time
             }
             ivProductImage.newLoadImage(order.product.id.image[0])
             tvBrandName.text=order.product.id.brand.name
@@ -156,8 +151,14 @@ class OrderAdapter(val onOrderClicked:(orderId:String?)->Unit, val onReturnOrder
                 onOrderClicked(order.id)
             }
 
-            btnReturn.setOnClickListener {
-                onReturnOrderClicked(order.id)
+            if(order.isReturnAvailed!=null && order?.isReturnAvailed!!){
+                btnReturn.visibility=View.GONE
+            }
+
+            else{
+                btnReturn.setOnClickListener {
+                    onReturnOrderClicked(order.id)
+                }
             }
 
         }

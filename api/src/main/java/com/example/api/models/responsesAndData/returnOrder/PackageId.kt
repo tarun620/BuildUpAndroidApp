@@ -6,5 +6,7 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class PackageId(
     @Json(name = "shipping")
-    var shipping: Shipping
+    var shipping: Shipping,
+    @Json(name = "payment")
+    var payment: Payment,
 )
