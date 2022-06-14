@@ -197,7 +197,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
         authViewModel.respUpdateProductQuantityCart.observe({lifecycle}){
             if(it?.success!!) {
                 getProductsFromCart()
-//                getCostDeliveryDetails()
+                getCostDeliveryDetails()
             }
             else{
                 if(it.error!="Network Failure")
@@ -226,7 +226,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
             authViewModel.respUpdateProductQuantityCart.observe({ lifecycle }) {
                 if (it?.success!!) {
                     getProductsFromCart()
-//                    getCostDeliveryDetails()
+                    getCostDeliveryDetails()
                 }
                 else {
                     if(it.error!="Network Failure")
@@ -263,7 +263,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
         authViewModel.respRemoveProductFromCart.observe({lifecycle}){
             if(it?.success!!) {
                 getProductsFromCart()
-//                getCostDeliveryDetails()
+                getCostDeliveryDetails()
             }
 
             else{
@@ -381,7 +381,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
                         tvDeliveryCharge.text="₹ " + it.cost!!.shipping!!.toInt()
                         shippingCost=it.cost!!.shipping!!.toInt()
 
-                        getProductsFromCart()
+//                        getProductsFromCart()
                         Log.d("shippingCost",shippingCost.toString())
                     }
                     else{
@@ -444,14 +444,14 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
             Log.d("internet","internet")
 //            _binding.mainLayout.visibility=View.VISIBLE
             _binding.noInternetLayout.visibility=View.GONE
-            _binding.btnCheckout.visibility=View.VISIBLE
+//            _binding.btnCheckout.visibility=View.VISIBLE
         } else {
             Log.d("internet","no internet")
             _binding.mainLayout.visibility=View.GONE
             _binding.noInternetLayout.visibility=View.VISIBLE
             _binding.idPBLoading.visibility=View.GONE
             _binding.emptyCartLayout.visibility=View.GONE
-            _binding.btnCheckout.visibility=View.GONE
+//            _binding.btnCheckout.visibility=View.GONE
         }
     }
 }

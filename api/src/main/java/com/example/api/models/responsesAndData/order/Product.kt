@@ -10,7 +10,7 @@ data class Product(
     var id: Id,
     @Json(name = "quantity")
     var quantity: Int,
-    @Json(name = "unitCost")
+    @Json(name = "unitSp")
     var unitCost: Int,
     @Json(name = "unitMrp")
     var unitMrp: Int

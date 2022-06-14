@@ -7,7 +7,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Product(
-    @Json(name = "amount")
+    @Json(name = "sp")
     val amount: Int,
     @Json(name = "categoryId")
     val categoryId: String,
