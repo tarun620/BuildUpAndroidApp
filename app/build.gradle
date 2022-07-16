@@ -98,6 +98,7 @@ dependencies {
     implementation 'com.anton46:stepsview:0.0.2'
 
     implementation 'com.github.Inconnu08:android-ratingreviews:1.2.0'
+    implementation 'com.squareup.picasso:picasso:2.8'
 
 
 

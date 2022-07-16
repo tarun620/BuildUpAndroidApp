@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.api.models.responsesAndData.products.productsEntities.ProductCategory
 import com.example.buildup.R
+import com.squareup.picasso.Picasso
 import java.util.*
 
 
@@ -20,8 +21,11 @@ class ProductViewPagerAdapter(private val images: ArrayList<String>, val context
         val imageView: ImageView = itemView.findViewById<ImageView>(R.id.productImage)
 
         fun bindView(image: String) {
-
-            Glide.with(context).load(image).centerCrop().placeholder(R.drawable.product_placeholder).into(imageView)
+//            Picasso.with(context)
+//                .load(image)
+//                .placeholder(R.drawable.product_placeholder)
+//                .into(imgView);
+            Glide.with(context).load(image).placeholder(R.drawable.product_placeholder).into(imageView)
 
         }
     }

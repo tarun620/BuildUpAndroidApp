@@ -22,6 +22,7 @@ import com.example.buildup.ui.Address.layouts.AddressesActivity
 import com.example.buildup.ui.Cart.adapters.CartAdapter
 import com.example.buildup.ui.HomeActivity
 import com.example.buildup.extensions.timeStamp
+import com.example.buildup.ui.LoginSignup.LoginSignupSelectorActivity
 import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
 import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
@@ -172,7 +173,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
                 }
             }
             else{
-                if(it.error!="Network Failure" && it.error!="Cart is Empty.")
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure" && it.error!="Cart is Empty.")
                     Toast.makeText(this,it.error, Toast.LENGTH_SHORT).show()
             }
         }
@@ -200,7 +204,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
                 getCostDeliveryDetails()
             }
             else{
-                if(it.error!="Network Failure")
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
@@ -229,7 +236,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
                     getCostDeliveryDetails()
                 }
                 else {
-                    if(it.error!="Network Failure")
+                    if(it.error=="jwt expired"){
+                        startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                    }
+                    else if(it.error!="Network Failure")
                         Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
                 }
             }
@@ -267,7 +277,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
             }
 
             else{
-                if(it.error!="Network Failure")
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
@@ -358,7 +371,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
                         _binding.tvAddress.text=it.property?.address?.houseNo + ", " + it.property?.address?.colony + ", " + it.property?.address?.city + ", " + it.property?.address?.state + " - " + it.property?.address?.pincode
                 }
                 else{
-                    if(it.error!="Network Failure")
+                    if(it.error=="jwt expired"){
+                        startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                    }
+                    else if(it.error!="Network Failure")
                         Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()                }
             }
         }
@@ -396,7 +412,10 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
 
             }
             else{
-                if(it.error!="Network Failure" && it.error!="Cart is Empty.")
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure" && it.error!="Cart is Empty.")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }

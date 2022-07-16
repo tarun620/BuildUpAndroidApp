@@ -18,6 +18,7 @@ import com.example.api.models.responsesAndData.wishlist.WishlistPositionData
 import com.example.buildup.AuthViewModel
 import com.example.buildup.databinding.ActivityWishlistBinding
 import com.example.buildup.ui.HomeActivity
+import com.example.buildup.ui.LoginSignup.LoginSignupSelectorActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
 import com.example.buildup.ui.Wishlist.adapters.WishlistAdapter
@@ -199,7 +200,10 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
 
             }
             else{
-                if(it.error!="Network Failure")
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
@@ -232,7 +236,10 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
                 wishlistAdapter.notifyDataSetChanged()
             }
             else{
-                if(it.error!="Network Failure")
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }
@@ -264,7 +271,10 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
                     wishlistAdapter.notifyDataSetChanged()
                 }
                 else{
-                    if(it.error!="Network Failure")
+                    if(it.error=="jwt expired"){
+                        startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                    }
+                    else if(it.error!="Network Failure")
                         Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
                 }
 
@@ -308,7 +318,10 @@ class  WishlistActivity : AppCompatActivity(),MyCustomDialogWishlist.OnInputList
 
             }
             else{
-                if(it.error!="Network Failure")
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
         }

@@ -1,11 +1,8 @@
 package com.example.buildup.ui.Orders.layouts
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.DownloadManager
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.icu.text.SimpleDateFormat
 import android.net.ConnectivityManager
@@ -16,27 +13,24 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.api.BuildUpClient
 import com.example.buildup.AuthViewModel
 import com.example.buildup.R
+import com.example.buildup.TinyDB
 import com.example.buildup.databinding.ActivityOrderBinding
 import com.example.buildup.extensions.newLoadImage
-import com.example.buildup.ui.BottomNavigation.MyCustomDialogWishlist
-import com.example.buildup.ui.Orders.adapters.isoDateFormat
 import com.example.buildup.ui.ReturnOrder.ReturnActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.*
-import okhttp3.ResponseBody
 import java.io.*
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -62,6 +56,8 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
     private var userRating:Int=0
     private var productId:String?=null
     private var isSuccess=false
+    private lateinit var tinyDB : TinyDB
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -71,6 +67,7 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
         _binding = ActivityOrderBinding.inflate(layoutInflater)
         authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
         setContentView(_binding.root)
+        tinyDB = TinyDB(this)
 
         drawLayout()
         _binding.btnRetry.setOnClickListener {
@@ -86,6 +83,10 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
 
         orderId=intent.getStringExtra("orderId")
 //        Toast.makeText(this,"order Id : "+orderId,Toast.LENGTH_SHORT).show()
+
+        val savedName=tinyDB.getString("userName")
+        val savedMobile="+91 " + tinyDB.getString("userMobile")
+        val savedEmail=tinyDB.getString("userEmail")
 
         _binding.apply {
             star1.setOnClickListener {
@@ -129,12 +130,46 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
 //                requestPermission()
                 downloadInvoice()
             }
+            iconHelp.setOnClickListener {
+                helpAndSupport(orderId!!,savedName,savedEmail,savedMobile)
+            }
 
         }
 
         getOrderById(orderId)
     }
 
+    private fun helpAndSupport(orderId:String,username:String,email:String,mobile:String){
+        val subject="Help - $orderId"
+        val message="Type your query here...\n\n\n From\n$username\n$email\n$mobile"
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.fragment_help_and_support, null)
+        val callLayout = view.findViewById<ConstraintLayout>(R.id.call_layout)
+        val emailLayout = view.findViewById<ConstraintLayout>(R.id.email_layout)
+        val cancelBtn = view.findViewById<ImageView>(R.id.btn_cancel)
+
+        callLayout.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:0123456789")
+            startActivity(intent)
+            dialog.dismiss()
+        }
+        emailLayout.setOnClickListener {
+            val email = Intent(Intent.ACTION_SEND)
+            email.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>("tarun.goel.620@gmail.com"))
+            email.putExtra(Intent.EXTRA_SUBJECT, subject)
+            email.putExtra(Intent.EXTRA_TEXT, message)
+            email.type = "message/rfc822"
+            startActivity(Intent.createChooser(email, "Choose an Email client :"))
+            dialog.dismiss()
+        }
+        cancelBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.setContentView(view)
+        dialog.show()
+    }
     private fun downloadInvoice(){
 //        val url="http://192.168.0.103:5000/api/order/${orderId}/download-invoice"
         val url="https://api.buildup.org.in/api/order/${orderId}/download-invoice"

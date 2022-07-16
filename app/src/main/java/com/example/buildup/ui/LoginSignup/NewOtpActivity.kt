@@ -216,8 +216,11 @@ class NewOtpActivity : AppCompatActivity() {
                         }
                         if(!it.user!!.profileImage.isNullOrBlank())
                             tinyDB.putString("userProfileImage",it.user!!.profileImage)
+
                         tinyDB.putString("userName",it.user!!.name)
                         tinyDB.putString("userMobile",it.user!!.mobileNo)
+                        tinyDB.putString("userEmail",it.user!!.email)
+                        Log.d("email",it.user!!.email)
                         val intent=Intent(this@NewOtpActivity, HomeActivity::class.java)
                         startActivity(intent)
                     }

@@ -175,7 +175,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 brandAdapter.submitList(it.brands)
             }
             else{
-                if(it.error!="Network Failure")
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure")
                     Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
             }
 
@@ -198,9 +201,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 productCategoryAdapter.submitList(it.productCategories)
                 productCategoryAdapter.notifyDataSetChanged()
 
-            } else {
-                if(it.error!="Network Failure")
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()            }
+            }
+            else{
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
 //        return propertyCategoryId!!
     }
@@ -228,8 +236,12 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 recentViewedProductsAdapter.submitList(it.products)
             }
             else{
-                if(it.error!="Network Failure")
-                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()            }
+                if(it.error=="jwt expired"){
+                    startActivity(Intent(this, LoginSignupSelectorActivity::class.java))
+                }
+                else if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
