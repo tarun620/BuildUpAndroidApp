@@ -27,6 +27,9 @@ import com.example.buildup.ui.LottieAnimation.WorkInProgressActivity
 import com.example.buildup.ui.Products.layouts.CodPaymentActivity
 import com.example.buildup.ui.Products.layouts.ProductActivity
 import com.example.buildup.ui.Products.layouts.ProductCategoryActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCustomDialogDelivery.OnInputListenerDelivery, MyCustomDialogPlaceOrder.OnInputListenerPlaceOrder {
     companion object {
@@ -189,7 +192,7 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
         startActivity(intent)
 
     }
-    private fun increaseProductQuantity(productId: String?){
+    fun increaseProductQuantity(productId: String?){
         var currQuantity=1
         authViewModel.respGetProductsFromCart.observe({lifecycle}){
             for(i in it?.items!!){
@@ -396,6 +399,13 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
                         tvEstimatedDeliveryDate.timeStamp=it.estimatedDelivery!!
                         tvDeliveryCharge.text="₹ " + it.cost!!.shipping!!.toInt()
                         shippingCost=it.cost!!.shipping!!.toInt()
+                        if(shippingCost==-1){
+                            tvTotalCartValue.text="₹ " + it.cost!!.total.toString()
+//                        tvTotalCartValue.text="shipping cost = -1"
+                        }
+                        else
+                            tvTotalCartValue.text="₹ " + it.cost!!.total.toString()
+
 
 //                        getProductsFromCart()
                         Log.d("shippingCost",shippingCost.toString())
@@ -434,8 +444,8 @@ class CartActivity : AppCompatActivity(),MyCustomDialogCart.OnInputListener,MyCu
 
         _binding.btnCheckout.isEnabled = !propertyId.isNullOrEmpty()
 
-        changeDeliveryAddress(propertyId)
         getCostDeliveryDetails()
+        changeDeliveryAddress(propertyId)
         getProductsFromCart()
     }
 
