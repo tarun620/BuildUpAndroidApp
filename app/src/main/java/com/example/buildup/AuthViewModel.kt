@@ -10,6 +10,7 @@ import com.example.api.models.entities.User
 import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
 import com.example.api.models.responsesAndData.address.GetAddressesResponse
 import com.example.api.models.responsesAndData.appData.GetAppDataResponse
+import com.example.api.models.responsesAndData.appData.GetContactDetailsResponse
 import com.example.api.models.responsesAndData.brand.GetBrandsResponse
 import com.example.api.models.responsesAndData.cart.cartResponses.GetCostDeliveryDetailsResponse
 import com.example.api.models.responsesAndData.cart.cartResponses.GetProductsFromCartResponse
@@ -79,6 +80,7 @@ class AuthViewModel:ViewModel() {
     private val _respCancelOrder = MutableLiveData<CancelOrderResponse?>()
     private val _respGetCostDeliveryDetails = MutableLiveData<GetCostDeliveryDetailsResponse?>()
     private val _respGetAppData = MutableLiveData<GetAppDataResponse?>()
+    private val _respGetContactDetails = MutableLiveData<GetContactDetailsResponse?>()
 
     val resp:LiveData<SuccessMessageResponse?> = _resp
     val respNew:LiveData<SignupMobileResponse?> = _respNew
@@ -123,6 +125,7 @@ class AuthViewModel:ViewModel() {
     val respCancelOrder : LiveData<CancelOrderResponse?> = _respCancelOrder
     val respGetCostDeliveryDetails : LiveData<GetCostDeliveryDetailsResponse?> = _respGetCostDeliveryDetails
     val respGetAppData : LiveData<GetAppDataResponse?> = _respGetAppData
+    val respGetContactDetails : LiveData<GetContactDetailsResponse?> = _respGetContactDetails
 
 
     fun signup(mobileNo : String)=viewModelScope.launch {
@@ -425,6 +428,11 @@ class AuthViewModel:ViewModel() {
     fun getAppData(screenType:String)=viewModelScope.launch {
         UserRepo.getAppData(screenType).let {
             _respGetAppData.postValue(it)
+        }
+    }
+    fun getContactDetails()=viewModelScope.launch {
+        UserRepo.getContactDetails().let {
+            _respGetContactDetails.postValue(it)
         }
     }
 }

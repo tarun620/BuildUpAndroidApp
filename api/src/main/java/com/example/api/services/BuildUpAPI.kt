@@ -3,6 +3,7 @@ package com.example.api.services
 //import com.example.api.models.requests.SignupMobileOTPRequest
 //import com.example.api.models.requests.SignupMobileRequest
 import com.example.api.models.responsesAndData.appData.GetAppDataResponse
+import com.example.api.models.responsesAndData.appData.GetContactDetailsResponse
 import com.example.api.models.responsesAndData.loginSignup.loginSignupEntities.*
 import com.example.api.models.responsesAndData.loginSignup.loginSignupResponses.*
 import retrofit2.Response
@@ -96,4 +97,7 @@ BuildUpAPI {
     suspend fun getAppData(
         @Path("screen") screenType:String
     ):Response<GetAppDataResponse>
+
+    @GET("api/contact/support")
+    suspend fun getContactDetails() : Response<GetContactDetailsResponse>
 }

@@ -5,6 +5,7 @@ import com.example.api.BuildUpClient
 import com.example.api.models.responsesAndData.address.GetAddressbyByIdResponse
 import com.example.api.models.responsesAndData.address.GetAddressesResponse
 import com.example.api.models.responsesAndData.appData.GetAppDataResponse
+import com.example.api.models.responsesAndData.appData.GetContactDetailsResponse
 import com.example.api.models.responsesAndData.brand.GetBrandsResponse
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartData
 import com.example.api.models.responsesAndData.cart.cartEntities.ProductIdForCartFromWishlistData
@@ -885,6 +886,20 @@ object UserRepo {
             }
         }catch (e:IOException){
             GetAppDataResponse(null,null,null,false,"Network Failure")
+        }
+    }
+
+    suspend fun getContactDetails(): GetContactDetailsResponse?{
+        return try{
+            val response=api.getContactDetails()
+            if(response.isSuccessful){
+                response.body()
+            }else{
+                val apiErrorNew=ErrorUtilsNew.parseError(response)
+                GetContactDetailsResponse(false,null,apiErrorNew.error)
+            }
+        }catch (e:IOException){
+            GetContactDetailsResponse(false,null,"Network Failure")
         }
     }
 //

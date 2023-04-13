@@ -148,15 +148,28 @@ class OrderActivity : AppCompatActivity(),MyCustomDialogOrder.OnInputListener,My
         val emailLayout = view.findViewById<ConstraintLayout>(R.id.email_layout)
         val cancelBtn = view.findViewById<ImageView>(R.id.btn_cancel)
 
+        var helplineContactNumber=""
+        var helplineContactEmail=""
+        authViewModel.getContactDetails()
+        authViewModel.respGetContactDetails.observe({lifecycle}){
+            if(it?.success!!){
+                helplineContactNumber=it.details!!.mobileNo
+                helplineContactEmail=it.details!!.email
+            }
+            else{
+                if(it.error!="Network Failure")
+                    Toast.makeText(this,it.error,Toast.LENGTH_SHORT).show()
+            }
+        }
         callLayout.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)
-            intent.data = Uri.parse("tel:0123456789")
+            intent.data = Uri.parse("tel:${helplineContactNumber}")
             startActivity(intent)
             dialog.dismiss()
         }
         emailLayout.setOnClickListener {
             val email = Intent(Intent.ACTION_SEND)
-            email.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>("tarun.goel.620@gmail.com"))
+            email.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(helplineContactEmail))
             email.putExtra(Intent.EXTRA_SUBJECT, subject)
             email.putExtra(Intent.EXTRA_TEXT, message)
             email.type = "message/rfc822"
